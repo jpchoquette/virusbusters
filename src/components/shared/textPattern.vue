@@ -7,7 +7,7 @@ export default {
     qtyPerLine: { required: false, type: Number, default: 4 },
     // quantity: { required: false, type: Number, default: 400 },
     data: { required: true, type: String, default: 'Ceci est un test' },
-    angle: { required: false, type: Number, default: -15 },
+    angle: { required: false, type: Number, default: 15 },
     size: { required: false, type: Number, default: 60 },
     color: { required: false, type: String, default: 'red' },
     opacity: { required: false, type: Number, default: 0.25 }
@@ -58,6 +58,7 @@ export default {
       flex-wrap: wrap
       // font-size: 20px
       // font-family: $display-font
+      font-family: 'Daydream', sans-serif
       // font-weight: $bold
       span
         transform-origin: center center

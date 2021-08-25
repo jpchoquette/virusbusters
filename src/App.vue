@@ -17,6 +17,8 @@ v-app(dark)
   /* @import './assets/styles/main.scss'; */
 </style>
 <style lang='sass'>
+  @import './assets/styles/base/_fonts.sass'
+
   html
     background-color: var(--v-secondary-base)
     // overflow-y: auto !important

@@ -1,3 +1,15 @@
 module.exports = {
-  publicPath: '/test-project/'
+  publicPath: '/',
+  css: {
+    loaderOptions: {
+      scss: {
+        prependData: `
+          @import "@/styles/variables.scss"
+          `
+      }
+    }
+  },
+  transpileDependencies: [
+    'vuetify'
+  ]
 }

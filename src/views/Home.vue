@@ -1,55 +1,90 @@
 <script>
-// import HelloWorld from '../components/HelloWorld'
+import LocomotiveScroll from 'locomotive-scroll'
+import HelloWorld from '../components/HelloWorld'
+import TextPattern from '../components/shared/textPattern'
 
 export default {
   name: 'Home',
-
   components: {
-    // HelloWorld
+    HelloWorld,
+    TextPattern
+  },
+  data () {
+    return {
+      scrollIns: null
+    }
+  },
+  mounted () {
+    const _self = this
+    this.$nextTick(function () {
+      _self.initLocoScroll()
+    })
+  },
+  methods: {
+    initLocoScroll () {
+      const _self = this
+      _self.scroll = new LocomotiveScroll({
+        // eslint-disable-next-line
+        el: document.querySelector('#loco-scroll'),
+        smooth: true,
+        smoothMobile: true,
+        getDirection: true
+      })
+    }
   }
 }
 </script>
 
 <template lang='pug'>
-  //- hello-world
-  .landing-page
-    div.flex-grow-1
-    img.animate__animated.animate__zoomIn(alt='Virus Busters', src="../assets/images/virus-busters-logo.svg")
-    div.flex-grow-1
-    div.landing-description.animate__animated.animate__fadeIn.animate__delay-2s
-      p Coming soon on
-      a(href='https://wax.atomichub.io', target='_blank')
-        img(alt='Virus Busters', src="../assets/images/wax-logo-white.png", height='40px')
+  .landing-page(id='loco-scroll')
+    hello-world
+    section.sticky-section-fullsize(data-scroll-section, data-scroll-section-id='section2', data-scroll-persistent)
+      div.section-container(id='scroll-direction')
+        .block-wrapper()
+          .section-content.bg-yellow(data-scroll, data-scroll-sticky, data-scroll-target='#scroll-direction', data-scroll-persistent)
+            //- div.text-pattern__wrapper.w-100.h-100
+            text-pattern
+            div.pt5.tc.relative() This is a section
+    section.bg-red(data-scroll-section, data-scroll-persistent)
+      div.section-container.sticky-section
+        .block-wrapper()
+          .section-content.accent
+            div.pt5.tc() This is another section
 </template>
 
 <style lang='sass'>
   .landing-page
-    height: 100vh
+    min-height: 100vh
     width: 100vw
     background-color: var(--v-secondary-base)
-    padding: 20px
-    display: flex
-    align-items: center
-    justify-content: center
-    flex-direction: column
-    img
-      align-self: center
-      width: 700px
-      // height: 200px
-    .landing-description
-      color: var(--v-accent-base)
-      font-size: 20px
-      font-weight: 400
-      margin-top: 40px
-      text-align: center
-      display: flex
-      align-items: center
-      white-space: nowrap
-      p
-        margin-bottom: 0
-        margin-right: 10px
-      a, img
+    .text-pattern__wrapper
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+    section
+      min-height: 100vh
+      width: 100%
+      position: relative
+      &.sticky-section-fullsize
+        // height: 100vh
+        .section-container
+          height: 200vh
+          .block-wrapper
+            min-height: 200vh
+            height: 200vh
+            .section-content
+              height: 100vh
+      .section-container
         width: 100%
-        height: 30px
-        object-fit: contain
+        height: 100vh
+        .block-wrapper
+          // min-height: 200vh
+          // height: 200vh
+          .section-content
+            // height: 100%
+            height: 100vh
+            overflow: hidden
+
 </style>

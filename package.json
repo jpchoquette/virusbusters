@@ -5,10 +5,12 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "sh deploy.sh"
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "locomotive-scroll": "^4.1.1",
     "pug": "^3.0.2",
     "pug-plain-loader": "^1.1.0",
     "vue": "^2.6.11",

@@ -2,6 +2,7 @@
 import LocomotiveScroll from 'locomotive-scroll'
 import HelloWorld from '../components/HelloWorld'
 import TextPattern from '../components/shared/textPattern'
+import WaxLogin from '@/mixins/waxLogin.js'
 
 export default {
   name: 'Home',
@@ -9,6 +10,7 @@ export default {
     HelloWorld,
     TextPattern
   },
+  mixins: [WaxLogin],
   data () {
     return {
       scrollIns: null
@@ -45,6 +47,15 @@ export default {
             //- div.text-pattern__wrapper.w-100.h-100
             text-pattern
             div.pt5.tc.relative() This is a section
+            v-btn(v-if='$store.state.User.userConnected', @click='logout') Logout
+            v-btn(v-else, @click='login') Login wax
+            template(v-if='$store.state.User.userConnected')
+              div Welcome {{userProfile}}
+              div My NFTS:
+                ul
+                  li(v-for='(nft, index) in userTemplates') {{nft.data.name}}
+            template(v-else)
+              div Welcome. Please login to continue
     section.bg-red(data-scroll-section, data-scroll-persistent)
       div.section-container.sticky-section
         .block-wrapper()
@@ -86,5 +97,6 @@ export default {
             // height: 100%
             height: 100vh
             overflow: hidden
+            position: relative
 
 </style>

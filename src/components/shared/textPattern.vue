@@ -6,7 +6,7 @@ export default {
     lines: { required: false, type: Number, default: 5 },
     qtyPerLine: { required: false, type: Number, default: 4 },
     // quantity: { required: false, type: Number, default: 400 },
-    data: { required: true, type: String, default: 'Ceci est un test' },
+    data: { required: false, type: String, default: 'Ceci est un test' },
     angle: { required: false, type: Number, default: 15 },
     size: { required: false, type: Number, default: 60 },
     color: { required: false, type: String, default: 'red' },

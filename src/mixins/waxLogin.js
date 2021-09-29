@@ -34,7 +34,7 @@ export default {
       handler (newVal) {
         if (newVal) {
           console.log('Userconnected - From watcher')
-          this.fetchOwnedCollabsNFTs()
+          this.fetchVirusBustersNFTs()
         } else {
           console.log('on est pas connected')
         }
@@ -121,7 +121,7 @@ export default {
       this.userTemplates = null
       this.wax = null
     },
-    async fetchOwnedCollabsNFTs () {
+    async fetchVirusBustersNFTs () {
       fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?limit=200&page=1&collection_name=coindodocard&owner=' + this.userProfile, {
         headers: {
           'Access-Control-Allow-Origin': '*',

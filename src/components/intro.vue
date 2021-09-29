@@ -10,9 +10,14 @@ export default {
   section(data-scroll-section)
     div.page-intro
       div.flex-grow-1
-      img.animate__animated.animate__zoomIn(data-scroll data-scroll-speed="2", alt='Virus Busters', src="../assets/images/virus-busters-logo.svg")
+      img.signature-img.animate__animated.animate__zoomIn(data-scroll data-scroll-speed="2", alt='Virus Busters', src="../assets/images/virus-busters-logo.svg")
+      div.tc.light--text.b.f3.items-center.justify-center.animate__animated.animate__fadeIn.animate__delay-2s.mt3(data-scroll data-scroll-speed="3", style='display: flex;')
+        p A brand new NFT collection coming soon on the
+        a(href='https://wax.atomichub.io', target='_blank')
+          img.mh3(alt='Virus Busters', src="../assets/images/wax-logo-white.png", height='30px')
+        p blockchain
       div.flex-grow-1
-      div.landing-description.animate__animated.animate__fadeIn.animate__delay-2s.tc(data-scroll data-scroll-speed="3")
+      //- div.landing-description.animate__animated.animate__fadeIn.animate__delay-2s.tc(data-scroll data-scroll-speed="1")
         span.mr2 Coming soon on
         a(href='https://wax.atomichub.io', target='_blank')
           img.image-test(alt='Virus Busters', src="../assets/images/wax-logo-white.png", height='40px')
@@ -24,9 +29,10 @@ export default {
     // max-height: 90vh
     display: flex
     flex-direction: column
-    img
+    .signature-img
       align-self: center
       width: 700px
+      margin-top: 10vh
       // height: 200px
     .landing-description
       color: var(--v-accent-base)

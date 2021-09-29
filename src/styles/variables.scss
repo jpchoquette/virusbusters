@@ -1,0 +1,53 @@
+// VUETIFY VARIABLES OVERRIDE
+@import '~vuetify/src/styles/styles.sass';
+
+// General
+$body-font-family: 'Red Hat Text', serif;
+$display-font: 'Daydream', sans-serif;
+$pixel-font: 'Kawingan', serif;
+$line-height-root: 1.25;
+$border-radius-root: 5px;
+
+// Buttons
+$btn-letter-spacing: 0;
+$btn-text-transform: normal;
+$fab-sizes: (
+  'x-small': 20,
+  'small': 28,
+  'default': 36,
+  'large': 44,
+  'x-large': 52
+);
+
+$grid-breakpoints: (
+  'xs': 0,
+  'sm': 600px,
+  'md': 900px,
+  'lg': 1200px,
+  'xl': 1500px
+);
+
+// box-shadow
+$box-shadow:  0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+$box-shadow-large: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+// SPACING
+$responsive-gutter-small: 4%;
+$responsive-gutter: calc(5% + 20px);
+$responsive-gutter-large: calc(15% + 20px);
+
+// v-list
+$list-padding: 0;
+$list-item-title-font-size: 16px;
+$list-item-subtitle-font-size: 12px;
+
+// v-card
+$card-title-word-break: normal;
+
+// data-table
+$data-table-border-radius: 0;
+//
+// $material-light: (
+//   app-bar: #dfeaff,
+//   background: #3171d8,
+// );

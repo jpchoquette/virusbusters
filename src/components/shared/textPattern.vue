@@ -10,7 +10,9 @@ export default {
     angle: { required: false, type: Number, default: 15 },
     size: { required: false, type: Number, default: 60 },
     color: { required: false, type: String, default: 'red' },
-    opacity: { required: false, type: Number, default: 0.25 }
+    opacity: { required: false, type: Number, default: 0.25 },
+    target: { required: false, type: String, default: '#scroll-direction0' },
+    speed: { required: false, type: String, default: '-2' }
   },
   computed: {
     patternText () {
@@ -30,8 +32,8 @@ export default {
       div(
         data-scroll
         data-scroll-direction='horizontal'
-        data-scroll-speed="-5"
-        data-scroll-target='#scroll-direction'
+        :data-scroll-speed="speed"
+        :data-scroll-target='target'
         )
         p
           div(style='word-break: break-word;', :style='{fontSize: size + "px", color: color}', v-html='patternText')

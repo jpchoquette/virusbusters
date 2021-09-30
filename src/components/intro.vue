@@ -11,8 +11,8 @@ export default {
     div.page-intro
       div.flex-grow-1
       img.signature-img.animate__animated.animate__zoomIn(data-scroll data-scroll-speed="2", alt='Virus Busters', src="../assets/images/virus-busters-logo.svg")
-      div.tc.light--text.b.f3.items-center.justify-center.animate__animated.animate__fadeIn.animate__delay-2s.mt3(data-scroll data-scroll-speed="3", style='display: flex;')
-        p A brand new NFT collection coming soon on the
+      div.tc.light--text.b.f3.items-center.justify-center.animate__animated.animate__fadeIn.animate__delay-2s.mt3(data-scroll data-scroll-speed="3", style='display: flex; flex-wrap: wrap;')
+        p A brand new NFT collection is being uploaded on the
         a(href='https://wax.atomichub.io', target='_blank')
           img.mh3(alt='Virus Busters', src="../assets/images/wax-logo-white.png", height='30px')
         p blockchain

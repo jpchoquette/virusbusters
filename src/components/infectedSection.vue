@@ -62,7 +62,6 @@ export default {
                 img(alt='skull-virus', src="../assets/images/virus/v_skull_1.gif", height='250px')
             div.warning-window.bottom-right(data-scroll data-scroll-speed="1")
               .warning__inner-content
-
                 .warning-content.nft-promo
                   div.flex-grow-1
                   .main-warning
@@ -75,9 +74,8 @@ export default {
                   v-btn(rounded, large, dark, href='https://bit.ly/vb-free-nft-1', target='_blank') CLAIM YOUR PRIZE NOW!
                   div.flex-grow-1
 
-            div.warning-window.middle-center(data-scroll data-scroll-speed="3", data-scroll-delay='0.6', :class='popupClasses')
-              .warning__inner-content
-
+            div.warning-window.middle-center(data-scroll data-scroll-speed="3", data-scroll-delay='0.6')
+              .warning__inner-content(:class='popupClasses')
                 .warning-header.bluescreen()
                   div.flex-grow-1
                   v-btn.mr2(tile, fab, color='white', depressed, disabled) _

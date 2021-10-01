@@ -12,7 +12,7 @@ export default {
     div.section-container(id='scroll-direction4')
       .block-wrapper()
         .section-content.relative(data-scroll, data-scroll-sticky, data-scroll-target='#scroll-direction4', data-scroll-persistent)
-          div.bs-title Corrupted website
+          div.bs-title Corrupted content
           div.bs-content
             p An error has occured.
             p A file downloaded from "BUSTER-COMPUTER" has corrupted the "VIRUS-BUSTERS" server. The current presentation will be terminated.
@@ -21,10 +21,11 @@ export default {
               li Do not panic, we are professionals.
               li
                 | Head over to the Virus Busters
-                a.mh2.white--text.underline(href='https://discord.gg/zaHsXaXBGJ', target='_blank') DISCORD SERVER
+                a.mh2.bluescreen--text.underline.pa2.yellow(href='https://discord.gg/zaHsXaXBGJ', target='_blank') DISCORD SERVER
                 | and contact one of our representatives
-              li We are currently looking for new employees to fix our current employees computers.
-            p.mt4 More information coming soon...
+              li New employees will be required to fix the system.
+            p.mt4 More information coming shortly. Please reboot.&nbsp;
+              span.animate__animated.animate__flash.animate__infinite(style='height: 20px; width: 10px; background-color: white;') .
 </template>
 <style lang='sass'>
   .blue-screen-section
@@ -34,7 +35,7 @@ export default {
       .block-wrapper
         .section-content
           height: 150vh
-          background-color: #0000AA
+          background-color: var(--v-bluescreen-base)
           color: white
           font-family: 'Lucida Console', sans-serif
           padding: 80px $responsive-gutter-small
@@ -45,7 +46,7 @@ export default {
           .bs-title
             padding: 10px
             background-color: grey
-            color: #0000AA
+            color: var(--v-bluescreen-base)
           .bs-content
             font-family: 'Lucida Console', sans-serif
             color: white

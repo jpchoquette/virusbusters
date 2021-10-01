@@ -2,19 +2,21 @@
 import LocomotiveScroll from 'locomotive-scroll'
 import Intro from '../components/intro'
 import InfectedSection from '../components/infectedSection'
+import DescriptionSection from '../components/descriptionSection'
 import BlueScreenSection from '../components/blueScreenSection'
 import TextPattern from '../components/shared/textPattern'
-import WaxLogin from '@/mixins/waxLogin.js'
+// import WaxLogin from '@/mixins/waxLogin.js'
 
 export default {
   name: 'Home',
   components: {
     Intro,
     InfectedSection,
+    DescriptionSection,
     BlueScreenSection,
     TextPattern
   },
-  mixins: [WaxLogin],
+  // mixins: [WaxLogin],
   data () {
     return {
       scrollIns: null
@@ -45,20 +47,8 @@ export default {
 <template lang='pug'>
   .landing-page(id='loco-scroll')
     intro
-    section(data-scroll-section, data-scroll-section-id='section0', data-scroll-persistent)
-      div.section-container(id='scroll-direction0')
-        .block-wrapper()
-          .section-content.light.black--text.flex.items-center(data-scroll, data-scroll-sticky, data-scroll-target='#scroll-direction0', data-scroll-persistent)
-            div.tc.f4.pa5.flex.flex-column.justify-center.items-center()
-              p.f2.b Welcome to the headquarters of Virus Busters, a top of the line cybersecurity agency.
-              p.f3.w-70.mt3 It will be our pleasure to help you get rid of any unwanted activity on your devices. Un peu plus de bla bla ici aussi.
+    description-section
     infected-section
-    //- section.sticky-section-fullsize(data-scroll-section, data-scroll-section-id='section3', data-scroll-persistent)
-      div.section-container(id='scroll-direction2')
-        .block-wrapper()
-          .section-content.accent(data-scroll, data-scroll-sticky, data-scroll-target='#scroll-direction2', data-scroll-persistent)
-            text-pattern.backward(data='WARNING! INFECTED! WARNING!', color='#7e2753', opacity='0.25', angle='-20', target='#scroll-direction2', speed='-2', qtyPerLine='6')
-            div.pt5.tc() This is another section
     blue-screen-section
     //- section.sticky-section-fullsize(data-scroll-section, data-scroll-section-id='section1', data-scroll-persistent)
       div.section-container(id='scroll-direction1')
@@ -86,6 +76,12 @@ export default {
             div.pt5.tc.test() See you soon!
             div.tc
               img.tc(alt='Wormy', src="../assets/images/virus/v_worm_test.gif", height='300px')
+            div.socials__wrapper
+              a(href='https://discord.gg/zaHsXaXBGJ', target='_blank')
+                img.tc(alt='Discord', src="../assets/images/icons/discord-icon.svg", height='26px', style='fill: red !important;')
+              a(href='https://twitter.com/VirusBustersNFT', target='_blank')
+                img.tc(alt='Twitter', src="../assets/images/icons/twitter-icon.svg", height='26px')
+            div.tc.white--text.f7.i.mb2.o-50 Made with love by two friends in Canada
 </template>
 
 <style lang='sass'>
@@ -109,6 +105,7 @@ export default {
         bottom: 0
         right: 0
     section
+      overflow: hidden
       min-height: 100vh
       width: 100%
       position: relative
@@ -132,5 +129,19 @@ export default {
             height: 100vh
             overflow: hidden
             position: relative
+          .socials__wrapper
+            display: flex
+            justify-content: center
+            align-items: center
+            a
+              margin: 10px
+    @media all and (max-width: $medium)
+      section
+        overflow: hidden
+        .section-container
+          height: 100%
 
+          .block-wrapper
+            .section-content
+              height: 100%
 </style>

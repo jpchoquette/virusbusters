@@ -1,13 +1,29 @@
 <script>
 import TextPattern from '../components/shared/textPattern'
+import LoadingBar from '../components/shared/loadingBar'
 
 export default {
   name: 'InfectedSection',
   components: {
-    TextPattern
+    TextPattern,
+    LoadingBar
   },
-  data: () => ({
-  })
+  data () {
+    return {
+      activePopup: true,
+      popupClasses: 'animate__animated animate__flash'
+    }
+  },
+  methods: {
+    trollClose () {
+      this.activePopup = false
+      this.popupClasses = 'animate__animated animate__zoomOut'
+      setTimeout(() => {
+        this.activePopup = true
+        this.popupClasses = 'animate__animated animate__zoomIn'
+      }, 1000)
+    }
+  }
 }
 </script>
 <template lang='pug'>
@@ -15,39 +31,71 @@ export default {
     div.section-container(id='scroll-direction2')
       .block-wrapper()
         .section-content.accent.relative(data-scroll, data-scroll-sticky, data-scroll-target='#scroll-direction2', data-scroll-persistent)
-          text-pattern.backward(data='MULTIPLE THREATS DETECTED! WARNING! INFECTION! VIRUS!', color='#7e2753', opacity='0.25', angle='-20', target='#scroll-direction2', speed='-2', qtyPerLine='3')
-          //- div.pt5.tc() This is another section
-          div.relative.w-100.h-100
+          text-pattern.backward(data='MULTIPLE THREATS DETECTED! WARNING! INFECTION! VIRUS!', color='#7e2753', :opacity='0.25', :angle='-20', target='#scroll-direction2', speed='-2', :qtyPerLine='3')
+          div.relative.w-100.h-100(style='max-width: 1500px; margin: 0 auto;')
             div.warning-window.top-left(data-scroll data-scroll-speed="2")
-              .warning-header
-                div.flex-grow-1
-                v-btn.mr2(tile, fab, color='white', depressed, disabled) _
-                v-btn(tile, fab, color='accent', depressed, disabled) X
-              .warning-content
-                .main-warning
-                  p Virus.exe has succesfully cloned itself to the Virus-SBusters servers. Please wait while we clear all your authorizations.
-                div.tc
-                  v-btn.mr3 Yes
-                  v-btn(disabled) No
+              .warning__inner-content
+                .warning-header
+                  div.flex-grow-1
+                  v-btn.mr2(tile, fab, color='white', depressed, disabled) _
+                  v-btn(tile, fab, color='accent', depressed, disabled) X
+                .warning-content
+                  .main-warning
+                    img.mh3(alt='warning', src="../assets/images/icons/warning-icon.svg", height='50px')
+                    div
+                      p.b YOU GOT PWNED
+                      p Virus.exe has succesfully cloned itself to the Virus-Busters servers. Please wait while we clear all your authorizations.
+                  div.tc.mt3
+                    v-btn.mr3 Thank you
+                    v-btn Great news!
+            div.warning-window.bottom-left(data-scroll data-scroll-speed="2")
+              .warning__inner-content
+                .warning-header
+                  div.flex-grow-1
+                  v-btn.mr2(tile, fab, color='white', depressed, disabled) _
+                  v-btn(tile, fab, color='accent', depressed, disabled) X
+                .warning-content
+                  loading-bar
             div.warning-window.top-right(data-scroll data-scroll-speed="1")
-              img(alt='skull-virus', src="../assets/images/virus/v_skull_1.gif", height='250px')
+              .warning__inner-content
+
+                img(alt='skull-virus', src="../assets/images/virus/v_skull_1.gif", height='250px')
             div.warning-window.bottom-right(data-scroll data-scroll-speed="1")
-            div.warning-window.middle-center(data-scroll data-scroll-speed="3")
-              .warning-header
-                div.flex-grow-1
-                v-btn.mr2(tile, fab, color='white', depressed, disabled) _
-                v-btn(tile, fab, color='accent', depressed, disab led) X
-              .warning-content
-                .main-warning
-                  p.f3 Hello #&*^ç^ç987*(USER-BUSTER-PRESIDENT Multiple threats have been detected across your computers and servers. To proceed further, please contact your local cybersecurity professionals.
-                //- div.tc
-                  v-btn.mr3 Yes
-                  v-btn(disabled) No
+              .warning__inner-content
+
+                .warning-content.nft-promo
+                  div.flex-grow-1
+                  .main-warning
+                    div.main-title.animate__animated.animate__flash.animate__delay-2s.animate__infinite FREE NFT
+                  div.tc
+                    div.b.f4.mb2 CONGRATULATIONS!
+                    div.mb2 YOU HAVE BEEN RANDOMLY SELECTED TO WIN A FREE NFT
+                    div.b ENTER YOUR WAX ADDRESS BELOW!
+                  div.flex-grow-1
+                  v-btn(rounded, large, dark, href='https://bit.ly/vb-free-nft-1', target='_blank') CLAIM YOUR PRIZE NOW!
+                  div.flex-grow-1
+
+            div.warning-window.middle-center(data-scroll data-scroll-speed="3", data-scroll-delay='0.6', :class='popupClasses')
+              .warning__inner-content
+
+                .warning-header.bluescreen()
+                  div.flex-grow-1
+                  v-btn.mr2(tile, fab, color='white', depressed, disabled) _
+                  v-btn(tile, fab, color='accent', depressed, @click='trollClose()') X
+                .warning-content
+                  div.tc
+                    img.mb3(alt='smiley-bad', src="../assets/images/icons/smiley-icon.svg", height='120px')
+
+                    .main-warning.tc
+                      p.f3 ACCESS TO #[span.b BUSTER-CEO-LAPTOP] REVOKED.
+                    p Multiple threats have been detected across your computers and servers. To proceed further, please contact your local cybersecurity professionals.
 </template>
 <style lang='sass'>
   .infected-section
     // min-height: 150vh
     position: relative
+    progress::-webkit-progress-value
+      background-image: -webkit-linear-gradient(135deg, transparent, transparent 33%, rgba(0,0,0,.1) 33%, rgba(0,0,0,.1) 66%, transparent 66%), -webkit-linear-gradient( top, rgba(255, 255, 255, .25), rgba(0,0,0,.2)), -webkit-linear-gradient( left, #09c, #ff0)
     .section-container
       height: 150vh !important
       .block-wrapper
@@ -61,23 +109,32 @@ export default {
       position: absolute
       overflow: hidden
       border-radius: $border-radius-root
-      display: flex
-      flex-direction: column
-      .warning-header
-        padding: 10px 10px
-        background-color: var(--v-secondary-base)
-        display: flex
-      .warning-content
+      .warning__inner-content
+        width: 100%
+        height: 100%
         display: flex
         flex-direction: column
-        padding: 30px
-        flex-grow: 1
-        justify-content: center
-        align-items: center
-        .main-warning
+        .warning-header
+          padding: 10px 10px
+          background-color: var(--v-secondary-base)
           display: flex
-          // flex-grow: 1
-          // height: 100%
+        .warning-content
+          display: flex
+          flex-direction: column
+          padding: 30px
+          flex-grow: 1
+          justify-content: center
+          align-items: center
+          .main-warning
+            display: flex
+            align-items: center
+            justify-content: center
+          &.nft-promo
+            .main-warning
+              .main-title
+                font-size: 30px
+                font-family: $display-font
+                margin-bottom: 20px
       &.top-left
         top: 10%
         left: 100px
@@ -102,7 +159,12 @@ export default {
         right: 80px
         z-index: 5
         &::before
-          background-color: #ffcece
+          background-color: #ffec27
+          background-image: repeating-linear-gradient(0deg, #333333, #333333 3px, transparent 3px, transparent 13px, #333333 13px), repeating-linear-gradient(90deg, #333333, #333333 3px, transparent 3px, transparent 13px, #333333 13px), repeating-linear-gradient(180deg, #333333, #333333 3px, transparent 3px, transparent 13px, #333333 13px), repeating-linear-gradient(270deg, #333333, #333333 3px, transparent 3px, transparent 13px, #333333 13px)
+          background-size: 3px calc(100% + 13px), calc(100% + 13px) 3px, 3px calc(100% + 13px) , calc(100% + 13px) 3px
+          background-position: 0 0, 0 0, 100% 0, 0 100%
+          background-repeat: no-repeat
+          animation: borderAnimation 0.6s infinite linear
         &.is-inview
           &::before
             transition-delay: 1.2s
@@ -110,8 +172,17 @@ export default {
         width: 800px
         height: 400px
         top: calc(50% - 200px)
-        right: calc(50vw - 400px)
+        right: calc(50% - 400px)
         z-index: 10
+        &.is-inview
+          &::before
+            transition-delay: 0.5s
+      &.bottom-left
+        width: 600px
+        height: 300px
+        bottom: 15%
+        left: 10%
+        z-index: 2
         &.is-inview
           &::before
             transition-delay: 0.5s
@@ -133,4 +204,40 @@ export default {
         &::before
           transform: scale(1)
           transition-delay: 3s
+    @media all and (max-width: $medium)
+      .section-container
+        height: 100% !important
+        .block-wrapper
+          .section-content
+            height: 100% !important
+      .warning-window
+        width: 100%
+        position: relative
+        top: unset !important
+        left: unset !important
+        right: unset !important
+        bottom: unset !important
+        &.top-left
+          top: 10%
+          left: 100px
+        &.top-right
+          width: 250px
+          height: 250px
+          top: 20%
+          right: 20%
+        &.bottom-right
+          width: 300px
+          height: 400px
+          bottom: 10%
+          right: 80px
+        &.middle-center
+          width: 100%
+          height: 400px
+          top: calc(50% - 200px)
+          right: calc(50vw - 400px)
+  @keyframes borderAnimation
+    from
+      background-position: 0 0, -13px 0, 100% -13px, 0 100%
+    to
+      background-position: 0 -13px, 0 0, 100% 0, -13px 100%
 </style>

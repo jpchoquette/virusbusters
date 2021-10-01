@@ -31,6 +31,12 @@ $grid-breakpoints: (
 $box-shadow:  0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 $box-shadow-large: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
 
+// MEDIA QUERIES
+$small: 600px;
+$medium: 900px;
+$large: 1200px;
+$extra-large: 1500px;
+
 // SPACING
 $responsive-gutter-small: 4%;
 $responsive-gutter: calc(5% + 20px);

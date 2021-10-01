@@ -16,7 +16,8 @@ export default new Vuetify({
         tertiary: '#ffa300',
         secondary: '#7e2753',
         light: '#FFF1E8',
-        accent: '#ff004d'
+        accent: '#ff004d',
+        bluescreen: '#0000AA'
       }
     }
   }

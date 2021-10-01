@@ -23,16 +23,25 @@ export default {
     div.section-container(id='scroll-direction0')
       .block-wrapper()
         .section-content.light.black--text.flex.items-center
-          div.tc.f4.pa5.flex.flex-column.justify-center.items-center(style='max-width: 1200px; margin: 0 auto')
-            p.f2.b Welcome to the headquarters of Virus Busters, a top of the line cybersecurity agency.
-            p.f3.w-70.mt3 It will be our pleasure to help you get rid of any unwanted activity on your devices. Computer stopped working? That free movie was not really a movie? We're here.
+          div.description-content
+            v-hover(v-slot:default="{hover}", close-delay='1000')
+              p.f2.b
+                text-scrambler(
+                  :text="hover ? 'W3lcome to the headqu4rters of V1rus Bus73rs, a top of the l1ne cy8ersecuri7y 4gency.' : 'Welcome to the headquarters of Virus Busters, a top of the line cybersecurity agency.'"
+                )
+            v-hover(v-slot:default="{hover}", close-delay='1000')
+              p.f3.w-70.mt3
+                text-scrambler(
+                  :text="hover ? '?? ???? ?? ??? ???????? ?? ???? ??? ??? ??? ?? ??? ???????? ???????? ?? ???? ???????. ???????? ??????? ???????? ???? ???? ????? ??? ??? ?????? ? ?????? ????? ????.' : `It will be our pleasure to help you get rid of any unwanted activity on your devices. Computer stopped working? That free movie was not really a movie? We're here.`"
+                )
+            //- p.f3.w-70.mt3 It will be our pleasure to help you get rid of any unwanted activity on your devices. Computer stopped working? That free movie was not really a movie? We're here.
             div.columns__wrapper
               div.content-column
                 div.column-icon
                   img.mh3(alt='warning', src="../assets/images/icons/thumbs-icon.svg", height='50px')
                 div.column-title Trusted experts
                 //- div.column-description Our team of experts will diagnose and clean your devices, in the respect of your privacy.
-                v-hover(v-slot:default="{hover}", open-delay='200')
+                v-hover(v-slot:default="{hover}", close-delay='1000')
                   text-scrambler(
                     :text="hover ? 'Our team of experts wi##$A@/////agnose and cwesdf your WWWW///devices, in the*&8756ÀÀÀÀ respect of ysdfsdfivacy.' : 'Our team of experts will diagnose and clean your devices, in the respect of your privacy.'"
                   )
@@ -41,7 +50,7 @@ export default {
                   img.mh3(alt='warning', src="../assets/images/icons/shield-icon.svg", height='50px')
                 div.column-title Specialized tools
                 //- div.column-description Our top of the line tools will fix even the tougest threats in no time.
-                v-hover(v-slot:default="{hover}", open-delay='200')
+                v-hover(v-slot:default="{hover}", close-delay='1000')
                   text-scrambler(
                     :text="hover ? 'ERROR THIS TEXT COULD NOT BE FOUND ON THE SERVER. ERROR CODE 404' : 'Our top of the line tools will fix even the tougest threats in no time.'"
                   )
@@ -49,13 +58,22 @@ export default {
                 div.column-icon
                   img.mh3(alt='warning', src="../assets/images/icons/course-icon.svg", height='50px')
                 div.column-title Malware prevention courses
-                v-hover(v-slot:default="{hover}", open-delay='200')
+                v-hover(v-slot:default="{hover}", close-delay='1000')
                   text-scrambler(
                     :text="hover ? 'We offer a ERROR of courses ####ip you wi********th the best tool for a UNsafe journey on the web.' : 'We offer a serie of courses to equip you with the best tool for a safe journey on the web.'"
                   )
 </template>
 <style lang='sass'>
   .description-section
+    .description-content
+      text-align: center
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+      margin: 0 auto
+      max-width: 1200px
+      padding: 80px $responsive-gutter
     .columns__wrapper
       display: flex
       flex-wrap: wrap

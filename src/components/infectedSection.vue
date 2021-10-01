@@ -27,7 +27,7 @@ export default {
 }
 </script>
 <template lang='pug'>
-  section.infected-section(data-scroll-section, data-scroll-section-id='section3', data-scroll-persistent)
+  section.infected-section.infected-section-cursor(data-scroll-section, data-scroll-section-id='section3', data-scroll-persistent)
     div.section-container(id='scroll-direction2')
       .block-wrapper()
         .section-content.accent.relative(data-scroll, data-scroll-sticky, data-scroll-target='#scroll-direction2', data-scroll-persistent)
@@ -209,32 +209,32 @@ export default {
         height: 100% !important
         .block-wrapper
           .section-content
-            height: 100% !important
+            height: 2000px !important
       .warning-window
         width: 100%
-        position: relative
-        top: unset !important
-        left: unset !important
-        right: unset !important
-        bottom: unset !important
+        // position: relative
+        // top: unset !important
+        // left: unset !important
+        // right: unset !important
+        // bottom: unset !important
         &.top-left
-          top: 10%
-          left: 100px
+          top: 200px
+          left: 90px
         &.top-right
-          width: 250px
-          height: 250px
-          top: 20%
-          right: 20%
+          top: 450px
+          right: 220px
         &.bottom-right
-          width: 300px
-          height: 400px
-          bottom: 10%
-          right: 80px
+          bottom: 420px
+          right: 60px
         &.middle-center
           width: 100%
           height: 400px
-          top: calc(50% - 200px)
-          right: calc(50vw - 400px)
+          top: 730px
+          right: 0
+        &.bottom-left
+          width: 100%
+          left: -40px
+          bottom: 150px
   @keyframes borderAnimation
     from
       background-position: 0 0, -13px 0, 100% -13px, 0 100%

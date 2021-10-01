@@ -22,6 +22,34 @@ export default {
       scrollIns: null
     }
   },
+  computed: {
+    mobileTemplate: {
+      get () { return this.$store.state.App.mobileTemplate },
+      set (val) { this.$store.commit('App/setMobileTemplate', val) }
+    }
+  },
+  // watch: {
+  // mobileTemplate: {
+  //   immediate: true,
+  //   handler (newVal) {
+  //     if (newVal) {
+  //       console.log('OMN DESTROUY')
+  //       if (this.scroll) {
+  //         this.scroll.destroy()
+  //         const _self = this
+  //         this.$nextTick(function () {
+  //           _self.initLocoScroll()
+  //         })
+  //       }
+  //     } else {
+  //       const _self = this
+  //       this.$nextTick(function () {
+  //         _self.initLocoScroll()
+  //       })
+  //     }
+  //   }
+  // }
+  // },
   mounted () {
     const _self = this
     this.$nextTick(function () {
@@ -30,6 +58,7 @@ export default {
   },
   methods: {
     initLocoScroll () {
+      console.log('init scroll')
       const _self = this
       _self.scroll = new LocomotiveScroll({
         // eslint-disable-next-line
@@ -81,7 +110,7 @@ export default {
                 img.tc(alt='Discord', src="../assets/images/icons/discord-icon.svg", height='26px', style='fill: red !important;')
               a(href='https://twitter.com/VirusBustersNFT', target='_blank')
                 img.tc(alt='Twitter', src="../assets/images/icons/twitter-icon.svg", height='26px')
-            div.tc.white--text.f7.i.mb2.o-50 Made with love by two friends in Canada
+            div.tc.white--text.f7.i.mb2.o-50 Made with love by two friends in Canada - V0.1
 </template>
 
 <style lang='sass'>

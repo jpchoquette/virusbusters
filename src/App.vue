@@ -53,11 +53,11 @@ v-app(dark)
 <style lang='sass'>
   @import './assets/styles/base/_fonts.sass'
   *
-    cursor: url(/cursor-default.png),default
+    cursor: url(/cursor-default-2.png),default
   a, a *, button, button *
     cursor: url(/cursor-pointer-2.png),pointer !important
   .infected-section-cursor, .infected-section-cursor *
-    cursor: url(/cursor-infected.png),default !important
+    cursor: url(/cursor-infected-2.png),default !important
   .infected-section-cursor
     a, a *, button, button *
       cursor: url(/cursor-pointer-2.png),pointer !important

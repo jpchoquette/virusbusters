@@ -31,7 +31,7 @@ export default {
     div.section-container(id='scroll-direction2')
       .block-wrapper()
         .section-content.accent.relative(data-scroll, data-scroll-sticky, data-scroll-target='#scroll-direction2', data-scroll-persistent)
-          text-pattern.backward(data='MULTIPLE THREATS DETECTED! WARNING! INFECTION! VIRUS!', color='#7e2753', :opacity='0.25', :angle='-20', target='#scroll-direction2', speed='-2', :qtyPerLine='3')
+          text-pattern.backward(data='MULTIPLE THREATS DETECTED! WARNING! INFECTION! VIRUS!', color='#7e2753', :opacity='0.25', :angle='-20', target='#scroll-direction2', speed='-2', :qtyPerLine='1')
           div.relative.w-100.h-100(style='max-width: 1500px; margin: 0 auto;')
             div.warning-window.top-left(data-scroll data-scroll-speed="2")
               .warning__inner-content
@@ -104,16 +104,23 @@ export default {
     .warning-window
       width: 500px
       height: 300px
-      // background-color: white
       z-index: 2000
       position: absolute
       overflow: hidden
       border-radius: $border-radius-root
       .warning__inner-content
+        transform: scale(0)
+        transition: transform 0.25s ease-in
+        position: absolute
+        top: 0
+        bottom: 0
+        right: 0
+        left: 0
         width: 100%
         height: 100%
         display: flex
         flex-direction: column
+        background-color: white
         .warning-header
           padding: 10px 10px
           background-color: var(--v-secondary-base)
@@ -135,11 +142,15 @@ export default {
                 font-size: 30px
                 font-family: $display-font
                 margin-bottom: 20px
+      &.is-inview
+        .warning__inner-content
+          transform: scale(1)
+          transition-delay: 3s
       &.top-left
         top: 10%
         left: 100px
         z-index: 3
-        &::before
+        .warning__inner-content
           background-color: #ffcece
       &.top-right
         width: 250px
@@ -147,10 +158,10 @@ export default {
         top: 20%
         right: 20%
         z-index: 3
-        &::before
+        .warning__inner-content
           background-color: black
         &.is-inview
-          &::before
+          .warning__inner-content
             transition-delay: 1.5s
       &.bottom-right
         width: 300px
@@ -158,7 +169,7 @@ export default {
         bottom: 10%
         right: 80px
         z-index: 5
-        &::before
+        .warning__inner-content
           background-color: #ffec27
           background-image: repeating-linear-gradient(0deg, #333333, #333333 3px, transparent 3px, transparent 13px, #333333 13px), repeating-linear-gradient(90deg, #333333, #333333 3px, transparent 3px, transparent 13px, #333333 13px), repeating-linear-gradient(180deg, #333333, #333333 3px, transparent 3px, transparent 13px, #333333 13px), repeating-linear-gradient(270deg, #333333, #333333 3px, transparent 3px, transparent 13px, #333333 13px)
           background-size: 3px calc(100% + 13px), calc(100% + 13px) 3px, 3px calc(100% + 13px) , calc(100% + 13px) 3px
@@ -166,7 +177,7 @@ export default {
           background-repeat: no-repeat
           animation: borderAnimation 0.6s infinite linear
         &.is-inview
-          &::before
+          .warning__inner-content
             transition-delay: 1.2s
       &.middle-center
         width: 800px
@@ -175,7 +186,7 @@ export default {
         right: calc(50% - 400px)
         z-index: 10
         &.is-inview
-          &::before
+          .warning__inner-content
             transition-delay: 0.5s
       &.bottom-left
         width: 600px
@@ -184,26 +195,8 @@ export default {
         left: 10%
         z-index: 2
         &.is-inview
-          &::before
+          .warning__inner-content
             transition-delay: 0.5s
-      &::before
-        content:""
-        position: absolute
-        top: 0
-        bottom: 0
-        right: 0
-        left: 0
-        z-index: -1
-        background-color: white
-        border-radius: $border-radius-root
-        box-shadow: $box-shadow-large
-        transform: scale(0)
-        transition: transform 0.25s ease-in
-        overflow: hidden
-      &.is-inview
-        &::before
-          transform: scale(1)
-          transition-delay: 3s
     @media all and (max-width: $medium)
       .section-container
         height: 100% !important

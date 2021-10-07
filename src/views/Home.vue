@@ -110,7 +110,11 @@ export default {
                 img.tc(alt='Discord', src="../assets/images/icons/discord-icon.svg", height='26px', style='fill: red !important;')
               a(href='https://twitter.com/VirusBustersNFT', target='_blank')
                 img.tc(alt='Twitter', src="../assets/images/icons/twitter-icon.svg", height='26px')
-            div.tc.white--text.f7.i.mb2.o-50 Made with love by two friends in Canada - V0.1
+            //- D
+            div.tc.white--text.f7.i.mb2.o-50
+              div Made with love by two friends in Canada - V0.2
+              div Questions? Contact us directly on Discord or by
+                a.ml1.white--text(href='mailto:info@virusbusters.cards') email
 </template>
 
 <style lang='sass'>

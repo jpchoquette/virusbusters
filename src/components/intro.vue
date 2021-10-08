@@ -17,7 +17,7 @@ export default {
           img(alt='Virus Busters', src="../assets/images/wax-logo-white.png", height='36px')
         p blockchain. Join us on Discord to stay updated.
       div.mt3.animate__animated.animate__fadeIn.animate__delay-1s(data-scroll data-scroll-speed="3")
-        v-btn(href='https://discord.gg/zaHsXaXBGJ', large, rounded, color='accent')
+        v-btn(href='https://discord.gg/vKWRKtsDCX', large, rounded, color='accent')
           span.f5 Take me to Discord!
           img.ml2(alt='Virus Busters', src="../assets/images/icons/discord-icon.svg", height='20px')
       div.flex-grow-1

@@ -21,7 +21,7 @@ export default {
               li Do not panic, we are professionals.
               li
                 | Head over to the Virus Busters
-                a.mh2.bluescreen--text.underline.ph2.pv1.yellow(href='https://discord.gg/zaHsXaXBGJ', target='_blank', style='white-space:nowrap;') DISCORD SERVER
+                a.mh2.bluescreen--text.underline.ph2.pv1.yellow(href='https://discord.gg/vKWRKtsDCX', target='_blank', style='white-space:nowrap;') DISCORD SERVER
                 | and contact one of our representatives
               li New employees will be required to fix the system.
             p.mt4 More information coming shortly. Please reboot.&nbsp;

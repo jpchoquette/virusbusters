@@ -106,7 +106,7 @@ export default {
             div.tc
               img.tc(alt='Wormy', src="../assets/images/virus/v_worm_test.gif", height='300px')
             div.socials__wrapper
-              a(href='https://discord.gg/zaHsXaXBGJ', target='_blank')
+              a(href='https://discord.gg/vKWRKtsDCX', target='_blank')
                 img.tc(alt='Discord', src="../assets/images/icons/discord-icon.svg", height='26px', style='fill: red !important;')
               a(href='https://twitter.com/VirusBustersNFT', target='_blank')
                 img.tc(alt='Twitter', src="../assets/images/icons/twitter-icon.svg", height='26px')

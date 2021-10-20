@@ -47,7 +47,7 @@ v-app(dark)
     router-view
 </template>
 <style>
-  @import './assets/styles/vendors/locomotiveScroll.css';
+  @import './assets/styles/vendors/locomotiveScroll.css'
   /* @import './assets/styles/main.scss'; */
 </style>
 <style lang='sass'>

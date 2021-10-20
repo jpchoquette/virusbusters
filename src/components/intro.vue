@@ -10,7 +10,8 @@ export default {
   section(data-scroll-section)
     div.page-intro
       div.flex-grow-1
-      img.signature-img.animate__animated.animate__zoomIn(data-scroll data-scroll-speed="2", alt='Virus Busters', src="../assets/images/virus-busters-logo.svg")
+      img.signature-img.animate__animated.animate__zoomIn(data-scroll data-scroll-speed="2", alt='Virus Busters', src="../assets/images/vb-animated-logo.gif")
+      //- img.signature-img.animate__animated.animate__zoomIn(data-scroll data-scroll-speed="2", alt='Virus Busters', src="../assets/images/virus-busters-logo.svg")
       div.landing-description.animate__animated.animate__fadeIn.animate__delay-1s.mt3(data-scroll data-scroll-speed="3")
         p A brand new NFT collection is being uploaded on the
         a(href='https://wax.atomichub.io/explorer/collection/virusbusters', target='_blank')

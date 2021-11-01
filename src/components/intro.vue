@@ -18,9 +18,15 @@ export default {
           img(alt='Virus Busters', src="../assets/images/wax-logo-white.png", height='36px')
         p blockchain. Join us on Discord to stay updated.
       div.mt3.animate__animated.animate__fadeIn.animate__delay-1s(data-scroll data-scroll-speed="3")
-        v-btn(href='https://discord.gg/vKWRKtsDCX', large, rounded, color='accent')
+        //- v-btn.mr2(to='/desktop', large, rounded, color='accent')
+          span.f5 Login
+          //- img.ml2(alt='Virus Busters', src="../assets/images/icons/discord-icon.svg", height='20px')
+        v-btn.ma1(href='https://discord.gg/vKWRKtsDCX', large, rounded, color='accent')
           span.f5 Take me to Discord!
-          img.ml2(alt='Virus Busters', src="../assets/images/icons/discord-icon.svg", height='20px')
+          img.ml2(alt='Virus Busters Discord', src="../assets/images/icons/discord-icon.svg", height='20px')
+        v-btn.ma1(href='https://wax.atomichub.io/market?collection_name=virusbusters', large, rounded, color='#14192E')
+          span.f5.white--text Buy on AtomicHub
+          img.ml2(alt='Atomic Hub Market', src="../assets/images/atomic-hub-icon.png", height='20px')
       div.flex-grow-1
       div.flex-column.justify-center.items-center.animate__animated.animate__fadeIn.animate__delay-1s(style='display:flex; width:120px; height: 60px;')
         img.animate__animated.animate__bounce.animate__delay-2s(alt='scroll-arrow', src="../assets/images/icons/arrow-icon.svg", width='60px')

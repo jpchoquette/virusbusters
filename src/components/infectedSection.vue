@@ -72,6 +72,7 @@ export default {
                     div.b ENTER YOUR WAX ADDRESS BELOW!
                   div.flex-grow-1
                   v-btn(rounded, large, dark, href='https://bit.ly/vb-free-nft-1', target='_blank') CLAIM YOUR PRIZE NOW!
+                  div.mt2.i.f6 Limited quantities.
                   div.flex-grow-1
 
             div.warning-window.middle-center(data-scroll data-scroll-speed="3", data-scroll-delay='0.6')

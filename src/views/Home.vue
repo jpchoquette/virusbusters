@@ -79,24 +79,6 @@ export default {
     description-section
     infected-section
     blue-screen-section
-    //- section.sticky-section-fullsize(data-scroll-section, data-scroll-section-id='section1', data-scroll-persistent)
-      div.section-container(id='scroll-direction1')
-        .block-wrapper()
-          .section-content.tertiary(data-scroll, data-scroll-sticky, data-scroll-target='#scroll-direction1', data-scroll-persistent)
-            //- div.text-pattern__wrapper.w-100.h-100
-            //- text-pattern.forward(data='Meet the viruses', color='gold', opacity='0.5', target='#scroll-direction1', speed='2')
-            //- LOGIN WAX
-            //- template
-              div.pt5.tc.relative() This is a section
-              v-btn(v-if='$store.state.User.userConnected', @click='logout') Logout
-              v-btn(v-else, @click='login') Login wax
-              template(v-if='$store.state.User.userConnected')
-                div Welcome {{userProfile}}
-                div My NFTS:
-                  ul
-                    li(v-for='(nft, index) in userTemplates') {{nft.data.name}}
-              template(v-else)
-                div Welcome. Please login to continue
     section(data-scroll-section, data-scroll-persistent)
       div.section-container.sticky-section
         .block-wrapper()
@@ -112,7 +94,7 @@ export default {
                 img.tc(alt='Twitter', src="../assets/images/icons/twitter-icon.svg", height='26px')
             //- D
             div.tc.white--text.f7.i.mb2.o-50
-              div Made with love by two friends in Canada - V0.22
+              div Made with love by two friends in Canada - V0.23
               div Questions? Contact us directly on Discord or by
                 a.ml1.white--text(href='mailto:info@virusbusters.cards') email
 </template>

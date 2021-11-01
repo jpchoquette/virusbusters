@@ -17,7 +17,9 @@ export default new Vuetify({
         secondary: '#7e2753',
         light: '#FFF1E8',
         accent: '#ff004d',
-        bluescreen: '#0000AA'
+        bluescreen: '#0000AA',
+        toolbars: '#29adff',
+        grey: '#c2c3c7'
       }
     }
   }

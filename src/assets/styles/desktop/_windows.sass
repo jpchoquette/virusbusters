@@ -1,0 +1,54 @@
+.desktop-window
+  z-index: 100
+  position: relative
+  // position: absolute
+  // top: calc(50% - 150px)
+  // left: calc(50% - 250px)
+  width: 100%
+  height: 100%
+  background-color: var(--v-light-base)
+  border-radius: 4px
+  overflow: hidden
+  display: flex
+  flex-direction: column
+  // align-items: center
+  // justify-content: center
+  box-shadow: $box-shadow-large
+
+  .window-top-bar
+    padding: 5px 10px
+    display: flex
+    align-items: center
+    background-color: grey
+    color: white
+    width: 100%
+    border-bottom: solid 1px black
+  .window-content
+    flex-grow: 1
+    overflow-y: auto
+    padding: 10px
+  .empty-content__wrapper
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    text-align: center
+    height: 100%
+    width: 100%
+    padding: 20px
+    .title-placeholder
+      font-family: $display-font
+      font-size: 30px
+      margin-bottom: 20px
+    .description-placeholder
+      max-width: 600px
+      margin: 0 auto
+      font-size: 20px
+.active-window
+  z-index: 1000
+  .desktop-window
+    & .window-top-bar
+      background-color: var(--v-toolbars-base)
+
+.resizable-component
+  position: absolute!important

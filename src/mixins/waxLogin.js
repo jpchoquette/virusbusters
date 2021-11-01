@@ -19,6 +19,14 @@ export default {
     userTemplates: {
       set (val) { this.$store.commit('User/setUserTemplates', val) },
       get () { return this.$store.state.User.userTemplates }
+    },
+    busterTemplates: {
+      set (val) { this.$store.commit('Buster/setBusterTemplates', val) },
+      get () { return this.$store.state.Buster.busterTemplates }
+    },
+    ownedBusterTemplates: {
+      set (val) { this.$store.commit('Buster/setOwnedBusterTemplates', val) },
+      get () { return this.$store.state.Buster.ownedBusterTemplates }
     }
   },
   mounted () {
@@ -34,7 +42,8 @@ export default {
       handler (newVal) {
         if (newVal) {
           console.log('Userconnected - From watcher')
-          this.fetchVirusBustersNFTs()
+          this.fetchBustersNFTs()
+          this.fetchOwnedBustersNFTs()
         } else {
           console.log('on est pas connected')
         }
@@ -47,13 +56,13 @@ export default {
       const isAutoLoginAvailable = await this.wax.isAutoLoginAvailable()
       if (isAutoLoginAvailable) {
         const userAccount = this.wax.userAccount
-        this.userProfile = userAccount
+        this.profile = userAccount
         this.userConnected = true
         // const pubKeys = this.wax.pubKeys
         // const str = 'AutoLogin enabled for account: ' + userAccount + '<br/>Active: ' + pubKeys[0] + '<br/>Owner: ' + pubKeys[1]
         // document.getElementById('autologin').insertAdjacentHTML('beforeend', str)
       } else {
-        this.userProfile = null
+        this.profile = null
         this.userConnected = false
         // document.getElementById('autologin').insertAdjacentHTML('beforeend', 'Not auto-logged in')
       }
@@ -70,16 +79,16 @@ export default {
         // if autologged in, this simply returns the userAccount w/no popup
         const userAccount = await this.wax.login()
         // const pubKeys = this.wax.pubKeys
-        this.userProfile = userAccount
+        this.profile = userAccount
         this.userConnected = true
         // const str = 'Account: ' + userAccount + '<br/>Active: ' + pubKeys[0] + '<br/>Owner: ' + pubKeys[1]
         // document.getElementById('loginresponse').insertAdjacentHTML('beforeend', str)
       } catch (e) {
-        this.userProfile = null
+        this.profile = null
         this.userConnected = true
         // document.getElementById('loginresponse').append(e.message)
       }
-      console.log('profile', this.userProfile)
+      console.log('profile', this.profile)
     },
     async sign () {
       if (!this.wax.api) {
@@ -115,23 +124,61 @@ export default {
     },
     logout () {
       // Cookie à faire
-      // setCookie("wax-address", '');
+      // setCookie('wax-address', '');
       this.userConnected = false
-      this.userProfile = null
-      this.userTemplates = null
+      this.profile = null
+      this.busterTemplates = null
       this.wax = null
     },
-    async fetchVirusBustersNFTs () {
-      fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?limit=200&page=1&collection_name=coindodocard&owner=' + this.userProfile, {
+    async fetchBustersNFTs () {
+      fetch('https://wax.api.atomicassets.io/atomicassets/v1/templates?limit=200&page=1&collection_name=virusbusters&schema_name=buster.heads', {
         headers: {
-          'Access-Control-Allow-Origin': '*',
-          credentials: 'omit'
-        }
+          accept: '*/*',
+          'accept-language': 'en-US,en;q=0.9',
+          'cache-control': 'no-cache',
+          'content-type': 'application/json',
+          pragma: 'no-cache',
+          'sec-fetch-dest': 'empty',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-site': 'cross-site',
+          'sec-gpc': '1'
+        },
+        referrer: 'https://wax.atomichub.io/',
+        referrerPolicy: 'strict-origin-when-cross-origin',
+        body: null,
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'omit'
       })
         .then(response => response.json())
         .then(data => {
-          console.log('data salut', data)
-          this.userTemplates = data.data
+          this.busterTemplates = data.data
+        })
+    },
+    fetchOwnedBustersNFTs () {
+      fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?limit=200&page=1&collection_name=virusbusters&owner=' + this.profile + '&schema_name=buster.heads', {
+        headers: {
+          accept: '*/*',
+          'accept-language': 'en-US,en;q=0.9',
+          'cache-control': 'no-cache',
+          'content-type': 'application/json',
+          pragma: 'no-cache',
+          'sec-fetch-dest': 'empty',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-site': 'cross-site',
+          'sec-gpc': '1'
+        },
+        referrer: 'https://wax.atomichub.io/',
+        referrerPolicy: 'strict-origin-when-cross-origin',
+        body: null,
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'omit'
+      })
+        .then(response => response.json())
+        .then(data => {
+          // console.log('owned busters', data)
+          this.ownedBusterTemplates = data.data
         })
     }
   }

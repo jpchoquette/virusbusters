@@ -26,7 +26,8 @@ export default {
   data () {
     return {
       showLogin: true,
-      menu: false
+      menu: false,
+      screenOn: false
     }
   },
   computed: {
@@ -118,100 +119,116 @@ export default {
     checkTime (i) {
       if (i < 10) { i = '0' + i }
       return i
+    },
+    toggleScreen () {
+      // console.log('todo')
+      this.screenOn = !this.screenOn
     }
   }
 }
 </script>
 
 <template lang='pug'>
-  .desktop-page
-    //- .top-bar
-    .temp-windows__wrapper
-      login-box(v-if='showLogin')
-      settings-window(v-if='settingsWindow')
-      customization-window(v-if='customizationWindow')
-      quick-links-window(v-if='quickLinksWindow')
-      collection-window(v-if='collectionWindow')
-      blender-window(v-if='blenderWindow')
-    .window__wrapper(:style='{backgroundColor:selectedBusterTemplate ? selectedBusterTemplate.extra.background : "transparent"}')
-      div.wallpaper-content
-        text-pattern(v-if='selectedBusterTemplate', :data='selectedBusterTemplate.data.immutable_data.name', color='#7e2753', :opacity='0.15', :angle='-20', :qtyPerLine='1')
+.computer-frame
+  .post-it-yellow
+    img(src="@/assets/images/postits/postit-yellow-1.png", width='200px', max-width='200px')
+  .post-it-pink
+    img(src="@/assets/images/postits/postit-pink-1.png", width='200px', max-width='200px')
+  .frame-buttons
+    button(@click='toggleScreen()') I/O
+  .crt-wrapper
+    .desktop-page.screen(v-if='screenOn')
+      //- .top-bar
+      .temp-windows__wrapper
+        login-box.crt(v-if='showLogin')
+        settings-window(v-if='settingsWindow')
+        customization-window(v-if='customizationWindow')
+        quick-links-window(v-if='quickLinksWindow')
+        collection-window(v-if='collectionWindow')
+        blender-window(v-if='blenderWindow')
+      .window__wrapper(:style='{backgroundColor:selectedBusterTemplate ? selectedBusterTemplate.extra.background : "transparent"}')
+        div.wallpaper-content
+          text-pattern(v-if='selectedBusterTemplate', :data='selectedBusterTemplate.data.immutable_data.name', color='#7e2753', :opacity='0.15', :angle='-20', :qtyPerLine='1')
 
-        transition(name='custom-classes-transition', enter-active-class='animate__animated animate__zoomIn', leave-active-class='animate__animated animate__zoomOut', mode='out-in')
-          div(v-if='selectedBusterTemplate', :key='selectedBusterTemplate.data.template_id')
-            v-img(:src="require('@/assets/images/buster/buster_' + selectedBusterTemplate.data.template_id + '.gif')", width='350px', :key='selectedBusterTemplate.data.template_id')
-          img(v-else, src="@/assets/images/vb-animated-logo-light.gif", width='400px', max-width='400px', style='opacity:1;')
+          transition(name='custom-classes-transition', enter-active-class='animate__animated animate__zoomIn', leave-active-class='animate__animated animate__zoomOut', mode='out-in')
+            div(v-if='selectedBusterTemplate', :key='selectedBusterTemplate.data.template_id')
+              v-img(:src="require('@/assets/images/buster/buster_' + selectedBusterTemplate.data.template_id + '.gif')", width='350px', :key='selectedBusterTemplate.data.template_id')
+            img(v-else, src="@/assets/images/vb-animated-logo-light.gif", width='400px', max-width='400px', style='opacity:1;')
 
-        //- pre {{selectedBusterTemplate}}
-      //- div.wallpaper-content(v-else)
-        img(src="@/assets/images/virus-busters-logo.svg", width='100%', style='opacity:0.25;')
+          //- pre {{selectedBusterTemplate}}
+        //- div.wallpaper-content(v-else)
+          img(src="@/assets/images/virus-busters-logo.svg", width='100%', style='opacity:0.25;')
 
-      .window-content
-        .version-number v1.0
-        template(v-if='userConnected')
-          //- icon-desktop(image='@/assets/images/virus-busters-logo.svg', title='My settings', action='settings')
-          icon-desktop(image='@/assets/images/virus-busters-logo.svg', title='Customization', action='customization')
-          icon-desktop(image='@/assets/images/virus-busters-logo.svg', title='Quick links', action='quicklinks')
-          icon-desktop(image='@/assets/images/virus-busters-logo.svg', title='My NFTs', action='collection')
-          icon-desktop(image='@/assets/images/virus-busters-logo.svg', title='Blender.exe', action='blender')
+        .window-content
+          .version-number v1.0
+          template(v-if='userConnected')
+            //- icon-desktop(image='blender-icon-v1.png', title='My settings', action='settings')
+            icon-desktop(image='buster-icon.png', title='Wallpapers', action='customization')
+            icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
+            icon-desktop(image='blender-icon-v1.png', title='My NFTs', action='collection', private ='true')
+            //- icon-desktop(image='@/assets/images/icons/blender-icon-v1.png', title='Blender.exe', action='blender')
+            icon-desktop(image='blender-icon-v1.png', title='Blender.exe', action='blender')
 
-        //- template
-          //- test section
-          span connected? {{userConnected}}
-          div profile {{profile}}
-          //- pre() templates {{busterTemplates}}
-          div.avatar-window
-            div(v-for='(buster, index) in busterTemplates')
-              //- pre {{buster.template.template_id}}
-              //- v-img(:src="require('@/assets/images/buster/buster_' + buster.template.template_id + '.gif')", width='300px')
-              v-btn(@click='selectBuster(index, buster.template.template_id)') {{buster.template.immutable_data.name}}
-          v-btn(@click='selectBuster(null)') clear avatar
+          //- template
+            //- test section
+            span connected? {{userConnected}}
+            div profile {{profile}}
+            //- pre() templates {{busterTemplates}}
+            div.avatar-window
+              div(v-for='(buster, index) in busterTemplates')
+                //- pre {{buster.template.template_id}}
+                //- v-img(:src="require('@/assets/images/buster/buster_' + buster.template.template_id + '.gif')", width='300px')
+                v-btn(@click='selectBuster(index, buster.template.template_id)') {{buster.template.immutable_data.name}}
+            v-btn(@click='selectBuster(null)') clear avatar
 
-    .bottom-bar
-      //- v-btn.h-100.w-100(tile, icon) Menu
-      v-menu(v-model='menu', :close-on-content-click='false', top, offset-y, elevation='0')
-        template(v-slot:activator='{ on, attrs }')
-          v-btn(color='accent', dark='', v-bind='attrs', v-on='on', style='height: 100%; width: 100px', tile)
-            v-img(:src="require('@/assets/images/virus-busters-icon.svg')", width='30px', height='40px', contain)
+      .bottom-bar
+        //- v-btn.h-100.w-100(tile, icon) Menu
+        v-menu(v-model='menu', :close-on-content-click='false', top, offset-y, elevation='0')
+          template(v-slot:activator='{ on, attrs }')
+            v-btn(color='accent', dark='', v-bind='attrs', v-on='on', style='height: 100%; width: 100px', tile)
+              v-img(:src="require('@/assets/images/virus-busters-icon.svg')", width='30px', height='40px', contain)
 
-        v-card(elevation='0', tile)
-          v-list
-            v-list-item(v-if='userConnected')
-              //- v-list-item-avatar
-                img(src='https://cdn.vuetifyjs.com/images/john.jpg', alt='John')
-              v-list-item-content
-                v-list-item-title.b {{profile}}
-                v-list-item-subtitle Virus Busters Employee
-              v-list-item-action
-                v-btn(@click='logout', icon)
-                  v-icon mdi-power
-            v-list-item(v-else)
-              //- v-list-item-avatar
-                img(src='https://cdn.vuetifyjs.com/images/john.jpg', alt='John')
-              v-list-item-content
-                v-list-item-title.b Guest #
-                  span {{Math.floor(Math.random() * (8000 - 1000 + 1)) + 1000}}
-                v-list-item-subtitle Visitor
-              v-list-item-action
-                v-btn(@click='login', icon)
-                  v-icon mdi-login
-          v-divider
-          v-list
-            v-list-item(to='/')
+          v-card(elevation='0', tile)
+            v-list
+              v-list-item(v-if='userConnected')
+                //- v-list-item-avatar
+                  img(src='https://cdn.vuetifyjs.com/images/john.jpg', alt='John')
+                v-list-item-content
+                  v-list-item-title.b {{profile}}
+                  v-list-item-subtitle Virus Busters Employee
+                v-list-item-action
+                  v-btn(@click='logout', icon)
+                    v-icon mdi-power
+              v-list-item(v-else)
+                //- v-list-item-avatar
+                  img(src='https://cdn.vuetifyjs.com/images/john.jpg', alt='John')
+                v-list-item-content
+                  v-list-item-title.b Guest #
+                    span {{Math.floor(Math.random() * (8000 - 1000 + 1)) + 1000}}
+                  v-list-item-subtitle Visitor
+                v-list-item-action
+                  v-btn(@click='login', icon)
+                    v-icon mdi-login
+            v-divider
+            v-list
+              v-list-item(to='/')
 
-              v-list-item-title Go back to home page
+                v-list-item-title Go back to home page
 
-      div.flex-grow-1
-      div.date-wrapper
-        div.white--text.b(id='userClock')
-        div.white--text.f7(id='userDate')
+        div.flex-grow-1
+        div.date-wrapper
+          div.white--text.b(id='userClock')
+          div.white--text.f7(id='userDate')
 </template>
 
 <style lang='sass'>
   @import '@/assets/styles/desktop/_windows.sass'
+  @import '@/assets/styles/desktop/_crt.scss'
+  .v-main__wrap
+    background-color: black
   .desktop-page
-    width: 100vw
-    height: 100vh
+    // width: 100vw
+    // height: 100vh
     overflow: hidden
     display: flex
     flex-direction: column
@@ -222,7 +239,18 @@ export default {
       left: 0
       width: 100%
       height: 100%
+      // box-shadow: inset 11px 11px 71px -10px rgb(0 0 0 / 50%)
       // background-color: #3171d8
+      &::after
+        content: ''
+        z-index: 99999
+        pointer-events: none
+        box-shadow: inset 11px 11px 71px -10px rgb(0 0 0 / 50%)
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
     .bottom-bar
       height: 50px
       width: 100%

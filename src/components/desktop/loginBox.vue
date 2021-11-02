@@ -22,9 +22,10 @@ export default {
       div.tc.relative.mb3.b() Welcome, {{profile ? profile : "broken login :("}}
       v-btn(@click='logout') Close session
     template(v-else)
-      div.tc.relative.mb3() Welcome to your desktop. Please login to continue...
+      div.modal-title Welcome!
+      div.tc.relative.mb3() Please login to continue...
       v-btn(v-if='$store.state.User.userConnected', @click='logout') Logout
-      v-btn(v-else, @click='login') Login wax
+      v-btn(v-else, @click='login') Login
 </template>
 <style lang='sass'>
   .login-box
@@ -42,4 +43,8 @@ export default {
     align-items: center
     justify-content: center
     box-shadow: $box-shadow-large
+    .modal-title
+      font-size: 30px
+      font-family: $display-font
+      margin-bottom: 20px
 </style>

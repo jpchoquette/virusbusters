@@ -76,7 +76,7 @@ export default {
     div.customization-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "customization"}', @mousedown='activeWindow = "customization"')
       //- LOGIN WAX
       div.window-top-bar
-        div.window-title Customization
+        div.window-title Wallpaper customization
         div.flex-grow-1
         v-btn.white--text(@click='closeWindow', tile, color='accent', fab, depressed) X
       div.window-content
@@ -116,7 +116,7 @@ export default {
         &.selected-avatar
           .avatar-preview
             // border: solid 1px red !important
-            background-color: #ffec27
+            background-color: var(--v-light-base)
             background-image: repeating-linear-gradient(0deg, var(--v-secondary-base), var(--v-secondary-base) 8px, transparent 8px, transparent 13px, var(--v-secondary-base) 13px), repeating-linear-gradient(90deg, var(--v-secondary-base), var(--v-secondary-base) 8px, transparent 8px, transparent 13px, var(--v-secondary-base) 13px), repeating-linear-gradient(180deg, var(--v-secondary-base), var(--v-secondary-base) 8px, transparent 8px, transparent 13px, var(--v-secondary-base) 13px), repeating-linear-gradient(270deg, var(--v-secondary-base), var(--v-secondary-base) 8px, transparent 8px, transparent 13px, var(--v-secondary-base) 13px)
             background-size: 2px calc(100% + 13px), calc(100% + 13px) 2px, 2px calc(100% + 13px) , calc(100% + 13px) 2px
             background-position: 0 0, 0 0, 100% 0, 0 100%
@@ -142,7 +142,7 @@ export default {
                 opacity: 1
 
         .avatar-preview
-          padding: 5px
+          padding: 2px
           height: 120px
           width: 120px
           max-width: 120px

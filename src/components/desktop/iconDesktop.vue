@@ -5,7 +5,8 @@ export default {
   props: {
     title: { required: false, type: String, default: 'Untitled icon' },
     action: { required: false, type: String, default: '' },
-    image: { required: false, type: String, default: '@/assets/images/twitter-logo.svg' }
+    image: { required: false, type: String, default: '@/assets/images/twitter-logo.svg' },
+    private: { required: false, type: Boolean, default: false }
   },
   data () {
     return {
@@ -67,7 +68,8 @@ export default {
 <template lang='pug'>
   .icon-desktop.pointer(@click='launchAction(action)')
     .image-wrapper
-      //- v-img(:src="require(image)")
+      div.fallback-image(v-if='private') ?
+      v-img(v-else, :src="require('@/assets/images/icons/' + image)", contain, height='50px')
       //- div(v-else) X
     .text-wrapper {{title}}
 </template>
@@ -98,7 +100,12 @@ export default {
     .image-wrapper
       width: 50px
       height: 50px
-      background-color: white
+      // background-color: white
+      .fallback-image
+        font-family: $display-font
+        font-size: 35px
+        text-align: center
+        color: var(--v-secondary-base)
     .text-wrapper
       font-weight: 500
       margin-top: 8px

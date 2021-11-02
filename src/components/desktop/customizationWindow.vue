@@ -56,6 +56,8 @@ export default {
         } else {
           this.selectedBusterTemplate = null
         }
+      } else if (id === '338184') {
+        window.open('https://neftyblocks.com/c/virusbusters/drops/59544', '_blank')
       } else {
         window.open('https://wax.atomichub.io/market?collection_name=virusbusters&schema_name=buster.heads&template_id=' + id, '_blank')
       }
@@ -70,7 +72,7 @@ export default {
 }
 </script>
 <template lang='pug'>
-  vue-resizable(top="200", left="400", :width="600", :height="450", :min-height="250", :min-width="300", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "customization"}')
+  vue-resizable(top="10%", left="22%", :width="600", :height="450", :min-height="250", :min-width="300", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "customization"}')
     div.customization-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "customization"}', @mousedown='activeWindow = "customization"')
       //- LOGIN WAX
       div.window-top-bar
@@ -79,7 +81,8 @@ export default {
         v-btn.white--text(@click='closeWindow', tile, color='accent', fab, depressed) X
       div.window-content
         div.avatars__wrapper
-          div.pointer.avatar-wrapper(@click='selectBuster(null)', :class='{"selected-avatar" : !selectedBusterTemplate}')
+          //- pre {{selectedBusterTemplate}}
+          div.pointer.avatar-wrapper(@click='selectBuster(0, null, true)', :class='{"selected-avatar" : !selectedBusterTemplate}')
             div.pointer.avatar-wrapper
               div.avatar-preview.primary
                 v-img(:src="require('@/assets/images/vb-animated-logo-light.gif')", width='200px')
@@ -112,7 +115,13 @@ export default {
         padding: 0 5px 5px 5px
         &.selected-avatar
           .avatar-preview
-            border: solid 1px red
+            // border: solid 1px red !important
+            background-color: #ffec27
+            background-image: repeating-linear-gradient(0deg, var(--v-secondary-base), var(--v-secondary-base) 8px, transparent 8px, transparent 13px, var(--v-secondary-base) 13px), repeating-linear-gradient(90deg, var(--v-secondary-base), var(--v-secondary-base) 8px, transparent 8px, transparent 13px, var(--v-secondary-base) 13px), repeating-linear-gradient(180deg, var(--v-secondary-base), var(--v-secondary-base) 8px, transparent 8px, transparent 13px, var(--v-secondary-base) 13px), repeating-linear-gradient(270deg, var(--v-secondary-base), var(--v-secondary-base) 8px, transparent 8px, transparent 13px, var(--v-secondary-base) 13px)
+            background-size: 2px calc(100% + 13px), calc(100% + 13px) 2px, 2px calc(100% + 13px) , calc(100% + 13px) 2px
+            background-position: 0 0, 0 0, 100% 0, 0 100%
+            background-repeat: no-repeat
+            animation: borderAnimation 0.6s infinite linear
         &.missing-template
           .avatar-preview
             position: relative
@@ -133,6 +142,7 @@ export default {
                 opacity: 1
 
         .avatar-preview
+          padding: 5px
           height: 120px
           width: 120px
           max-width: 120px

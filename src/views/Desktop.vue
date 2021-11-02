@@ -1,4 +1,5 @@
 <script>
+import TextPattern from '../components/shared/textPattern'
 import LoginBox from '../components/desktop/loginBox'
 import IconDesktop from '../components/desktop/iconDesktop'
 import CustomizationWindow from '../components/desktop/customizationWindow'
@@ -12,6 +13,7 @@ import WaxLogin from '@/mixins/waxLogin.js'
 export default {
   name: 'Desktop',
   components: {
+    TextPattern,
     LoginBox,
     IconDesktop,
     CustomizationWindow,
@@ -133,6 +135,8 @@ export default {
       blender-window(v-if='blenderWindow')
     .window__wrapper(:style='{backgroundColor:selectedBusterTemplate ? selectedBusterTemplate.extra.background : "transparent"}')
       div.wallpaper-content
+        text-pattern(v-if='selectedBusterTemplate', :data='selectedBusterTemplate.data.immutable_data.name', color='#7e2753', :opacity='0.15', :angle='-20', :qtyPerLine='1')
+
         transition(name='custom-classes-transition', enter-active-class='animate__animated animate__zoomIn', leave-active-class='animate__animated animate__zoomOut', mode='out-in')
           div(v-if='selectedBusterTemplate', :key='selectedBusterTemplate.data.template_id')
             v-img(:src="require('@/assets/images/buster/buster_' + selectedBusterTemplate.data.template_id + '.gif')", width='350px', :key='selectedBusterTemplate.data.template_id')
@@ -143,8 +147,9 @@ export default {
         img(src="@/assets/images/virus-busters-logo.svg", width='100%', style='opacity:0.25;')
 
       .window-content
+        .version-number v1.0
         template(v-if='userConnected')
-          icon-desktop(image='@/assets/images/virus-busters-logo.svg', title='My settings', action='settings')
+          //- icon-desktop(image='@/assets/images/virus-busters-logo.svg', title='My settings', action='settings')
           icon-desktop(image='@/assets/images/virus-busters-logo.svg', title='Customization', action='customization')
           icon-desktop(image='@/assets/images/virus-busters-logo.svg', title='Quick links', action='quicklinks')
           icon-desktop(image='@/assets/images/virus-busters-logo.svg', title='My NFTs', action='collection')
@@ -245,6 +250,12 @@ export default {
         position: relative
         z-index: 10
         overflow: hidden
+        .version-number
+          position: absolute
+          bottom: 10px
+          right: 10px
+          font-size: 15px
+          opacity: 0.5
       .wallpaper-content
         z-index: 0
         position: absolute

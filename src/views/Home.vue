@@ -84,7 +84,7 @@ export default {
         .block-wrapper()
           .section-content.secondary.flex.flex-column
             div.flex-grow-1
-            div.pt5.tc.test() See you soon!
+            div.pt5.tc.display-font() See you soon!
             div.tc
               img.tc(alt='Wormy', src="../assets/images/virus/v_worm_test.gif", height='300px')
             div.socials__wrapper
@@ -102,7 +102,7 @@ export default {
 <style lang='sass'>
   p
     font-family: 'Kawingan', serif
-  .test
+  .display-font
     font-family: 'Daydream', sans-serif
     color: var(--v-light-base)
   .landing-page

@@ -15,7 +15,7 @@ export default {
       div.landing-description.animate__animated.animate__fadeIn.animate__delay-1s.mt3(data-scroll data-scroll-speed="3")
         p A brand new NFT collection is being uploaded on the
         a(href='https://wax.atomichub.io/explorer/collection/virusbusters', target='_blank')
-          img(alt='Virus Busters', src="../assets/images/wax-logo-white.png", height='36px')
+          img(alt='Wax Logo', src="../assets/images/wax-logo-white.png", height='36px')
         p blockchain. Join us on Discord to stay updated.
       div.mt3.animate__animated.animate__fadeIn.animate__delay-1s(data-scroll data-scroll-speed="3")
         //- v-btn.mr2(to='/desktop', large, rounded, color='accent')

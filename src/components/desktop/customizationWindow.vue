@@ -40,16 +40,17 @@ export default {
       this.customizationWindow = false
     },
     selectBuster (index, id, ownership) {
-      console.log('index, id', index, id, ownership)
+      // console.log('index, id', index, id, ownership)
       if (ownership) {
         if (id) {
           const foundBuster = this.$store.state.Buster.bustersData.findIndex((bust) => bust.id === id)
-          console.log('found buster', foundBuster)
+          // console.log('found buster', foundBuster)
           if (foundBuster >= 0) {
             this.selectedBusterTemplate = {
               data: this.busterTemplates[index],
               extra: this.$store.state.Buster.bustersData[foundBuster]
             }
+            this.$cookies.set('buster', this.selectedBusterTemplate, 604800)
           } else {
             this.selectedBusterTemplate = null
           }
@@ -64,8 +65,8 @@ export default {
     },
     checkOwnership (id) {
       const ownedBuster = this.$store.state.Buster.ownedBusterTemplates.findIndex((bust) => bust.template.template_id === id)
-      console.log('test', this.$store.state.Buster.ownedBusterTemplates, id)
-      console.log('owned', ownedBuster)
+      // console.log('test', this.$store.state.Buster.ownedBusterTemplates, id)
+      // console.log('owned', ownedBuster)
       return ownedBuster >= 0
     }
   }
@@ -81,6 +82,7 @@ export default {
         v-btn.white--text(@click='closeWindow', tile, color='accent', fab, depressed) X
       div.window-content
         div.avatars__wrapper
+          //- pre {{$cookies.get('buster')}}
           //- pre {{selectedBusterTemplate}}
           div.pointer.avatar-wrapper(@click='selectBuster(0, null, true)', :class='{"selected-avatar" : !selectedBusterTemplate}')
             div.pointer.avatar-wrapper

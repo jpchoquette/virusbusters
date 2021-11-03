@@ -129,6 +129,7 @@ export default {
       this.profile = null
       this.busterTemplates = null
       this.wax = null
+      this.$cookies.remove('buster')
     },
     async fetchBustersNFTs () {
       fetch('https://wax.api.atomicassets.io/atomicassets/v1/templates?limit=200&page=1&collection_name=virusbusters&schema_name=buster.heads', {

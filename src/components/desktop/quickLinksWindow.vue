@@ -64,7 +64,7 @@ export default {
 }
 </script>
 <template lang='pug'>
-  vue-resizable(top="20%", left="40%", :width="600", :height="450", :min-height="250", :min-width="300", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "quicklinks"}')
+  vue-resizable(top="20%", left="40%", :width="500", :height="350", :min-height="250", :min-width="300", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "quicklinks"}')
     div.customization-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "quicklinks"}', @mousedown='activeWindow = "quicklinks"')
       //- LOGIN WAX
       div.window-top-bar

@@ -1,5 +1,16 @@
 import * as Waxjs from '@waxio/waxjs/dist'
-
+import AnchorLink from 'anchor-link'
+import AnchorLinkBrowserTransport from 'anchor-link-browser-transport'
+const transport = new AnchorLinkBrowserTransport()
+const link = new AnchorLink({
+  transport,
+  chains: [
+    {
+      chainId: '1064487b3cd1a897ce03ae5b6a865651747e2e152090f99c1d19d44e01aea5a4',
+      nodeUrl: 'https://wax.greymass.com'
+    }
+  ]
+})
 export default {
   data () {
     return {
@@ -68,6 +79,19 @@ export default {
       }
     },
     // normal login. Triggers a popup for non-whitelisted dapps
+    async anchorLogin () {
+      try {
+        // Perform the login, which returns the users identity
+        const identity = await link.login('mydapp')
+        // Save the session within your application for future use
+        const { session } = identity
+        console.log(`Logged in as ${session.auth}`)
+        const userAccount = session.auth.actor
+        this.loggedIn(userAccount)
+      } catch (e) {
+        console.log(e)
+      }
+    },
     async login () {
       if (!this.wax) {
         this.wax = new Waxjs.WaxJS({
@@ -79,8 +103,9 @@ export default {
         // if autologged in, this simply returns the userAccount w/no popup
         const userAccount = await this.wax.login()
         // const pubKeys = this.wax.pubKeys
-        this.profile = userAccount
-        this.userConnected = true
+        // this.profile = userAccount
+        // this.userConnected = true
+        this.loggedIn(userAccount)
         // const str = 'Account: ' + userAccount + '<br/>Active: ' + pubKeys[0] + '<br/>Owner: ' + pubKeys[1]
         // document.getElementById('loginresponse').insertAdjacentHTML('beforeend', str)
       } catch (e) {
@@ -89,6 +114,10 @@ export default {
         // document.getElementById('loginresponse').append(e.message)
       }
       console.log('profile', this.profile)
+    },
+    loggedIn (userAccount) {
+      this.profile = userAccount
+      this.userConnected = true
     },
     async sign () {
       if (!this.wax.api) {

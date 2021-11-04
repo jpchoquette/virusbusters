@@ -11,7 +11,7 @@ $screen-background:#121010;
   max-width: 1800px;
   max-height: 1800px;
   margin: 0 auto;
-  padding: 100px;
+  padding: 80px;
   background-color: #F5EBC7;
   position: relative;
   // background-image: url(/frame-plastic-texture.jpg);
@@ -47,11 +47,15 @@ $screen-background:#121010;
       height: 80px;
       background-color: #F5EBC7;
       box-shadow: inset 0px 0px 25px 0px rgb(0 0 0 / 50%);
-      border: solid 1px rgb(0 0 0 / 50%);
+      border: solid 2px rgb(0 0 0 / 50%);
       border-bottom: none !important;
+      border-top: none !important;
       position: relative;
       &:hover {
-        box-shadow: inset 0px 0px 20px 5px rgb(0 0 0 / 50%) !important;
+        box-shadow: inset 0px 0px 4px 1px rgb(0 0 0 / 100%) !important;
+      }
+      &:active {
+        box-shadow: inset 0px 0px 20px 5px rgb(0 0 0 / 100%) !important;
       }
       &::after {
         pointer-events: none;
@@ -70,8 +74,8 @@ $screen-background:#121010;
   }
   .post-it-yellow {
     position: absolute;
-    top: -50px;
-    left: 120px;
+    top: -70px;
+    left: 180px;
     transform: rotate(-10deg);
     z-index: 999999;
     box-shadow: 2px 2px 0px 0px rgb(0 0 0 / 50%);
@@ -85,7 +89,7 @@ $screen-background:#121010;
     right: 300px;
     transform: rotate(4deg);
     z-index: 999999;
-    box-shadow: 2px 2px 0px 0px rgb(0 0 0 / 50%);
+    box-shadow: 2px -2px 0px 0px rgb(0 0 0 / 50%);
     height: 200px;
     width: 200px;
     background-color: #F275AD;

@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@waxio/waxjs": "^1.0.2",
+    "anchor-link": "^3.3.4",
+    "anchor-link-browser-transport": "^3.2.5",
     "core-js": "^3.18.2",
     "locomotive-scroll": "^4.1.2",
     "pug": "^3.0.2",

@@ -13,8 +13,6 @@ export default {
     }
   },
   mixins: [],
-  mounted: {
-  },
   computed: {
     activeWindow: {
       set (val) { this.$store.commit('Desktop/setActiveWindow', val) },
@@ -49,16 +47,30 @@ export default {
     launchAction (action) {
       if (action) {
         this.activeWindow = action
+
         if (action === 'settings') {
+          this.settingsWindow = false
           this.settingsWindow = true
         } else if (action === 'customization') {
-          this.customizationWindow = true
+          this.customizationWindow = false
+          setTimeout(() => {
+            this.customizationWindow = true
+          }, 100)
         } else if (action === 'quicklinks') {
-          this.quickLinksWindow = true
+          this.quickLinksWindow = false
+          setTimeout(() => {
+            this.quickLinksWindow = true
+          }, 100)
         } else if (action === 'collection') {
-          this.collectionWindow = true
+          this.collectionWindow = false
+          setTimeout(() => {
+            this.collectionWindow = true
+          }, 100)
         } else if (action === 'blender') {
-          this.blenderWindow = true
+          this.blenderWindow = false
+          setTimeout(() => {
+            this.blenderWindow = true
+          }, 100)
         }
       }
     }

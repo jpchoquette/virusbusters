@@ -31,7 +31,7 @@ export default {
 }
 </script>
 <template lang='pug'>
-  vue-resizable(top="45%", left="50%", :width="600", :height="450", :min-height="250", :min-width="300", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "blender"}')
+  vue-resizable(top="30%", left="30%", :width="300", :height="400", :min-height="250", :min-width="300", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "blender"}')
     div.program-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "blender"}', @mousedown='activeWindow = "blender"')
       div.window-top-bar
         div.window-title Blender.exe

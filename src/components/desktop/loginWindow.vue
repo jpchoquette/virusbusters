@@ -33,11 +33,13 @@ export default {
       div(v-else, style='display: flex; flex-direction: column;')
         v-btn.login-btn(@click='login', large, color='black', dark)
           img(alt='Wax Logo', src="@/assets/images/wax-logo-white.png", width='50px')
+          div.divider
           span Wax Cloud Wallet
-        v-btn.login-btn.mt3(@click='', large, color='#3650a2', dark)
-          img(alt='Anchor Logo', src="@/assets/images/anchor-logo.svg", width='40px')
-          span Anchor Wallet (soon)
-      div.accent--text.f6.i.tc.mt4 Trial expired #[span.b 4587] days ago. Please buy the full version.
+        v-btn.login-btn.mt3(@click='anchorLogin', large, color='#3650a2', dark)
+          img(alt='Anchor Logo', src="@/assets/images/anchor-logo.svg", width='30px')
+          div.divider
+          span Anchor Wallet
+      div.accent--text.f6.i.tc.mt4 Trial expired #[span.b 10585] days ago. Please buy the full version.
       div.f7.mt1 v3.13.b (1992)
 </template>
 <style lang='sass'>
@@ -82,8 +84,9 @@ export default {
           color: var(--v-accent-base)
           transform: rotate(10deg)
       .login-btn
-        img
-          margin-right: 10px
-          padding-right: 10px
-          border-right: solid 1px white
+        .divider
+          height: 20px
+          width: 1px
+          margin: 5px 10px
+          background-color: white
 </style>

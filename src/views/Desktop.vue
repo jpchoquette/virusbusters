@@ -27,7 +27,8 @@ export default {
     return {
       showLogin: true,
       menu: false,
-      screenOn: false
+      screenOn: false,
+      mobileView: false
     }
   },
   computed: {
@@ -103,12 +104,22 @@ export default {
       if (newVal) {
         this.showLogin = false
         this.menu = false
-        this.setTimeout(() => {
+        setTimeout(() => {
           this.startClock()
-          this.checkDate()
         }, 1000)
       } else {
         this.showLogin = true
+      }
+    },
+    mobileTemplate: {
+      immediate: true,
+      handler (newVal) {
+        if (newVal) {
+          this.mobileView = true
+          this.screenOn = true
+        } else {
+          this.mobileView = false
+        }
       }
     }
   },
@@ -127,7 +138,6 @@ export default {
       // document.getElementById('userClock').innerHTML = h + ':' + m + ':' + s
       document.getElementById('userClock').innerHTML = h + ':' + m
       document.getElementById('userDate').innerHTML = date
-
       setTimeout(this.startClock, 1000)
     },
     checkTime (i) {
@@ -136,7 +146,7 @@ export default {
     },
     toggleScreen () {
       // console.log('todo', this.screenOn, this.$cookies.get('screen'), this.checkScreenState)
-      this.screenOn = !this.screenOn
+      this.screenOn = !this.sctreenOn
       this.menu = false
       // this.$cookies.set('screen', this.screenOn, 604800)
     }
@@ -146,12 +156,13 @@ export default {
 
 <template lang='pug'>
 .computer-frame
-  .post-it-yellow
-    img(src="@/assets/images/postits/postit-yellow-1.png", width='200px', max-width='200px')
-  .post-it-pink
-    img(src="@/assets/images/postits/postit-pink-1.png", width='200px', max-width='200px')
-  .frame-buttons
-    button(@click='toggleScreen()') I/O
+  template(v-if='!mobileView')
+    .post-it-yellow
+      img(src="@/assets/images/postits/postit-yellow-1.png", width='200px', max-width='200px')
+    .post-it-pink
+      img(src="@/assets/images/postits/postit-pink-1.png", width='200px', max-width='200px')
+    .frame-buttons
+      button(@click='toggleScreen()') I/O
   .crt-wrapper
     transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
 
@@ -169,11 +180,11 @@ export default {
               blender-window(v-if='blenderWindow')
             .window__wrapper(:style='{backgroundColor:selectedBusterTemplate ? selectedBusterTemplate.extra.background : "transparent"}')
               div.wallpaper-content
-                text-pattern(v-if='selectedBusterTemplate', :data='selectedBusterTemplate.data.immutable_data.name', color='#7e2753', :opacity='0.15', :angle='-20', :qtyPerLine='1')
+                text-pattern(v-if='selectedBusterTemplate', :data='selectedBusterTemplate.data.immutable_data.name', color='#7e2753', :opacity='0.15', :angle='-20', :qtyPerLine='2')
                 transition(name='custom-classes-transition', enter-active-class='animate__animated animate__zoomIn', leave-active-class='animate__animated animate__zoomOut', mode='out-in')
                   div(v-if='selectedBusterTemplate', :key='selectedBusterTemplate.data.template_id')
-                    //- v-img(:src="require('@/assets/images/buster/buster_' + selectedBusterTemplate.data.template_id + '.gif')", width='350px', :key='selectedBusterTemplate.data.template_id')
-                    v-img(:src="require('@/assets/images/buster/buster_' + $cookies.get('buster').data.template_id + '.gif')", width='350px', :key="$cookies.get('buster').data.template_id")
+                    v-img(:src="require('@/assets/images/buster/buster_' + selectedBusterTemplate.data.template_id + '.gif')", width='350px', :key='selectedBusterTemplate.data.template_id')
+                    //- v-img(:src="require('@/assets/images/buster/buster_' + $cookies.get('buster').data.template_id + '.gif')", width='350px', :key="$cookies.get('buster').data.template_id")
 
                     //- pre {{$cookies.get('buster').data.template_id}}
 
@@ -187,10 +198,11 @@ export default {
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
                   icon-desktop(image='blender-icon-v1.png', title='My NFTs', action='collection', :private ='true')
                   icon-desktop(image='blender-icon-v1.png', title='Blender.exe', action='blender')
+                  icon-desktop(image='blender-icon-v1.png', title='PopupFighter.exe', action='blender', :private='true')
 
             .bottom-bar
               //- v-btn.h-100.w-100(tile, icon) Menu
-              v-menu(v-model='menu', :close-on-content-click='true', top, offset-y, elevation='0')
+              v-menu(v-model='menu', :close-on-content-click='true', top, offset-y, elevation='0', content-class='window-menu')
                 template(v-slot:activator='{ on, attrs }')
                   v-btn(color='accent', dark='', v-bind='attrs', v-on='on', style='height: 100%; width: 100px', tile)
                     v-img(:src="require('@/assets/images/virus-busters-icon.svg')", width='30px', height='40px', contain)
@@ -229,6 +241,9 @@ export default {
 <style lang='sass'>
   @import '@/assets/styles/desktop/_windows.sass'
   @import '@/assets/styles/desktop/_crt.scss'
+  .window-menu
+    box-shadow: none !important
+    border-radius: 4px 4px 0 0 !important
   .v-main__wrap
     background-color: black
   .desktop-page
@@ -262,6 +277,7 @@ export default {
       background-color: var(--v-secondary-base)
       display: flex
       z-index: 100000
+
       .date-wrapper
         display: flex
         // width: 200px

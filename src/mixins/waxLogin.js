@@ -52,11 +52,11 @@ export default {
       immediate: true,
       handler (newVal) {
         if (newVal) {
-          console.log('Userconnected - From watcher')
+          // console.log('Userconnected - From watcher')
           this.fetchBustersNFTs()
           this.fetchOwnedBustersNFTs()
         } else {
-          console.log('on est pas connected')
+          // console.log('User not connected')
         }
       }
     }
@@ -81,6 +81,7 @@ export default {
     // normal login. Triggers a popup for non-whitelisted dapps
     async anchorLogin () {
       try {
+        console.log('Login with ANCHOR')
         // Perform the login, which returns the users identity
         const identity = await link.login('mydapp')
         // Save the session within your application for future use
@@ -98,7 +99,7 @@ export default {
           rpcEndpoint: 'https://wax.greymass.com'
         })
       }
-      console.log('on essaie de se logger')
+      console.log('Login with WCW')
       try {
         // if autologged in, this simply returns the userAccount w/no popup
         const userAccount = await this.wax.login()

@@ -33,7 +33,7 @@ export default {
 }
 </script>
 <template lang='pug'>
-  vue-resizable(top="40%", left="5%", :width="500", :height="350", :min-height="250", :min-width="300", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "collection"}')
+  vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '40%'", :left="$store.state.App.mobileTemplate ? '10%' : '5%'", :width="$store.state.App.mobileTemplate ? '80vw' : '500px'", :height="$store.state.App.mobileTemplate ? '70vh' : '350px'", :min-height="250", :min-width="300", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "collection"}')
     div.customization-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "collection"}', @mousedown='activeWindow = "collection"')
       //- LOGIN WAX
       div.window-top-bar

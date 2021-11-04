@@ -32,7 +32,8 @@ export default {
       showLogin: true,
       menu: false,
       screenOn: false,
-      mobileView: false
+      mobileView: false,
+      wpOwnership: false
     }
   },
   computed: {
@@ -89,7 +90,7 @@ export default {
       deep: true,
       handler (newVal) {
         if (newVal) {
-          console.log('newVal', newVal.width, newVal.height)
+          // console.log('newVal', newVal.width, newVal.height)
           if (newVal.width < 901 || newVal.height < 701) {
             this.mobileView = true
             this.screenOn = true
@@ -104,6 +105,7 @@ export default {
   },
   mounted () {
     this.retrieveScreenState()
+    this.checkWallpaperOwnership()
     // console.log('screen state cookie', this.$cookies.get('screen'))
   },
   methods: {
@@ -121,6 +123,20 @@ export default {
       this.menu = false
       this.$cookies.set('screen', this.screenOn, 604800)
       // console.log('toggle screen', this.screenOn, this.$cookies.get('screen'))
+    },
+    checkWallpaperOwnership () {
+      if (this.$cookies.get('buster') && this.$cookies.get('buster').owner === this.profile) {
+        this.selectedBusterTemplate = this.$cookies.get('buster')
+        this.wpOwnership = true
+        return this.selectedBusterTemplate
+      } else if (this.selectedBusterTemplate && this.selectedBusterTemplate === this.profile) {
+        this.wpOwnership = true
+        return this.selectedBusterTemplate
+      } else {
+        this.wpOwnership = false
+        this.selectedBusterTemplate = null
+        return null
+      }
     }
   }
 }
@@ -139,78 +155,74 @@ export default {
       .frame-buttons
         button(@click='toggleScreen()') I/O
     .crt-wrapper
-      transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
+      .desktop-page.screen
+        transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
+          .screen-off__overlay(v-if='!screenOn')
+        transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn', leave-active-class='animate__animated animate__fadeOut', mode='out-in')
 
-        .desktop-page.screen(v-if='screenOn')
-          transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn', leave-active-class='animate__animated animate__fadeOut', mode='out-in')
+          login-window.crt(v-if='showLogin')
+          div(v-else, style='display: flex; flex-direction: column; height: 100%;')
+            //- .top-bar
+            .temp-windows__wrapper
+              settings-window(v-if='$store.state.Desktop.settingsWindow')
+              customization-window(v-if='$store.state.Desktop.customizationWindow', @changeWP='checkWallpaperOwnership()')
+              quick-links-window(v-if='$store.state.Desktop.quickLinksWindow')
+              collection-window(v-if='$store.state.Desktop.collectionWindow')
+              blender-window(v-if='$store.state.Desktop.blenderWindow')
+              popup-fighter-window(v-if='$store.state.Desktop.popupFighterWindow')
 
-            login-window.crt(v-if='showLogin')
-            div(v-else, style='display: flex; flex-direction: column; height: 100%;')
-              //- .top-bar
-              .temp-windows__wrapper
-                settings-window(v-if='$store.state.Desktop.settingsWindow')
-                customization-window(v-if='$store.state.Desktop.customizationWindow')
-                quick-links-window(v-if='$store.state.Desktop.quickLinksWindow')
-                collection-window(v-if='$store.state.Desktop.collectionWindow')
-                blender-window(v-if='$store.state.Desktop.blenderWindow')
-                popup-fighter-window(v-if='$store.state.Desktop.popupFighterWindow')
-
-              .window__wrapper(:style='{backgroundColor:selectedBusterTemplate ? selectedBusterTemplate.extra.background : "transparent"}')
-                div.wallpaper-content
-                  text-pattern(v-if='selectedBusterTemplate', :data='selectedBusterTemplate.data.immutable_data.name', color='#7e2753', :opacity='0.15', :angle='-20', :qtyPerLine='2')
+            .window__wrapper(:style='{backgroundColor:wpOwnership ? selectedBusterTemplate.extra.background : "transparent"}')
+              div.wallpaper-content
+                template(v-if='wpOwnership')
+                  text-pattern(:data='selectedBusterTemplate.data.immutable_data.name', color='#7e2753', :opacity='0.15', :angle='-20', :qtyPerLine='2')
                   transition(name='custom-classes-transition', enter-active-class='animate__animated animate__zoomIn', leave-active-class='animate__animated animate__zoomOut', mode='out-in')
-                    div(v-if='selectedBusterTemplate', :key='selectedBusterTemplate.data.template_id')
-                      v-img(:src="require('@/assets/images/buster/buster_' + selectedBusterTemplate.data.template_id + '.gif')", width='350px', :key='selectedBusterTemplate.data.template_id')
-                      //- v-img(:src="require('@/assets/images/buster/buster_' + $cookies.get('buster').data.template_id + '.gif')", width='350px', :key="$cookies.get('buster').data.template_id")
+                    v-img(:src="require('@/assets/images/buster/buster_' + selectedBusterTemplate.data.template_id + '.gif')", width='350px', :key="selectedBusterTemplate.data.template_id")
+                img(v-else, src="@/assets/images/vb-animated-logo-light.gif", width='400px', max-width='400px', style='opacity:1;')
 
-                      //- pre {{$cookies.get('buster').data.template_id}}
+              .window-content
+                .version-number v1.0
+                template(v-if='userConnected')
+                  //- icon-desktop(image='blender-icon-v1.png', title='My settings', action='settings')
+                  icon-desktop(image='buster-icon.png', title='Wallpapers', action='customization')
+                  icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
+                  icon-desktop(image='blender-icon-v1.png', title='My NFTs', action='collection', :private ='true')
+                  icon-desktop(image='blender-icon-v1.png', title='Blender.exe', action='blender')
+                  icon-desktop(image='blender-icon-v1.png', title='PopupFighter.exe', action='fighter', :private='true')
 
-                    img(v-else, src="@/assets/images/vb-animated-logo-light.gif", width='400px', max-width='400px', style='opacity:1;')
+            .bottom-bar
+              //- v-btn.h-100.w-100(tile, icon) Menu
+              v-menu(v-model='menu', :close-on-content-click='true', top, offset-y, elevation='0', content-class='window-menu')
+                template(v-slot:activator='{ on, attrs }')
+                  v-btn(color='accent', dark='', v-bind='attrs', v-on='on', style='height: 100%; width: 100px', tile)
+                    v-img(:src="require('@/assets/images/virus-busters-icon.svg')", width='30px', height='40px', contain)
 
-                .window-content
-                  .version-number v1.0
-                  template(v-if='userConnected')
-                    //- icon-desktop(image='blender-icon-v1.png', title='My settings', action='settings')
-                    icon-desktop(image='buster-icon.png', title='Wallpapers', action='customization')
-                    icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
-                    icon-desktop(image='blender-icon-v1.png', title='My NFTs', action='collection', :private ='true')
-                    icon-desktop(image='blender-icon-v1.png', title='Blender.exe', action='blender')
-                    icon-desktop(image='blender-icon-v1.png', title='PopupFighter.exe', action='fighter', :private='true')
-
-              .bottom-bar
-                //- v-btn.h-100.w-100(tile, icon) Menu
-                v-menu(v-model='menu', :close-on-content-click='true', top, offset-y, elevation='0', content-class='window-menu')
-                  template(v-slot:activator='{ on, attrs }')
-                    v-btn(color='accent', dark='', v-bind='attrs', v-on='on', style='height: 100%; width: 100px', tile)
-                      v-img(:src="require('@/assets/images/virus-busters-icon.svg')", width='30px', height='40px', contain)
-
-                  v-card(elevation='0', tile)
-                    v-list
-                      v-list-item(v-if='userConnected')
-                        //- v-list-item-avatar
-                          img(src='https://cdn.vuetifyjs.com/images/john.jpg', alt='John')
-                        v-list-item-content
-                          v-list-item-title.b {{profile}}
-                          v-list-item-subtitle Virus Busters Employee
-                        v-list-item-action
-                          v-btn(@click='logout', icon)
-                            v-icon mdi-power
-                      v-list-item(v-else)
-                        //- v-list-item-avatar
-                          img(src='https://cdn.vuetifyjs.com/images/john.jpg', alt='John')
-                        v-list-item-content
-                          v-list-item-title.b Guest #
-                            span {{Math.floor(Math.random() * (8000 - 1000 + 1)) + 1000}}
-                          v-list-item-subtitle Visitor
-                        v-list-item-action
-                          v-btn(@click='login', icon)
-                            v-icon mdi-login
-                    v-divider
-                    v-list
-                      v-list-item(to='/')
-                        v-list-item-title Go back to home page
-                div.flex-grow-1
-                date-widget
+                v-card(elevation='0', tile)
+                  v-list
+                    v-list-item(v-if='userConnected')
+                      //- v-list-item-avatar
+                        img(src='https://cdn.vuetifyjs.com/images/john.jpg', alt='John')
+                      v-list-item-content
+                        v-list-item-title.b {{profile}}
+                        v-list-item-subtitle Virus Busters Employee
+                      v-list-item-action
+                        v-btn(@click='logout', icon)
+                          v-icon mdi-power
+                    v-list-item(v-else)
+                      //- v-list-item-avatar
+                        img(src='https://cdn.vuetifyjs.com/images/john.jpg', alt='John')
+                      v-list-item-content
+                        v-list-item-title.b Guest #
+                          span {{Math.floor(Math.random() * (8000 - 1000 + 1)) + 1000}}
+                        v-list-item-subtitle Visitor
+                      v-list-item-action
+                        v-btn(@click='login', icon)
+                          v-icon mdi-login
+                  v-divider
+                  v-list
+                    v-list-item(to='/')
+                      v-list-item-title Go back to home page
+              div.flex-grow-1
+              date-widget
 </template>
 
 <style lang='sass'>
@@ -244,6 +256,15 @@ export default {
     // display: flex
     // flex-direction: column
     background-color: var(--v-primary-base)
+    position: relative
+    .screen-off__overlay
+      z-index: 4500
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      background-color: black
     .temp-windows__wrapper
       position: absolute
       top: 0
@@ -254,7 +275,7 @@ export default {
       // background-color: #3171d8
       &::after
         content: ''
-        z-index: 999990
+        z-index: 5001
         pointer-events: none
         box-shadow: inset 11px 11px 71px -10px rgb(0 0 0 / 50%)
         position: absolute
@@ -267,7 +288,7 @@ export default {
       width: 100%
       background-color: var(--v-secondary-base)
       display: flex
-      z-index: 100000
+      z-index: 100
 
       .date-wrapper
         display: flex

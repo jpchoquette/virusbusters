@@ -10,6 +10,14 @@ export default {
     return {
       quickLinks: [
         {
+          title: 'FREE DROP! LIMITED QUANTITIES!!!',
+          url: 'https://neftyblocks.com/c/virusbusters/drops/64548?key=5JcBZfEGf2KQDw5GThyzej3hduAipfTM5NoxCKGvwyH8ihdZneJ',
+          image: 'nefty-blocks-logo-small.svg',
+          date: '2021-11-04',
+          type: 'Link',
+          classes: 'b i underline accent--text'
+        },
+        {
           title: 'Neftyblocks Collection Page',
           url: 'https://neftyblocks.com/c/virusbusters',
           image: 'nefty-blocks-logo-small.svg',
@@ -85,7 +93,7 @@ export default {
                   td()
                     div.flex
                       v-img.mr2(:src="require('@/assets/images/' + link.image)", width='20px', height='20px', contain, style='max-width: 30px')
-                      .link-content {{link.title}}
+                      .link-content(:class='link.classes ? link.classes : null') {{link.title}}
                   td.tl {{link.date}}
                   td.tl {{link.type}}
 </template>

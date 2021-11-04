@@ -44,9 +44,10 @@ export default {
       if (ownership) {
         if (id) {
           const foundBuster = this.$store.state.Buster.bustersData.findIndex((bust) => bust.id === id)
-          // console.log('found buster', foundBuster)
+          // console.log('buster template owned', foundBuster)
           if (foundBuster >= 0) {
             this.selectedBusterTemplate = {
+              owner: this.$store.state.User.userProfile,
               data: this.busterTemplates[index],
               extra: this.$store.state.Buster.bustersData[foundBuster]
             }
@@ -56,7 +57,9 @@ export default {
           }
         } else {
           this.selectedBusterTemplate = null
+          this.$cookies.remove('buster')
         }
+        this.$emit('changeWP')
       } else if (id === '338184') {
         window.open('https://neftyblocks.com/c/virusbusters/drops/59544', '_blank')
       } else {
@@ -82,6 +85,7 @@ export default {
         v-btn.white--text(@click='closeWindow', tile, color='accent', fab, depressed) X
       div.window-content
         div.avatars__wrapper
+          //- pre {{$store.state.User.userProfile}}
           //- pre {{$cookies.get('buster')}}
           //- pre {{selectedBusterTemplate}}
           div.pointer.avatar-wrapper(@click='selectBuster(0, null, true)', :class='{"selected-avatar" : !selectedBusterTemplate}')

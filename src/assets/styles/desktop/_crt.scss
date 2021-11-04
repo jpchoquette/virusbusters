@@ -29,7 +29,7 @@ $screen-background:#121010;
     height: 100%;
     box-shadow: inset -0px -0px 101px -10px rgb(0 0 0 / 100%);
     pointer-events: none;
-    z-index: 999992;
+    z-index: 5003;
   }
   &::before {
     content: '';
@@ -83,7 +83,7 @@ $screen-background:#121010;
     top: -70px;
     left: 180px;
     transform: rotate(-10deg);
-    z-index: 999991;
+    z-index: 5002;
     box-shadow: 2px 2px 0px 0px rgb(0 0 0 / 50%);
     height: 200px;
     width: 200px;
@@ -94,7 +94,7 @@ $screen-background:#121010;
     bottom: -120px;
     right: 300px;
     transform: rotate(4deg);
-    z-index: 999991;
+    z-index: 5002;
     box-shadow: 2px -2px 0px 0px rgb(0 0 0 / 50%);
     height: 200px;
     width: 200px;
@@ -183,7 +183,7 @@ $screen-background:#121010;
     right:0;
     background:transparentize($screen-background,0.9);
     opacity:0;
-    z-index:2000000;
+    z-index:6000;
     pointer-events:none;
   }
   // scanlines
@@ -196,7 +196,7 @@ $screen-background:#121010;
     bottom:0;
     right:0;
     background:linear-gradient(transparentize($screen-background,1) 50%, transparentize(darken($screen-background,10),0.75) 50%), linear-gradient(90deg,transparentize(#ff0000,0.94),transparentize(#00ff00,0.98),transparentize(#0000ff,0.94));
-    z-index:200000;
+    z-index:5000;
     background-size:100% 2px, 3px 100%;
     pointer-events:none;
   }

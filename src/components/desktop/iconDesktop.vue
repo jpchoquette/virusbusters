@@ -41,6 +41,10 @@ export default {
     blenderWindow: {
       set (val) { this.$store.commit('Desktop/setBlenderWindow', val) },
       get () { return this.$store.state.Desktop.blenderWindow }
+    },
+    popupFighterWindow: {
+      set (val) { this.$store.commit('Desktop/setPopupFighterWindow', val) },
+      get () { return this.$store.state.Desktop.popupFighterWindow }
     }
   },
   methods: {
@@ -71,6 +75,11 @@ export default {
           setTimeout(() => {
             this.blenderWindow = true
           }, 100)
+        } else if (action === 'fighter') {
+          this.popupFighterWindow = false
+          setTimeout(() => {
+            this.popupFighterWindow = true
+          }, 100)
         }
       }
     }
@@ -94,7 +103,7 @@ export default {
     display: flex
     flex-direction: column
     align-items: center
-    width: 90px
+    width: 95px
 
     &::after
       content: ''
@@ -124,7 +133,8 @@ export default {
       color: white
       font-size: 13px
       text-align: center
-      line-height: 1.5
+      line-height: 1.25
       text-shadow: 1px 1px 4px #000, 1px 1px 1px #000
+      word-break: break-word
 
 </style>

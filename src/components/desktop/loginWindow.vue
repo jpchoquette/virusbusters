@@ -60,9 +60,9 @@ export default {
       top: calc(50% - 150px)
       left: calc(50% - 250px)
       width: 500px
-      height: 300px
+      min-height: 300px
       background-color: var(--v-light-base)
-      padding: 20px
+      padding: 30px 20px
       border-radius: 4px
       display: flex
       flex-direction: column

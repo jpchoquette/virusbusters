@@ -93,7 +93,7 @@ export default {
           // console.log('newVal', newVal.width, newVal.height)
           if (newVal.width < 901 || newVal.height < 701) {
             this.mobileView = true
-            this.screenOn = true
+            this.screenOn = false
           } else {
             this.mobileView = false
           }

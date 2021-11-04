@@ -81,7 +81,24 @@ export default {
         v-btn.white--text(@click='closeWindow', tile, color='accent', fab, depressed) X
       div.window-content
         div.quicklinks__wrapper
-          table
+          v-list(color='transparent')
+            v-list-item
+              v-list-item-content
+                div.row-wrapper.headers
+                  div.first-row Name
+                  div.second-row Date added
+                  div.third-row Type
+            template(v-for='(link, index) in quickLinks')
+              v-list-item.pointer(@click='openLink(link.url)')
+                v-list-item-content
+                  div.row-wrapper
+                    div.first-row
+                      v-img.mr2(:src="require('@/assets/images/' + link.image)", width='20px', height='20px', contain, style='max-width: 30px')
+                      span.link-content(:class='link.classes ? link.classes : null') {{link.title}}
+
+                    div.second-row {{link.date}}
+                    div.third-row {{link.type}}
+          //- table
             thead
               tr
                 th.tl() Name
@@ -107,36 +124,27 @@ export default {
     .quicklinks__wrapper
       display: flex
       flex-direction: column
-      table
-        min-width: 500px
-        thead
-          tr
-            font-size: 12px
-            border-bottom: solid 1px black
-        tbody
-          font-size: 14px
-          tr
-            padding-bottom: 10px
-            height: 100%
-            height: 50px
-            max-height: 50px !important
-            position: relative
-            &::after
-              content: ''
-              position: absolute
-              top: 0
-              left: 0
-              width: 100%
-              height: 100%
-              background-color: transparent
-            &:hover
-              &::after
-                background-color: rgba(0,0,0,0.15)
-            td
-              margin-bottom: 10px
-              // display: flex
-              .table-link
-                color: black
-                text-decoration: none
+      .v-list-item
+        padding: 0
+        min-height: 36px
+        .v-list-item__content
+          padding: 8px 0
+      .row-wrapper
+        display: flex
+        align-items: center
+        font-size: 14px
+        &.headers
+          font-size: 12px
+          padding-bottom: 10px
+          border-bottom: solid 1px black
+          font-weight: bold
+        .first-row
+          min-width: 300px
+          flex-grow: 1
+          display: flex
+        .second-row
+          min-width: 100px
+        .third-row
+          min-width: 80px
 
 </style>

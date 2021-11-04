@@ -89,19 +89,21 @@ export default {
                 th.tl() Type
             tbody
               template(v-for='(link, index) in quickLinks')
-                tr.pointer(@click='openLink(link.url)')
+                tr.pointer
                   td()
-                    div.flex
-                      v-img.mr2(:src="require('@/assets/images/' + link.image)", width='20px', height='20px', contain, style='max-width: 30px')
-                      .link-content(:class='link.classes ? link.classes : null') {{link.title}}
-                  td.tl {{link.date}}
-                  td.tl {{link.type}}
+                    a.table-link(@click='openLink(link.url)')
+                      div.flex
+                        v-img.mr2(:src="require('@/assets/images/' + link.image)", width='20px', height='20px', contain, style='max-width: 30px')
+                        .link-content(:class='link.classes ? link.classes : null') {{link.title}}
+                  td.tl
+                    a.table-link(@click='openLink(link.url)') {{link.date}}
+                  td.tl
+                    a.table-link(@click='openLink(link.url)') {{link.type}}
 </template>
 <style lang='sass'>
   .customization-window.desktop-window
     // top: calc(50% - 150px)
     // left: calc(50% - 250px)
-
     .quicklinks__wrapper
       display: flex
       flex-direction: column
@@ -117,6 +119,7 @@ export default {
             padding-bottom: 10px
             height: 100%
             height: 50px
+            max-height: 50px !important
             position: relative
             &::after
               content: ''
@@ -132,5 +135,8 @@ export default {
             td
               margin-bottom: 10px
               // display: flex
+              .table-link
+                color: black
+                text-decoration: none
 
 </style>

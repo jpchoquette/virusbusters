@@ -31,7 +31,7 @@ export default {
 }
 </script>
 <template lang='pug'>
-  vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '40%'", :left="$store.state.App.mobileTemplate ? '10%' : '5%'", :width="$store.state.App.mobileTemplate ? '80vw' : '500px'", :height="$store.state.App.mobileTemplate ? '70vh' : '350px'", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "fighter"}')
+  vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '10%'", :left="$store.state.App.mobileTemplate ? '10%' : '45%'", :width="$store.state.App.mobileTemplate ? '80vw' : '500px'", :height="$store.state.App.mobileTemplate ? '70vh' : '350px'", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "fighter"}')
     div.program-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "fighter"}', @mousedown='activeWindow = "fighter"')
       div.window-top-bar
         div.window-title PopupFighter.exe

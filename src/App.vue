@@ -61,7 +61,10 @@ v-app(dark)
   .infected-section-cursor
     a, a *, button, button *
       cursor: url(/cursor-pointer-2.png),pointer !important
+  body
+    height: -webkit-fill-available
   html
     background-color: var(--v-secondary-base)
+    height: -webkit-fill-available
     // overflow-y: auto !important
 </style>

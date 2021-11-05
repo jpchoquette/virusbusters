@@ -124,6 +124,7 @@ export default {
     .quicklinks__wrapper
       display: flex
       flex-direction: column
+      min-width: 500px
       .v-list-item
         padding: 0
         min-height: 36px

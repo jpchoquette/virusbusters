@@ -184,7 +184,7 @@ export default {
                 img(v-else, src="@/assets/images/vb-animated-logo-light.gif", width='400px', max-width='400px', style='opacity:1;')
 
               .window-content
-                .version-number v1.0
+                .version-number v1.01
                 template(v-if='userConnected')
                   //- icon-desktop(image='blender-icon-v1.png', title='My settings', action='settings')
                   icon-desktop(image='buster-icon.png', title='Wallpapers', action='customization')

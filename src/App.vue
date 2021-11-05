@@ -53,14 +53,14 @@ v-app(dark)
 <style lang='sass'>
   @import './assets/styles/base/_fonts.sass'
   *
-    cursor: url(/cursor-default-2.png),default
+    cursor: url(/base-cursor.png),default
   a, a *, button, button *, .pointer, .pointer *
-    cursor: url(/cursor-pointer-2.png),pointer !important
+    cursor: url(/pointer-cursor.png),pointer !important
   .infected-section-cursor, .infected-section-cursor *
-    cursor: url(/cursor-infected-2.png),default !important
+    cursor: url(/base-cursor-infected.png),default !important
   .infected-section-cursor
     a, a *, button, button *
-      cursor: url(/cursor-pointer-2.png),pointer !important
+      cursor: url(/pointer-cursor.png),pointer !important
   body
     height: -webkit-fill-available
   html

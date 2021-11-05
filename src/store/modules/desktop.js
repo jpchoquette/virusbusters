@@ -8,7 +8,8 @@ const state = {
   quickLinksWindow: false,
   collectionWindow: false,
   blenderWindow: false,
-  popupFighterWindow: false
+  popupFighterWindow: false,
+  screenState: false
 }
 
 const getters = {}
@@ -55,6 +56,9 @@ const mutations = {
   },
   setPopupFighterWindow (state, payload) {
     state.popupFighterWindow = payload
+  },
+  setScreenState (state, payload) {
+    state.screenState = payload
   }
 }
 

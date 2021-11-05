@@ -56,6 +56,10 @@ export default {
     selectedBusterTemplate: {
       set (val) { this.$store.commit('Buster/setSelectedBusterTemplate', val) },
       get () { return this.$store.state.Buster.selectedBusterTemplate }
+    },
+    screenState: {
+      set (val) { this.$store.commit('Desktop/setScreenState', val) },
+      get () { return this.$store.state.Desktop.screenState }
     }
     // checkScreenState () {
     //   if (this.$cookies.get('screen')) {
@@ -93,7 +97,7 @@ export default {
           // console.log('newVal', newVal.width, newVal.height)
           if (newVal.width < 901 || newVal.height < 701) {
             this.mobileView = true
-            this.screenOn = false
+            this.screenState = false
           } else {
             this.mobileView = false
           }
@@ -112,16 +116,16 @@ export default {
     retrieveScreenState () {
       const screen = this.$cookies.get('screen')
       if (screen === 'true' || screen === true) {
-        this.screenOn = true
+        this.screenState = true
       } else {
-        this.screenOn = false
+        this.screenState = false
       }
       // console.log('screen check', this.screenOn, this.$cookies.get('screen'))
     },
     toggleScreen () {
-      this.screenOn = !this.screenOn
+      this.screenState = !this.screenState
       this.menu = false
-      this.$cookies.set('screen', this.screenOn, 604800)
+      this.$cookies.set('screen', this.screenState, 604800)
       // console.log('toggle screen', this.screenOn, this.$cookies.get('screen'))
     },
     checkWallpaperOwnership () {
@@ -157,7 +161,7 @@ export default {
     .crt-wrapper
       .desktop-page.screen
         transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
-          .screen-off__overlay(v-if='!screenOn')
+          .screen-off__overlay(v-if='!screenState && !mobileView')
         transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn', leave-active-class='animate__animated animate__fadeOut', mode='out-in')
 
           login-window.crt(v-if='showLogin')

@@ -4,6 +4,8 @@ import User from './modules/user'
 import App from './modules/app'
 import Buster from './modules/buster'
 import Desktop from './modules/desktop'
+import Customizations from './modules/customizations'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -11,6 +13,7 @@ export default new Vuex.Store({
     User,
     App,
     Buster,
-    Desktop
+    Desktop,
+    Customizations
   }
 })

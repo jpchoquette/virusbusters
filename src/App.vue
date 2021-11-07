@@ -46,10 +46,6 @@ v-app(dark)
   v-main
     router-view
 </template>
-<style>
-  @import './assets/styles/vendors/locomotiveScroll.css'
-  /* @import './assets/styles/main.scss'; */
-</style>
 <style lang='sass'>
   @import './assets/styles/base/_fonts.sass'
   *
@@ -67,4 +63,8 @@ v-app(dark)
     background-color: var(--v-secondary-base)
     height: -webkit-fill-available
     // overflow-y: auto !important
+</style>
+<style>
+  @import './assets/styles/vendors/locomotiveScroll.css'
+  /* @import './assets/styles/main.scss'; */
 </style>

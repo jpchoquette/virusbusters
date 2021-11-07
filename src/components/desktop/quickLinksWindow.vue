@@ -10,12 +10,13 @@ export default {
     return {
       quickLinks: [
         {
-          title: 'FREE DROP! LIMITED QUANTITIES!!!',
-          url: 'https://neftyblocks.com/c/virusbusters/drops/64548?key=5JcBZfEGf2KQDw5GThyzej3hduAipfTM5NoxCKGvwyH8ihdZneJ',
+          title: 'FREE STUFF FREE STUFF! COME GET YOUR FREEEEE STUFF!',
+          url: 'https://neftyblocks.com/c/virusbusters/drops/65753?key=5JuBbapA527uF2jG3XCEeKcPpWhfQ1croorNKDSyDSVPw8q6TuS',
           image: 'nefty-blocks-logo-small.svg',
-          date: '2021-11-04',
+          date: '2021-11-06',
           type: 'Link',
-          classes: 'b i underline accent--text'
+          classes: 'b i underline accent--text',
+          showDate: 1636307940
         },
         {
           title: 'Neftyblocks Collection Page',
@@ -89,38 +90,17 @@ export default {
                   div.second-row Date added
                   div.third-row Type
             template(v-for='(link, index) in quickLinks')
-              v-list-item.pointer(@click='openLink(link.url)')
+              v-list-item.pointer(@click='openLink(link.url)', v-if='!link.showDate || (Math.round(+new Date()/1000) >= link.showDate)')
                 v-list-item-content
                   div.row-wrapper
                     div.first-row
                       v-img.mr2(:src="require('@/assets/images/' + link.image)", width='20px', height='20px', contain, style='max-width: 30px')
                       span.link-content(:class='link.classes ? link.classes : null') {{link.title}}
-
                     div.second-row {{link.date}}
                     div.third-row {{link.type}}
-          //- table
-            thead
-              tr
-                th.tl() Name
-                th.tl() Date added
-                th.tl() Type
-            tbody
-              template(v-for='(link, index) in quickLinks')
-                tr.pointer
-                  td()
-                    a.table-link(@click='openLink(link.url)')
-                      div.flex
-                        v-img.mr2(:src="require('@/assets/images/' + link.image)", width='20px', height='20px', contain, style='max-width: 30px')
-                        .link-content(:class='link.classes ? link.classes : null') {{link.title}}
-                  td.tl
-                    a.table-link(@click='openLink(link.url)') {{link.date}}
-                  td.tl
-                    a.table-link(@click='openLink(link.url)') {{link.type}}
 </template>
 <style lang='sass'>
   .customization-window.desktop-window
-    // top: calc(50% - 150px)
-    // left: calc(50% - 250px)
     .quicklinks__wrapper
       display: flex
       flex-direction: column

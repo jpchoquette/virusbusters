@@ -11,6 +11,7 @@ import BlenderWindow from '../components/desktop/blenderWindow'
 import PopupFighterWindow from '../components/desktop/popupFighterWindow'
 
 import WaxLogin from '@/mixins/waxLogin.js'
+import UpdatePreferences from '@/mixins/updatePreferences.js'
 
 export default {
   name: 'Desktop',
@@ -26,7 +27,7 @@ export default {
     BlenderWindow,
     PopupFighterWindow
   },
-  mixins: [WaxLogin],
+  mixins: [WaxLogin, UpdatePreferences],
   data () {
     return {
       showLogin: true,
@@ -85,6 +86,11 @@ export default {
       if (newVal) {
         this.showLogin = false
         this.menu = false
+        // this.checkWallpaperOwnership()
+        // setTimeout(() => {
+        //   this.checkWallpaperOwnership()
+        // }, 2000)
+        this.validatePreferences()
       } else {
         this.showLogin = true
       }
@@ -109,8 +115,7 @@ export default {
   },
   mounted () {
     this.retrieveScreenState()
-    this.checkWallpaperOwnership()
-    // console.log('screen state cookie', this.$cookies.get('screen'))
+    // this.checkWallpaperOwnership()
   },
   methods: {
     retrieveScreenState () {
@@ -120,27 +125,11 @@ export default {
       } else {
         this.screenState = false
       }
-      // console.log('screen check', this.screenOn, this.$cookies.get('screen'))
     },
     toggleScreen () {
       this.screenState = !this.screenState
       this.menu = false
       this.$cookies.set('screen', this.screenState, 604800)
-      // console.log('toggle screen', this.screenOn, this.$cookies.get('screen'))
-    },
-    checkWallpaperOwnership () {
-      if (this.$cookies.get('buster') && this.$cookies.get('buster').owner === this.profile) {
-        this.selectedBusterTemplate = this.$cookies.get('buster')
-        this.wpOwnership = true
-        return this.selectedBusterTemplate
-      } else if (this.selectedBusterTemplate && this.selectedBusterTemplate === this.profile) {
-        this.wpOwnership = true
-        return this.selectedBusterTemplate
-      } else {
-        this.wpOwnership = false
-        this.selectedBusterTemplate = null
-        return null
-      }
     }
   }
 }
@@ -169,25 +158,27 @@ export default {
             //- .top-bar
             .temp-windows__wrapper
               settings-window(v-if='$store.state.Desktop.settingsWindow')
-              customization-window(v-if='$store.state.Desktop.customizationWindow', @changeWP='checkWallpaperOwnership()')
+              customization-window(v-if='$store.state.Desktop.customizationWindow', @resetPrefs='resetUserPreferences()')
               quick-links-window(v-if='$store.state.Desktop.quickLinksWindow')
               collection-window(v-if='$store.state.Desktop.collectionWindow')
               blender-window(v-if='$store.state.Desktop.blenderWindow')
               popup-fighter-window(v-if='$store.state.Desktop.popupFighterWindow')
 
-            .window__wrapper(:style='{backgroundColor:wpOwnership ? selectedBusterTemplate.extra.background : "transparent"}')
+            .window__wrapper(:style='{backgroundColor: ($store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.extra) ? $store.state.Customizations.activeWallpaper.extra.background : "transparent"}')
               div.wallpaper-content
-                template(v-if='wpOwnership')
-                  text-pattern(:data='selectedBusterTemplate.data.immutable_data.name', color='#7e2753', :opacity='0.15', :angle='-20', :qtyPerLine='2')
+                //- pre {{$store.state.Customizations.activeWallpaper}} wallpapers
+                template(v-if='$store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data')
+                  text-pattern(:data='$store.state.Customizations.activeWallpaper.data.immutable_data.name', color='#7e2753', :opacity='0.15', :angle='-20', :qtyPerLine='2')
                   transition(name='custom-classes-transition', enter-active-class='animate__animated animate__zoomIn', leave-active-class='animate__animated animate__zoomOut', mode='out-in')
-                    v-img(:src="require('@/assets/images/buster/buster_' + selectedBusterTemplate.data.template_id + '.gif')", width='350px', :key="selectedBusterTemplate.data.template_id")
+                    v-img(:src="require('@/assets/images/buster/buster_' + $store.state.Customizations.activeWallpaper.data.template_id + '.gif')", width='350px', :key="$store.state.Customizations.activeWallpaper.data.template_id")
                 img(v-else, src="@/assets/images/vb-animated-logo-light.gif", width='400px', max-width='400px', style='opacity:1;')
 
               .window-content
-                .version-number v1.01
+                //- pre {{JSON.parse($cookies.get('users'))}}
+                .version-number v1.02
                 template(v-if='userConnected')
                   //- icon-desktop(image='blender-icon-v1.png', title='My settings', action='settings')
-                  icon-desktop(image='buster-icon.png', title='Wallpapers', action='customization')
+                  icon-desktop(image='buster-icon.png', title='Desktop customizer', action='customization')
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
                   icon-desktop(image='blender-icon-v1.png', title='My NFTs', action='collection', :private ='true')
                   icon-desktop(image='blender-icon-v1.png', title='Blender.exe', action='blender')
@@ -226,7 +217,7 @@ export default {
                     v-list-item(to='/')
                       v-list-item-title Go back to home page
               div.flex-grow-1
-              date-widget
+              date-widget(v-if='userConnected')
 </template>
 
 <style lang='sass'>

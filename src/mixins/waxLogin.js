@@ -103,21 +103,44 @@ export default {
       try {
         // if autologged in, this simply returns the userAccount w/no popup
         const userAccount = await this.wax.login()
-        // const pubKeys = this.wax.pubKeys
-        // this.profile = userAccount
-        // this.userConnected = true
         this.loggedIn(userAccount)
-        // const str = 'Account: ' + userAccount + '<br/>Active: ' + pubKeys[0] + '<br/>Owner: ' + pubKeys[1]
-        // document.getElementById('loginresponse').insertAdjacentHTML('beforeend', str)
       } catch (e) {
         this.profile = null
         this.userConnected = true
-        // document.getElementById('loginresponse').append(e.message)
       }
     },
-    loggedIn (userAccount) {
-      this.profile = userAccount
+    loggedIn (userId) {
+      this.profile = userId
       this.userConnected = true
+      if (localStorage.getItem('users') !== null) {
+        const rawData = localStorage.getItem('users')
+        const userBase = JSON.parse(rawData)
+        const found = userBase.findIndex(user => user.profile === this.profile)
+        if (found === -1) {
+          const newUser = {
+            profile: this.profile,
+            preferences: {
+              cursor: null,
+              wallpaper: null,
+              theme: null
+            }
+          }
+          userBase.push(newUser)
+          localStorage.setItem('users', JSON.stringify(userBase))
+        }
+      } else {
+        const newUsers = [
+          {
+            profile: this.profile,
+            preferences: {
+              cursor: null,
+              wallpaper: null,
+              theme: null
+            }
+          }
+        ]
+        localStorage.setItem('users', JSON.stringify(newUsers))
+      }
     },
     async sign () {
       if (!this.wax.api) {

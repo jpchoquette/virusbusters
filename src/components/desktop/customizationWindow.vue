@@ -1,13 +1,26 @@
 <script>
 // import WaxLogin from '@/mixins/waxLogin.js'
 import VueResizable from 'vue-resizable'
+import Wallpapers from '@/components/desktop/customization/wallpapers.vue'
+import Cursors from '@/components/desktop/customization/cursors.vue'
+// import Themes from '@/components/desktop/customization/themes.vue'
+
 export default {
   name: 'CustomizationWindow',
   components: {
-    VueResizable
+    VueResizable,
+    Wallpapers,
+    Cursors
+    // Themes
   },
   data () {
     return {
+      pageView: null,
+      settings: [
+        { name: 'Wallpapers', value: 'wallpapers', icon: '🖼️' },
+        { name: 'Cursors', value: 'cursors', disabled: true, icon: '🖱️' },
+        { name: 'Themes', value: 'themes', disabled: true, icon: '🎨' }
+      ]
     }
   },
   // mixins: [WaxLogin],
@@ -21,56 +34,14 @@ export default {
     customizationWindow: {
       set (val) { this.$store.commit('Desktop/setCustomizationWindow', val) },
       get () { return this.$store.state.Desktop.customizationWindow }
-    },
-    busterTemplates: {
-      set (val) { this.$store.commit('Buster/setBusterTemplates', val) },
-      get () { return this.$store.state.Buster.busterTemplates }
-    },
-    ownedBusterTemplates: {
-      set (val) { this.$store.commit('Buster/setOwnedBusterTemplates', val) },
-      get () { return this.$store.state.Buster.ownedBusterTemplates }
-    },
-    selectedBusterTemplate: {
-      set (val) { this.$store.commit('Buster/setSelectedBusterTemplate', val) },
-      get () { return this.$store.state.Buster.selectedBusterTemplate }
     }
   },
   methods: {
     closeWindow () {
       this.customizationWindow = false
     },
-    selectBuster (index, id, ownership) {
-      // console.log('index, id', index, id, ownership)
-      if (ownership) {
-        if (id) {
-          const foundBuster = this.$store.state.Buster.bustersData.findIndex((bust) => bust.id === id)
-          // console.log('buster template owned', foundBuster)
-          if (foundBuster >= 0) {
-            this.selectedBusterTemplate = {
-              owner: this.$store.state.User.userProfile,
-              data: this.busterTemplates[index],
-              extra: this.$store.state.Buster.bustersData[foundBuster]
-            }
-            this.$cookies.set('buster', this.selectedBusterTemplate, 604800)
-          } else {
-            this.selectedBusterTemplate = null
-          }
-        } else {
-          this.selectedBusterTemplate = null
-          this.$cookies.remove('buster')
-        }
-        this.$emit('changeWP')
-      } else if (id === '338184') {
-        window.open('https://neftyblocks.com/c/virusbusters/drops/59544', '_blank')
-      } else {
-        window.open('https://wax.atomichub.io/market?collection_name=virusbusters&schema_name=buster.heads&template_id=' + id, '_blank')
-      }
-    },
-    checkOwnership (id) {
-      const ownedBuster = this.$store.state.Buster.ownedBusterTemplates.findIndex((bust) => bust.template.template_id === id)
-      // console.log('test', this.$store.state.Buster.ownedBusterTemplates, id)
-      // console.log('owned', ownedBuster)
-      return ownedBuster >= 0
+    resetPrefs () {
+      this.$emit('resetPrefs')
     }
   }
 }
@@ -80,11 +51,29 @@ export default {
     div.customization-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "customization"}', @mousedown='activeWindow = "customization"')
       //- LOGIN WAX
       div.window-top-bar
-        div.window-title Wallpaper customization
+        div.window-title Desktop Customizer
         div.flex-grow-1
         v-btn.white--text(@click='closeWindow', tile, color='accent', fab, depressed) X
       div.window-content
-        div.avatars__wrapper
+        transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
+
+          div(v-if='!pageView')
+            v-list(color='transparent')
+              template(v-for='(setting, index) in settings')
+                v-list-item.pointer(@click='pageView = setting.value', :disabled='setting.disabled')
+                  v-list-item-avatar {{setting.icon}}
+                  v-list-item-content
+                    v-list-item-title {{setting.name}} {{setting.disabled ? "(Coming soon!)" : ""}}
+                v-divider
+            //- v-btn(@click='pageView = "wallpapers"') Wallpapers
+            //- v-btn(@click='pageView = "cursors"') Cursors
+          wallpapers(v-else-if='pageView === "wallpapers"', @goBack='pageView = null')
+          //- @changeWP='$emit("changeWP")'
+          //- cursors(v-else-if='pageView === "cursors"', @goBack='pageView = null')
+          //- themes(@changeWP='$emit("changeWP")')
+        div.tc.ma3
+          v-btn(@click='resetPrefs()' color='accent', text, outlined) Reset my preferences
+        //- div.avatars__wrapper
           //- pre {{$store.state.User.userProfile}}
           //- pre {{$cookies.get('buster')}}
           //- pre {{selectedBusterTemplate}}
@@ -113,7 +102,11 @@ export default {
   .customization-window.desktop-window
     // top: calc(50% - 150px)
     // left: calc(50% - 250px)
-
+    .v-list-item
+      padding: 0
+      min-height: 36px
+      .v-list-item__content
+        padding: 8px 0
     .avatars__wrapper
       display: flex
       flex-wrap: wrap

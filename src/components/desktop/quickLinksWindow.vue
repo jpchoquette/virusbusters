@@ -10,13 +10,13 @@ export default {
     return {
       quickLinks: [
         {
-          title: 'FREE STUFF FREE STUFF! COME GET YOUR FREEEEE STUFF!',
-          url: 'https://neftyblocks.com/c/virusbusters/drops/65753?key=5JuBbapA527uF2jG3XCEeKcPpWhfQ1croorNKDSyDSVPw8q6TuS',
+          title: 'Pop-up #1 - Limited free drop!',
+          url: 'https://neftyblocks.com/c/virusbusters/drops/67352?key=5Kj2PW9qCPxS2s2nQTvnhsYQQnb8rfRsdAfuntaVNprMnz23W9w',
           image: 'nefty-blocks-logo-small.svg',
           date: '2021-11-06',
           type: 'Link',
           classes: 'b i underline accent--text',
-          showDate: 1636307940
+          showDate: 1636567140
         },
         {
           title: 'Neftyblocks Collection Page',

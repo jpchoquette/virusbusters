@@ -15,47 +15,74 @@ export default {
     busterTemplates: {
       set (val) { this.$store.commit('Buster/setBusterTemplates', val) },
       get () { return this.$store.state.Buster.busterTemplates }
-    },
-    ownedBusterTemplates: {
-      set (val) { this.$store.commit('Buster/setOwnedBusterTemplates', val) },
-      get () { return this.$store.state.Buster.ownedBusterTemplates }
-    },
-    selectedBusterTemplate: {
-      set (val) { this.$store.commit('Buster/setSelectedBusterTemplate', val) },
-      get () { return this.$store.state.Buster.selectedBusterTemplate }
     }
+    // ownedBusterTemplates: {
+    //   set (val) { this.$store.commit('Buster/setOwnedBusterTemplates', val) },
+    //   get () { return this.$store.state.Buster.ownedBusterTemplates }
+    // },
+    // selectedBusterTemplate: {
+    //   set (val) { this.$store.commit('Buster/setSelectedBusterTemplate', val) },
+    //   get () { return this.$store.state.Buster.selectedBusterTemplate }
+    // }
   },
   methods: {
-    selectBuster (index, id, ownership) {
-      // console.log('index, id', index, id, ownership)
+    selectCursor (index, id, ownership) {
       if (ownership) {
-        if (id) {
-          const foundBuster = this.$store.state.Buster.bustersData.findIndex((bust) => bust.id === id)
-          console.log('buster template owned, index:', foundBuster)
-          if (foundBuster >= 0) {
-            this.selectedBusterTemplate = {
-              owner: this.$store.state.User.userProfile,
-              data: this.busterTemplates[index],
-              extra: this.$store.state.Buster.bustersData[foundBuster]
-            }
-            this.updatePreferences('wallpaper', this.selectedBusterTemplate)
-            // this.$cookies.set('buster', this.selectedBusterTemplate, 604800)
-          } else {
-            this.updatePreferences('wallpaper', null)
-            // this.selectedBusterTemplate = null
-          }
-        } else {
-          // this.selectedBusterTemplate = null
-          // this.$cookies.remove('buster')
-          this.updatePreferences('wallpaper', null)
-        }
-        // this.$emit('changeWP')
-      } else if (id === '338184') {
-        window.open('https://neftyblocks.com/c/virusbusters/drops/59544', '_blank')
+      //     if (id) {
+      //       const foundBuster = this.$store.state.Buster.bustersData.findIndex((bust) => bust.id === id)
+      //       console.log('buster template owned, index:', foundBuster)
+      //       if (foundBuster >= 0) {
+      //         this.selectedBusterTemplate = {
+      //           owner: this.$store.state.User.userProfile,
+      //           data: this.busterTemplates[index],
+      //           extra: this.$store.state.Buster.bustersData[foundBuster]
+      //         }
+      //         this.updatePreferences('wallpaper', this.selectedBusterTemplate)
+      //         // this.$cookies.set('buster', this.selectedBusterTemplate, 604800)
+      //       } else {
+      //         this.updatePreferences('wallpaper', null)
+      //         // this.selectedBusterTemplate = null
+      //       }
+      //     } else {
+      //       // this.selectedBusterTemplate = null
+      //       // this.$cookies.remove('buster')
+      //       this.updatePreferences('wallpaper', null)
+      //     }
+      //     // this.$emit('changeWP')
       } else {
         window.open('https://wax.atomichub.io/market?collection_name=virusbusters&schema_name=buster.heads&template_id=' + id, '_blank')
       }
     },
+    // selectBuster (index, id, ownership) {
+    //   // console.log('index, id', index, id, ownership)
+    //   if (ownership) {
+    //     if (id) {
+    //       const foundBuster = this.$store.state.Buster.bustersData.findIndex((bust) => bust.id === id)
+    //       console.log('buster template owned, index:', foundBuster)
+    //       if (foundBuster >= 0) {
+    //         this.selectedBusterTemplate = {
+    //           owner: this.$store.state.User.userProfile,
+    //           data: this.busterTemplates[index],
+    //           extra: this.$store.state.Buster.bustersData[foundBuster]
+    //         }
+    //         this.updatePreferences('wallpaper', this.selectedBusterTemplate)
+    //         // this.$cookies.set('buster', this.selectedBusterTemplate, 604800)
+    //       } else {
+    //         this.updatePreferences('wallpaper', null)
+    //         // this.selectedBusterTemplate = null
+    //       }
+    //     } else {
+    //       // this.selectedBusterTemplate = null
+    //       // this.$cookies.remove('buster')
+    //       this.updatePreferences('wallpaper', null)
+    //     }
+    //     // this.$emit('changeWP')
+    //   } else if (id === '338184') {
+    //     window.open('https://neftyblocks.com/c/virusbusters/drops/59544', '_blank')
+    //   } else {
+    //     window.open('https://wax.atomichub.io/market?collection_name=virusbusters&schema_name=buster.heads&template_id=' + id, '_blank')
+    //   }
+    // },
     checkOwnership (id) {
       const ownedBuster = this.$store.state.Buster.ownedBusterTemplates.findIndex((bust) => bust.template.template_id === id)
       return ownedBuster >= 0
@@ -70,17 +97,24 @@ export default {
 
     div.avatars__wrapper
       //- pre {{$store.state.Customizations.activeWallpaper}}
-      div.pointer.avatar-wrapper(@click='selectBuster(0, null, true)', :class='{"selected-avatar" : !$store.state.Customizations.activeWallpaper}')
+      div.pointer.avatar-wrapper(@click='selectCursor(0, null, true)', :class='{"selected-avatar" : !$store.state.Customizations.activeWallpaper}')
         div.pointer.avatar-wrapper
           div.avatar-preview.primary
             //- v-img(:src="require('/base-cursor.png')", width='200px')
           div.avatar-title Default Cursor
-      div(v-for='(buster, index) in busterTemplates')
-        div.pointer.avatar-wrapper(@click='selectBuster(index, buster.template_id, checkOwnership(buster.template_id))', :class='{"missing-template" : !checkOwnership(buster.template_id) ,"selected-avatar" : ($store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data && ($store.state.Customizations.activeWallpaper.data.template_id === buster.template_id))}')
+      div(v-for='(cursor, index) in $store.state.Customizations.cursorStyles')
+        pre {{cursor}}
+        div.pointer.avatar-wrapper(@click='selectCursor(index, cursor.id, null)', :class='{"missing-template" : false ,"selected-avatar" : ($store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && ($store.state.Customizations.activeCursor.data.template_id === buster.template_id))}')
           div.avatar-preview
             v-btn.purchase-button(v-if='!checkOwnership(buster.template_id)', x-small, tile, color='accent') Buy
             v-img(:src="require('@/assets/images/buster/buster_' + buster.template_id + '.gif')", width='200px')
           div.avatar-title {{buster.immutable_data.name}}
+      //- div(v-for='(buster, index) in busterTemplates')
+      //-   div.pointer.avatar-wrapper(@click='selectCursor(index, buster.template_id, checkOwnership(buster.template_id))', :class='{"missing-template" : !checkOwnership(buster.template_id) ,"selected-avatar" : ($store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data && ($store.state.Customizations.activeWallpaper.data.template_id === buster.template_id))}')
+      //-     div.avatar-preview
+      //-       v-btn.purchase-button(v-if='!checkOwnership(buster.template_id)', x-small, tile, color='accent') Buy
+      //-       v-img(:src="require('@/assets/images/buster/buster_' + buster.template_id + '.gif')", width='200px')
+      //-     div.avatar-title {{buster.immutable_data.name}}
       div(v-for='(n, index) in 10')
         div.pointer.avatar-wrapper()
           div.avatar-preview

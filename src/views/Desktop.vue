@@ -13,6 +13,10 @@ import PopupFighterWindow from '../components/desktop/popupFighterWindow'
 import WaxLogin from '@/mixins/waxLogin.js'
 import UpdatePreferences from '@/mixins/updatePreferences.js'
 
+import AnimatedCursors from '@/mixins/animatedCursors.js'
+// import GhostCursor from '@/mixins/ghostCursor.js'
+// import DustCursor from '@/mixins/dustCursor.js'
+
 export default {
   name: 'Desktop',
   components: {
@@ -27,7 +31,7 @@ export default {
     BlenderWindow,
     PopupFighterWindow
   },
-  mixins: [WaxLogin, UpdatePreferences],
+  mixins: [WaxLogin, UpdatePreferences, AnimatedCursors],
   data () {
     return {
       showLogin: true,
@@ -130,6 +134,31 @@ export default {
       this.screenState = !this.screenState
       this.menu = false
       this.$cookies.set('screen', this.screenState, 604800)
+    },
+    changeCursor (options, type) {
+      console.log('on va changer le cursor', options, type)
+      const targetElement = document.querySelector('#screenContent')
+      let cursorOptions = options
+      // if (this.currentType) {
+      //   this.clearCursor()
+      // }
+      this.currentType = type
+      if (!options) {
+        if (type === 'ghost') {
+          // this.ghostCursor({ element: targetElement }, 'ghost')
+        } else if (type === 'dust') {
+          cursorOptions = {
+            element: targetElement,
+            colors: ['#ff145b', '#e8af20', '#ffe902'],
+            chars: ['S', 'a', 'l', 'u', 't', '!', '!', '!'],
+            randomColors: false,
+            randomChars: false,
+            distance: 200
+          }
+        }
+      }
+      console.log('options')
+      this.setCursor(cursorOptions, type)
     }
   }
 }
@@ -148,7 +177,7 @@ export default {
       .frame-buttons
         button(@click='toggleScreen()') I/O
     .crt-wrapper
-      .desktop-page.screen
+      .desktop-page.screen(id='screenContent')
         transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
           .screen-off__overlay(v-if='!screenState && !mobileView')
         transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn', leave-active-class='animate__animated animate__fadeOut', mode='out-in')
@@ -158,7 +187,7 @@ export default {
             //- .top-bar
             .temp-windows__wrapper
               settings-window(v-if='$store.state.Desktop.settingsWindow')
-              customization-window(v-if='$store.state.Desktop.customizationWindow', @resetPrefs='resetUserPreferences()')
+              customization-window(v-if='$store.state.Desktop.customizationWindow', @resetPrefs='resetUserPreferences()', @updateCursor='changeCursor', @clearCursor='clearCursor')
               quick-links-window(v-if='$store.state.Desktop.quickLinksWindow')
               collection-window(v-if='$store.state.Desktop.collectionWindow')
               blender-window(v-if='$store.state.Desktop.blenderWindow')
@@ -175,7 +204,7 @@ export default {
 
               .window-content
                 //- pre {{JSON.parse($cookies.get('users'))}}
-                .version-number v1.02
+                .version-number v1.03
                 template(v-if='userConnected')
                   //- icon-desktop(image='blender-icon-v1.png', title='My settings', action='settings')
                   icon-desktop(image='buster-icon.png', title='Desktop customizer', action='customization')

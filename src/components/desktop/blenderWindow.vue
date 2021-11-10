@@ -31,15 +31,16 @@ export default {
 }
 </script>
 <template lang='pug'>
-  vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '30%'", :left="$store.state.App.mobileTemplate ? '10%' : '30%'", :width="$store.state.App.mobileTemplate ? '80vw' : '300px'", :height="$store.state.App.mobileTemplate ? '70vh' : '400px'", :min-height="250", :min-width="250", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "blender"}')
+  vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '30%'", :left="$store.state.App.mobileTemplate ? '10%' : '30%'", :width="$store.state.App.mobileTemplate ? '80vw' : '600px'", :height="$store.state.App.mobileTemplate ? '70vh' : '500px'", :min-height="250", :min-width="250", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "blender"}')
     div.program-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "blender"}', @mousedown='activeWindow = "blender"')
       div.window-top-bar
         div.window-title Blender.exe
         div.flex-grow-1
         v-btn.white--text(@click='closeWindow', tile, color='accent', fab, depressed) X
       div.window-content
-        div.collection__wrapper.h-100.w-100
-          .empty-content__wrapper
+        div.collection__wrapper.h-100.w-100.white
+          iframe.w-100.h-100(src='https://neftyblocks.com/c/virusbusters/blends', title='Neftyblocks Virus Busters Page')
+          //- .empty-content__wrapper
             .title-placeholder.white--text WARNING!
             .description-placeholder This program is currently under maintenance. Please come back later.
 </template>

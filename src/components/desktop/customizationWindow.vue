@@ -20,7 +20,8 @@ export default {
         { name: 'Wallpapers', value: 'wallpapers', icon: '🖼️' },
         { name: 'Cursors', value: 'cursors', disabled: true, icon: '🖱️' },
         { name: 'Themes', value: 'themes', disabled: true, icon: '🎨' }
-      ]
+      ],
+      cursorToggleTest: false
     }
   },
   // mixins: [WaxLogin],
@@ -42,6 +43,13 @@ export default {
     },
     resetPrefs () {
       this.$emit('resetPrefs')
+    },
+    updateCursor (type) {
+      // this.cursorToggleTest = !this.cursorToggleTest
+      this.$emit('updateCursor', null, type)
+    },
+    clearCursor () {
+      this.$emit('clearCursor')
     }
   }
 }
@@ -71,7 +79,12 @@ export default {
           //- @changeWP='$emit("changeWP")'
           //- cursors(v-else-if='pageView === "cursors"', @goBack='pageView = null')
           //- themes(@changeWP='$emit("changeWP")')
-        div.tc.ma3
+
+        //- div.tc.ma3
+          v-btn(@click='updateCursor("ghost")') Test cursor ghost
+          v-btn(@click='updateCursor("dust")') Test cursor sprinkles
+          v-btn(@click='clearCursor()') Clear cursor
+
           v-btn(@click='resetPrefs()' color='accent', text, outlined) Reset my preferences
         //- div.avatars__wrapper
           //- pre {{$store.state.User.userProfile}}

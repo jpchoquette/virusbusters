@@ -1,7 +1,43 @@
 // import VueCookies from 'vue-cookies'
 const state = {
   userCustomizations: [],
-  activeWallpaper: {}
+  activeWallpaper: {},
+  cursorStyles: [
+    // Cursor 1
+    {
+      template_id: '12344',
+      name: 'Test Cursor 1',
+      rarity: '',
+      type: 'ghost',
+      options: {
+        colors: ['#ff145b', '#e8af20', '#ffe902'],
+        chars: ['S', 'a', 'l', 'u', 't', '!', '!', '!'],
+        randomColors: false,
+        randomChars: false,
+        distance: 200
+      }
+    },
+    {
+      template_id: '12345',
+      name: 'Test Cursor 2',
+      rarity: '',
+      type: 'dust',
+      options: {
+        colors: ['#fcccac'],
+        chars: ['!', '@', '#', '$', '%', '?', '&', '&'],
+        randomColors: false,
+        randomChars: false,
+        distance: 200,
+        velocity: 2
+      }
+    },
+    {
+      template_id: '12346',
+      name: 'Test Cursor 3',
+      rarity: '',
+      type: 'base'
+    }
+  ]
 }
 
 const getters = {}

@@ -12,10 +12,14 @@ export default {
   mounted () {
   },
   computed: {
-    busterTemplates: {
-      set (val) { this.$store.commit('Buster/setBusterTemplates', val) },
-      get () { return this.$store.state.Buster.busterTemplates }
+    cursorStyles: {
+      set (val) { this.$store.commit('Customizations/setCursorStyles', val) },
+      get () { return this.$store.state.Customizations.cursorStyles }
     }
+    // activeCursor: {
+    //   set (val) { this.$store.commit('Buster/setSelectedCursor', val) },
+    //   get () { return this.$store.state.Customizations.selectedCursor }
+    // }
     // ownedBusterTemplates: {
     //   set (val) { this.$store.commit('Buster/setOwnedBusterTemplates', val) },
     //   get () { return this.$store.state.Buster.ownedBusterTemplates }
@@ -28,27 +32,27 @@ export default {
   methods: {
     selectCursor (index, id, ownership) {
       if (ownership) {
-      //     if (id) {
-      //       const foundBuster = this.$store.state.Buster.bustersData.findIndex((bust) => bust.id === id)
-      //       console.log('buster template owned, index:', foundBuster)
-      //       if (foundBuster >= 0) {
-      //         this.selectedBusterTemplate = {
-      //           owner: this.$store.state.User.userProfile,
-      //           data: this.busterTemplates[index],
-      //           extra: this.$store.state.Buster.bustersData[foundBuster]
-      //         }
-      //         this.updatePreferences('wallpaper', this.selectedBusterTemplate)
-      //         // this.$cookies.set('buster', this.selectedBusterTemplate, 604800)
-      //       } else {
-      //         this.updatePreferences('wallpaper', null)
-      //         // this.selectedBusterTemplate = null
-      //       }
-      //     } else {
-      //       // this.selectedBusterTemplate = null
-      //       // this.$cookies.remove('buster')
-      //       this.updatePreferences('wallpaper', null)
-      //     }
-      //     // this.$emit('changeWP')
+        if (id) {
+          const foundCursor = this.$store.state.Customizations.cursorStyles.findIndex((cursor) => cursor.template_id === id)
+          console.log('cursor template found!, index:', foundCursor)
+          if (foundCursor >= 0) {
+            const prefs = {
+              owner: this.$store.state.User.userProfile,
+              data: this.cursorStyles[index]
+              // extra: this.$store.state.Buster.bustersData[foundCursor]
+            }
+            this.updatePreferences('cursor', prefs)
+            // this.$cookies.set('buster', this.selectedBusterTemplate, 604800)
+          } else {
+            this.updatePreferences('cursor', null)
+            // this.selectedBusterTemplate = null
+          }
+        } else {
+          // this.selectedBusterTemplate = null
+          // this.$cookies.remove('buster')
+          this.updatePreferences('cursor', null)
+        }
+        // this.$emit('changeWP')
       } else {
         window.open('https://wax.atomichub.io/market?collection_name=virusbusters&schema_name=buster.heads&template_id=' + id, '_blank')
       }
@@ -97,25 +101,26 @@ export default {
 
     div.avatars__wrapper
       //- pre {{$store.state.Customizations.activeWallpaper}}
-      div.pointer.avatar-wrapper(@click='selectCursor(0, null, true)', :class='{"selected-avatar" : !$store.state.Customizations.activeWallpaper}')
+      div.pointer.avatar-wrapper(@click='selectCursor(0, null, true)', :class='{"selected-avatar" : !$store.state.Customizations.activeCursor}')
         div.pointer.avatar-wrapper
           div.avatar-preview.primary
             //- v-img(:src="require('/base-cursor.png')", width='200px')
           div.avatar-title Default Cursor
       div(v-for='(cursor, index) in $store.state.Customizations.cursorStyles')
-        pre {{cursor}}
-        div.pointer.avatar-wrapper(@click='selectCursor(index, cursor.id, null)', :class='{"missing-template" : false ,"selected-avatar" : ($store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && ($store.state.Customizations.activeCursor.data.template_id === buster.template_id))}')
+        //- pre {{cursor}}
+        div.pointer.avatar-wrapper(@click='selectCursor(index, cursor.template_id, true)', :class='{"missing-template" : false ,"selected-avatar" : ($store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && ($store.state.Customizations.activeCursor.data.template_id === cursor.template_id))}')
           div.avatar-preview
-            v-btn.purchase-button(v-if='!checkOwnership(buster.template_id)', x-small, tile, color='accent') Buy
-            v-img(:src="require('@/assets/images/buster/buster_' + buster.template_id + '.gif')", width='200px')
-          div.avatar-title {{buster.immutable_data.name}}
+            //- v-btn.purchase-button(v-if='!checkOwnership(buster.template_id)', x-small, tile, color='accent') Buy
+            //- v-img(:src="require('@/assets/images/buster/buster_' + buster.template_id + '.gif')", width='200px')
+            v-img(:src="require('@/assets/images/buster/buster_unknown.gif')", width='200px')
+          div.avatar-title {{cursor.name}}
       //- div(v-for='(buster, index) in busterTemplates')
       //-   div.pointer.avatar-wrapper(@click='selectCursor(index, buster.template_id, checkOwnership(buster.template_id))', :class='{"missing-template" : !checkOwnership(buster.template_id) ,"selected-avatar" : ($store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data && ($store.state.Customizations.activeWallpaper.data.template_id === buster.template_id))}')
       //-     div.avatar-preview
       //-       v-btn.purchase-button(v-if='!checkOwnership(buster.template_id)', x-small, tile, color='accent') Buy
       //-       v-img(:src="require('@/assets/images/buster/buster_' + buster.template_id + '.gif')", width='200px')
       //-     div.avatar-title {{buster.immutable_data.name}}
-      div(v-for='(n, index) in 10')
+      //- div(v-for='(n, index) in 10')
         div.pointer.avatar-wrapper()
           div.avatar-preview
             v-img(:src="require('@/assets/images/buster/buster_unknown.gif')", width='200px')

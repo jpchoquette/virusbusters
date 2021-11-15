@@ -49,6 +49,7 @@ v-app(dark)
 <style lang='sass'>
   @import './assets/styles/base/_fonts.sass'
   *
+    // cursor: url(./assets/images/cursors/cursor-gold.png),default
     cursor: url(/base-cursor.png),default
   a, a *, button, button *, .pointer, .pointer *
     cursor: url(/pointer-cursor.png),pointer !important

@@ -15,6 +15,10 @@ export default {
     activeWallpaper: {
       set (val) { this.$store.commit('Customizations/setActiveWallpaper', val) },
       get () { return this.$store.state.Customizations.activeWallpaper }
+    },
+    activeCursor: {
+      set (val) { this.$store.commit('Customizations/setActiveCursor', val) },
+      get () { return this.$store.state.Customizations.activeCursor }
     }
   },
   mounted () {
@@ -40,6 +44,13 @@ export default {
         globalPreferences.splice(userIndex, 1, currentUser)
         this.activeWallpaper = data
         localStorage.setItem('users', JSON.stringify(globalPreferences))
+      } else if (preference === 'cursor') {
+        console.log('on update le cursor')
+        currentUser.preferences.cursor = data
+        globalPreferences.splice(userIndex, 1, currentUser)
+        this.activeCursor = data
+        console.log('activeCursor', this.activeCursor)
+        // localStorage.setItem('users', JSON.stringify(globalPreferences))
       } else {
         console.log('to do')
       }

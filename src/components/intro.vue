@@ -7,7 +7,7 @@ export default {
 }
 </script>
 <template lang='pug'>
-  section(data-scroll-section)
+  section#intro-section(data-scroll-section)
     div.page-intro
       div.flex-grow-1
       img.signature-img.animate__animated.animate__zoomIn(data-scroll data-scroll-speed="2", alt='Virus Busters', src="../assets/images/vb-animated-logo.gif")

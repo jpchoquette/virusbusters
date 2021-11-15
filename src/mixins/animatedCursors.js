@@ -23,12 +23,14 @@ export default {
       ],
       char: '!',
       distance: 100,
+      decay: 10,
       random: false,
       randomColors: false,
       randomChars: false,
       counter: 0,
       counter2: 0,
-      velocity: 1
+      velocity: 1,
+      fontStyle: '50px Daydream'
     }
   },
   methods: {
@@ -59,10 +61,20 @@ export default {
       if (options.chars) {
         this.charList = options.chars
       }
+      if (options.fontStyle) {
+        this.fontStyle = options.fontStyle
+      }
+      if (options.distance) {
+        this.distance = options.distance
+      }
       // console.log('this.charList', this.dustColors, this.charList, options)
       this.init(this.type)
     },
     ghostCursor (options) {
+      console.log('ghost options', options)
+      if (options.decay) {
+        this.decay = options.decay
+      }
       this.baseImage.src =
         (options && options.image) ? options.image : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAASNJREFUWIW9l10OgyAMxwfZYeYd5uM8tD7qHfQ27mWQiqX0izUxMWLpjz8FSnhU7PN6n7W25dhCrU1qt46owD1gLs5Y8Hlf8/s0jO4gVQAYGDMMRgORHSTBKRAphBnAChLLD5rgmB83maPk5x4QNwX+DXEB0MpvgXBXQAoRveafA4ECWAJQOyPXMoBm/ud9NUM8Td4/SxDUuVHbmELKAUqBaRib7ZRRu2K3VcAJLgKgRlmqsxxbSE+r3y4KSJZ2BuBks0QF9mEEZbIuKQ1EwH5slWGe1RIKwDENBAbSLEqhI6WUBARCxFoD9l1TdGKQcCDiDjUqJINqpMGoanlPCNVGVE6FZfmarlWtm1Rp2AlpvmRqKypTDlgh4BS6XbO5EGX+fAFinL3TpLmq4gAAAABJRU5ErkJggg=='
         // "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAATCAYAAACk9eypAAAAAXNSR0IArs4c6QAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAhGVYSWZNTQAqAAAACAAFARIAAwAAAAEAAQAAARoABQAAAAEAAABKARsABQAAAAEAAABSASgAAwAAAAEAAgAAh2kABAAAAAEAAABaAAAAAAAAAEgAAAABAAAASAAAAAEAA6ABAAMAAAABAAEAAKACAAQAAAABAAAADKADAAQAAAABAAAAEwAAAAAChpcNAAAACXBIWXMAAAsTAAALEwEAmpwYAAABWWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgpMwidZAAABqElEQVQoFY3SPUvDQBgH8BREpRHExYiDgmLFl6WC+AYmWeyLg4i7buJX8DMpOujgyxGvUYeCgzhUQUSKKLUS0+ZyptXh8Z5Ti621ekPyJHl+uftfomhaf9Ei5JyxXKfynyEA6EYcLHpwyflT958GAQ7DTABNHd8EbtDbEH2BD5QEQmi2mM8P/Iq+A0SzszEg+3sPjDnDdVEtQKQbMUidHD3xVzf6A9UDEmEm+8h9KTqTVUjT+vB53aHrCbAPiceYq1dQI1Aqv4EhMll0jzv+Y0yiRgCnLRSYyDQHVoqUXe4uKL9l+L7GXC4vkMhE6eW/AOJs9k583ORDUyXMZ8F5SVHVVnllmPNKSFagAJ5DofaqGXw/gHBYg51dIldkmknY3tguv3jOtHR4+MqAzaraJXbEhqHhcQlwGSOi5pytVQHZLN5s0WNe8HPrLYlFsO20RPHkImxsbmHdLJFI76th7Z4SeuF53hTeFLvhRCJRCTKZKxgdnRDbW+iozFJbBMw14/ElwGYc0egMBMFzT21f5Rog33Z7dX02GBm7WV5ZfT5Nn5bE3zuCDe9UxdTpNvK+5AAAAABJRU5ErkJggg=="
@@ -89,7 +101,7 @@ export default {
         this.canvas.height = this.height
       }
       if (this.type === 'dust') {
-        this.context.font = '50px Daydream'
+        this.context.font = this.fontStyle
         this.context.textBaseline = 'middle'
         this.context.textAlign = 'center'
 
@@ -115,7 +127,7 @@ export default {
 
           bgContext.fillStyle = this.dustColors[this.counter]
           bgContext.textAlign = 'center'
-          bgContext.font = '50px Daydream'
+          bgContext.font = this.fontStyle
           bgContext.textBaseline = 'middle'
           bgContext.fillText(
             char,
@@ -213,8 +225,8 @@ export default {
 
           if (distBetweenPoints > this.distance) {
             this.addParticle(
-              this.cursor.x,
-              this.cursor.y,
+              this.cursor.x + 30,
+              this.cursor.y + 30,
               this.canvImages[this.indexCounter(this.charList.length)]
             )
             if (this.randomChars && this.counter2 >= (this.charList.length - 1)) {
@@ -252,7 +264,7 @@ export default {
       if (this.type === 'dust') {
         this.particles.push(new this.DustParticle(x, y, elem))
       } else if (this.type === 'ghost') {
-        this.particles.push(new this.GhostParticle(x, y, elem))
+        this.particles.push(new this.GhostParticle(x, y, elem, this.decay))
       }
     },
     updateParticles () {
@@ -308,13 +320,13 @@ export default {
         )
       }
     },
-    GhostParticle (x, y, canvasItem) {
-      // console.log('GHOST', canvasItem)
-      const lifeSpan = 20
+    GhostParticle (x, y, canvasItem, decay) {
+      console.log('GHOST', decay)
+      const lifeSpan = decay
       this.initialLifeSpan = lifeSpan // ms
       this.lifeSpan = lifeSpan // ms
       this.position = { x: x, y: y }
-
+      // console.log('lifeSpan', this.lifeSpan, this.decay)
       this.image = canvasItem
 
       this.update = function (context) {

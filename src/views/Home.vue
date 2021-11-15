@@ -94,7 +94,7 @@ export default {
                 img.tc(alt='Twitter', src="../assets/images/icons/twitter-icon.svg", height='26px')
             //- D
             div.tc.white--text.f7.i.mb2.o-50
-              div Made with love by two friends in Canada - V0.23
+              div Made with love by two friends in Canada - V0.25
               div Questions? Contact us directly on Discord or by
                 a.ml1.white--text(href='mailto:info@virusbusters.cards') email
 </template>
@@ -141,7 +141,7 @@ export default {
           // height: 200vh
           .section-content
             // height: 100%
-            height: 100vh
+            min-height: 100vh
             overflow: hidden
             position: relative
           .socials__wrapper

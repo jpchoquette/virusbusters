@@ -82,7 +82,8 @@ export default {
 
         //- div.tc.ma3
           v-btn(@click='updateCursor("ghost")') Test cursor ghost
-          v-btn(@click='updateCursor("dust")') Test cursor sprinkles
+          v-btn(@click='updateCursor("dust")') Test cursor dust
+          v-btn(@click='updateCursor("sprinkles")') Test cursor sprinkles
           v-btn(@click='clearCursor()') Clear cursor
 
           v-btn(@click='resetPrefs()' color='accent', text, outlined) Reset my preferences

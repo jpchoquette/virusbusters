@@ -134,32 +134,39 @@ export default {
       this.screenState = !this.screenState
       this.menu = false
       this.$cookies.set('screen', this.screenState, 604800)
-    },
-    changeCursor (options, type) {
-      console.log('on va changer le cursor', options, type)
-      const targetElement = document.querySelector('#screenContent')
-      let cursorOptions = options
-      // if (this.currentType) {
-      //   this.clearCursor()
-      // }
-      this.currentType = type
-      if (!options) {
-        if (type === 'ghost') {
-          // this.ghostCursor({ element: targetElement }, 'ghost')
-        } else if (type === 'dust') {
-          cursorOptions = {
-            element: targetElement,
-            colors: ['#ff145b', '#e8af20', '#ffe902'],
-            chars: ['S', 'a', 'l', 'u', 't', '!', '!', '!'],
-            randomColors: false,
-            randomChars: false,
-            distance: 200
-          }
-        }
-      }
-      console.log('options')
-      this.setCursor(cursorOptions, type)
     }
+    // changeCursor (options, type) {
+    //   console.log('on va changer le cursor', options, type)
+    //   const targetElement = document.querySelector('#screenContent')
+    //   let cursorOptions = options
+    //   // if (this.currentType) {
+    //   //   this.clearCursor()
+    //   // }
+    //   this.currentType = type
+    //   if (!options) {
+    //     if (type === 'ghost') {
+    //       cursorOptions = {
+    //         element: targetElement,
+    //         image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAcdJREFUWIXdl7FOw0AMhv9UYmxZWSuGrqgSYQPRTF2QIuVVWHkNXgIJqQtTKzGSAboyoL4DHRnKEDlxLvadkzQM/FLVNOnd/8V2bCUCgMU0PoBps8sj/JEi11zTUFAlwHq7wv31be3i+/d4cKgaAFZnAICn5xhvX3txQQiqLVgd4OcGePksIUgajBXIBxUBRRGut6vijALB5QOyQHGYEgBoRoGkgfSBIggZAOgEYQUimM0uj0aNqyevxfdyVjudpTmyNDcDXJ2Py49kThoRibiLA0EgbUUg3Jw8axFILu4Gg3j8qI75DTdTAFRpOBKEZq4DGGWB4OaSSoBg9xKiEIJw71zyaERArAMDhAsS6gsqQCm3DgIQkvl8ssd8UhwvpvFBmrzdamA58xam++wTBIH0B+AgHggOokE0ikJsyyE5bZtE7dutB96K/QBAbwgC0SD6pYDLU5xZmotz4bgABBHoF+5MEJuPNQ3J5SnU/ykpSR6qsS6PY6PIHGDNi/cOIRKuOdAxBdzcCiGZdwJwzflmGoRmDig1AMh14DPnzUVbYxpGmnzm7m+KRMgcMEaAT8jQ2JYGjm9Nq82sbzx8Xe/XN22M/hv9AlwGE9WQ3nqRAAAAAElFTkSuQmCC',
+    //         decay: 10
+    //       }
+    //       // this.ghostCursor({ element: targetElement }, 'ghost')
+    //     } else if (type === 'dust') {
+    //       cursorOptions = {
+    //         element: targetElement,
+    //         colors: ['#ff145b', '#e8af20', '#ffe902'],
+    //         // chars: ['S', 'a', 'l', 'u', 't', '!', '!', '!'],
+    //         chars: ['.'],
+    //         randomColors: true,
+    //         randomChars: false,
+    //         distance: 50,
+    //         fontStyle: '20px Daydream'
+    //       }
+    //     }
+    //   }
+    //   console.log('options')
+    //   this.setCursor(cursorOptions, type)
+    // }
   }
 }
 </script>
@@ -187,7 +194,7 @@ export default {
             //- .top-bar
             .temp-windows__wrapper
               settings-window(v-if='$store.state.Desktop.settingsWindow')
-              customization-window(v-if='$store.state.Desktop.customizationWindow', @resetPrefs='resetUserPreferences()', @updateCursor='changeCursor', @clearCursor='clearCursor')
+              customization-window(v-if='$store.state.Desktop.customizationWindow', @resetPrefs='resetUserPreferences()')
               quick-links-window(v-if='$store.state.Desktop.quickLinksWindow')
               collection-window(v-if='$store.state.Desktop.collectionWindow')
               blender-window(v-if='$store.state.Desktop.blenderWindow')

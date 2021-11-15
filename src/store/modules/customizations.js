@@ -1,7 +1,8 @@
 // import VueCookies from 'vue-cookies'
 const state = {
   userCustomizations: [],
-  activeWallpaper: {},
+  activeWallpaper: null,
+  activeCursor: null,
   cursorStyles: [
     // Cursor 1
     {
@@ -14,7 +15,7 @@ const state = {
         chars: ['S', 'a', 'l', 'u', 't', '!', '!', '!'],
         randomColors: false,
         randomChars: false,
-        distance: 200
+        decay: 200
       }
     },
     {
@@ -36,6 +37,21 @@ const state = {
       name: 'Test Cursor 3',
       rarity: '',
       type: 'base'
+    },
+    {
+      template_id: '12347',
+      name: 'Golden cursor',
+      rarity: '',
+      type: 'dust',
+      options: {
+        colors: ['#ffec27', '#ffa300', '#000000'],
+        chars: ['.'],
+        randomColors: true,
+        randomChars: false,
+        distance: 80,
+        velocity: 2,
+        image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAASNJREFUWIW9l10OgyAMxwfZYeYd5uM8tD7qHfQ27mWQiqX0izUxMWLpjz8FSnhU7PN6n7W25dhCrU1qt46owD1gLs5Y8Hlf8/s0jO4gVQAYGDMMRgORHSTBKRAphBnAChLLD5rgmB83maPk5x4QNwX+DXEB0MpvgXBXQAoRveafA4ECWAJQOyPXMoBm/ud9NUM8Td4/SxDUuVHbmELKAUqBaRib7ZRRu2K3VcAJLgKgRlmqsxxbSE+r3y4KSJZ2BuBks0QF9mEEZbIuKQ1EwH5slWGe1RIKwDENBAbSLEqhI6WUBARCxFoD9l1TdGKQcCDiDjUqJINqpMGoanlPCNVGVE6FZfmarlWtm1Rp2AlpvmRqKypTDlgh4BS6XbO5EGX+fAFinL3TpLmq4gAAAABJRU5ErkJggg=='
+      }
     }
   ]
 }
@@ -63,6 +79,9 @@ const actions = {
 const mutations = {
   setActiveWallpaper (state, payload) {
     state.activeWallpaper = payload
+  },
+  setActiveCursor (state, payload) {
+    state.activeCursor = payload
   }
 }
 

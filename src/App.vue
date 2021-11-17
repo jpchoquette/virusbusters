@@ -50,14 +50,14 @@ v-app(dark)
   @import './assets/styles/base/_fonts.sass'
   *
     // cursor: url(./assets/images/cursors/cursor-gold.png),default
-    cursor: url(/base-cursor.png),default
+    cursor: url('/base-cursor.png'),default
   a, a *, button, button *, .pointer, .pointer *
-    cursor: url(/pointer-cursor.png),pointer !important
+    cursor: url(/pointer-cursor.png),pointer
   .infected-section-cursor, .infected-section-cursor *
-    cursor: url(/base-cursor-infected.png),default !important
+    cursor: url(/base-cursor-infected.png),default
   .infected-section-cursor
     a, a *, button, button *
-      cursor: url(/pointer-cursor.png),pointer !important
+      cursor: url(/pointer-cursor-infected.png),pointer
   body
     height: -webkit-fill-available
   html

@@ -9,15 +9,15 @@ export default {
   data () {
     return {
       quickLinks: [
-        {
-          title: 'Pop-up #3 - Limited free drop!',
-          url: 'https://neftyblocks.com/c/virusbusters/drops/70094?key=5JT4tgXQw4MZ2VwuQtTNQTuY9ZdXFXQQ1TwVMqxaFsQzafa52RE',
-          image: 'nefty-blocks-logo-small.svg',
-          date: '2021-11-06',
-          type: 'Link',
-          classes: 'b i underline accent--text'
-          // showDate: 1636567140
-        },
+        // {
+        //   title: 'Pop-up #3 - Limited free drop!',
+        //   url: 'https://neftyblocks.com/c/virusbusters/drops/70094?key=5JT4tgXQw4MZ2VwuQtTNQTuY9ZdXFXQQ1TwVMqxaFsQzafa52RE',
+        //   image: 'nefty-blocks-logo-small.svg',
+        //   date: '2021-11-06',
+        //   type: 'Link',
+        //   classes: 'b i underline accent--text'
+        //   // showDate: 1636567140
+        // },
         {
           title: 'Neftyblocks Collection Page',
           url: 'https://neftyblocks.com/c/virusbusters',
@@ -76,10 +76,10 @@ export default {
   vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '20%'", :left="$store.state.App.mobileTemplate ? '10%' : '40%'", :width="$store.state.App.mobileTemplate ? '80vw' : '500px'", :height="$store.state.App.mobileTemplate ? '70vh' : '350px'", :min-height="250", :min-width="300", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "quicklinks"}')
     div.customization-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "quicklinks"}', @mousedown='activeWindow = "quicklinks"')
       //- LOGIN WAX
-      div.window-top-bar
+      div.window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
         div.window-title Quick Links
         div.flex-grow-1
-        v-btn.white--text(@click='closeWindow', tile, color='accent', fab, depressed) X
+        v-btn.black--text(@click='closeWindow', tile, color='accent', fab, depressed) X
       div.window-content
         div.quicklinks__wrapper
           v-list(color='transparent')

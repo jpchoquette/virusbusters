@@ -8,7 +8,7 @@ export default {
     return {
     }
   },
-  created () {
+  mounted () {
     // console.log('COMPONENT CREATED')
     setTimeout(() => {
       this.startClock()

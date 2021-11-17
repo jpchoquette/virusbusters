@@ -36,10 +36,10 @@ export default {
   vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '40%'", :left="$store.state.App.mobileTemplate ? '10%' : '5%'", :width="$store.state.App.mobileTemplate ? '80vw' : '500px'", :height="$store.state.App.mobileTemplate ? '70vh' : '350px'", :min-height="250", :min-width="300", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "collection"}')
     div.customization-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "collection"}', @mousedown='activeWindow = "collection"')
       //- LOGIN WAX
-      div.window-top-bar
+      div.window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
         div.window-title My NFT Collection
         div.flex-grow-1
-        v-btn.white--text(@click='closeWindow', tile, color='accent', fab, depressed) X
+        v-btn.black--text(@click='closeWindow', tile, color='accent', fab, depressed) X
       div.window-content
         div.collection__wrapper.h-100.w-100
           v-hover(v-slot:default="{hover}", close-delay='1000')

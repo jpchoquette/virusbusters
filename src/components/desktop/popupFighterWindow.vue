@@ -33,10 +33,10 @@ export default {
 <template lang='pug'>
   vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '10%'", :left="$store.state.App.mobileTemplate ? '10%' : '45%'", :width="$store.state.App.mobileTemplate ? '80vw' : '500px'", :height="$store.state.App.mobileTemplate ? '70vh' : '350px'", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "fighter"}')
     div.program-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "fighter"}', @mousedown='activeWindow = "fighter"')
-      div.window-top-bar
+      div.window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
         div.window-title PopupFighter.exe
         div.flex-grow-1
-        v-btn.white--text(@click='closeWindow', tile, color='accent', fab, depressed) X
+        v-btn.black--text(@click='closeWindow', tile, color='accent', fab, depressed) X
       div.window-content
         div.collection__wrapper.h-100.w-100
           .empty-content__wrapper

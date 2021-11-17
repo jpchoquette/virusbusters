@@ -17,6 +17,7 @@ export default {
 </script>
 <template lang='pug'>
   .login-window()
+    .temp-windows__wrapper
     //- LOGIN WAX
     //- template(v-if='$store.state.User.userConnected')
     //-   div.tc.relative.mb3.b() Welcome, {{profile ? profile : "broken login :("}}
@@ -25,8 +26,8 @@ export default {
     img.bg-wallpaper(src='@/assets/images/test-bg-clouds.png')
 
     .login-box()
-
-      div.modal-title Virtual Desktop
+      img.mb3(src="@/assets/images/virtual-desktop-logo-black.png", width='300px', alt='Virtual Desktop Logo')
+      //- div.modal-title Virtual Desktop
         div.modal-title-extra TRIAL
       div.tc.relative.mb3() Please login to continue...
       v-btn(v-if='$store.state.User.userConnected', @click='logout') Logout
@@ -57,10 +58,10 @@ export default {
   .login-box
     z-index: 100
     position: absolute
-    top: calc(50% - 150px)
+    top: calc(50% - 200px)
     left: calc(50% - 250px)
     width: 500px
-    min-height: 300px
+    min-height: 400px
     background-color: var(--v-light-base)
     padding: 30px 20px
     border-radius: 4px

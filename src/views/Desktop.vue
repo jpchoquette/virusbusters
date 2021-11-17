@@ -14,8 +14,7 @@ import WaxLogin from '@/mixins/waxLogin.js'
 import UpdatePreferences from '@/mixins/updatePreferences.js'
 
 import AnimatedCursors from '@/mixins/animatedCursors.js'
-// import GhostCursor from '@/mixins/ghostCursor.js'
-// import DustCursor from '@/mixins/dustCursor.js'
+import CustomThemes from '@/mixins/customThemes.js'
 
 export default {
   name: 'Desktop',
@@ -31,10 +30,12 @@ export default {
     BlenderWindow,
     PopupFighterWindow
   },
-  mixins: [WaxLogin, UpdatePreferences, AnimatedCursors],
+  mixins: [WaxLogin, UpdatePreferences, AnimatedCursors, CustomThemes],
   data () {
     return {
       showLogin: true,
+      showTemporaryWelcome: false,
+      showTemporaryExit: false,
       menu: false,
       screenOn: false,
       mobileView: false,
@@ -66,19 +67,11 @@ export default {
       set (val) { this.$store.commit('Desktop/setScreenState', val) },
       get () { return this.$store.state.Desktop.screenState }
     }
-    // checkScreenState () {
-    //   if (this.$cookies.get('screen')) {
-    //     return this.$cookies.get('screen')
-    //   } else {
-    //     return this.screenOn
-    //   }
-    // }
   },
   watch: {
     '$route.name': {
       immediate: true,
       handler (newVal) {
-        // console.log('route change', newVal)
         if (newVal === 'Desktop') {
           document.documentElement.setAttribute('style', 'overflow-y:hidden !important')
         } else {
@@ -86,17 +79,28 @@ export default {
         }
       }
     },
-    userConnected (newVal) {
-      if (newVal) {
-        this.showLogin = false
-        this.menu = false
-        // this.checkWallpaperOwnership()
-        // setTimeout(() => {
-        //   this.checkWallpaperOwnership()
-        // }, 2000)
-        this.validatePreferences()
-      } else {
-        this.showLogin = true
+    userConnected: {
+      immediate: true,
+      handler (newVal) {
+        if (newVal) {
+          this.showTemporaryWelcome = true
+          this.showLogin = false
+          this.menu = false
+          setTimeout(() => {
+            this.showTemporaryWelcome = false
+            this.validatePreferences()
+          }, 2000)
+        } else {
+          if (this.$store.state.Customizations.activeCursor && this.$store.state.Customizations.activeCursor.data && this.$store.state.Customizations.activeCursor.data.type !== 'base') {
+            this.clearCursor()
+          }
+          this.clearTheme()
+          this.showTemporaryExit = true
+          this.showLogin = true
+          setTimeout(() => {
+            this.showTemporaryExit = false
+          }, 2000)
+        }
       }
     },
     '$store.state.App.windowSize': {
@@ -104,7 +108,6 @@ export default {
       deep: true,
       handler (newVal) {
         if (newVal) {
-          // console.log('newVal', newVal.width, newVal.height)
           if (newVal.width < 901 || newVal.height < 701) {
             this.mobileView = true
             this.screenState = false
@@ -115,11 +118,43 @@ export default {
           this.mobileView = false
         }
       }
+    },
+    '$store.state.Customizations.activeCursor': {
+      immediate: true,
+      deep: true,
+      handler (newVal, oldVal) {
+        // console.log('cursor', newVal)
+        if (newVal) {
+          if (oldVal) {
+            this.clearCursor()
+          }
+          // console.log('change active cursor', newVal)
+          this.setCursor(newVal.data.options, newVal.data.type)
+        } else if (!newVal && oldVal) {
+          this.clearCursor()
+        }
+      }
+    },
+    '$store.state.Customizations.activeTheme': {
+      immediate: true,
+      deep: true,
+      handler (newVal, oldVal) {
+        if (newVal) {
+          // console.log('theme watcher', newVal)
+          // if (oldVal) {
+          // this.clearTheme()
+          // }
+          // console.log('change active theme', newVal)
+          this.setTheme(newVal.data)
+        } else if (!newVal && oldVal) {
+          this.clearTheme()
+          // this.activeTheme = null
+        }
+      }
     }
   },
   mounted () {
     this.retrieveScreenState()
-    // this.checkWallpaperOwnership()
   },
   methods: {
     retrieveScreenState () {
@@ -134,39 +169,11 @@ export default {
       this.screenState = !this.screenState
       this.menu = false
       this.$cookies.set('screen', this.screenState, 604800)
+    },
+    leaveComputer () {
+      this.logout()
+      window.location.href = '/'
     }
-    // changeCursor (options, type) {
-    //   console.log('on va changer le cursor', options, type)
-    //   const targetElement = document.querySelector('#screenContent')
-    //   let cursorOptions = options
-    //   // if (this.currentType) {
-    //   //   this.clearCursor()
-    //   // }
-    //   this.currentType = type
-    //   if (!options) {
-    //     if (type === 'ghost') {
-    //       cursorOptions = {
-    //         element: targetElement,
-    //         image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAcdJREFUWIXdl7FOw0AMhv9UYmxZWSuGrqgSYQPRTF2QIuVVWHkNXgIJqQtTKzGSAboyoL4DHRnKEDlxLvadkzQM/FLVNOnd/8V2bCUCgMU0PoBps8sj/JEi11zTUFAlwHq7wv31be3i+/d4cKgaAFZnAICn5xhvX3txQQiqLVgd4OcGePksIUgajBXIBxUBRRGut6vijALB5QOyQHGYEgBoRoGkgfSBIggZAOgEYQUimM0uj0aNqyevxfdyVjudpTmyNDcDXJ2Py49kThoRibiLA0EgbUUg3Jw8axFILu4Gg3j8qI75DTdTAFRpOBKEZq4DGGWB4OaSSoBg9xKiEIJw71zyaERArAMDhAsS6gsqQCm3DgIQkvl8ssd8UhwvpvFBmrzdamA58xam++wTBIH0B+AgHggOokE0ikJsyyE5bZtE7dutB96K/QBAbwgC0SD6pYDLU5xZmotz4bgABBHoF+5MEJuPNQ3J5SnU/ykpSR6qsS6PY6PIHGDNi/cOIRKuOdAxBdzcCiGZdwJwzflmGoRmDig1AMh14DPnzUVbYxpGmnzm7m+KRMgcMEaAT8jQ2JYGjm9Nq82sbzx8Xe/XN22M/hv9AlwGE9WQ3nqRAAAAAElFTkSuQmCC',
-    //         decay: 10
-    //       }
-    //       // this.ghostCursor({ element: targetElement }, 'ghost')
-    //     } else if (type === 'dust') {
-    //       cursorOptions = {
-    //         element: targetElement,
-    //         colors: ['#ff145b', '#e8af20', '#ffe902'],
-    //         // chars: ['S', 'a', 'l', 'u', 't', '!', '!', '!'],
-    //         chars: ['.'],
-    //         randomColors: true,
-    //         randomChars: false,
-    //         distance: 50,
-    //         fontStyle: '20px Daydream'
-    //       }
-    //     }
-    //   }
-    //   console.log('options')
-    //   this.setCursor(cursorOptions, type)
-    // }
   }
 }
 </script>
@@ -182,16 +189,27 @@ export default {
       .post-it-pink
         img(src="@/assets/images/postits/postit-pink-1.png", width='200px', max-width='200px')
       .frame-buttons
-        button(@click='toggleScreen()') I/O
+        button.black--text(@click='toggleScreen()') I/O
     .crt-wrapper
-      .desktop-page.screen(id='screenContent')
+      .desktop-page.screen(id='screenContent', :class='($store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data.customCursor) ? $store.state.Customizations.activeCursor.data.class : null ')
         transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
           .screen-off__overlay(v-if='!screenState && !mobileView')
-        transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn', leave-active-class='animate__animated animate__fadeOut', mode='out-in')
+        transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
+          div.transition-screen(v-if='showTemporaryWelcome')
+            .temp-windows__wrapper
+            .transition-screen__content
+              img(src="@/assets/images/virtual-desktop-logo-white.png", width='350px')
+              .transition-title Welcome, {{profile}}
+        transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
+          div.transition-screen(v-if='showTemporaryExit')
+            .temp-windows__wrapper
+            .transition-screen__content
+              .transition-title.mb2 Thank you for using
+              img(src="@/assets/images/virtual-desktop-logo-white.png", width='350px')
 
+        transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn', leave-active-class='animate__animated animate__fadeOut', mode='out-in')
           login-window.crt(v-if='showLogin')
           div(v-else, style='display: flex; flex-direction: column; height: 100%;')
-            //- .top-bar
             .temp-windows__wrapper
               settings-window(v-if='$store.state.Desktop.settingsWindow')
               customization-window(v-if='$store.state.Desktop.customizationWindow', @resetPrefs='resetUserPreferences()')
@@ -202,7 +220,6 @@ export default {
 
             .window__wrapper(:style='{backgroundColor: ($store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.extra) ? $store.state.Customizations.activeWallpaper.extra.background : "transparent"}')
               div.wallpaper-content
-                //- pre {{$store.state.Customizations.activeWallpaper}} wallpapers
                 template(v-if='$store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data')
                   text-pattern(:data='$store.state.Customizations.activeWallpaper.data.immutable_data.name', color='#7e2753', :opacity='0.15', :angle='-20', :qtyPerLine='2')
                   transition(name='custom-classes-transition', enter-active-class='animate__animated animate__zoomIn', leave-active-class='animate__animated animate__zoomOut', mode='out-in')
@@ -210,28 +227,26 @@ export default {
                 img(v-else, src="@/assets/images/vb-animated-logo-light.gif", width='400px', max-width='400px', style='opacity:1;')
 
               .window-content
-                //- pre {{JSON.parse($cookies.get('users'))}}
-                .version-number v1.03
+                .version-number v1.04
                 template(v-if='userConnected')
-                  //- icon-desktop(image='blender-icon-v1.png', title='My settings', action='settings')
                   icon-desktop(image='buster-icon.png', title='Desktop customizer', action='customization')
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
                   icon-desktop(image='blender-icon-v1.png', title='My NFTs', action='collection', :private ='true')
                   icon-desktop(image='blender-icon-v1.png', title='Blender.exe', action='blender')
                   icon-desktop(image='blender-icon-v1.png', title='PopupFighter.exe', action='fighter', :private='true')
-
-            .bottom-bar
-              //- v-btn.h-100.w-100(tile, icon) Menu
+            //- pre {{$store.state.Customizations.activeTheme}}
+            .bottom-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data && $store.state.Customizations.activeTheme.data.gradients)}')
               v-menu(v-model='menu', :close-on-content-click='true', top, offset-y, elevation='0', content-class='window-menu')
                 template(v-slot:activator='{ on, attrs }')
-                  v-btn(color='accent', dark='', v-bind='attrs', v-on='on', style='height: 100%; width: 100px', tile)
-                    v-img(:src="require('@/assets/images/virus-busters-icon.svg')", width='30px', height='40px', contain)
+                  v-btn(color='transparent', dark='', v-bind='attrs', v-on='on', style='height: 100%; width: 100px', tile)
+                    v-img(:src="require('@/assets/images/virus-busters-icon-transparent.svg')", width='30px', height='40px', contain)
 
-                v-card(elevation='0', tile)
+                v-card(elevation='0', tile, light)
+                  div.w-100.tc.pa2
+                    img(src="@/assets/images/virtual-desktop-logo-black.png", width='120px')
+
                   v-list
                     v-list-item(v-if='userConnected')
-                      //- v-list-item-avatar
-                        img(src='https://cdn.vuetifyjs.com/images/john.jpg', alt='John')
                       v-list-item-content
                         v-list-item-title.b {{profile}}
                         v-list-item-subtitle Virus Busters Employee
@@ -239,8 +254,6 @@ export default {
                         v-btn(@click='logout', icon)
                           v-icon mdi-power
                     v-list-item(v-else)
-                      //- v-list-item-avatar
-                        img(src='https://cdn.vuetifyjs.com/images/john.jpg', alt='John')
                       v-list-item-content
                         v-list-item-title.b Guest #
                           span {{Math.floor(Math.random() * (8000 - 1000 + 1)) + 1000}}
@@ -250,7 +263,7 @@ export default {
                           v-icon mdi-login
                   v-divider
                   v-list
-                    v-list-item(to='/')
+                    v-list-item(@click='leaveComputer()')
                       v-list-item-title Go back to home page
               div.flex-grow-1
               date-widget(v-if='userConnected')
@@ -259,6 +272,7 @@ export default {
 <style lang='sass'>
   @import '@/assets/styles/desktop/_windows.sass'
   @import '@/assets/styles/desktop/_crt.scss'
+  @import '@/assets/styles/desktop/_cursorStyles.sass'
   // .aspect-ratio_4-3.computer__wrapper
     padding-bottom: 75%
     position: relative
@@ -281,11 +295,7 @@ export default {
     background-image: url('~@/assets/images/office-bg-test.jpg')
     background-size: cover
   .desktop-page
-    // width: 100vw
-    // height: 100vh
     overflow: hidden
-    // display: flex
-    // flex-direction: column
     background-color: var(--v-primary-base)
     position: relative
     .screen-off__overlay
@@ -296,14 +306,37 @@ export default {
       width: 100%
       height: 100%
       background-color: black
+    .transition-screen
+      z-index: 4499
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      background-color: var(--v-secondary-base)
+      .transition-screen__content
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        text-align: center
+        height: 100%
+        width: 100%
+        padding: 20px
+        img
+          object-fit: contain
+
+        .transition-title
+          margin-top: 20px
+          font-family: $pixel-font
+          font-size: 20px
+          color: white
     .temp-windows__wrapper
       position: absolute
       top: 0
       left: 0
       width: 100%
       height: 100%
-      // box-shadow: inset 11px 11px 71px -10px rgb(0 0 0 / 50%)
-      // background-color: #3171d8
       &::after
         content: ''
         z-index: 5001
@@ -320,10 +353,10 @@ export default {
       background-color: var(--v-secondary-base)
       display: flex
       z-index: 100
-
+      &.active-gradient
+        background: linear-gradient(90deg, var(--v-accent-base) 0%, var(--v-secondary-base) 100%)
       .date-wrapper
         display: flex
-        // width: 200px
         flex-direction: column
         align-items: center
         justify-content: center

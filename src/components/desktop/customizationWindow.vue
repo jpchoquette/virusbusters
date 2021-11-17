@@ -3,25 +3,24 @@
 import VueResizable from 'vue-resizable'
 import Wallpapers from '@/components/desktop/customization/wallpapers.vue'
 import Cursors from '@/components/desktop/customization/cursors.vue'
-// import Themes from '@/components/desktop/customization/themes.vue'
+import Themes from '@/components/desktop/customization/themes.vue'
 
 export default {
   name: 'CustomizationWindow',
   components: {
     VueResizable,
     Wallpapers,
-    Cursors
-    // Themes
+    Cursors,
+    Themes
   },
   data () {
     return {
       pageView: null,
       settings: [
         { name: 'Wallpapers', value: 'wallpapers', icon: '🖼️' },
-        { name: 'Cursors', value: 'cursors', disabled: true, icon: '🖱️' },
-        { name: 'Themes', value: 'themes', disabled: true, icon: '🎨' }
-      ],
-      cursorToggleTest: false
+        { name: 'Cursors', value: 'cursors', disabled: false, icon: '🖱️' },
+        { name: 'Themes', value: 'themes', disabled: false, icon: '🎨' }
+      ]
     }
   },
   // mixins: [WaxLogin],
@@ -43,25 +42,18 @@ export default {
     },
     resetPrefs () {
       this.$emit('resetPrefs')
-    },
-    updateCursor (type) {
-      // this.cursorToggleTest = !this.cursorToggleTest
-      this.$emit('updateCursor', null, type)
-    },
-    clearCursor () {
-      this.$emit('clearCursor')
     }
   }
 }
 </script>
 <template lang='pug'>
-  vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '10%'", :left="$store.state.App.mobileTemplate ? '10%' : '22%'", :width="$store.state.App.mobileTemplate ? '80vw' : '600px'", :height="$store.state.App.mobileTemplate ? '70vh' : '450px'", :min-height="250", :min-width="300", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "customization"}')
+  vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '10%'", :left="$store.state.App.mobileTemplate ? '10%' : '22%'", :width="$store.state.App.mobileTemplate ? '80vw' : '600px'", :height="$store.state.App.mobileTemplate ? '70vh' : '450px'", :min-height="250", :min-width="300", drag-selector="#window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "customization"}')
     div.customization-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "customization"}', @mousedown='activeWindow = "customization"')
       //- LOGIN WAX
-      div.window-top-bar
+      div.window-top-bar#window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
         div.window-title Desktop Customizer
         div.flex-grow-1
-        v-btn.white--text(@click='closeWindow', tile, color='accent', fab, depressed) X
+        v-btn.black--text(@click='closeWindow', tile, color='accent', fab, depressed) X
       div.window-content
         transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
 
@@ -77,16 +69,9 @@ export default {
             //- v-btn(@click='pageView = "cursors"') Cursors
           wallpapers(v-else-if='pageView === "wallpapers"', @goBack='pageView = null')
           //- @changeWP='$emit("changeWP")'
-          //- cursors(v-else-if='pageView === "cursors"', @goBack='pageView = null')
-          //- themes(@changeWP='$emit("changeWP")')
-
-        //- div.tc.ma3
-          v-btn(@click='updateCursor("ghost")') Test cursor ghost
-          v-btn(@click='updateCursor("dust")') Test cursor dust
-          v-btn(@click='updateCursor("sprinkles")') Test cursor sprinkles
-          v-btn(@click='clearCursor()') Clear cursor
-
-          v-btn(@click='resetPrefs()' color='accent', text, outlined) Reset my preferences
+          cursors(v-else-if='pageView === "cursors"', @goBack='pageView = null')
+          themes(v-else-if='pageView === "themes"', @goBack='pageView = null')
+        //- v-btn(@click='resetPrefs()' color='accent', text, outlined) Reset my preferences
         //- div.avatars__wrapper
           //- pre {{$store.state.User.userProfile}}
           //- pre {{$cookies.get('buster')}}
@@ -116,12 +101,41 @@ export default {
   .customization-window.desktop-window
     // top: calc(50% - 150px)
     // left: calc(50% - 250px)
+    .list-preview
+      margin: 20px
+      display: flex
+      // flex-wrap: wrap
+      .preview-image__wrapper
+        max-width: 120px
+        // padding: 0 5px 5px 5px
+        .preview-image
+          padding: 2px
+          height: 120px
+          width: 120px
+          max-width: 120px
+          max-height: 120px
+          min-height: 120px
+          min-width: 120px
+          box-sizing: border-box
+          border-radius: 4px
+          overflow: hidden
+          display: flex
+          align-items: center
+      .v-list
+        padding: 0
+        width: 100%
+        background-color: transparent
+        .v-list-item
+          padding: 10px 16px
+          &.selected-item
+            border: solid 1px red
     .v-list-item
       padding: 0
       min-height: 36px
       .v-list-item__content
         padding: 8px 0
     .avatars__wrapper
+      margin: 20px
       display: flex
       flex-wrap: wrap
       .avatar-wrapper

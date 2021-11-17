@@ -48,6 +48,7 @@ export default {
     z-index: 0
     // overflow: hidden
     .text-wrapper
+      user-select: none
       // opacity: 0.15
       position: absolute
       top: -25%

@@ -59,7 +59,9 @@ export default {
 <template lang='pug'>
 div
   div.header__wrapper
-    v-btn(@click='$emit("goBack")', depressed, color='secondary', outlined) All settings
+    v-btn(@click='$emit("goBack")', outlined) All settings
+    div.header-title Wallpapers!
+
   div.avatars__wrapper
     //- pre {{$store.state.Customizations.activeWallpaper}}
     div.pointer.avatar-wrapper(@click='selectBuster(0, null, true)', :class='{"selected-avatar" : !$store.state.Customizations.activeWallpaper}')
@@ -81,58 +83,4 @@ div
         div.avatar-title Coming soon!
 </template>
 <style lang='sass'>
-  .customization-window.desktop-window
-    // top: calc(50% - 150px)
-    // left: calc(50% - 250px)
-    .header__wrapper
-      margin: 0 0 10px 5px
-    .avatars__wrapper
-      display: flex
-      flex-wrap: wrap
-      .avatar-wrapper
-        padding: 0 5px 5px 5px
-        &.selected-avatar
-          .avatar-preview
-            // border: solid 1px red !important
-            background-color: var(--v-light-base)
-            background-image: repeating-linear-gradient(0deg, var(--v-secondary-base), var(--v-secondary-base) 8px, transparent 8px, transparent 13px, var(--v-secondary-base) 13px), repeating-linear-gradient(90deg, var(--v-secondary-base), var(--v-secondary-base) 8px, transparent 8px, transparent 13px, var(--v-secondary-base) 13px), repeating-linear-gradient(180deg, var(--v-secondary-base), var(--v-secondary-base) 8px, transparent 8px, transparent 13px, var(--v-secondary-base) 13px), repeating-linear-gradient(270deg, var(--v-secondary-base), var(--v-secondary-base) 8px, transparent 8px, transparent 13px, var(--v-secondary-base) 13px)
-            background-size: 2px calc(100% + 13px), calc(100% + 13px) 2px, 2px calc(100% + 13px) , calc(100% + 13px) 2px
-            background-position: 0 0, 0 0, 100% 0, 0 100%
-            background-repeat: no-repeat
-            animation: borderAnimation 0.6s infinite linear
-        &.missing-template
-          .avatar-preview
-            position: relative
-            .purchase-button
-              position: absolute
-              left: 0
-              bottom: 0
-              z-index: 10
-              width: 100%
-              opacity: 0
-            .v-image
-              filter: grayscale(1)
-              opacity: 0.25
-          &:hover
-            .avatar-preview
-              position: relative
-              .purchase-button
-                opacity: 1
-        .avatar-preview
-          padding: 2px
-          height: 120px
-          width: 120px
-          max-width: 120px
-          max-height: 120px
-          min-height: 120px
-          min-width: 120px
-          box-sizing: border-box
-          border-radius: 4px
-          overflow: hidden
-          display: flex
-          align-items: center
-        .avatar-title
-          font-size: 14px
-          text-align: center
-          margin-top: 10px
 </style>

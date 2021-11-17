@@ -59,7 +59,7 @@ export default {
 <template lang='pug'>
 div
   div.header__wrapper
-    v-btn(@click='$emit("goBack")', outlined) All settings
+    v-btn(@click='$emit("goBack")', outlined) < All settings
     div.header-title Wallpapers!
 
   div.avatars__wrapper

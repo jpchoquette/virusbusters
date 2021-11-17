@@ -51,12 +51,12 @@ v-app(dark)
   *
     // cursor: url(./assets/images/cursors/cursor-gold.png),default
     cursor: url('/base-cursor.png'),default
-  a, a *, button, button *, .pointer, .pointer *
+  a, a *, button, button *, .pointer, .pointer *, .v-list-item.v-list-item--link, .v-list-item.v-list-item--link *
     cursor: url(/pointer-cursor.png),pointer
   .infected-section-cursor, .infected-section-cursor *
     cursor: url(/base-cursor-infected.png),default
   .infected-section-cursor
-    a, a *, button, button *
+    a, a *, button, button *, .v-list-item--link, .v-list-item--link *
       cursor: url(/pointer-cursor-infected.png),pointer
   body
     height: -webkit-fill-available

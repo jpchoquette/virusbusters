@@ -30,7 +30,6 @@ export default {
             const prefs = {
               owner: this.$store.state.User.userProfile,
               data: this.cursorStyles[index]
-              // extra: this.$store.state.Buster.bustersData[foundCursor]
             }
             this.updatePreferences('cursor', prefs)
           } else {
@@ -40,12 +39,20 @@ export default {
           this.updatePreferences('cursor', null)
         }
       } else {
-        window.open('https://wax.atomichub.io/market?collection_name=virusbusters&schema_name=buster.heads&template_id=' + id, '_blank')
+        window.open('https://wax.atomichub.io/market?collection_name=virusbusters&schema_name=virtual.desk&template_id=' + id, '_blank')
       }
     },
+    goToMarket (id) {
+      window.open('https://wax.atomichub.io/market?collection_name=virusbusters&schema_name=virtual.desk&template_id=' + id, '_blank')
+    },
     checkOwnership (id) {
-      const ownedBuster = this.$store.state.Buster.ownedBusterTemplates.findIndex((bust) => bust.template.template_id === id)
-      return ownedBuster >= 0
+      if (this.$store.state.User.userProfile === 'virusbusters') {
+        // virusbuster wallet used to debug nfts preview
+        return true
+      } else {
+        const ownedTemplate = this.$store.state.Buster.ownedCursorTemplates.findIndex((temp) => temp.template.template_id === id)
+        return ownedTemplate >= 0
+      }
     }
   }
 }
@@ -68,13 +75,20 @@ export default {
         v-divider()
 
         template(v-for='(cursor, index) in $store.state.Customizations.cursorStyles')
-          v-list-item(@click='cursor.disabled ? "" : selectCursor(index, cursor.template_id, true)', :class='{"missing-template" : false ,"selected-item" : ($store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && ($store.state.Customizations.activeCursor.data.template_id === cursor.template_id))}', :disabled='cursor.disabled')
+          //- pre {{checkOwnership(cursor.template_id)}}
+          v-list-item(@click='(cursor.disabled || (!checkOwnership(cursor.template_id) && !cursor.public)) ? "" : selectCursor(index, cursor.template_id, (cursor.public || checkOwnership(cursor.template_id)))', :class='{"missing-template" : false ,"selected-item" : ($store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && ($store.state.Customizations.activeCursor.data.template_id === cursor.template_id))}', :disabled='cursor.disabled')
             v-list-item-avatar(size='40', tile)
               v-img(:src='cursor.image')
             v-list-item-content
-              v-list-item-title {{cursor.name}}
-                span.red--text.i.f6.ml2(v-if='cursor.public') Free!
-                span.i.f6.ml2(v-if='cursor.disabled') Coming soon!
+              v-list-item-title
+                div
+                  span.i.f6(v-if='cursor.public') Free!
+                  span.i.f6(v-if='cursor.disabled') Coming soon!
+                  span.red--text.i.f6(v-if='(!checkOwnership(cursor.template_id) && !cursor.public && !cursor.disabled)') Not owned
+                div {{cursor.name}}
+            v-list-item-action(v-if='(!checkOwnership(cursor.template_id) && !cursor.public && !cursor.disabled)')
+              v-btn(small, color='accent', depressed, @click='goToMarket(cursor.template_id)') Find on market
+
           v-divider(v-if='index < $store.state.Customizations.cursorStyles.length - 1')
     //- div.avatars__wrapper
       //- pre {{$store.state.Customizations.activeWallpaper}}

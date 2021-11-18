@@ -15,7 +15,8 @@ export default {
   data () {
     return {
       wax: null,
-      ownedTemplates: []
+      ownedTemplates: [],
+      templatesBlacklist: ['363838']
     }
   },
   computed: {
@@ -38,6 +39,14 @@ export default {
     ownedBusterTemplates: {
       set (val) { this.$store.commit('Buster/setOwnedBusterTemplates', val) },
       get () { return this.$store.state.Buster.ownedBusterTemplates }
+    },
+    ownedCursorTemplates: {
+      set (val) { this.$store.commit('Buster/setOwnedCursorTemplates', val) },
+      get () { return this.$store.state.Buster.ownedCursorTemplates }
+    },
+    ownedThemeTemplates: {
+      set (val) { this.$store.commit('Buster/setOwnedThemeTemplates', val) },
+      get () { return this.$store.state.Buster.ownedThemeTemplates }
     }
   },
   mounted () {
@@ -55,6 +64,7 @@ export default {
           // console.log('Userconnected - From watcher')
           this.fetchBustersNFTs()
           this.fetchOwnedBustersNFTs()
+          this.fetchOwnedCustomizationsNFTs()
         } else {
           // console.log('User not connected')
         }
@@ -205,7 +215,15 @@ export default {
       })
         .then(response => response.json())
         .then(data => {
-          this.busterTemplates = data.data
+          const tempTemplates = data.data
+          this.templatesBlacklist.forEach(template => {
+            const foundIndex = tempTemplates.findIndex(elem => elem.template_id === template)
+            if (foundIndex > -1) {
+              tempTemplates.splice(foundIndex, 1)
+            }
+          })
+          this.busterTemplates = tempTemplates
+          console.log('newTemplkates', this.busterTemplates)
         })
     },
     fetchOwnedBustersNFTs () {
@@ -232,6 +250,45 @@ export default {
         .then(data => {
           // console.log('owned busters', data)
           this.ownedBusterTemplates = data.data
+        })
+    },
+    fetchOwnedCustomizationsNFTs () {
+      fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?limit=200&page=1&collection_name=virusbusters&owner=' + this.profile + '&schema_name=virtual.desk', {
+        headers: {
+          accept: '*/*',
+          'accept-language': 'en-US,en;q=0.9',
+          'cache-control': 'no-cache',
+          'content-type': 'application/json',
+          pragma: 'no-cache',
+          'sec-fetch-dest': 'empty',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-site': 'cross-site',
+          'sec-gpc': '1'
+        },
+        referrer: 'https://wax.atomichub.io/',
+        referrerPolicy: 'strict-origin-when-cross-origin',
+        body: null,
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'omit'
+      })
+        .then(response => response.json())
+        .then(data => {
+          // console.log('owned customizations', data.data)
+          const tempCustomizationTemplates = data.data
+          const cursors = []
+          const themes = []
+          tempCustomizationTemplates.forEach(template => {
+            if (template.template.immutable_data.type === 'Cursor') {
+              console.log('On a un cursor', template)
+              cursors.push(template)
+            } else if (template.template.immutable_data.type === 'Theme') {
+              console.log('On a un theme', template)
+              themes.push(template)
+            }
+          })
+          this.ownedCursorTemplates = cursors
+          this.ownedThemeTemplates = themes
         })
     }
   }

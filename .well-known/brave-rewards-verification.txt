@@ -1,4 +1,0 @@
-This is a Brave Rewards publisher verification file.
-
-Domain: virusbusters.cards
-Token: 9fccf946463327606bf605bdaf2a3df493d7867ea4bdb0ff5497febf39822aa9

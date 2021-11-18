@@ -26,8 +26,7 @@ const state = {
       image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAdJJREFUWIW1lr9uwjAQxj+HCsaKqTOdYOtUlrIUNVs78Qp9Kl6BqWMiusCSTt3IBHMnxJhIER1SW3biP+c4/aSIODa+35199jEY9DJ9upr60nzP5Pbz5FEZ+3n6YiBKDLQZtKkqSgxGw9Y3KgRzGU+yjXiP5yvjRMlhBwBY3s8xGA3JEIwbT/Ix4ulZa1gnGUY2vj1mXhBRVZRIso2XcaAOs2w8ni2wPd3Vv8dM9LsUDUZDa2ipSg47xNOzAKIqak1E8J6rKkrEs4UCAdRLQQZoppSvqqJUDPL1549LDACueL0CqENIjcDtO5aTH9G0GbM5qQAIXdZWw81xy4c3Zcj2+6O1r0wQ4hxI8rHZqE42yD9RICJ+Dshp2IdxgLah1SxwTXxZK2P6SN8b/iJoid7x/8TzlVfqGgFCxCNhuzeMm1DcBRYvXF66lsKWhq2TsG+5DjoygPUqbkQnzfeMP655/yUCPsWNAKCklE8UqBDKZRSa110gtCWZqwzzqZa4nHeBi7QPCB2I0nCV4rZI+YDIEJGpQ/e9S/Gig5Qd8Z6wSxS45GhwZzqVY31CdDqImksRkr5BBalu0/pcWmm+Z0EAJgiKgvZAKIS8hL0A+EA0988vLQwHs4Qq7J4AAAAASUVORK5CYII='
     },
     {
-      template_id: '12347',
-      disabled: true,
+      template_id: '363830',
       name: 'Golden cursor',
       rarity: '',
       type: 'dust',
@@ -46,8 +45,8 @@ const state = {
     },
     {
       template_id: '00000002',
-      disabled: true,
       name: 'Mad Buster Cursor',
+      disabled: true,
       rarity: '',
       type: 'dust',
       customCursor: true,
@@ -64,7 +63,7 @@ const state = {
       }
     },
     {
-      template_id: '12346',
+      template_id: '0000000034',
       disabled: true,
       name: 'Glitched Cursor',
       rarity: '',
@@ -113,11 +112,10 @@ const state = {
       }
     },
     {
-      template_id: '0000013',
+      template_id: '363831',
       name: 'Golden theme',
       gradients: true,
       darkMode: false,
-      disabled: true,
       colors: {
         primary: '#3171d8',
         tertiary: '#3171d8',

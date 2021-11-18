@@ -28,7 +28,6 @@ export default {
             const prefs = {
               owner: this.$store.state.User.userProfile,
               data: this.themeStyles[index]
-              // extra: this.$store.state.Buster.bustersData[foundCursor]
             }
             this.updatePreferences('theme', prefs)
           } else {
@@ -38,12 +37,20 @@ export default {
           this.updatePreferences('theme', null)
         }
       } else {
-        window.open('https://wax.atomichub.io/market?collection_name=virusbusters&schema_name=buster.heads&template_id=' + id, '_blank')
+        window.open('https://wax.atomichub.io/market?collection_name=virusbusters&schema_name=virtual.desk&template_id=' + id, '_blank')
       }
     },
+    goToMarket (id) {
+      window.open('https://wax.atomichub.io/market?collection_name=virusbusters&schema_name=virtual.desk&template_id=' + id, '_blank')
+    },
     checkOwnership (id) {
-      const ownedTheme = this.$store.state.Buster.ownedBusterTemplates.findIndex((bust) => bust.template.template_id === id)
-      return ownedTheme >= 0
+      if (this.$store.state.User.userProfile === 'virusbusters') {
+        // virusbuster wallet used to debug nfts preview
+        return true
+      } else {
+        const ownedTemplate = this.$store.state.Buster.ownedThemeTemplates.findIndex((temp) => temp.template.template_id === id)
+        return ownedTemplate >= 0
+      }
     }
   }
 }
@@ -65,12 +72,16 @@ export default {
         v-divider()
 
         template(v-for='(theme, index) in $store.state.Customizations.themeStyles')
-          v-list-item(@click='theme.disabled ? "" : selectTheme(index, theme.template_id, true)', :class='{"missing-template" : false ,"selected-item" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data && ($store.state.Customizations.activeTheme.data.template_id === theme.template_id))}', :disabled='theme.disabled')
+          v-list-item(@click='(theme.disabled || (!checkOwnership(theme.template_id) && !theme.public)) ? "" : selectTheme(index, theme.template_id, (theme.public || checkOwnership(theme.template_id)))', :class='{"missing-template" : false ,"selected-item" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data && ($store.state.Customizations.activeTheme.data.template_id === theme.template_id))}', :disabled='theme.disabled')
             v-list-item-content
-              v-list-item-title {{theme.name}}
-                span.red--text.i.f6.ml2(v-if='theme.public') Free!
-                span.i.f6.ml2(v-if='theme.disabled') Coming soon!
-
+              v-list-item-title
+                div
+                  span.i.f6(v-if='theme.public') Free!
+                  span.i.f6(v-if='theme.disabled') Coming soon!
+                  span.red--text.i.f6(v-if='(!checkOwnership(theme.template_id) && !theme.public && !theme.disabled)') Not owned
+                div {{theme.name}}
+            v-list-item-action(v-if='(!checkOwnership(theme.template_id) && !theme.public && !theme.disabled)')
+              v-btn(small, color='accent', depressed, @click='goToMarket(theme.template_id)') Find on market
           v-divider(v-if='index < $store.state.Customizations.themeStyles.length - 1')
       //- pre {{$store.state.Customizations.activeTheme}}
       //- div.pointer.avatar-wrapper(@click='selectTheme(0, null, true)', :class='{"selected-avatar" : !$store.state.Customizations.activeTheme}')

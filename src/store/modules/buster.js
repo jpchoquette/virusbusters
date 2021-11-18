@@ -3,6 +3,8 @@ const state = {
   selectedBusterTemplate: null,
   busterTemplates: [],
   ownedBusterTemplates: [],
+  ownedCursorTemplates: [],
+  ownedThemeTemplates: [],
   bustersData: [
     {
       id: '338184',
@@ -44,6 +46,12 @@ const mutations = {
   },
   setOwnedBusterTemplates (state, payload) {
     state.ownedBusterTemplates = payload
+  },
+  setOwnedCursorTemplates (state, payload) {
+    state.ownedCursorTemplates = payload
+  },
+  setOwnedThemeTemplates (state, payload) {
+    state.ownedThemeTemplates = payload
   }
 }
 

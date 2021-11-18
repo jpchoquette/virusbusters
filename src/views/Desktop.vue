@@ -123,15 +123,15 @@ export default {
       immediate: true,
       deep: true,
       handler (newVal, oldVal) {
-        // console.log('cursor', newVal)
         if (newVal) {
-          if (oldVal) {
+          if (oldVal && oldVal.data && oldVal.data.type && oldVal.data.type !== 'base') {
             this.clearCursor()
           }
-          // console.log('change active cursor', newVal)
           this.setCursor(newVal.data.options, newVal.data.type)
         } else if (!newVal && oldVal) {
-          this.clearCursor()
+          if (oldVal && oldVal.data && oldVal.data.type && oldVal.data.type !== 'base') {
+            this.clearCursor()
+          }
         }
       }
     },
@@ -140,15 +140,9 @@ export default {
       deep: true,
       handler (newVal, oldVal) {
         if (newVal) {
-          // console.log('theme watcher', newVal)
-          // if (oldVal) {
-          // this.clearTheme()
-          // }
-          // console.log('change active theme', newVal)
           this.setTheme(newVal.data)
         } else if (!newVal && oldVal) {
           this.clearTheme()
-          // this.activeTheme = null
         }
       }
     }
@@ -242,8 +236,8 @@ export default {
                     v-img(:src="require('@/assets/images/virus-busters-icon-transparent.svg')", width='30px', height='40px', contain)
 
                 v-card(elevation='0', tile, light)
-                  div.w-100.tc.pa2
-                    img(src="@/assets/images/virtual-desktop-logo-black.png", width='120px')
+                  div.w-100.tc.pa2.light(style='height:80px')
+                    img(src="@/assets/images/virtual-desktop-logo-black.png", height='60px')
 
                   v-list
                     v-list-item(v-if='userConnected')

@@ -50,8 +50,13 @@ export default {
       }
     },
     checkOwnership (id) {
-      const ownedBuster = this.$store.state.Buster.ownedBusterTemplates.findIndex((bust) => bust.template.template_id === id)
-      return ownedBuster >= 0
+      if (this.$store.state.User.userProfile === 'virusbusters') {
+        // virusbuster wallet used to debug nfts preview
+        return true
+      } else {
+        const ownedTemplate = this.$store.state.Buster.ownedBusterTemplates.findIndex((temp) => temp.template.template_id === id)
+        return ownedTemplate >= 0
+      }
     }
   }
 }
@@ -76,7 +81,7 @@ div
         div.avatar-title {{buster.immutable_data.name}}
         //- pre {{buster}}
 
-    div(v-for='(n, index) in 10')
+    div(v-for='(n, index) in 4')
       div.pointer.avatar-wrapper()
         div.avatar-preview
           v-img(:src="require('@/assets/images/buster/buster_unknown.gif')", width='200px')

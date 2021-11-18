@@ -13,6 +13,14 @@ const state = {
     {
       id: '339377',
       background: '#ab5236'
+    },
+    {
+      id: '363872',
+      background: '#1D2B53'
+    },
+    {
+      id: '363854',
+      background: '#FE76A6'
     }
   ]
 }

@@ -44,9 +44,9 @@ const state = {
       }
     },
     {
-      template_id: '00000002',
+      template_id: '374743',
       name: 'Mad Buster Cursor',
-      disabled: true,
+      disabled: false,
       rarity: '',
       type: 'dust',
       customCursor: true,

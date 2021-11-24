@@ -62,6 +62,7 @@ export default {
     div.header__wrapper
       v-btn(@click='$emit("goBack")', outlined) < All settings
       div.header-title Cursors!
+    //- pre {{$store.state.Buster.ownedCursorTemplates}}
     div.list-preview
       //- div.preview-image__wrapper
         div.preview-image.primary

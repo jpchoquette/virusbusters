@@ -29,7 +29,8 @@ export default {
       counter: 0,
       counter2: 0,
       gravity: 1,
-      fontStyle: '40px Daydream'
+      fontStyle: '40px Daydream',
+      fade: true
     }
   },
   methods: {
@@ -297,12 +298,19 @@ export default {
       const lifeSpan = decay
       this.initialLifeSpan = lifeSpan // ms
       this.lifeSpan = lifeSpan // ms
+      // Random ghost scattering
+      // const randomA = Math.floor(Math.random() * 100)
+      // const randomB = Math.floor(Math.random() * 100)
       this.position = { x: x, y: y }
       this.image = canvasItem
       this.update = function (context) {
         this.lifeSpan--
-        const opacity = Math.max(this.lifeSpan / this.initialLifeSpan, 0)
-        context.globalAlpha = opacity
+        if (this.fade) {
+          const opacity = Math.max(this.lifeSpan / this.initialLifeSpan, 0)
+          context.globalAlpha = opacity
+        } else {
+          context.globalAlpha = 1
+        }
         context.drawImage(
           this.image,
           this.position.x, // - (this.canv.width / 2) * scale,
@@ -339,6 +347,7 @@ export default {
       this.counter2 = 0
       this.gravity = 1
       this.fontStyle = '40px Daydream'
+      this.fade = true
     }
   }
 }

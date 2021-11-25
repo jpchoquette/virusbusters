@@ -81,7 +81,8 @@ export default {
     },
     userConnected: {
       immediate: true,
-      handler (newVal) {
+      handler (newVal, oldVal) {
+        // console.log('newVal', newVal, oldVal)
         if (newVal) {
           this.showTemporaryWelcome = true
           this.showLogin = false
@@ -95,7 +96,9 @@ export default {
             this.clearCursor()
           }
           this.clearTheme()
-          this.showTemporaryExit = true
+          if (oldVal) {
+            this.showTemporaryExit = true
+          }
           this.showLogin = true
           setTimeout(() => {
             this.showTemporaryExit = false
@@ -143,6 +146,17 @@ export default {
           this.setTheme(newVal.data)
         } else if (!newVal && oldVal) {
           this.clearTheme()
+        }
+      }
+    },
+    '$store.state.Customizations.activeWallpaper': {
+      immediate: true,
+      deep: true,
+      handler (newVal, oldVal) {
+        if (newVal) {
+          // this.setWallpaper(newVal.data)
+        } else if (!newVal && oldVal) {
+          // this.clearTheme()
         }
       }
     }
@@ -212,16 +226,23 @@ export default {
               blender-window(v-if='$store.state.Desktop.blenderWindow')
               popup-fighter-window(v-if='$store.state.Desktop.popupFighterWindow')
 
-            .window__wrapper(:style='{backgroundColor: ($store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.extra) ? $store.state.Customizations.activeWallpaper.extra.background : "transparent"}')
+            .window__wrapper(:style='{backgroundColor: ($store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data.bgColor) ? $store.state.Customizations.activeWallpaper.data.bgColor : "transparent"}')
               div.wallpaper-content
+                //- pre {{$store.state.Buster.ownedWallpaperTemplates}}
+                //- pre {{$store.state.Customizations.activeWallpaper}}
                 template(v-if='$store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data')
-                  text-pattern(:data='$store.state.Customizations.activeWallpaper.data.immutable_data.name', color='#7e2753', :opacity='0.15', :angle='-20', :qtyPerLine='2')
-                  transition(name='custom-classes-transition', enter-active-class='animate__animated animate__zoomIn', leave-active-class='animate__animated animate__zoomOut', mode='out-in')
-                    v-img(:src="require('@/assets/images/buster/buster_' + $store.state.Customizations.activeWallpaper.data.template_id + '.gif')", width='350px', :key="$store.state.Customizations.activeWallpaper.data.template_id")
+                  template(v-if='$store.state.Customizations.activeWallpaper.data.type === "buster"')
+                    text-pattern(:data='$store.state.Customizations.activeWallpaper.data.name', color='#7e2753', :opacity='0.15', :angle='-20', :qtyPerLine='2')
+                    transition(name='custom-classes-transition', enter-active-class='animate__animated animate__zoomIn', leave-active-class='animate__animated animate__zoomOut', mode='out-in')
+                      v-img(:src="require('@/assets/images/buster/buster_' + $store.state.Customizations.activeWallpaper.data.template_id + '.gif')", width='350px', :key="$store.state.Customizations.activeWallpaper.data.template_id")
+                  template(v-else)
+                    div.wallpaper-image(:style='{ backgroundImage:"url(" + require("@/assets/images/wallpapers/wallpaper_" + $store.state.Customizations.activeWallpaper.data.template_id + $store.state.Customizations.activeWallpaper.data.extension) + ")" }', :class='$store.state.Customizations.activeWallpaperDisplayStyle')
+                    //- v-img(:src="require('@/assets/images/wallpapers/wallpaper_' + $store.state.Customizations.activeWallpaper.data.template_id + '.png')", width='350px', :key="$store.state.Customizations.activeWallpaper.data.template_id")
+
                 img(v-else, src="@/assets/images/vb-animated-logo-light.gif", width='400px', max-width='400px', style='opacity:1;')
 
               .window-content
-                .version-number v1.07
+                .version-number v1.08
                 template(v-if='userConnected')
                   icon-desktop(image='buster-icon.png', title='Desktop customizer', action='customization')
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
@@ -389,6 +410,25 @@ export default {
         display: flex
         align-items: center
         justify-content: center
+        .wallpaper-image
+          width: 100%
+          height: 100%
+          position: absolute
+          top: 0
+          left: 0
+          z-index: 999999
+          background-position: center
+          background-size: cover
+          &.mosaic-background
+            background-repeat: repeat
+            background-size: 50%
+          &.covering-background
+            background-size: cover
+            background-position: center
+          &.centered-background
+            background-size: 70%
+            background-position: center
+
         .v-image
           max-width: 350px
 </style>

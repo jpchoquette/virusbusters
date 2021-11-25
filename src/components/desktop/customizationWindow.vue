@@ -54,10 +54,10 @@ export default {
         div.window-title Desktop Customizer
         div.flex-grow-1
         v-btn.black--text(@click='closeWindow', tile, color='accent', fab, depressed) X
-      div.window-content
+      template
         transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
 
-          div(v-if='!pageView')
+          .window-content(v-if='!pageView')
             v-list(color='transparent')
               template(v-for='(setting, index) in settings')
                 v-list-item.pointer(@click='pageView = setting.value', :disabled='setting.disabled')
@@ -99,15 +99,20 @@ export default {
 </template>
 <style lang='sass'>
   .customization-window.desktop-window
-    // top: calc(50% - 150px)
-    // left: calc(50% - 250px)
-    .list-preview
-      margin: 20px
+    .side-menu
       display: flex
-      // flex-wrap: wrap
+      flex-direction: column
+      align-items: center
+      text-align: center
+      position: sticky
+      top: 0px
       .preview-image__wrapper
-        max-width: 120px
-        // padding: 0 5px 5px 5px
+        max-width: 140px
+        display: flex
+        flex-direction: column
+        align-items: center
+        text-align: center
+        // margin-right: 10px
         .preview-image
           padding: 2px
           height: 120px
@@ -121,12 +126,27 @@ export default {
           overflow: hidden
           display: flex
           align-items: center
+          justify-content: center
+          position: relative
+          .contained-image
+            position: absolute
+            top: 26px
+            left: 26px
+            background-color: black
+            width: 70px
+            height: 58px
+    .list-preview
+      margin: 0px 20px 20px 20px
+      display: flex
+      flex-grow: 1
+      // width: 100%
+      // flex-wrap: wrap
       .v-list
         padding: 0
         width: 100%
         background-color: transparent
         .v-list-item
-          padding: 10px 16px
+          padding: 5px 16px
           &.selected-item
             border: solid 1px red
     .v-list-item

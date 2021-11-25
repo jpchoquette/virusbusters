@@ -58,7 +58,7 @@ export default {
 }
 </script>
 <template lang='pug'>
-  div
+  .window-content
     div.header__wrapper
       v-btn(@click='$emit("goBack")', outlined) < All settings
       div.header-title Cursors!

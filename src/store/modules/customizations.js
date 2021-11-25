@@ -4,6 +4,8 @@ const state = {
   activeWallpaper: null,
   activeCursor: null,
   activeTheme: null,
+  activeWallpaperDisplayStyle: null,
+  wallpaperSize: '60%',
   cursorStyles: [
     // {
     //   // cursorImage
@@ -13,7 +15,8 @@ const state = {
     //   type: 'ghost',
     //   options: {
     //     image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAASNJREFUWIW9l10OgyAMxwfZYeYd5uM8tD7qHfQ27mWQiqX0izUxMWLpjz8FSnhU7PN6n7W25dhCrU1qt46owD1gLs5Y8Hlf8/s0jO4gVQAYGDMMRgORHSTBKRAphBnAChLLD5rgmB83maPk5x4QNwX+DXEB0MpvgXBXQAoRveafA4ECWAJQOyPXMoBm/ud9NUM8Td4/SxDUuVHbmELKAUqBaRib7ZRRu2K3VcAJLgKgRlmqsxxbSE+r3y4KSJZ2BuBks0QF9mEEZbIuKQ1EwH5slWGe1RIKwDENBAbSLEqhI6WUBARCxFoD9l1TdGKQcCDiDjUqJINqpMGoanlPCNVGVE6FZfmarlWtm1Rp2AlpvmRqKypTDlgh4BS6XbO5EGX+fAFinL3TpLmq4gAAAABJRU5ErkJggg==',
-    //     decay: 20
+    //     decay: 20,
+    //     fade: true
     //   }
     // },
     {
@@ -63,17 +66,19 @@ const state = {
       }
     },
     {
-      template_id: '0000000034',
-      disabled: true,
+      template_id: '376011',
+      disabled: false,
+      public: false,
       name: 'Glitched Cursor',
       rarity: '',
       type: 'ghost',
       customCursor: true,
       class: 'cursor-glitched',
-      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAqxJREFUWIWlV72O2kAQ/hZBdIqETilOoUgfwgu4cXQN5+5oQkuZp6DmKe4VSOPmJIN0QufGeQAf6a+AKrJOQhFXbAozy86ya6/hkyzs2TXzzez8WUDDXT+UcGCxToVr7RKIOsXnkKD/89nftil/nT2r+y/T7z46zybS1h+SbA4AGCy5TLyNDmzOJ+Ii0WLK4155XYjX2TPzIpGw7W3bhCZkNwYACDQjRyToGG1H0k6mKQAgCsZI0q+ldKX9y/ttuR7eQBYbqTw02rB1HYPD+/lwW97sUkSzUK3rR9ICwBZ15DsBPP7xMfbkvXzHj5ziSyehCNTCRoI80VnxS99rxJSNBIsB8e8aACDJdbHbAgAYLD+fEvsokQ+3iIIxEy8mveosuBT5cHs8c7hdbkLoCzYr60BeUMqvf5a/xQMAME/YaoFXGroQBWPkRJoUN0R7sdyrPDdTarBaq3uykKqi7MZIsnmZvg09p+rBcn+ZBwhRMAb6QLL+xGUaXKVYyGIjdcuj8AbJND0WGrPwuAhUwFROHkiyuYcHJvflb1G700u5iZbqdCbiHgusKBg7m5UZA4t1KuiqUi7eRo46MLk/Wu7C+621DwD+Aw4AtGQ35qW0AtEsdMaCb+Fhe4YfTkcyW0rpQabWyfrOih9V/y97tzYGqpT5PJv9QE9FoDSuyhuNhlKmKJsz5fkPHsymJwimR1okdLnKJrd2xl/xiQw4Hc9MY9kRmMro2UbCmr7Fg7qqyrNOwvtjw2S+WO4BAN+yTMny4fbYK67KykX9xJwR2EjmA9cRvQQBXoKAzQIKnZVzRmg2klWQkFeFshZxD/Lp97G7eqDxREQkZDeuVnQoanqm2JrW2R+cstiUMaGN7TaY3wYEMuRsAnf9UCbZvJaADfpRXjSU1s0BdcoB4D+vYmCqkpkmwAAAAABJRU5ErkJggg==',
+      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAgVJREFUWIW9V71uwjAQ/hzRrqxUYmED9pYlVQdItnbiUboxs/EGvAIsjGkZqrKk7FUfAAlQp6hjB3cAR2fHhnOAflNyvvi++7UjQBA1QwkAyWBBxYiHIV6+FgIXQKAMK+MuHFs3dbn6gc/GvuAQqdCXJJ3sHmY12OSiqst9iLhSKPK8K+MHIKo1Vh3IbCMBIO70NbmNRMDZsCySdKI5ZkuJoIuUYWsqNcX64B7J4lsz0L2tFozOlxlw9VaQu6KRdwHDoZNgpljZvGgKOCS0LlDFAwDtV8vHvw+abL7MnMY4BQgAQuLRGv72dKa9f/a2BQJO7GuAQ8JJANmYZ+wIKImzt6HpYRlUXAvm0JHZRhYn5AZxp88aYhRRM5Sr4fthAj5QkaBEuEV4MoEkneTGXCk5dJTnNdBtbNFtbE/l42UccEUgG0MCWnfEnT6SgX0TGgWOUYoAwNk99xntZxvFrllvg+oAYH8aUmVbS9HwHms5TvXTk7ZAwDRiq2xfEiaR1lTKm+eOmwAHZUgoIpRAoISuyrXJfSafubfpbMVUpgrqQ1MOWO6Hqzs9iuo4rx8mWJgDnB4ucwiZs0KB3Ybn+DOiqVuPUqxHqd8cuMTvWakNo2YozUIUP0925fqHAHbHuW1GlPaI3h+V8ah3XdBTUTOLWMlLE1BRoJ7bCNhAU/nvVzKzjv4A1McWXZcxVBgAAAAASUVORK5CYII=',
       options: {
-        image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAqxJREFUWIWlV72O2kAQ/hZBdIqETilOoUgfwgu4cXQN5+5oQkuZp6DmKe4VSOPmJIN0QufGeQAf6a+AKrJOQhFXbAozy86ya6/hkyzs2TXzzez8WUDDXT+UcGCxToVr7RKIOsXnkKD/89nftil/nT2r+y/T7z46zybS1h+SbA4AGCy5TLyNDmzOJ+Ii0WLK4155XYjX2TPzIpGw7W3bhCZkNwYACDQjRyToGG1H0k6mKQAgCsZI0q+ldKX9y/ttuR7eQBYbqTw02rB1HYPD+/lwW97sUkSzUK3rR9ICwBZ15DsBPP7xMfbkvXzHj5ziSyehCNTCRoI80VnxS99rxJSNBIsB8e8aACDJdbHbAgAYLD+fEvsokQ+3iIIxEy8mveosuBT5cHs8c7hdbkLoCzYr60BeUMqvf5a/xQMAME/YaoFXGroQBWPkRJoUN0R7sdyrPDdTarBaq3uykKqi7MZIsnmZvg09p+rBcn+ZBwhRMAb6QLL+xGUaXKVYyGIjdcuj8AbJND0WGrPwuAhUwFROHkiyuYcHJvflb1G700u5iZbqdCbiHgusKBg7m5UZA4t1KuiqUi7eRo46MLk/Wu7C+621DwD+Aw4AtGQ35qW0AtEsdMaCb+Fhe4YfTkcyW0rpQabWyfrOih9V/y97tzYGqpT5PJv9QE9FoDSuyhuNhlKmKJsz5fkPHsymJwimR1okdLnKJrd2xl/xiQw4Hc9MY9kRmMro2UbCmr7Fg7qqyrNOwvtjw2S+WO4BAN+yTMny4fbYK67KykX9xJwR2EjmA9cRvQQBXoKAzQIKnZVzRmg2klWQkFeFshZxD/Lp97G7eqDxREQkZDeuVnQoanqm2JrW2R+cstiUMaGN7TaY3wYEMuRsAnf9UCbZvJaADfpRXjSU1s0BdcoB4D+vYmCqkpkmwAAAAABJRU5ErkJggg==',
-        decay: 100
+        image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAgVJREFUWIW9V71uwjAQ/hzRrqxUYmED9pYlVQdItnbiUboxs/EGvAIsjGkZqrKk7FUfAAlQp6hjB3cAR2fHhnOAflNyvvi++7UjQBA1QwkAyWBBxYiHIV6+FgIXQKAMK+MuHFs3dbn6gc/GvuAQqdCXJJ3sHmY12OSiqst9iLhSKPK8K+MHIKo1Vh3IbCMBIO70NbmNRMDZsCySdKI5ZkuJoIuUYWsqNcX64B7J4lsz0L2tFozOlxlw9VaQu6KRdwHDoZNgpljZvGgKOCS0LlDFAwDtV8vHvw+abL7MnMY4BQgAQuLRGv72dKa9f/a2BQJO7GuAQ8JJANmYZ+wIKImzt6HpYRlUXAvm0JHZRhYn5AZxp88aYhRRM5Sr4fthAj5QkaBEuEV4MoEkneTGXCk5dJTnNdBtbNFtbE/l42UccEUgG0MCWnfEnT6SgX0TGgWOUYoAwNk99xntZxvFrllvg+oAYH8aUmVbS9HwHms5TvXTk7ZAwDRiq2xfEiaR1lTKm+eOmwAHZUgoIpRAoISuyrXJfSafubfpbMVUpgrqQ1MOWO6Hqzs9iuo4rx8mWJgDnB4ucwiZs0KB3Ybn+DOiqVuPUqxHqd8cuMTvWakNo2YozUIUP0925fqHAHbHuW1GlPaI3h+V8ah3XdBTUTOLWMlLE1BRoJ7bCNhAU/nvVzKzjv4A1McWXZcxVBgAAAAASUVORK5CYII=',
+        decay: 100,
+        fade: true
       }
     }
   ],
@@ -116,6 +121,7 @@ const state = {
       name: 'Golden theme',
       gradients: true,
       darkMode: false,
+      public: false,
       colors: {
         primary: '#3171d8',
         tertiary: '#3171d8',
@@ -127,11 +133,12 @@ const state = {
       }
     },
     {
-      template_id: '000014',
-      name: 'Glitched theme',
+      template_id: '376005',
+      name: 'Bluescreen theme',
       gradients: false,
       darkMode: true,
-      disabled: true,
+      disabled: false,
+      public: false,
       colors: {
         primary: '#0000AA',
         tertiary: '#0000AA',
@@ -141,6 +148,42 @@ const state = {
         toolbars: '#0000AA',
         grey: '#c2c3c7'
       }
+    }
+  ],
+  // ------------------------------------------------------------ Wallpapers
+  wallpaperStyles: [
+    {
+      template_id: '1000001',
+      name: 'Cloudy Day',
+      type: 'wallpaper',
+      extension: '.png',
+      defaultDisplayStyle: 'centered',
+      defaultSize: '50%',
+      bgColor: '#dfeaff',
+      public: true,
+      disabled: false
+    },
+    {
+      template_id: '1000002',
+      name: 'At the aquarium',
+      type: 'wallpaper',
+      extension: '.png',
+      defaultDisplayStyle: 'covered',
+      defaultSize: '50%',
+      bgColor: '#dfeaff',
+      public: true,
+      disabled: false
+    },
+    {
+      template_id: '376019',
+      name: 'Glitched Pop-ups',
+      type: 'wallpaper',
+      extension: '.png',
+      defaultDisplayStyle: 'covered',
+      defaultSize: '50%',
+      bgColor: '#ffffff',
+      public: false,
+      disabled: false
     }
   ]
 }
@@ -174,6 +217,12 @@ const mutations = {
   },
   setActiveTheme (state, payload) {
     state.activeTheme = payload
+  },
+  setActiveWallpaperDisplayStyle (state, payload) {
+    state.activeWallpaperDisplayStyle = payload
+  },
+  setWallpaperSize (state, payload) {
+    state.wallpaperSize = payload
   }
 }
 

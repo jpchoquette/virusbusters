@@ -5,22 +5,42 @@ const state = {
   ownedBusterTemplates: [],
   ownedCursorTemplates: [],
   ownedThemeTemplates: [],
+  ownedWallpaperTemplates: {
+    wallpapers: [],
+    busters: []
+  },
   bustersData: [
     {
-      id: '338184',
-      background: '#000000'
+      template_id: '338184',
+      bgColor: '#000000',
+      type: 'buster',
+      name: 'Mesh Buster',
+      disabled: false,
+      public: false
     },
     {
-      id: '339377',
-      background: '#ab5236'
+      template_id: '339377',
+      bgColor: '#ab5236',
+      type: 'buster',
+      name: 'Pumpkin Buster',
+      disabled: false,
+      public: false
     },
     {
-      id: '363872',
-      background: '#1D2B53'
+      template_id: '363872',
+      bgColor: '#1D2B53',
+      type: 'buster',
+      name: 'Gambler Buster',
+      disabled: false,
+      public: false
     },
     {
-      id: '363854',
-      background: '#FE76A6'
+      template_id: '363854',
+      bgColor: '#FE76A6',
+      type: 'buster',
+      name: 'Pop-up Buster',
+      disabled: false,
+      public: false
     }
   ]
 }
@@ -60,6 +80,9 @@ const mutations = {
   },
   setOwnedThemeTemplates (state, payload) {
     state.ownedThemeTemplates = payload
+  },
+  setOwnedWallpaperTemplates (state, payload) {
+    state.ownedWallpaperTemplates = payload
   }
 }
 

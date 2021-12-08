@@ -8,7 +8,10 @@ export default {
       hasWrapperEl: true,
       width: 0,
       height: 0,
-      cursor: null,
+      cursor: {
+        x: 0,
+        y: 0
+      },
       lastPos: null,
       particles: [],
       baseImage: new Image(),
@@ -30,7 +33,28 @@ export default {
       counter2: 0,
       gravity: 1,
       fontStyle: '40px Daydream',
-      fade: true
+      fade: true,
+      nDots: 7,
+      image: null,
+      images: null,
+      emoji: '🤪',
+      DELTAT: 0.01,
+      SEGLEN: 10,
+      SPRINGK: 10,
+      MASS: 1,
+      GRAVITY: 50,
+      RESISTANCE: 10,
+      STOPVEL: 0.1,
+      STOPACC: 0.1,
+      DOTSIZE: 11,
+      BOUNCE: 0.7,
+      emojiAsImage: null,
+      imgAsImage: null,
+      draw: null,
+      position: null,
+      x: 0,
+      y: 0,
+      particleType: 'emoji'
     }
   },
   methods: {
@@ -53,6 +77,8 @@ export default {
             this.dustCursor(options)
           } else if (this.type === 'ghost') {
             this.ghostCursor(options)
+          } else if (this.type === 'spring') {
+            this.springCursor(options)
           } else {
             // todo
           }
@@ -92,6 +118,25 @@ export default {
         this.init(this.type)
       }, 1000)
     },
+    springCursor (options) {
+      console.log('options', options)
+      if (options.particleType) {
+        this.particleType = options.particleType
+      }
+      if (options.emoji) {
+        this.emoji = options.emoji
+      }
+      if (options.image) {
+        this.image = options.image
+      }
+      if (options.images) {
+        console.log('on a images', options.images)
+        this.images = options.images
+      }
+      setTimeout(() => {
+        this.init(this.type)
+      }, 1000)
+    },
     init () {
       this.canvas = document.createElement('canvas')
       this.canvas.setAttribute('id', 'cursorCanvas')
@@ -111,6 +156,7 @@ export default {
         this.canvas.width = this.width
         this.canvas.height = this.height
       }
+      // DUST ----------------------------------------
       if (this.type === 'dust') {
         this.context.font = this.fontStyle
         this.context.textBaseline = 'middle'
@@ -147,6 +193,72 @@ export default {
           )
           this.canvImages.push(bgCanvas)
         })
+      // SPRING ----------------------------------------
+      } else if (this.type === 'spring') {
+        // const bgCanvas = document.createElement('canvas')
+        // const bgContext = bgCanvas.getContext('2d')
+        // const image = new Image()
+        // if (this.particleType === 'image') {
+        //   image.src = this.image
+        //   bgCanvas.width = 30
+        //   bgCanvas.height = 30
+        //   bgContext.drawImage(
+        //     image,
+        //     0, 0,
+        //     image.width, image.height,
+        //     0, 0,
+        //     bgCanvas.width, bgCanvas.height
+        //   )
+        //   this.imgAsImage = bgCanvas
+        // } else {
+        //   const measurements = this.context.measureText(this.emoji)
+        //   bgCanvas.width = measurements.width
+        //   bgCanvas.height = measurements.actualBoundingBoxAscent * 2
+        //   bgContext.textAlign = 'center'
+        //   bgContext.font = '16px serif'
+        //   bgContext.textBaseline = 'middle'
+        //   bgContext.fillText(
+        //     this.emoji,
+        //     bgCanvas.width / 2,
+        //     measurements.actualBoundingBoxAscent
+        //   )
+        //   this.emojiAsImage = bgCanvas
+        // }
+        for (let i = 0; i < this.nDots; i++) {
+          const bgCanvas = document.createElement('canvas')
+          const bgContext = bgCanvas.getContext('2d')
+          const image = new Image()
+          if (this.particleType === 'image') {
+            console.log('this.images', this.images)
+            image.src = this.images[i % this.images.length]
+            bgCanvas.width = 30
+            bgCanvas.height = 30
+            bgContext.drawImage(
+              image,
+              0, 0,
+              image.width, image.height,
+              0, 0,
+              bgCanvas.width, bgCanvas.height
+            )
+            this.imgAsImage = bgCanvas
+          } else {
+            const measurements = this.context.measureText(this.emoji)
+            bgCanvas.width = measurements.width
+            bgCanvas.height = measurements.actualBoundingBoxAscent * 2
+            bgContext.textAlign = 'center'
+            bgContext.font = '16px serif'
+            bgContext.textBaseline = 'middle'
+            bgContext.fillText(
+              this.emoji,
+              bgCanvas.width / 2,
+              measurements.actualBoundingBoxAscent
+            )
+            this.emojiAsImage = bgCanvas
+          }
+          // this.addParticle(this.cursor.x, this.cursor.y, this.emojiAsImage)
+          this.particles[i] = new this.SpringParticle(this.cursor.x, this.cursor.y, this.particleType === 'image' ? this.imgAsImage : this.emojiAsImage, i)
+        }
+      // GHOST ----------------------------------------
       } else if (this.type === 'ghost') {
         // todo
       }
@@ -241,6 +353,8 @@ export default {
         this.particles.push(new this.DustParticle(x, y, elem))
       } else if (this.type === 'ghost') {
         this.particles.push(new this.GhostParticle(x, y, elem, this.decay))
+      } else if (this.type === 'spring') {
+        // this.particles.push(new this.SpringParticle(x, y, elem))
       }
     },
     updateParticles () {
@@ -256,10 +370,94 @@ export default {
         }
       }
     },
+    updateParticlesSpring () {
+      this.canvas.width = this.width
+      // follow mouse (+30 to shift position)
+      this.particles[0].position.x = this.cursor.x + 30
+      this.particles[0].position.y = this.cursor.y + 30
 
+      // Start from 2nd dot
+      for (let i = 1; i < this.nDots; i++) {
+        const spring = { x: 0, y: 0 }
+
+        if (i > 0) {
+          this.springForce(i - 1, i, spring)
+        }
+
+        if (i < this.nDots - 1) {
+          this.springForce(i + 1, i, spring)
+        }
+        const resist = {
+          x: -this.particles[i].velocity.x * this.RESISTANCE,
+          y: -this.particles[i].velocity.y * this.RESISTANCE
+        }
+        const accel = {
+          x: (spring.x + resist.x) / this.MASS,
+          y: (spring.y + resist.y) / this.MASS + this.GRAVITY
+        }
+        this.particles[i].velocity.x += this.DELTAT * accel.x
+        this.particles[i].velocity.y += this.DELTAT * accel.y
+
+        if (
+          Math.abs(this.particles[i].velocity.x) < this.STOPVEL &&
+          Math.abs(this.particles[i].velocity.y) < this.STOPVEL &&
+          Math.abs(accel.x) < this.STOPACC &&
+          Math.abs(accel.y) < this.STOPACC
+        ) {
+          this.particles[i].velocity.x = 0
+          this.particles[i].velocity.y = 0
+        }
+
+        this.particles[i].position.x += this.particles[i].velocity.x
+        this.particles[i].position.y += this.particles[i].velocity.y
+
+        const height = this.canvas.clientHeight
+        const width = this.canvas.clientWidth
+
+        if (this.particles[i].position.y >= height - this.DOTSIZE - 1) {
+          if (this.particles[i].velocity.y > 0) {
+            this.particles[i].velocity.y = this.BOUNCE * -this.particles[i].velocity.y
+          }
+          this.particles[i].position.y = height - this.DOTSIZE - 1
+        }
+
+        if (this.particles[i].position.x >= width - this.DOTSIZE) {
+          if (this.particles[i].velocity.x > 0) {
+            this.particles[i].velocity.x = this.BOUNCE * -this.particles[i].velocity.x
+          }
+          this.particles[i].position.x = width - this.DOTSIZE - 1
+        }
+
+        if (this.particles[i].position.x < 0) {
+          if (this.particles[i].velocity.x < 0) {
+            this.particles[i].velocity.x = this.BOUNCE * -this.particles[i].velocity.x
+          }
+          this.particles[i].position.x = 0
+        }
+        this.particles[i].draw(this.context)
+      }
+    },
     loop () {
-      this.updateParticles()
+      if (this.type === 'spring') {
+        this.updateParticlesSpring()
+      } else {
+        this.updateParticles()
+      }
       requestAnimationFrame(this.loop)
+    },
+    vec (x, y) {
+      this.x = x
+      this.y = y
+    },
+    springForce (i, j, spring) {
+      const dx = this.particles[i].position.x - this.particles[j].position.x
+      const dy = this.particles[i].position.y - this.particles[j].position.y
+      const len = Math.sqrt(dx * dx + dy * dy)
+      if (len > this.SEGLEN) {
+        const springF = this.SPRINGK * (len - this.SEGLEN)
+        spring.x += (dx / len) * springF
+        spring.y += (dy / len) * springF
+      }
     },
 
     /**
@@ -315,6 +513,26 @@ export default {
           this.image,
           this.position.x, // - (this.canv.width / 2) * scale,
           this.position.y // - this.canv.height / 2,
+        )
+      }
+    },
+    SpringParticle (x, y, canvasItem, index) {
+      this.position = { x: x, y: y }
+      this.velocity = {
+        x: 0,
+        y: 0
+      }
+
+      this.canv = canvasItem
+      console.log('canvasItemn', canvasItem)
+      console.log('this.particles', this.particles)
+      this.draw = function (context) {
+        context.drawImage(
+          this.canv,
+          this.position.x - this.canv.width / 2,
+          this.position.y - this.canv.height / 2,
+          this.canv.width,
+          this.canv.height
         )
       }
     },

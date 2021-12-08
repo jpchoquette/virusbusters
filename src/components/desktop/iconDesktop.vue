@@ -119,6 +119,7 @@ export default {
       &::after
         opacity: 1
     .image-wrapper
+      filter: drop-shadow(2px 3px 2px #000000CC)
       width: 50px
       height: 50px
       // background-color: white
@@ -126,7 +127,7 @@ export default {
         font-family: $display-font
         font-size: 35px
         text-align: center
-        color: var(--v-secondary-base)
+        color: var(--v-accent-base)
     .text-wrapper
       font-weight: 500
       margin-top: 8px

@@ -53,7 +53,7 @@ export default {
       div.window-top-bar#window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
         div.window-title Desktop Customizer
         div.flex-grow-1
-        v-btn.black--text(@click='closeWindow', tile, color='accent', fab, depressed) X
+        v-btn.close-button.secondary--text(@click='closeWindow', tile, color='accent', fab, depressed) X
       template
         transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
 

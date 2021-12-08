@@ -37,7 +37,7 @@ export default {
       div.window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
         div.window-title Settings
         div.flex-grow-1
-        v-btn.black--text(@click='closeWindow', tile, color='accent', fab, depressed) X
+        v-btn.close-button.secondary--text(@click='closeWindow', tile, color='accent', fab, depressed) X
       div.window-content
         div(v-for='(n,index) in 100') Allo les pogos
 </template>

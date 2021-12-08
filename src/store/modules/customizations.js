@@ -80,6 +80,46 @@ const state = {
         decay: 100,
         fade: true
       }
+    },
+    {
+      template_id: '00000101010',
+      disabled: true,
+      public: false,
+      name: 'Dangling Lights Cursor',
+      rarity: '',
+      type: 'spring',
+      customCursor: true,
+      class: 'cursor-christmas1',
+      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAatJREFUWIXFlz1Ow0AQhd9GKA2RUlBQR7hECqKgoYMjcAaOwCl8BM6CuzQuEJZSErmmREoaGmgy1uxkZn/8I0aKlGzW+759MzsrO7B4WN39IhBVW7vQ/32iWzAmPhWI08Tf2ktv0uPqazIYx8WlsIwpQDqAmHgKTB8IG+D71f+9fE4CyYWYqaNSnMaUcQmeU8w2gLFbC24IhA5AEPTpATEcQIOZACINgINo35VITUMHEDrjJxBM/GX9mfacBTCkk2niuWnwUpDswlG8bIossSjAf8QM8LuX5QK3O3X3KYVoXsdaLglCikugnPZ8xifFiEnEAgGAi6cFgAUA4OZ9F1oOAHMASHOBB09L2RRHcT8IwnLBK0I5KXYqyqboXNDED9sm+DwgHKDIdcISP79eAwi7YBaHVQ8SRorTrkmcA2gQ0S4YK8yP2ytPnAvzsFzIasMaDAGExEMQve4BCbKZ76PiFkCvVly1teOL3P+cFmFqDLoLOESs6VhHcvBlFIM4bJtgPxjlNrS6HBe20jTqyyYvzs183wnTSZEOVW3tRn/btfqGBTE6QAhEg/gDa07ki0ZdwH0AAAAASUVORK5CYII=',
+      options: {
+        images: [
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAbdJREFUWIW1lz1Ow0AQhV8QogkSJbVFykiOKNzQmZsgcYScIkfgDBwBOhqKKJZSOkpNQYGUNDSmQGONxzP7Z/tJkbKbaN83s7N/MwAos6IBgN39HQBgtT1A6v34Oet1jqB20BCIKUA6g2kQH1cnAMDD7/UkECoAgNYYAObLvP1OmRkL4kLrtMy5OOzoAGSsmdP0jAWhAlhRTwFhZsAnPk1lVjSpIEkA532F+TLvZCIVpFfJcila5iRrvyD5VosJICHO+wpAvz6+X0+d9mP2FQWidsosyKgtcykJo0GoNUB/XG0PpvlTvXOaA8Db8bbT1urDW4SuyNd5jXVeD4IwAXgWNHMA2FQLbKqFF0RCcF2avzARhDXQploAQAtBbUtlVjQUoHMKXEuIIiet87qTESkL3lsDIacemXM4TRyCaiF5Kx5LgwFk9D7JqYgC0Ha5GHOpMiuaQRnomP+8/H8CxLMQBOAtRG4cCBEFwKUeNjfPfaBAkKQpCILgIA6YYAA5DcEQHGYIQBSEBmLAJd3ttWPVdeBoIvjkx4Xr7ueD4Zkb/LqJAdFuSKM+NGNuxFRPkzy5fSC8mP8AErzjtg/L/pIAAAAASUVORK5CYII=',
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAZtJREFUWIXllr1OAkEURs+CsYHY+QCEFgOhMBga46sYKp+HivgqxMZgKAhEWsID0BFpSIwWOuvM3ZnZu7Bo4Vexwybn3J9dgP+cu8b1R/KXcICTChhIKPNu8zQCeWADhxN0wIYbCMBuuQCgv6+n553ZqjwBWbUNlxK1VpvObAXA2W+AZQwcoFIWfN5t8nz+Fr2/1moDOPepRxBbLDlrAwplt1zQ39eBnBFotlmm1mrnShj4eD1NggIh+PvDZfZwUlTzJ94RSLgXKvI6uXCufV2wl2+8niZegUPgGgkfPCNwCPxltHauZdX2wkk4RJbQB5cwgN6gkX739XnrdCIGdwTs6kOV9wYNCxTO1c2W6nDjnPngoHwRPQ0eMxJ2N/KkQnCvgKzewKWEETk2FQg/8zbUF81IYtWnAhr47eg+KmNHzj8qoFm+EPzY6iHQgbzWm+Q9DZqkAkWrD6VI+x2BMmLDNe0vVaBo5VEB03ZN+6vDjfqt50uieQpicJkicDjwT2mo3UXh8P1zrO1CmWBHQEpocww4I6CVKANq5xMRYNQqzhjyugAAAABJRU5ErkJggg=='
+        ],
+        image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAfJJREFUWIXFl71qAkEUhc9qSBMhYAKpJYWNoKSwsVrzCHmGPFWeJVqlsZAINilk64AsBGIjLJPGO9yZvXdm1h9yYGH/zzdnZu7OZmCa9sYGAc2KRRa6fozsC2PmlwLJJPP34sG56bn3fTGYjJv7xr6agpht3wBAdv+lQlqAmHkKDIdIMQeAK/XKz5t7fPvqHBIwB5n2xoZDxMwBoJVkTueE835ylKhkbrZ9Q1sYwGttDE6D8I0JjMPJAARB2xEQXGQqpaIDSDAnQGhKA+Ag0r6g1MJmAUJzvAbBzOfddtpzGsAplUwyb9oNThckp3Awz8uqkVkU4D/UAtwSqqXA405tfcpAFBOQIPKywrzbrpnT+WMh7LdgViyy2M1kTIZSCncvHQAdAMBouQm9DgBbkEi0sRHNW56X1cHcFUFos83pAv+m2KzIy8qmIJnv1qvg84CXAKlpEpr5zWAIIJyCWoS08eDD+ObUajLnABJEdAUTG5ifT4+OOTfm0lJoVIYlGAIImYcgjvoO+CAf179Rcw3AmQX+cknTrFhk/CWTfX0QpqpWCVMWkhyE9mNFR5uSFkBqeWoaIYjdehWsBxZAW7OlSKty3FjrprN9jglitNxgtNxY88m+g5vB0JmuXMEWm23fNE1FqxsE4M+Es/9uh0AkiD8mBR7HkZyb5gAAAABJRU5ErkJggg==',
+        emoji: '🎄',
+        particleType: 'image'
+      }
+    },
+    {
+      template_id: '000001010101',
+      disabled: true,
+      public: false,
+      name: 'Lost Mitten Cursor',
+      rarity: '',
+      type: 'dust',
+      customCursor: true,
+      class: 'cursor-mitten',
+      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAXtJREFUWIW1l7FxwzAMRb+4gErX3sCVB4h6b6GpsoV7eQBX3kB1ykyQFDnoQBgACZL5jXnU0f/xE6SoCY4+ztcfrf+xPydvXETqH1nG/wHzNliab/spe76cv4ZCZAO5uTSWkiCtEMegiLkF0gIx9ZiPgEhV5t+f+a8QHxcpYABIrjkZzutfe15NkJbkMgBVZCyhCMRQJAUbQM5emhdSqIWwAciYg5Cxk0J0KfwE5vV9xtRnFCRXTQp+AhyE+mQiiiIpHADaEatGXTl7giilkNyDQ6ZQMXtNHsSQk9BT6ZRM8oG6FIOkJaG+jIBBSbBaWS63o80nnKQ5GXcnIQp1e92PNvfLtiGZd0Mou2S53DIIFUCDCUMY5pYyAGm27adYLTjm2+uugnTfiFrMeRGad8IQSKM5IJag6WLZYQ5Ufhe4SQiAiLkJoEFY4lsrag442/CxP6eWJYmYA04CJWW7RkmhxhwoXUorRaZRc6AjAZJWK5GlG/KZzSGidfMLX+H40lpcAWoAAAAASUVORK5CYII=',
+      options: {
+        colors: ['#fff'],
+        chars: ['•', '*'],
+        randomColors: false,
+        randomChars: false,
+        fontStyle: '20px DayDream',
+        distance: 80,
+        gravity: 0.01
+      }
     }
   ],
   // ------------------------------------------------------------ Themes
@@ -148,6 +188,23 @@ const state = {
         toolbars: '#0000AA',
         grey: '#c2c3c7'
       }
+    },
+    {
+      template_id: '3760054',
+      name: 'Christmas theme',
+      gradients: false,
+      darkMode: false,
+      disabled: true,
+      public: false,
+      colors: {
+        primary: '#F22929',
+        tertiary: '#3F8C4B',
+        secondary: '#7a000a',
+        light: '#F2E5BD',
+        accent: '#3F8C4B',
+        toolbars: '#F22929',
+        grey: '#c2c3c7'
+      }
     }
   ],
   // ------------------------------------------------------------ Wallpapers
@@ -170,7 +227,7 @@ const state = {
       extension: '.png',
       defaultDisplayStyle: 'covered',
       defaultSize: '50%',
-      bgColor: '#dfeaff',
+      bgColor: '#EAAF08',
       public: true,
       disabled: false
     },
@@ -184,6 +241,17 @@ const state = {
       bgColor: '#ffffff',
       public: false,
       disabled: false
+    },
+    {
+      template_id: '1000004',
+      name: 'Warm fire',
+      type: 'wallpaper',
+      extension: '.png',
+      defaultDisplayStyle: 'covered',
+      defaultSize: '50%',
+      bgColor: '#3F8C4B',
+      public: false,
+      disabled: true
     }
   ]
 }

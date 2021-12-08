@@ -39,7 +39,7 @@ export default {
       div.window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
         div.window-title My NFT Collection
         div.flex-grow-1
-        v-btn.black--text(@click='closeWindow', tile, color='accent', fab, depressed) X
+        v-btn.close-button.secondary--text(@click='closeWindow', tile, color='accent', fab, depressed) X
       div.window-content
         div.collection__wrapper.h-100.w-100
           v-hover(v-slot:default="{hover}", close-delay='1000')

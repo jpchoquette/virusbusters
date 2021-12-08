@@ -156,7 +156,7 @@ export default {
             v-img.w-100.h-100(v-if='activePreview.type === "buster"', :src="require('@/assets/images/buster/buster_' + activePreview.id + '.gif')", contain)
             v-img.w-100.h-100(v-else-if='activePreview.type === "wallpaper"', :src="require('@/assets/images/wallpapers/wallpaper_' + activePreview.id + activePreview.extension)", contain)
 
-          template(v-else-if='$store.state.Customizations.activeWallpaper')
+          template(v-else-if='$store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data')
             v-img.w-100.h-100(v-if='$store.state.Customizations.activeWallpaper.data.type === "buster"', :src="require('@/assets/images/buster/buster_' + $store.state.Customizations.activeWallpaper.data.template_id + '.gif')", contain)
             v-img.w-100.h-100(v-else-if='$store.state.Customizations.activeWallpaper.data.type === "wallpaper"', :src="require('@/assets/images/wallpapers/wallpaper_' + $store.state.Customizations.activeWallpaper.data.template_id + $store.state.Customizations.activeWallpaper.data.extension)", contain)
 

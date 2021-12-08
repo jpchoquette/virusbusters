@@ -2,7 +2,8 @@
 const state = {
   userConnected: false,
   userProfile: null,
-  userTemplates: []
+  userTemplates: [],
+  accountType: null
 }
 
 const getters = {}
@@ -34,6 +35,9 @@ const mutations = {
   },
   setUserTemplates (state, payload) {
     state.userTemplates = payload
+  },
+  setAccountType (state, payload) {
+    state.accountType = payload
   }
 }
 

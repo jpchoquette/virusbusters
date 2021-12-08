@@ -22,11 +22,12 @@ export default {
   methods: {
     selectCursor (index, id, ownership) {
       if (this.$store.state.Customizations.activeCursor && this.$store.state.Customizations.activeCursor.data && this.$store.state.Customizations.activeCursor.data.template_id === id) {
-        console.log('avatar already active')
+        console.log('cursor already active')
       } else if (ownership) {
         if (id) {
           const foundCursor = this.$store.state.Customizations.cursorStyles.findIndex((cursor) => cursor.template_id === id)
           if (foundCursor >= 0) {
+            console.log('change cursor', this.cursorStyles[index])
             const prefs = {
               owner: this.$store.state.User.userProfile,
               data: this.cursorStyles[index]
@@ -76,10 +77,14 @@ export default {
         v-divider()
 
         template(v-for='(cursor, index) in $store.state.Customizations.cursorStyles')
+          //- pre {{cursor}}
           //- pre {{checkOwnership(cursor.template_id)}}
           v-list-item(@click='(cursor.disabled || (!checkOwnership(cursor.template_id) && !cursor.public)) ? "" : selectCursor(index, cursor.template_id, (cursor.public || checkOwnership(cursor.template_id)))', :class='{"missing-template" : false ,"selected-item" : ($store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && ($store.state.Customizations.activeCursor.data.template_id === cursor.template_id))}', :disabled='cursor.disabled')
             v-list-item-avatar(size='40', tile)
               v-img(:src='cursor.image')
+              template(v-if='cursor.images && cursor.images.length', v-for='(image, index) in cursor.images')
+                img.debug-images(:src='image')
+
             v-list-item-content
               v-list-item-title
                 div
@@ -120,4 +125,9 @@ export default {
     //- v-btn(@click='selectBuster(null)') clear avatar
 </template>
 <style lang='sass'>
+  .debug-images
+    position: absolute
+    z-index: -1
+    opacity: 0
+    pointer-events: none
 </style>

@@ -45,6 +45,13 @@ export default {
           image: 'twitter-logo.svg',
           date: '2021-11-01',
           type: 'Link'
+        },
+        {
+          title: 'Virus Busters Discord',
+          url: 'https://discord.gg/vKWRKtsDCX',
+          image: 'icons/discord-icon-black.svg',
+          date: '2021-11-01',
+          type: 'Link'
         }
       ]
     }
@@ -79,7 +86,7 @@ export default {
       div.window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
         div.window-title Quick Links
         div.flex-grow-1
-        v-btn.black--text(@click='closeWindow', tile, color='accent', fab, depressed) X
+        v-btn.close-button.secondary--text(@click='closeWindow', tile, color='accent', fab, depressed) X
       div.window-content
         div.quicklinks__wrapper
           v-list(color='transparent')

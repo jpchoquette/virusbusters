@@ -111,7 +111,7 @@ export default {
       deep: true,
       handler (newVal) {
         if (newVal) {
-          if (newVal.width < 901 || newVal.height < 701) {
+          if (newVal.width < 901 || newVal.height < 801) {
             this.mobileView = true
             this.screenState = false
           } else {
@@ -242,13 +242,17 @@ export default {
                 img(v-else, src="@/assets/images/vb-animated-logo-light.gif", width='400px', max-width='400px', style='opacity:1;')
 
               .window-content
-                .version-number v1.08
+                //- Load trail cursor images otherwise they don't show on loadup
+                div.init-cursor-images(v-if='$store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && $store.state.Customizations.activeCursor.data.options && $store.state.Customizations.activeCursor.data.options.images && $store.state.Customizations.activeCursor.data.options.images.length')
+                  template(v-for='(image, index) in $store.state.Customizations.activeCursor.data.options.images')
+                    img.debug-images(:src='image')
+                .version-number v1.09
                 template(v-if='userConnected')
                   icon-desktop(image='buster-icon.png', title='Desktop customizer', action='customization')
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
                   icon-desktop(image='blender-icon-v1.png', title='My NFTs', action='collection', :private ='true')
                   icon-desktop(image='blender-icon-v1.png', title='Blender.exe', action='blender')
-                  icon-desktop(image='blender-icon-v1.png', title='PopupFighter.exe', action='fighter', :private='true')
+                  icon-desktop(image='blender-icon-v1.png', title='RiskyClick.exe', action='fighter', :private='true')
             //- pre {{$store.state.Customizations.activeTheme}}
             .bottom-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data && $store.state.Customizations.activeTheme.data.gradients)}')
               v-menu(v-model='menu', :close-on-content-click='true', top, offset-y, elevation='0', content-class='window-menu')
@@ -300,6 +304,13 @@ export default {
       bottom: 0
       left: 0
       overflow: hidden
+  .init-cursor-images
+    position: absolute
+    top: 0
+    left: 0
+    z-index: -10
+    opacity: 0
+    pointer-events: none
   .window-menu
     box-shadow: none !important
     border-radius: 4px 4px 0 0 !important

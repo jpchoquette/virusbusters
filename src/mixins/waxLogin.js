@@ -24,6 +24,10 @@ export default {
       set (val) { this.$store.commit('User/setUserProfile', val) },
       get () { return this.$store.state.User.userProfile }
     },
+    accountType: {
+      set (val) { this.$store.commit('User/setAccountType', val) },
+      get () { return this.$store.state.User.accountType }
+    },
     userConnected: {
       set (val) { this.$store.commit('User/setUserConnected', val) },
       get () { return this.$store.state.User.userConnected }
@@ -103,8 +107,10 @@ export default {
         console.log(`Logged in as ${session.auth.actor}`)
         const userAccount = session.auth.actor.toString()
         this.loggedIn(userAccount)
+        this.accountType = 'anchor'
       } catch (e) {
         console.log(e)
+        this.accountType = null
       }
     },
     async login () {
@@ -118,9 +124,10 @@ export default {
         // if autologged in, this simply returns the userAccount w/no popup
         const userAccount = await this.wax.login()
         this.loggedIn(userAccount)
+        this.accountType = 'wcw'
       } catch (e) {
         this.profile = null
-        this.userConnected = true
+        this.accountType = null
       }
     },
     loggedIn (userId) {
@@ -155,6 +162,7 @@ export default {
         ]
         localStorage.setItem('users', JSON.stringify(newUsers))
       }
+      // console.log('this.wax', this.wax)
     },
     async sign () {
       if (!this.wax.api) {
@@ -191,6 +199,7 @@ export default {
     logout () {
       // Cookie à faire
       // setCookie('wax-address', '');
+      this.accountType = null
       this.userConnected = false
       this.profile = null
       this.busterTemplates = null

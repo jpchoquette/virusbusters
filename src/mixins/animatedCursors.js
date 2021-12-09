@@ -119,7 +119,6 @@ export default {
       }, 1000)
     },
     springCursor (options) {
-      console.log('options', options)
       if (options.particleType) {
         this.particleType = options.particleType
       }
@@ -130,7 +129,6 @@ export default {
         this.image = options.image
       }
       if (options.images) {
-        console.log('on a images', options.images)
         this.images = options.images
       }
       setTimeout(() => {
@@ -229,10 +227,9 @@ export default {
           const bgContext = bgCanvas.getContext('2d')
           const image = new Image()
           if (this.particleType === 'image') {
-            console.log('this.images', this.images)
             image.src = this.images[i % this.images.length]
-            bgCanvas.width = 30
-            bgCanvas.height = 30
+            bgCanvas.width = image.width
+            bgCanvas.height = image.height
             bgContext.drawImage(
               image,
               0, 0,
@@ -522,10 +519,7 @@ export default {
         x: 0,
         y: 0
       }
-
       this.canv = canvasItem
-      console.log('canvasItemn', canvasItem)
-      console.log('this.particles', this.particles)
       this.draw = function (context) {
         context.drawImage(
           this.canv,

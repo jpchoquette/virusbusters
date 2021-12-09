@@ -1,5 +1,5 @@
 <script>
-import Blender from '@/mixins/blender.js'
+// import Blender from '@/mixins/blender.js'
 import VueResizable from 'vue-resizable'
 export default {
   name: 'BlenderWindow',
@@ -11,7 +11,7 @@ export default {
       recipeDetailView: false
     }
   },
-  mixins: [Blender],
+  // mixins: [Blender],
   mounted () {
   },
   computed: {
@@ -76,7 +76,7 @@ export default {
       padding: 0
       display: flex
       flex-direction: column
-      background-color: var(--v-light-base)
+      // background-color: var(--v-light-base)
       overflow-y: auto
       .blender-top
         background-color: red

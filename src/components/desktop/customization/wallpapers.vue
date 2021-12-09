@@ -180,8 +180,10 @@ export default {
             :disabled='wallpaper.disabled'
           )
           v-list-item-avatar(size='40', tile)
-            v-img(v-if='wallpaper.type === "buster"', :src="require('@/assets/images/buster/buster_' + wallpaper.template_id + '.gif')", width='40px')
-            v-img(v-else-if='wallpaper.type === "wallpaper"', :src="require('@/assets/images/wallpapers/wallpaper_' + wallpaper.template_id + wallpaper.extension)", width='40px')
+            div.disabled-preview(v-if='wallpaper.disabled') ?
+            template(v-else)
+              v-img(v-if='wallpaper.type === "buster"', :src="require('@/assets/images/buster/buster_' + wallpaper.template_id + '.gif')", width='40px')
+              v-img(v-else-if='wallpaper.type === "wallpaper"', :src="require('@/assets/images/wallpapers/wallpaper_' + wallpaper.template_id + wallpaper.extension)", width='40px')
 
           v-list-item-content
             v-list-item-title

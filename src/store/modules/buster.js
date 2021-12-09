@@ -41,6 +41,14 @@ const state = {
       name: 'Pop-up Buster',
       disabled: false,
       public: false
+    },
+    {
+      template_id: '391715',
+      bgColor: '#29adff',
+      type: 'buster',
+      name: 'Snowman Buster',
+      disabled: false,
+      public: false
     }
   ]
 }

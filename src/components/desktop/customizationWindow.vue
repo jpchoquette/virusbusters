@@ -141,6 +141,9 @@ export default {
       flex-grow: 1
       // width: 100%
       // flex-wrap: wrap
+      .disabled-preview
+        font-size: 25px
+        font-family: $display-font
       .v-list
         padding: 0
         width: 100%

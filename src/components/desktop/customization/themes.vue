@@ -24,7 +24,6 @@ export default {
         if (id) {
           const foundTheme = this.$store.state.Customizations.themeStyles.findIndex((theme) => theme.template_id === id)
           if (foundTheme >= 0) {
-            // console.log('on a trouvé')
             const prefs = {
               owner: this.$store.state.User.userProfile,
               data: this.themeStyles[index]

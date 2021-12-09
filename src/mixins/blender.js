@@ -23,7 +23,7 @@ export default {
     this.wax = new Waxjs.WaxJS({
       rpcEndpoint: 'https://wax.greymass.com'
     })
-    console.log('this.wax', this.wax)
+    // console.log('this.wax', this.wax)
     this.checkUser()
   },
   methods: {

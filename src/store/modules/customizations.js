@@ -84,7 +84,7 @@ const state = {
     {
       template_id: '391698',
       disabled: false,
-      public: true,
+      public: false,
       name: 'Dangling Lights Cursor',
       rarity: '',
       type: 'spring',

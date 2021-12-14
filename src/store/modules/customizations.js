@@ -244,7 +244,7 @@ const state = {
       disabled: false
     },
     {
-      template_id: '1000004',
+      template_id: '396462',
       name: 'Warm fire',
       type: 'wallpaper',
       extension: '.png',
@@ -252,7 +252,7 @@ const state = {
       defaultSize: '50%',
       bgColor: '#3F8C4B',
       public: false,
-      disabled: true
+      disabled: false
     }
   ]
 }

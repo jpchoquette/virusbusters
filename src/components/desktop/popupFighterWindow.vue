@@ -35,6 +35,7 @@ export default {
         // virusbuster wallet used to debug nfts preview
         return true
       } else {
+        console.log('this.$store.state.Buster.ownedGameTemplates', this.$store.state.Buster.ownedGameTemplates)
         const ownedTemplate = this.$store.state.Buster.ownedGameTemplates.findIndex((temp) => temp.template.template_id === id)
         return ownedTemplate >= 0
       }

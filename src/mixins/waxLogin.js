@@ -310,7 +310,7 @@ export default {
               // console.log('On a un wallpaper', template)
               wallpapers.push(template)
             } else if (template.template.immutable_data.type === 'Game') {
-              // console.log('On a un wallpaper', template)
+              console.log('On a un game', template)
               games.push(template)
             }
           })

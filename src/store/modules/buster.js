@@ -94,7 +94,7 @@ const mutations = {
     state.ownedWallpaperTemplates = payload
   },
   setOwnedGameTemplates (state, payload) {
-    state.ownedWallpaperTemplates = payload
+    state.ownedGameTemplates = payload
   }
 }
 

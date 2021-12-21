@@ -8,6 +8,14 @@ export default {
   },
   data () {
     return {
+      clock: {
+        time: '00:00'
+      },
+      timeBegan: null,
+      timeStopped: null,
+      stoppedDuration: 0,
+      started: null,
+      running: false,
       activeSize: {
         title: 'Small',
         value: 'small',
@@ -20,7 +28,9 @@ export default {
       },
       rowsCount: 8,
       colsCount: 8,
+      totalBombsCount: 10,
       bombsCount: 10,
+      remainingTiles: null,
       virusImages: [],
       components: {
         // num_of_rows: 8,
@@ -42,7 +52,8 @@ export default {
       gameLoading: false,
       gameStarted: false,
       gameFinished: false,
-      gameWon: false,
+      gameResult: null,
+      // gameWon: false,
       gameSizes: [
         {
           title: 'Small',
@@ -82,9 +93,9 @@ export default {
           quantity: 0.7
         },
         {
-          title: 'Impossible',
-          value: 'impossible',
-          quantity: 0.8
+          title: 'Busted',
+          value: 'busted',
+          quantity: 1
         }
       ]
     }
@@ -94,10 +105,10 @@ export default {
   },
   methods: {
     startGame () {
-      console.log('gogogo on start')
       this.gameStarted = true
       this.gameLoading = true
       setTimeout(() => {
+        this.components.alive = true
         this.components.bombs = this.placeBombs()
         document.getElementById('field').appendChild(this.createTable())
       }, 1000)
@@ -110,13 +121,12 @@ export default {
     },
     placeBombs () {
       const rows = []
-      for (let i = 0; i < this.bombsCount; i++) {
+      for (let i = 0; i < this.totalBombsCount; i++) {
         this.placeSingleBomb(rows)
       }
       return rows
     },
     placeSingleBomb (bombs) {
-      // console.log('on place les bombes', bombs)
       // const nrow, ncol, row, col
       const nrow = Math.floor(Math.random() * this.rowsCount)
       const ncol = Math.floor(Math.random() * this.colsCount)
@@ -127,21 +137,19 @@ export default {
       }
       const col = row[ncol]
       if (!col) {
-        // console.log('pas de colone')
         row[ncol] = true
       } else {
-        // console.log('on place une bombe')
         this.placeSingleBomb(bombs)
       }
     },
     cellID (i, j) {
-      // console.log('cellid', 'cell-' + i + '-' + j)
       return 'cell-' + i + '-' + j
     },
     createTable () {
       // var table, row, td, i, j
       const table = document.createElement('table')
-
+      table.id = 'sweeperTable'
+      this.remainingTiles = this.rowsCount * this.colsCount
       for (let i = 0; i < this.rowsCount; i++) {
         const row = document.createElement('tr')
         for (let j = 0; j < this.colsCount; j++) {
@@ -153,14 +161,13 @@ export default {
         table.appendChild(row)
       }
       this.gameLoading = false
+      this.startTimer()
       return table
     },
     addCellListeners (td, i, j) {
-      // console.log('cell listener!', td, i, j)
       const thus = this
       // let clicked = false
       td.addEventListener('mousedown', function (event) {
-        // console.log('on click la cell:', i, j, td, thus.components)
         if (!thus.components.alive) {
           return
         }
@@ -182,9 +189,8 @@ export default {
           thus.performMassClick(thus.components, i, j)
         }
         thus.components.mousewhiches = 0
-        if (event.which === 0) {
-          console.log('LEFT CLICK!')
-        }
+        // if (event.which === 0) {
+        // }
         if (event.which === 3) {
           if (this.clicked) {
             return
@@ -196,12 +202,10 @@ export default {
             this.flagged = true
             this.textContent = thus.components.flag
           }
-          // console.log('test', this.flagged, this.textContent)
           event.preventDefault()
           event.stopPropagation()
           return false
         } else {
-          // console.log('click', thus.components)
           thus.handleCellClick(this, i, j)
         }
       })
@@ -211,6 +215,7 @@ export default {
     },
     handleCellClick (cell, i, j) {
       const thus = this
+
       if (!thus.components.alive) {
         return
       }
@@ -218,19 +223,20 @@ export default {
         return
       }
       cell.style = {}
+      if (!cell.clicked && !(thus.components.bombs[i] && thus.components.bombs[i][j])) {
+        thus.remainingTiles--
+      }
       cell.clicked = true
       if (cell.clicked) {
         cell.classList.add('clicked-cell')
       }
-      // console.log('vuetify', thus.$vuetify.theme)
-      // console.log('thus.components.bombs[i][j]', thus.components.bombs, i, j)
       if (thus.components.bombs[i] && thus.components.bombs[i][j]) {
         cell.style.backgroundColor = thus.$vuetify.theme.themes.light.accent
         cell.style.color = 'white'
         // cell.textContent = thus.components.bomb
         cell.appendChild(this.virusImages[1])
-        thus.gameOver()
-        // console.log('cell', cell)
+        thus.gameOver('loss')
+        console.log('Game over!')
       } else {
         cell.style.backgroundColor = thus.$vuetify.theme.themes.light.primary
         thus.bombsCount = thus.adjacentBombs(i, j)
@@ -241,6 +247,10 @@ export default {
           cell.style.fontSize = '14px'
         } else {
           thus.clickAdjacentBombs(i, j)
+        }
+        if (thus.remainingTiles === thus.totalBombsCount) {
+          console.log('Game won')
+          thus.gameOver('victory')
         }
       }
     },
@@ -285,16 +295,37 @@ export default {
         this.clickAdjacentBombs(row, col)
       }
     },
-    gameOver () {
+    gameOver (state) {
+      // console.log('on rentre dans game over', state)
+      this.stopTimer()
+      this.gameResult = state
       this.gameFinished = true
       this.components.alive = false
     },
     resetGame () {
+      this.resetTimer()
       this.gameStarted = false
       this.gameFinished = false
+      this.gameResult = null
       this.components = this.resetComponents
-      const element = document.getElementById('field')
-      this.clearAllChildren(element)
+      // const element = document.getElementById('field')
+      // this.clearAllChildren(element)
+      const element2 = document.getElementById('sweeperTable')
+      element2.remove()
+    },
+    restartGame () {
+      this.resetTimer()
+      this.gameFinished = false
+      this.components = this.resetComponents
+      this.gameResult = null
+      // const element = document.getElementById('field')
+      const element2 = document.getElementById('sweeperTable')
+      element2.remove()
+      // this.clearAllChildren(element)
+      const thus = this
+      setTimeout(() => {
+        thus.startGame()
+      }, 1000)
     },
     clearAllChildren (parent) {
       while (parent.firstChild) {
@@ -302,26 +333,61 @@ export default {
       }
     },
     updateValSize (val) {
-      console.log('val', val)
       this.activeSize = this.gameSizes[val]
       this.rowsCount = this.gameSizes[val].quantity
       this.colsCount = this.gameSizes[val].quantity
-      this.bombsCount = Math.floor(this.rowsCount * 2 * this.activeDifficulty.quantity)
-      console.log(this.rowsCount, this.activeDifficulty.quantity)
-      console.log('bombcounts', this.bombsCount)
+      this.totalBombsCount = Math.floor(this.rowsCount * 2 * this.activeDifficulty.quantity)
     },
     updateValDifficulty (val) {
-      console.log('val', val)
       this.activeDifficulty = this.gameDifficulties[val]
-      this.bombsCount = Math.floor(this.activeSize.quantity * 2 * this.gameDifficulties[val].quantity)
-      console.log(this.activeSize.quantity, this.gameDifficulties[val].quantity)
-      console.log('bombcounts', this.bombsCount)
+      this.totalBombsCount = Math.floor(this.activeSize.quantity * 2 * this.gameDifficulties[val].quantity)
       // this.colsCount = this.gameSizes[val].quantity
     },
     handler: function (e) {
       // do stuff
-      console.log('test!')
       e.preventDefault()
+    },
+    startTimer () {
+      if (this.running) return
+      if (this.timeBegan === null) {
+        this.resetTimer()
+        this.timeBegan = new Date()
+      }
+      if (this.timeStopped !== null) {
+        this.stoppedDuration += (new Date() - this.timeStopped)
+      }
+      this.started = setInterval(this.clockRunning, 10)
+      this.running = true
+    },
+    stopTimer () {
+      this.running = false
+      this.timeStopped = new Date()
+      clearInterval(this.started)
+    },
+    resetTimer () {
+      this.running = false
+      clearInterval(this.started)
+      this.stoppedDuration = 0
+      this.timeBegan = null
+      this.timeStopped = null
+      this.clock.time = '00:00'
+    },
+    clockRunning () {
+      const currentTime = new Date()
+      const timeElapsed = new Date(currentTime - this.timeBegan - this.stoppedDuration)
+      // const hour = timeElapsed.getUTCHours()
+      const min = timeElapsed.getUTCMinutes()
+      const sec = timeElapsed.getUTCSeconds()
+      this.clock.time =
+        this.zeroPrefix(min, 2) + ':' +
+        this.zeroPrefix(sec, 2)
+    },
+    zeroPrefix (num, digit) {
+      let zero = ''
+      for (let i = 0; i < digit; i++) {
+        zero += '0'
+      }
+      return (zero + num).slice(-digit)
     }
   }
 }
@@ -331,7 +397,8 @@ export default {
     transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
       div.game-setup(v-if='!gameStarted')
         h2 Risky Click!
-        div.i.mb3.mt2 A.K.A. Minesweeper
+        div.i.mt2 A.K.A. Minesweeper
+        div.f6.i.mb3 (v0.1)
         v-item-group(@change='updateValSize', mandatory)
           v-container
             .options-subtitle Grid size
@@ -352,18 +419,47 @@ export default {
         h2 Risky Click!
         div.parameters__wrapper
           div Grid size: {{activeSize.title}}
-          div Difficulty: {{activeDifficulty.title}} ({{bombsCount}} viruses)
+          div Difficulty: {{activeDifficulty.title}} ({{totalBombsCount}} virus{{totalBombsCount > 1 ? 'es': ''}})
+          //- div Timer: {{timer.minutes < 10 ? '0' : ''}}{{timer.minutes}}:{{timer.seconds < 10 ? '0' : ''}}{{timer.seconds}}
+          //- v-btn(@click='startTimer') Start
+          //- v-btn(@click='pauseTimer') Pause
+          //- v-btn(@click='resetTimer') reset
+          div.flex.items-center.justifty-between.w-100.mt3
+            v-btn.mr2(@click='resetGame', fab, depressed, color='secondary')
+              v-icon mdi-arrow-left
+            v-btn(@click='restartGame', fab, depressed, color='secondary')
+              v-icon mdi-cached
+            div.flex-grow-1
+            div.clock__wrapper {{clock.time}}
 
+          //- v-btn(@click='startTimer') Start
+          //- v-btn(@click='stopTimer') Pause
+          //- v-btn(@click='resetTimer') reset
         #field(@contextmenu='handler($event)')
           transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
-
-            #lost(v-if='gameFinished')
-              h3 Infected !
-              v-btn(@click='resetGame()', color='accent') Try Again
+            #gameLoading(v-if='gameLoading')
+              h3 Game loading, please wait
+            #gameResult(v-if='gameFinished')
+              div(v-if='gameResult === "victory"')
+                h3 Victory !
+                //- hr
+                div.mb3 Final time: {{clock.time}}
+              div(v-else)
+                h3 Infected !
+              v-btn(@click='restartGame()', color='accent') {{gameResult === "victory" ? "Play again" : "Try again"}}
+              v-btn.mt2(@click='resetGame()', color='accent') Game menu
 </template>
 <style lang='sass'>
   .minesweeper-window
+    // padding: 10px
     height: 100%
+    position: relative
+    .versioning
+      // position: absolute
+      // bottom: 10px
+      // left: 10px
+      padding: 5px 10px
+      text-align: center
     .game-setup
       height: 100%
       text-align: center
@@ -379,24 +475,45 @@ export default {
         margin-bottom: 10px
         text-align: center
     #box
+      // padding: 10px
       text-align: center
       display: flex
       flex-direction: column
-      align-items: center
+      // justify-content: space-evenly safe
+      // align-items: center
       position: relative
+      max-width: 100%
+      .parameters__wrapper
+        margin-bottom: 10px
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        min-width: 240px
+        max-width: 300px
+        align-self: center
       h2
         font-family: $display-font
         margin-bottom: 20px
-
+      .clock__wrapper
+        // margin-top: 5px
+        text-align: center
+        width: 100px
+        padding: 10px
+        border: solid 2px var(--v-secondary-base)
+        background-color: black
+        color: white
       #field
         position: relative
-        #lost
+        min-height: 240px
+        min-width: 240px
+        #gameResult, #gameLoading
           position: absolute
           top: 0
           left: 0
           width: 100%
           height: 100%
-          background-color: rgba(0,0,0,0.5)
+          // background-color: rgba(0,0,0,0.5)
           z-index: 10
           display: flex
           flex-direction: column
@@ -406,7 +523,11 @@ export default {
           h3
             font-family: $display-font
             margin-bottom: 20px
+        #gameResult
+          background-color: rgba(0,0,0,0.5)
+
         table
+          padding: 10px 10px 10px 0
           border-collapse: collapse
           font-size: 150%
           font-family: sans-serif

@@ -55,6 +55,10 @@ export default {
     ownedWallpaperTemplates: {
       set (val) { this.$store.commit('Buster/setOwnedWallpaperTemplates', val) },
       get () { return this.$store.state.Buster.ownedWallpaperTemplates }
+    },
+    ownedGameTemplates: {
+      set (val) { this.$store.commit('Buster/setOwnedGameTemplates', val) },
+      get () { return this.$store.state.Buster.ownedGameTemplates }
     }
   },
   mounted () {
@@ -294,6 +298,7 @@ export default {
           const cursors = []
           const themes = []
           const wallpapers = []
+          const games = []
           tempCustomizationTemplates.forEach(template => {
             if (template.template.immutable_data.type === 'Cursor') {
               // console.log('On a un cursor', template)
@@ -304,11 +309,15 @@ export default {
             } else if (template.template.immutable_data.type === 'Wallpaper') {
               // console.log('On a un wallpaper', template)
               wallpapers.push(template)
+            } else if (template.template.immutable_data.type === 'Game') {
+              // console.log('On a un wallpaper', template)
+              games.push(template)
             }
           })
           this.ownedCursorTemplates = cursors
           this.ownedThemeTemplates = themes
           this.ownedWallpaperTemplates.wallpapers = wallpapers
+          this.ownedGameTemplates = games
         })
     }
   }

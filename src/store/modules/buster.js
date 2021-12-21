@@ -5,6 +5,7 @@ const state = {
   ownedBusterTemplates: [],
   ownedCursorTemplates: [],
   ownedThemeTemplates: [],
+  ownedGameTemplates: [],
   ownedWallpaperTemplates: {
     wallpapers: [],
     busters: []
@@ -90,6 +91,9 @@ const mutations = {
     state.ownedThemeTemplates = payload
   },
   setOwnedWallpaperTemplates (state, payload) {
+    state.ownedWallpaperTemplates = payload
+  },
+  setOwnedGameTemplates (state, payload) {
     state.ownedWallpaperTemplates = payload
   }
 }

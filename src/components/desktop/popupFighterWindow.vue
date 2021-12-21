@@ -29,6 +29,18 @@ export default {
   methods: {
     closeWindow () {
       this.popupFighterWindow = false
+    },
+    checkOwnership (id) {
+      if (this.$store.state.User.userProfile === 'virusbusters') {
+        // virusbuster wallet used to debug nfts preview
+        return true
+      } else {
+        const ownedTemplate = this.$store.state.Buster.ownedGameTemplates.findIndex((temp) => temp.template.template_id === id)
+        return ownedTemplate >= 0
+      }
+    },
+    goToMarket (id) {
+      window.open('https://wax.atomichub.io/market?collection_name=virusbusters&schema_name=virtual.desk&template_id=' + id, '_blank')
     }
   }
 }
@@ -42,8 +54,19 @@ export default {
         v-btn.close-button.secondary--text(@click='closeWindow', tile, color='accent', fab, depressed) X
       div.window-content
         div.collection__wrapper.h-100.w-100
-          //- minesweeper
-          .empty-content__wrapper
+          minesweeper(v-if='checkOwnership("401170")')
+          //- div(v-else)
+          .empty-content__wrapper(v-else)
+            .title-placeholder.white--text Oh no!
+            .description-placeholder.white--text
+              p It looks like you don't own this game :(
+              p
+                | You can head over to
+                a.mh1(href='https://discord.gg/vKWRKtsDCX', target='_blank') Discord
+                | to find out how to get it, or purchase directly on
+                a.mh1.underline(@click='goToMarket("401170")') Atomic Hub
+                |.
+          //- .empty-content__wrapper
             .title-placeholder.white--text W4RN1NG!
             .description-placeholder Program corrupted.
 </template>

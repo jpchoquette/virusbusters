@@ -199,7 +199,7 @@ export default {
       .frame-buttons
         button.black--text(@click='toggleScreen()') I/O
     .crt-wrapper
-      .desktop-page.screen(id='screenContent', :class='($store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data.customCursor) ? $store.state.Customizations.activeCursor.data.class : null ')
+      .desktop-page.screen(id='screenContent', :class='[($store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data.customCursor) ? $store.state.Customizations.activeCursor.data.class : null, (!screenState && !mobileView) ? "screen-off" : null]')
         transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
           .screen-off__overlay(v-if='!screenState && !mobileView')
         transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
@@ -252,7 +252,7 @@ export default {
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
                   icon-desktop(image='blender-icon-v1.png', title='My NFTs', action='collection', :private ='true')
                   icon-desktop(image='blender-icon-v1.png', title='Blender.exe', action='blender')
-                  icon-desktop(image='blender-icon-v1.png', title='RiskyClick.exe', action='fighter', :private='true')
+                  icon-desktop(image='game_401170.png', title='RiskyClick.exe', action='fighter', :private='false')
             //- pre {{$store.state.Customizations.activeTheme}}
             .bottom-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data && $store.state.Customizations.activeTheme.data.gradients)}')
               v-menu(v-model='menu', :close-on-content-click='true', top, offset-y, elevation='0', content-class='window-menu')
@@ -324,6 +324,9 @@ export default {
     overflow: hidden
     background-color: var(--v-primary-base)
     position: relative
+    &.screen-off
+      #cursorCanvas
+        display: none
     .screen-off__overlay
       z-index: 4500
       position: absolute
@@ -332,6 +335,7 @@ export default {
       width: 100%
       height: 100%
       background-color: black
+      cursor: default !important
     .transition-screen
       z-index: 4499
       position: absolute

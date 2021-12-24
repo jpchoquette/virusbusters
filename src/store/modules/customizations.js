@@ -191,11 +191,11 @@ const state = {
       }
     },
     {
-      template_id: '3760054',
+      template_id: '403870',
       name: 'Christmas theme',
       gradients: false,
       darkMode: false,
-      disabled: true,
+      disabled: false,
       public: false,
       colors: {
         primary: '#F22929',

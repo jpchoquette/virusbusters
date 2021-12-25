@@ -103,8 +103,8 @@ const state = {
       }
     },
     {
-      template_id: '000001010101',
-      disabled: true,
+      template_id: '404438',
+      disabled: false,
       public: false,
       name: 'Lost Mitten Cursor',
       rarity: '',

@@ -8,6 +8,8 @@ export default {
   },
   data () {
     return {
+      holdingMouse: false,
+      flaggingCell: false,
       clock: {
         time: '00:00'
       },
@@ -178,35 +180,54 @@ export default {
         if (thus.flagged) {
           return
         }
-        this.style.backgroundColor = 'lightGrey'
+        // console.log('event', event)
+        thus.holdingMouse = true
+        setTimeout(() => {
+          if (thus.holdingMouse) {
+            // console.log('on hold tjrs apres 1 s')
+            thus.flaggingCell = true
+            this.classList.toggle('flagged-cell')
+            event.preventDefault()
+            event.stopPropagation()
+          }
+        }, 200)
+        // this.style.backgroundColor = 'lightGrey'
       })
 
       td.addEventListener('mouseup', function (event) {
-        if (!thus.components.alive) {
-          return
-        }
-        if (this.clicked && thus.components.mousewhiches === 4) {
-          thus.performMassClick(thus.components, i, j)
-        }
-        thus.components.mousewhiches = 0
-        // if (event.which === 0) {
-        // }
-        if (event.which === 3) {
-          if (this.clicked) {
+        if (!thus.flaggingCell) {
+          console.log('flagged?', thus.flaggingCell)
+          thus.holdingMouse = false
+          if (!thus.components.alive) {
             return
           }
-          if (this.flagged) {
-            this.flagged = false
-            this.textContent = ''
-          } else {
-            this.flagged = true
-            this.textContent = thus.components.flag
+          if (this.clicked && thus.components.mousewhiches === 4) {
+            thus.performMassClick(thus.components, i, j)
           }
+          thus.components.mousewhiches = 0
+          // if (event.which === 0) {
+          // }
+          if (event.which === 3) {
+            if (this.clicked) {
+              return
+            }
+            if (this.flagged) {
+              this.flagged = false
+              this.textContent = ''
+            } else {
+              this.flagged = true
+              this.textContent = thus.components.flag
+            }
+            event.preventDefault()
+            event.stopPropagation()
+            return false
+          } else {
+            thus.handleCellClick(this, i, j)
+          }
+        } else {
+          thus.flaggingCell = false
           event.preventDefault()
           event.stopPropagation()
-          return false
-        } else {
-          thus.handleCellClick(this, i, j)
         }
       })
       td.oncontextmenu = function () {
@@ -228,6 +249,7 @@ export default {
       }
       cell.clicked = true
       if (cell.clicked) {
+        cell.classList.remove('flagged-cell')
         cell.classList.add('clicked-cell')
       }
       if (thus.components.bombs[i] && thus.components.bombs[i][j]) {
@@ -398,7 +420,7 @@ export default {
       div.game-setup(v-if='!gameStarted')
         h2 Risky Click!
         div.i.mt2 A.K.A. Minesweeper
-        div.f6.i.mb3 (v0.1)
+        div.f6.i.mb3 v0.1
         v-item-group(@change='updateValSize', mandatory)
           v-container
             .options-subtitle Grid size
@@ -547,6 +569,16 @@ export default {
               max-height: 40px!important
               border: 2px solid black
               position: relative
+              &.flagged-cell
+                &::before
+                  content: '🚩'
+                  position: absolute
+                  top: 0
+                  left: 0
+                  width: 100%
+                  height: 100%
+                  opacity: 1
+                  // background-color: black
               &::before
                 content: ''
                 position: absolute

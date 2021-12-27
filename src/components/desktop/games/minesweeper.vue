@@ -170,6 +170,8 @@ export default {
       const thus = this
       // let clicked = false
       td.addEventListener('mousedown', function (event) {
+        thus.holdingMouse = false
+        thus.flaggingCell = false
         if (!thus.components.alive) {
           return
         }
@@ -449,8 +451,10 @@ export default {
           div.flex.items-center.justifty-between.w-100.mt3
             v-btn.mr2(@click='resetGame', fab, depressed, color='secondary')
               v-icon mdi-arrow-left
-            v-btn(@click='restartGame', fab, depressed, color='secondary')
+            v-btn.mr2(@click='restartGame', fab, depressed, color='secondary')
               v-icon mdi-cached
+            v-btn(@click='restartGame', fab, depressed, color='secondary', outlined)
+              v-icon mdi-information
             div.flex-grow-1
             div.clock__wrapper {{clock.time}}
 

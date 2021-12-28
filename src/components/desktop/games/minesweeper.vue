@@ -18,6 +18,7 @@ export default {
       stoppedDuration: 0,
       started: null,
       running: false,
+      restartInProgress: false,
       activeSize: {
         title: 'Small',
         value: 'small',
@@ -164,6 +165,7 @@ export default {
       }
       this.gameLoading = false
       this.startTimer()
+      this.restartInProgress = false
       return table
     },
     addCellListeners (td, i, j) {
@@ -180,6 +182,9 @@ export default {
           return
         }
         if (thus.flagged) {
+          return
+        }
+        if (this.clicked) {
           return
         }
         // console.log('event', event)
@@ -335,16 +340,21 @@ export default {
       // const element = document.getElementById('field')
       // this.clearAllChildren(element)
       const element2 = document.getElementById('sweeperTable')
-      element2.remove()
+      if (element2) {
+        element2.remove()
+      }
     },
     restartGame () {
       this.resetTimer()
+      this.restartInProgress = true
       this.gameFinished = false
       this.components = this.resetComponents
       this.gameResult = null
       // const element = document.getElementById('field')
       const element2 = document.getElementById('sweeperTable')
-      element2.remove()
+      if (element2) {
+        element2.remove()
+      }
       // this.clearAllChildren(element)
       const thus = this
       setTimeout(() => {
@@ -451,10 +461,14 @@ export default {
           div.flex.items-center.justifty-between.w-100.mt3
             v-btn.mr2(@click='resetGame', fab, depressed, color='secondary')
               v-icon mdi-arrow-left
-            v-btn.mr2(@click='restartGame', fab, depressed, color='secondary')
+            v-btn.mr2(@click='restartGame', fab, depressed, color='secondary', :disabled='restartInProgress')
               v-icon mdi-cached
-            v-btn(@click='restartGame', fab, depressed, color='secondary', outlined)
-              v-icon mdi-information
+            v-tooltip(bottom)
+              template(v-slot:activator='{ on, attrs }')
+                v-btn(fab, depressed, color='secondary', v-bind='attrs', v-on='on')
+                  span 🚩
+              span To toggle a flag on a tile, simply hold the left mouse button.
+
             div.flex-grow-1
             div.clock__wrapper {{clock.time}}
 
@@ -533,6 +547,7 @@ export default {
         position: relative
         min-height: 240px
         min-width: 240px
+        margin: 0 auto
         #gameResult, #gameLoading
           position: absolute
           top: 0
@@ -553,7 +568,7 @@ export default {
           background-color: rgba(0,0,0,0.5)
 
         table
-          padding: 10px 10px 10px 0
+          padding: 10px
           border-collapse: collapse
           font-size: 150%
           font-family: sans-serif

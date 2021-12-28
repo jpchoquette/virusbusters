@@ -58,6 +58,14 @@ const state = {
       name: 'Nutcracker Buster',
       disabled: false,
       public: false
+    },
+    {
+      template_id: '405745',
+      bgColor: '#29adff',
+      type: 'buster',
+      name: 'Booster Buster',
+      disabled: false,
+      public: false
     }
   ]
 }

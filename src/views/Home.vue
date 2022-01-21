@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     initLocoScroll () {
-      console.log('init scroll')
+      // console.log('init scroll')
       const _self = this
       _self.scroll = new LocomotiveScroll({
         // eslint-disable-next-line

@@ -32,16 +32,43 @@ export default {
       div.tc.relative.mb3() Please login to continue...
       v-btn(v-if='$store.state.User.userConnected', @click='logout') Logout
       div(v-else, style='display: flex; flex-direction: column;')
-        v-btn.login-btn(@click='login', large, color='black', dark)
-          img(alt='Wax Logo', src="@/assets/images/wax-logo-white.png", width='50px')
-          div.divider
-          span Wax Cloud Wallet
-        v-btn.login-btn.mt3(@click='anchorLogin', large, color='#3650a2', dark)
-          img(alt='Anchor Logo', src="@/assets/images/anchor-logo.svg", width='30px')
-          div.divider
-          span Anchor Wallet
+        div.login-btn__wrapper
+          v-btn.login-btn(@click='login', large, color='black', dark)
+            img(alt='Wax Logo', src="@/assets/images/wax-logo-white.png", width='50px')
+            div.divider
+            span Wax Cloud Wallet
+          v-tooltip(bottom)
+            template(v-slot:activator='{ on, attrs }')
+              v-btn.ml2(small, fab, depressed, color='light darken-1', href='https://all-access.wax.io/', target='_blank', v-bind='attrs', v-on='on')
+                span.f4 ?
+            span Learn more
+        div.login-btn__wrapper
+          v-btn.login-btn(@click='anchorLogin', large, color='#3650a2', dark)
+            img(alt='Anchor Logo', src="@/assets/images/anchor-logo.svg", width='30px')
+            div.divider
+            span Anchor Wallet
+          v-tooltip(bottom)
+            template(v-slot:activator='{ on, attrs }')
+              v-btn.ml2(small, fab, depressed, color='light darken-1', href='https://greymass.com/en/anchor/', target='_blank', v-bind='attrs', v-on='on')
+                span.f4 ?
+            span Learn more
+        div.login-btn__wrapper
+          v-btn.login-btn(@click='scatterLogin', large, color='#5f4e81', dark)
+            img(alt='Wombat Logo', src="@/assets/images/wombat-logo.png", width='30px')
+            div.divider
+            span Wombat Wallet
+          v-tooltip(bottom)
+            template(v-slot:activator='{ on, attrs }')
+              v-btn.ml2(small, fab, depressed, color='light darken-1', href='https://getwombat.io/', target='_blank', v-bind='attrs', v-on='on')
+                span.f4 ?
+            span Learn more
+            //- v-tooltip(bottom)
+              template(v-slot:activator='{ on, attrs }')
+                v-btn(fab, depressed, color='secondary', v-bind='attrs', v-on='on')
+                  span 🚩
+              span To toggle a flag on a tile, simply hold the left mouse button.
       div.accent--text.f6.i.tc.mt4 Trial expired #[span.b 10585] days ago. Please buy the full version.
-      div.f7.mt1 v3.13.b (1992)
+      div.f7.mt1 v3.13.b (1996)
 </template>
 <style lang='sass'>
 .login-window
@@ -83,12 +110,17 @@ export default {
         font-weight: bold
         color: var(--v-accent-base)
         transform: rotate(10deg)
-    .login-btn
-      .divider
-        height: 20px
-        width: 1px
-        margin: 5px 10px
-        background-color: white
+    .login-btn__wrapper
+      display: flex
+      align-items: center
+      margin-top: 14px
+      .login-btn
+        flex-grow: 1
+        .divider
+          height: 20px
+          width: 1px
+          margin: 5px 10px
+          background-color: white
   @media all and (max-width: $medium)
     .login-box
       width: 90%

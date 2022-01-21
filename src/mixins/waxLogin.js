@@ -1,6 +1,12 @@
 import * as Waxjs from '@waxio/waxjs/dist'
 import AnchorLink from 'anchor-link'
 import AnchorLinkBrowserTransport from 'anchor-link-browser-transport'
+// import { JsonRpc, Api } from 'eosjs'
+import ScatterJS from '@scatterjs/core'
+import ScatterEOS from '@scatterjs/eosjs2'
+ScatterJS.plugins(new ScatterEOS())
+// const rpc = new JsonRpc(network.fullhost())
+// anchor
 const transport = new AnchorLinkBrowserTransport()
 const link = new AnchorLink({
   transport,
@@ -101,11 +107,40 @@ export default {
       }
     },
     // normal login. Triggers a popup for non-whitelisted dapps
+    async scatterLogin () {
+      const network = ScatterJS.Network.fromJson({
+        blockchain: 'wax',
+        chainId: '1064487b3cd1a897ce03ae5b6a865651747e2e152090f99c1d19d44e01aea5a4',
+        host: 'https://wax.greymass.com',
+        port: 443,
+        protocol: 'https'
+      })
+      console.log('Login with Wombat/Scatter')
+      ScatterJS.connect('VirusBusters', { network }).then(connected => {
+        if (!connected) {
+          return console.error('no scatter')
+        } else {
+          ScatterJS.login().then(id => {
+            if (!id) {
+              this.accountType = null
+              return console.error('no identity')
+            } else {
+              const account = ScatterJS.account('eos')
+              const userAccount = account.name
+              this.profile = userAccount
+              this.userConnected = true
+              // console.log('account', account)
+              this.accountType = 'scatter'
+            }
+          })
+        }
+      })
+    },
     async anchorLogin () {
       try {
         console.log('Login with ANCHOR')
         // Perform the login, which returns the users identity
-        const identity = await link.login('mydapp')
+        const identity = await link.login('virusbusters')
         // Save the session within your application for future use
         const { session } = identity
         console.log(`Logged in as ${session.auth.actor}`)
@@ -165,39 +200,6 @@ export default {
           }
         ]
         localStorage.setItem('users', JSON.stringify(newUsers))
-      }
-      // console.log('this.wax', this.wax)
-    },
-    async sign () {
-      if (!this.wax.api) {
-        alert('Please log in to continue')
-      }
-      try {
-        const result = await this.wax.api.transact({
-          actions: [{
-            account: 'eosio',
-            name: 'delegatebw',
-            authorization: [{
-              actor: this.wax.userAccount,
-              permission: 'active'
-            }],
-            data: {
-              from: this.wax.userAccount,
-              receiver: this.wax.userAccount,
-              stake_net_quantity: '0.00000001 WAX',
-              stake_cpu_quantity: '0.00000000 WAX',
-              transfer: false,
-              memo: 'This is a WaxJS/Cloud Wallet Demo.'
-            }
-          }]
-        },
-        {
-          blocksBehind: 3,
-          expireSeconds: 30
-        })
-        document.getElementById('response').append(JSON.stringify(result, null, 2))
-      } catch (e) {
-        document.getElementById('response').append(e.message)
       }
     },
     logout () {
@@ -310,7 +312,7 @@ export default {
               // console.log('On a un wallpaper', template)
               wallpapers.push(template)
             } else if (template.template.immutable_data.type === 'Game') {
-              console.log('On a un game', template)
+              // console.log('On a un game', template)
               games.push(template)
             }
           })

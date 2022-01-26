@@ -43,7 +43,8 @@ export default {
       menu: false,
       mobileView: false,
       wpOwnership: false,
-      buttonHint: false
+      buttonHint: false,
+      timer: null
     }
   },
   computed: {
@@ -117,7 +118,8 @@ export default {
         if (newVal) {
           if (newVal.width < 901 || newVal.height < 801) {
             this.mobileView = true
-            this.screenState = false
+            // this.screenState = false
+            this.retrieveScreenState()
           } else {
             this.mobileView = false
           }
@@ -169,9 +171,12 @@ export default {
       handler (newVal) {
         // console.log('screen on?', newVal)
         if (!newVal) {
-          setTimeout(() => {
+          this.timer = setTimeout(() => {
             this.buttonHint = true
           }, 4000)
+        } else {
+          this.buttonHint = false
+          clearTimeout(this.timer)
         }
       }
     }
@@ -186,8 +191,8 @@ export default {
         this.screenState = true
       } else {
         this.screenState = false
-        this.buttonHint = false
       }
+      this.buttonHint = false
     },
     toggleScreen () {
       this.screenState = !this.screenState

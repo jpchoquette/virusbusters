@@ -8,10 +8,10 @@ export default {
 }
 </script>
 <template lang='pug'>
-  section.blue-screen-section(data-scroll-section, data-scroll-section-id='section4', data-scroll-persistent)
-    div.section-container(id='scroll-direction4')
+  section.blue-screen-section(data-scroll-section, data-scroll-section-id='section4')
+    div.section-container(id='scroll-direction3')
       .block-wrapper()
-        .section-content.relative(data-scroll, data-scroll-sticky, data-scroll-target='#scroll-direction4', data-scroll-persistent)
+        .section-content.relative
           div.bs-title Corrupted content
           div.bs-content
             p An error has occured.
@@ -31,7 +31,7 @@ export default {
   .blue-screen-section
     position: relative
     .section-container
-      height: 150vh
+      height: 150vh !important
       .block-wrapper
         .section-content
           height: 150vh

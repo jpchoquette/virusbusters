@@ -58,11 +58,31 @@ $screen-background:#121010;
       border-bottom: none !important;
       border-top: none !important;
       position: relative;
+      &.hint-active {
+        &::before {
+          content: '';
+          // background-color: red;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1000;
+          box-shadow: inset 0px 0px 5px 3px #29adff;
+          opacity: 0;
+          transition: opacity 0.15s ease-in;
+          animation: blinker 1.5s linear infinite;
+        }
+      }
       &:hover {
         box-shadow: inset 0px 0px 4px 1px rgb(0 0 0 / 100%) !important;
       }
       &:active {
         box-shadow: inset 0px 0px 20px 5px rgb(0 0 0 / 100%) !important;
+      }
+      &::before {
+        content: '';
+        opacity: 0;
       }
       &::after {
         pointer-events: none;
@@ -307,4 +327,9 @@ $screen-background:#121010;
 #switch:checked~.crt-wrapper .overlay{
   animation:overlay-anim 5s linear;
   animation-fill-mode:forwards;
+}
+@keyframes blinker {
+  50% {
+    opacity: 1;
+  }
 }

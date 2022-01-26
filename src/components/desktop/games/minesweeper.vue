@@ -203,7 +203,7 @@ export default {
 
       td.addEventListener('mouseup', function (event) {
         if (!thus.flaggingCell) {
-          console.log('flagged?', thus.flaggingCell)
+          // console.log('flagged?', thus.flaggingCell)
           thus.holdingMouse = false
           if (!thus.components.alive) {
             return

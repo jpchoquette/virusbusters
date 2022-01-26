@@ -45,13 +45,18 @@ export default {
     popupFighterWindow: {
       set (val) { this.$store.commit('Desktop/setPopupFighterWindow', val) },
       get () { return this.$store.state.Desktop.popupFighterWindow }
+    },
+    rigHubWindow: {
+      set (val) { this.$store.commit('Desktop/setRigHubWindow', val) },
+      get () { return this.$store.state.Desktop.rigHubWindow }
     }
   },
   methods: {
     launchAction (action) {
+      console.log('launch', action)
       if (action) {
         this.activeWindow = action
-
+        console.log('launch', this.activeWindow)
         if (action === 'settings') {
           this.settingsWindow = false
           this.settingsWindow = true
@@ -79,6 +84,12 @@ export default {
           this.popupFighterWindow = false
           setTimeout(() => {
             this.popupFighterWindow = true
+          }, 100)
+        } else if (action === 'computer') {
+          console.log('hello')
+          this.rigHubWindow = false
+          setTimeout(() => {
+            this.rigHubWindow = true
           }, 100)
         }
       }

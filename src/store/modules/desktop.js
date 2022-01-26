@@ -9,6 +9,7 @@ const state = {
   collectionWindow: false,
   blenderWindow: false,
   popupFighterWindow: false,
+  rigHubWindow: false,
   screenState: false
 }
 
@@ -56,6 +57,9 @@ const mutations = {
   },
   setPopupFighterWindow (state, payload) {
     state.popupFighterWindow = payload
+  },
+  setRigHubWindow (state, payload) {
+    state.rigHubWindow = payload
   },
   setScreenState (state, payload) {
     state.screenState = payload

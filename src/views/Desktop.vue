@@ -1,5 +1,6 @@
 <script>
 import TextPattern from '../components/shared/textPattern'
+import StatCalculator from '../components/shared/statCalculator'
 import DateWidget from '../components/desktop/dateWidget'
 import LoginWindow from '../components/desktop/loginWindow'
 import IconDesktop from '../components/desktop/iconDesktop'
@@ -9,6 +10,7 @@ import QuickLinksWindow from '../components/desktop/quickLinksWindow'
 import CollectionWindow from '../components/desktop/collectionWindow'
 import BlenderWindow from '../components/desktop/blenderWindow'
 import PopupFighterWindow from '../components/desktop/popupFighterWindow'
+import RigHubWindow from '../components/desktop/rigHubWindow'
 
 import WaxLogin from '@/mixins/waxLogin.js'
 import UpdatePreferences from '@/mixins/updatePreferences.js'
@@ -20,6 +22,7 @@ export default {
   name: 'Desktop',
   components: {
     TextPattern,
+    StatCalculator,
     DateWidget,
     LoginWindow,
     IconDesktop,
@@ -28,7 +31,8 @@ export default {
     QuickLinksWindow,
     CollectionWindow,
     BlenderWindow,
-    PopupFighterWindow
+    PopupFighterWindow,
+    RigHubWindow
   },
   mixins: [WaxLogin, UpdatePreferences, AnimatedCursors, CustomThemes],
   data () {
@@ -37,9 +41,9 @@ export default {
       showTemporaryWelcome: false,
       showTemporaryExit: false,
       menu: false,
-      screenOn: false,
       mobileView: false,
-      wpOwnership: false
+      wpOwnership: false,
+      buttonHint: false
     }
   },
   computed: {
@@ -159,6 +163,17 @@ export default {
           // this.clearTheme()
         }
       }
+    },
+    screenState: {
+      immediate: true,
+      handler (newVal) {
+        // console.log('screen on?', newVal)
+        if (!newVal) {
+          setTimeout(() => {
+            this.buttonHint = true
+          }, 4000)
+        }
+      }
     }
   },
   mounted () {
@@ -171,11 +186,15 @@ export default {
         this.screenState = true
       } else {
         this.screenState = false
+        this.buttonHint = false
       }
     },
     toggleScreen () {
       this.screenState = !this.screenState
       this.menu = false
+      if (this.screenState) {
+        this.buttonHint = false
+      }
       this.$cookies.set('screen', this.screenState, 604800)
     },
     leaveComputer () {
@@ -197,7 +216,7 @@ export default {
       .post-it-pink
         img(src="@/assets/images/postits/postit-pink-1.png", width='200px', max-width='200px')
       .frame-buttons
-        button.black--text(@click='toggleScreen()') I/O
+        button.black--text(@click='toggleScreen()', :class='{"hint-active" : buttonHint}') I/O
     .crt-wrapper
       .desktop-page.screen(id='screenContent', :class='[($store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data.customCursor) ? $store.state.Customizations.activeCursor.data.class : null, (!screenState && !mobileView) ? "screen-off" : null]')
         transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
@@ -225,6 +244,7 @@ export default {
               collection-window(v-if='$store.state.Desktop.collectionWindow')
               blender-window(v-if='$store.state.Desktop.blenderWindow')
               popup-fighter-window(v-if='$store.state.Desktop.popupFighterWindow')
+              rig-hub-window(v-if='$store.state.Desktop.rigHubWindow')
 
             .window__wrapper(:style='{backgroundColor: ($store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data.bgColor) ? $store.state.Customizations.activeWallpaper.data.bgColor : "transparent"}')
               div.wallpaper-content
@@ -246,13 +266,15 @@ export default {
                 div.init-cursor-images(v-if='$store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && $store.state.Customizations.activeCursor.data.options && $store.state.Customizations.activeCursor.data.options.images && $store.state.Customizations.activeCursor.data.options.images.length')
                   template(v-for='(image, index) in $store.state.Customizations.activeCursor.data.options.images')
                     img.debug-images(:src='image')
-                .version-number v1.13
+                .version-number v1.14
                 template(v-if='userConnected')
                   icon-desktop(image='buster-icon.png', title='Desktop customizer', action='customization')
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
                   icon-desktop(image='blender-icon-v1.png', title='My NFTs', action='collection', :private ='true')
                   icon-desktop(image='blender-icon-v1.png', title='Blender.exe', action='blender')
                   icon-desktop(image='game_401170.png', title='RiskyClick.exe', action='fighter', :private='false')
+                  //- icon-desktop(image='desktop-icon-v1.png', title='My Computer', action='computer', :private='false')
+                  //- stat-calculator(type='burns', schemaName='popups', templateId='316428')
             //- pre {{$store.state.Customizations.activeTheme}}
             .bottom-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data && $store.state.Customizations.activeTheme.data.gradients)}')
               v-menu(v-model='menu', :close-on-content-click='true', top, offset-y, elevation='0', content-class='window-menu')

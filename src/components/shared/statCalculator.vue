@@ -25,7 +25,7 @@ export default {
           templateId = '&template_id=' + this.templateId
         }
         const constructedQuery = baseUrl + this.schemaName + templateId + '&page=1&limit=100&order=desc'
-        console.log('built', constructedQuery)
+        // console.log('built', constructedQuery)
         this.fetchSpecificNFTs(constructedQuery)
       }
     },
@@ -53,7 +53,7 @@ export default {
         .then(data => {
           // console.log('owned busters', data)
           // this.ownedBusterTemplates = data.data
-          console.log('data ' + this.type, data)
+          // console.log('data ' + this.type, data)
           if (this.type === 'burns') {
             let counter = 0
             for (let i = 0; i < data.data.length; i++) {

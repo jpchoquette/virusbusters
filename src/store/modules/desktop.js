@@ -8,6 +8,7 @@ const state = {
   quickLinksWindow: false,
   collectionWindow: false,
   blenderWindow: false,
+  riskyClickWindow: false,
   popupFighterWindow: false,
   rigHubWindow: false,
   screenState: false
@@ -54,6 +55,9 @@ const mutations = {
   },
   setBlenderWindow (state, payload) {
     state.blenderWindow = payload
+  },
+  setRiskyClickWindow (state, payload) {
+    state.riskyClickWindow = payload
   },
   setPopupFighterWindow (state, payload) {
     state.popupFighterWindow = payload

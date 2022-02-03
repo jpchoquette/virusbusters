@@ -9,6 +9,7 @@ import SettingsWindow from '../components/desktop/settingsWindow'
 import QuickLinksWindow from '../components/desktop/quickLinksWindow'
 import CollectionWindow from '../components/desktop/collectionWindow'
 import BlenderWindow from '../components/desktop/blenderWindow'
+import RiskyClickWindow from '../components/desktop/riskyClickWindow'
 import PopupFighterWindow from '../components/desktop/popupFighterWindow'
 import RigHubWindow from '../components/desktop/rigHubWindow'
 
@@ -31,6 +32,7 @@ export default {
     QuickLinksWindow,
     CollectionWindow,
     BlenderWindow,
+    RiskyClickWindow,
     PopupFighterWindow,
     RigHubWindow
   },
@@ -248,6 +250,7 @@ export default {
               quick-links-window(v-if='$store.state.Desktop.quickLinksWindow')
               collection-window(v-if='$store.state.Desktop.collectionWindow')
               blender-window(v-if='$store.state.Desktop.blenderWindow')
+              risky-click-window(v-if='$store.state.Desktop.riskyClickWindow')
               popup-fighter-window(v-if='$store.state.Desktop.popupFighterWindow')
               rig-hub-window(v-if='$store.state.Desktop.rigHubWindow')
 
@@ -271,14 +274,15 @@ export default {
                 div.init-cursor-images(v-if='$store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && $store.state.Customizations.activeCursor.data.options && $store.state.Customizations.activeCursor.data.options.images && $store.state.Customizations.activeCursor.data.options.images.length')
                   template(v-for='(image, index) in $store.state.Customizations.activeCursor.data.options.images')
                     img.debug-images(:src='image')
-                .version-number v1.14
+                .version-number v1.15
                 template(v-if='userConnected')
                   icon-desktop(image='buster-icon.png', title='Desktop customizer', action='customization')
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
                   icon-desktop(image='blender-icon-v1.png', title='My NFTs', action='collection', :private ='true')
                   icon-desktop(image='blender-icon-v1.png', title='Blender.exe', action='blender')
-                  icon-desktop(image='game_401170.png', title='RiskyClick.exe', action='fighter', :private='false')
-                  //- icon-desktop(image='desktop-icon-v1.png', title='My Computer', action='computer', :private='false')
+                  icon-desktop(image='game_434273.png', title='PopupFighter.exe', action='fighter', :private='false')
+                  icon-desktop(image='game_401170.png', title='RiskyClick.exe', action='risky', :private='false')
+                  icon-desktop(image='desktop-icon-v1.png', title='My (Infected) Computer', action='computer', :private='false')
                   //- stat-calculator(type='burns', schemaName='popups', templateId='316428')
             //- pre {{$store.state.Customizations.activeTheme}}
             .bottom-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data && $store.state.Customizations.activeTheme.data.gradients)}')

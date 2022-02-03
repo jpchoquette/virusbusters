@@ -17,9 +17,11 @@ export default {
     return {
       pageView: null,
       settings: [
-        { name: 'Wallpapers', value: 'wallpapers', icon: '🖼️' },
-        { name: 'Cursors', value: 'cursors', disabled: false, icon: '🖱️' },
-        { name: 'Themes', value: 'themes', disabled: false, icon: '🎨' }
+        { name: '*&?&?$%)(*)', value: '', icon: '❓' },
+        { name: '#&(*&F)FVD)', value: 'cursors', disabled: false, icon: '❓' },
+        { name: 'ert#dd%$ert3?BV)_', value: 'themes', disabled: false, icon: '❓' },
+        { name: '44433deddddee_', value: 'themes', disabled: false, icon: '❓' },
+        { name: '@?((D*&FVD(D)))', value: 'themes', disabled: false, icon: '❓' }
       ]
     }
   },
@@ -47,8 +49,8 @@ export default {
 }
 </script>
 <template lang='pug'>
-  vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '10%'", :left="$store.state.App.mobileTemplate ? '10%' : '22%'", :width="$store.state.App.mobileTemplate ? '80vw' : '600px'", :height="$store.state.App.mobileTemplate ? '70vh' : '450px'", :min-height="250", :min-width="300", drag-selector="#window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "customization"}')
-    div.customization-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "customization"}', @mousedown='activeWindow = "customization"')
+  vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '10%'", :left="$store.state.App.mobileTemplate ? '10%' : '22%'", :width="$store.state.App.mobileTemplate ? '80vw' : '600px'", :height="$store.state.App.mobileTemplate ? '70vh' : '450px'", :min-height="250", :min-width="300", drag-selector="#window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "computer"}')
+    div.customization-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "computer"}', @mousedown='activeWindow = "computer"')
       //- LOGIN WAX
       div.window-top-bar#window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
         div.window-title My (infected) computer
@@ -60,7 +62,7 @@ export default {
           .window-content(v-if='!pageView')
             v-list(color='transparent')
               template(v-for='(setting, index) in settings')
-                v-list-item.pointer(@click='pageView = setting.value', :disabled='setting.disabled')
+                v-list-item.pointer(@click='', :disabled='setting.disabled')
                   v-list-item-avatar {{setting.icon}}
                   v-list-item-content
                     v-list-item-title {{setting.name}} {{setting.disabled ? "(Coming soon!)" : ""}}

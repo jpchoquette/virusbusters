@@ -4,7 +4,7 @@ import Minesweeper from '@/components/desktop/games/minesweeper'
 // import WaxLogin from '@/mixins/waxLogin.js'
 import VueResizable from 'vue-resizable'
 export default {
-  name: 'BlenderWindow',
+  name: 'riskyClickGame',
   components: {
     VueResizable,
     Minesweeper
@@ -21,14 +21,14 @@ export default {
       set (val) { this.$store.commit('Desktop/setActiveWindow', val) },
       get () { return this.$store.state.Desktop.activeWindow }
     },
-    popupFighterWindow: {
-      set (val) { this.$store.commit('Desktop/setPopupFighterWindow', val) },
-      get () { return this.$store.state.Desktop.popupFighterWindow }
+    riskyClickWindow: {
+      set (val) { this.$store.commit('Desktop/setRiskyClickWindow', val) },
+      get () { return this.$store.state.Desktop.riskyClickWindow }
     }
   },
   methods: {
     closeWindow () {
-      this.popupFighterWindow = false
+      this.riskyClickWindow = false
     },
     checkOwnership (id) {
       if (this.$store.state.User.userProfile === 'virusbusters') {
@@ -47,25 +47,32 @@ export default {
 }
 </script>
 <template lang='pug'>
-  vue-resizable(:top="$store.state.App.mobileTemplate ? '2.5%' : '10%'", :left="$store.state.App.mobileTemplate ? '2.5%' : '20%'", :width="$store.state.App.mobileTemplate ? '95vw' : '650px'", :height="$store.state.App.mobileTemplate ? '90vh' : '562px'" ,drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "fighter"}')
-    div.program-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "fighter"}', @mousedown='activeWindow = "fighter"')
+  vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '10%'", :left="$store.state.App.mobileTemplate ? '5%' : '45%'", :width="$store.state.App.mobileTemplate ? '90vw' : '500px'", :height="$store.state.App.mobileTemplate ? '70vh' : '500px'", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "fighter"}')
+    div.program-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "risky"}', @mousedown='activeWindow = "risky"')
       div.window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
-        div.window-title PopupFighter.exe
+        div.window-title RiskyClick.exe
         div.flex-grow-1
         v-btn.close-button.secondary--text(@click='closeWindow', tile, color='accent', fab, depressed) X
-      div.window-content(style='margin:0;padding:0;background-color:#222;')
+      div.window-content
         div.collection__wrapper.h-100.w-100
-          div.h-100(v-if='checkOwnership("434273")', style='margin:0 auto;')
-            //- <iframe frameborder="0" :src='require("@/assets/extras/index.html")', allowfullscreen="" width="550" height="450"></iframe>
-            <iframe id='popupgame' frameborder="0" src="//v6p9d9t4.ssl.hwcdn.net/html/5196457/index.html" allowfullscreen="" :width="$store.state.App.mobileTemplate ? '320px' : '500px'" :height="$store.state.App.mobileTemplate ? '100%' : '100%'"></iframe>
+          minesweeper(v-if='checkOwnership("401170")')
+          //- div(v-else)
           .empty-content__wrapper(v-else)
             .title-placeholder.white--text Oh no!
+            //- .description-placeholder.white--text
+              p It looks like you don't own this game :(
+              p
+                | You can head over to
+                a.mh1(href='https://discord.gg/vKWRKtsDCX', target='_blank') Discord
+                | to find out how to get it, or purchase directly on
+                a.mh1.underline(@click='goToMarket("401170")') Atomic Hub
+                |.
             .description-placeholder.white--text
               p It looks like you don't own this game :(
 
               p
                 | You can head over to
-                a.mh1.underline(href='https://neftyblocks.com/c/virusbusters/drops/97156', target='_blank') Neftyblocks
+                a.mh1.underline(href='https://neftyblocks.com/c/virusbusters/drops/97153', target='_blank') Neftyblocks
                 | to buy the game.
               p
                 | For more infos, join us on
@@ -76,8 +83,5 @@ export default {
             .description-placeholder Program corrupted.
 </template>
 <style lang='sass'>
-.collection__wrapper
-  iframe
-    width: 100%
-    padding-top: 20px
+
 </style>

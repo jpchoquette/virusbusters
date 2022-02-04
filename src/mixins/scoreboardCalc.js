@@ -12,7 +12,6 @@ export default {
     }
   },
   mounted () {
-    this.fetchScoreboard()
   },
   computed: {
     currentScore: {
@@ -21,44 +20,51 @@ export default {
     }
   },
   watch: {
-    // currentScore (newVal) {
-    //   if (newVal) {
-    //     this.verifyHighscore()
-    //   }
-    // }
   },
   methods: {
     sendScoreboardData (game, score) {
-      this.verifyHighscore(score)
+      // console.log('score data sent', score)
+      this.fetchScoreboard(true)
+      this.score = score
     },
-    fetchScoreboard (url) {
+    fetchScoreboard (update) {
       const req = new XMLHttpRequest()
       req.onreadystatechange = () => {
         if (req.readyState === XMLHttpRequest.DONE) {
-          const tempData = req.responseText
-          this.parsedScoreboard = JSON.parse(tempData).record
-          this.sortedEntries = orderBy(this.parsedScoreboard.entries, ['score'], ['desc'])
+          // console.log(req.responseText)
+          if (update) {
+            this.parsedScoreboard = JSON.parse(req.responseText).record
+            this.sortedEntries = orderBy(this.parsedScoreboard.entries, ['score'], ['desc'])
+            setTimeout(() => {
+              this.verifyHighscore()
+            }, 1000)
+          }
         }
       }
+      // debug bin: 61fd84b369b72261be502685
+      // main bin: 61fc9df4f77b236211eb03a1
       req.open('GET', 'https://api.jsonbin.io/v3/b/61fc9df4f77b236211eb03a1', true)
       req.setRequestHeader('X-Master-Key', '$2b$10$LPV.o8jEECsT.Gy.0wkRNOYj//DS1t1FICmeZ9ZY54sCNoox8HRNG')
       req.send()
     },
-    verifyHighscore (score) {
-      if (score > 0 && this.parsedScoreboard && this.parsedScoreboard.entries) {
+    verifyHighscore () {
+      // console.log('verify', this.score, this.parsedScoreboard)
+      if (this.score > 0 && this.parsedScoreboard && this.parsedScoreboard.entries) {
         const found = this.parsedScoreboard.entries.findIndex(ent => ent.wallet === this.$store.state.User.userProfile)
         if (found >= 0) {
-          if (this.parsedScoreboard.entries[found].score < score) {
-            this.updateScoreboard('update', score, found)
+          if (this.parsedScoreboard.entries[found].score < this.score) {
+            this.updateScoreboard('update', this.score, found)
+          } else {
+            console.log('This score is lower than you highscore, sorry!')
           }
         } else {
           const lowestScore = this.parsedScoreboard.entries.reduce(function (prev, curr) {
             return prev.score < curr.score ? prev : curr
           })
           if (this.parsedScoreboard.entries.length < 50) {
-            this.updateScoreboard('new', score)
-          } else if (score > lowestScore.score) {
-            this.updateScoreboard('replace', score)
+            this.updateScoreboard('new', this.score)
+          } else if (this.score > lowestScore.score) {
+            this.updateScoreboard('replace', this.score)
           }
         }
       }
@@ -66,7 +72,6 @@ export default {
     updateScoreboard (type, score, indexToReplace) {
       const tempScoreboard = this.parsedScoreboard
       tempScoreboard.entries = this.sortedEntries
-      // console.log('tempScoreboard', tempScoreboard)
       if (score) {
         if (type === 'new') {
           console.log('First registered score for ' + this.$store.state.User.userProfile + ': ' + score)
@@ -77,17 +82,15 @@ export default {
           tempScoreboard.entries.push(entry)
         } else if (type === 'update') {
           console.log('New high score for ' + this.$store.state.User.userProfile + ': ' + score)
-          // console.log('updatingval')
           tempScoreboard.entries[indexToReplace].score = score
         } else if (type === 'replace') {
           console.log('New score for ' + this.$store.state.User.userProfile + ': ' + score)
-          // console.log('replacing lowest val')
           tempScoreboard.entries[tempScoreboard.entries.length - 1] = {
             wallet: this.$store.state.User.userProfile,
             score: score
           }
         }
-        tempScoreboard.entries = orderBy(this.parsedScoreboard.entries, ['score'], ['desc'])
+        tempScoreboard.entries = orderBy(tempScoreboard.entries, ['score'], ['desc'])
 
         const req = new XMLHttpRequest()
         req.onreadystatechange = () => {

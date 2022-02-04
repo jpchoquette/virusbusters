@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     fetchLeaderboard (dataId) {
-      console.log('looking for leaderboard infos...')
+      console.log('Looking for leaderboard infos...')
       const req = new XMLHttpRequest()
       req.onreadystatechange = () => {
         if (req.readyState === XMLHttpRequest.DONE) {

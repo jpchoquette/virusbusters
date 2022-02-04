@@ -29,9 +29,7 @@ export default {
     div.w-100
       h1.board-title {{board.title}}
     div.board-subtitle 🏆 Top 50 🏆
-    //- pre {{data}}
     template(v-if='data')
-      // pre {{sortedEntries}}
       div.entries__wrapper
         template(v-for='(entry, index) in data')
           div.entry(:class='{"active-user" : entry.wallet === $store.state.User.userProfile}')

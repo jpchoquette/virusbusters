@@ -37,7 +37,7 @@ export default {
     receiveMessage (event) {
       if (event.origin === 'https://v6p9d9t4.ssl.hwcdn.net') {
         if (event && event.data && event.data.message) {
-          console.log('Captured score from minigame', event.data.message.score)
+          console.log('Score captured from minigame:', event.data.message.score)
           this.currentScore = event.data.message.score
           this.sendScoreboardData('fighter', event.data.message.score)
         }
@@ -72,8 +72,9 @@ export default {
       div.window-content(style='margin:0;padding:0;background-color:#222;')
         div.collection__wrapper.h-100.w-100
           div.h-100(v-if='checkOwnership("434273")', style='margin:0 auto;')
-            //- <iframe frameborder="0" :src='require("@/assets/extras/index.html")', allowfullscreen="" width="550" height="450"></iframe>
-            //<iframe id='popupgame' frameborder="0" src="//v6p9d9t4.ssl.hwcdn.net/html/5196457/index.html" allowfullscreen="" :width="$store.state.App.mobileTemplate ? '320px' : '500px'" :height="$store.state.App.mobileTemplate ? '100%' : '100%'"></iframe>
+            // debug version
+            //- <iframe id='popupgame' frameborder="0" src="//v6p9d9t4.ssl.hwcdn.net/html/5202935/index.html" allowfullscreen="" :width="$store.state.App.mobileTemplate ? '320px' : '500px'" :height="$store.state.App.mobileTemplate ? '100%' : '100%'"></iframe>
+            // live version
             <iframe id='popupgame' frameborder="0" src="//v6p9d9t4.ssl.hwcdn.net/html/5202492/index.html" allowfullscreen="" :width="$store.state.App.mobileTemplate ? '320px' : '500px'" :height="$store.state.App.mobileTemplate ? '100%' : '100%'"></iframe>
 
           .empty-content__wrapper(v-else)

@@ -71,9 +71,8 @@ export default {
               div.b View the different leaderboards over here!
               div Coming soon: Burned NFTs leaderboards
               div.i.mt3 This page is a work in progress
-            // v-btn(@click='testSnack()')ç
+            //- v-btn(@click='testSnack()')
             div.tc.b.mb2.mt4 Available leaderboards
-
             v-list(color='transparent', light)
               template(v-for='(board, index) in leaderboards')
                 v-list-item.pointer(@click='toggleBoard(board)')

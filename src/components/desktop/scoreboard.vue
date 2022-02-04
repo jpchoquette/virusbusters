@@ -66,6 +66,7 @@ export default {
   .entries__wrapper
     width: 100%
     .entry
+      color: var(--v-secondary-base)
       display: flex
       align-items: baseline
       position: relative
@@ -73,7 +74,7 @@ export default {
       border-bottom: solid 1px black
       background-color: white
       &.active-user
-        color: var(--v-accent-base)
+        // color: var(--v-accent-base)
         font-weight: bold
         &::before
           background-color: var(--v-accent-base)

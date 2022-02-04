@@ -281,7 +281,7 @@ export default {
                 div.init-cursor-images(v-if='$store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && $store.state.Customizations.activeCursor.data.options && $store.state.Customizations.activeCursor.data.options.images && $store.state.Customizations.activeCursor.data.options.images.length')
                   template(v-for='(image, index) in $store.state.Customizations.activeCursor.data.options.images')
                     img.debug-images(:src='image')
-                .version-number v1.18
+                .version-number v1.19
                 template(v-if='userConnected')
                   icon-desktop(image='buster-icon.png', title='Desktop customizer', action='customization')
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
@@ -289,8 +289,8 @@ export default {
                   icon-desktop(image='blender-icon-v1.png', title='Blender.exe', action='blender')
                   icon-desktop(image='game_434273.png', title='PopupFighter.exe', action='fighter', :private='false')
                   icon-desktop(image='game_401170.png', title='RiskyClick.exe', action='risky', :private='false')
-                  icon-desktop(image='desktop-icon-v1.png', title='My (Infected) Computer', action='computer', :private='false')
-                  icon-desktop(image='desktop-icon-v1.png', title='Leaderboards', action='leaderboard', :private='false')
+                  // icon-desktop(image='desktop-icon-v1.png', title='My (Infected) Computer', action='computer', :private='false')
+                  icon-desktop(image='leaderboard-icon-v1.png', title='Leader boards', action='leaderboard', :private='false')
 
                   //- stat-calculator(type='burns', schemaName='popups', templateId='316428')
             //- pre {{$store.state.Customizations.activeTheme}}

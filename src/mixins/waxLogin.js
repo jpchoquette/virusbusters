@@ -68,11 +68,16 @@ export default {
     }
   },
   mounted () {
-    this.wax = new Waxjs.WaxJS({
-      rpcEndpoint: 'https://wax.greymass.com'
-    })
-    // automatically check for credentials
-    this.autoLogin()
+    // const lastUser = this.$cookies.get('lastUser')
+    // const parsedAccountType = JSON.parse(accType)
+    // console.log('checkcookie acc', lastUser.type)
+    // if (lastUser && lastUser.type && lastUser.type === 'wcw') {
+    //   // automatically check for credentials
+    //   // console.log('on auto-login, on est a wcw')
+    //   // this.WCWlogin(true)
+    //   // console.log('autolog', isAutoLoginAvailable)
+    //   this.autoLogin()
+    // }
   },
   watch: {
     '$store.state.User.userConnected': {
@@ -97,16 +102,32 @@ export default {
         const userAccount = this.wax.userAccount
         this.profile = userAccount
         this.userConnected = true
-        // const pubKeys = this.wax.pubKeys
-        // const str = 'AutoLogin enabled for account: ' + userAccount + '<br/>Active: ' + pubKeys[0] + '<br/>Owner: ' + pubKeys[1]
-        // document.getElementById('autologin').insertAdjacentHTML('beforeend', str)
       } else {
         this.profile = null
         this.userConnected = false
-        // document.getElementById('autologin').insertAdjacentHTML('beforeend', 'Not auto-logged in')
       }
     },
     // normal login. Triggers a popup for non-whitelisted dapps
+    async WCWlogin () {
+      if (!this.wax) {
+        this.wax = new Waxjs.WaxJS({
+          rpcEndpoint: 'https://wax.greymass.com'
+        })
+      }
+      console.log('Login with WCW')
+      try {
+        const userAccount = await this.wax.login()
+        this.loggedIn(userAccount)
+        const temp = {
+          type: 'wcw',
+          account: userAccount
+        }
+        this.setLastUser(temp)
+      } catch (e) {
+        this.profile = null
+        this.accountType = null
+      }
+    },
     async scatterLogin () {
       const network = ScatterJS.Network.fromJson({
         blockchain: 'wax',
@@ -130,7 +151,13 @@ export default {
               this.profile = userAccount
               this.userConnected = true
               // console.log('account', account)
-              this.accountType = 'scatter'
+              // this.accountType = 'scatter'
+              this.setAccountType('scatter')
+              const temp = {
+                type: 'anchor',
+                account: userAccount
+              }
+              this.setLastUser(temp)
             }
           })
         }
@@ -146,27 +173,14 @@ export default {
         console.log(`Logged in as ${session.auth.actor}`)
         const userAccount = session.auth.actor.toString()
         this.loggedIn(userAccount)
-        this.accountType = 'anchor'
+        // this.accountType = 'anchor'
+        const temp = {
+          type: 'anchor',
+          account: userAccount
+        }
+        this.setLastUser(temp)
       } catch (e) {
         console.log(e)
-        this.accountType = null
-      }
-    },
-    async login () {
-      if (!this.wax) {
-        this.wax = new Waxjs.WaxJS({
-          rpcEndpoint: 'https://wax.greymass.com'
-        })
-      }
-      console.log('Login with WCW')
-      try {
-        // if autologged in, this simply returns the userAccount w/no popup
-        const userAccount = await this.wax.login()
-        this.loggedIn(userAccount)
-        this.accountType = 'wcw'
-      } catch (e) {
-        this.profile = null
-        this.accountType = null
       }
     },
     loggedIn (userId) {
@@ -202,14 +216,20 @@ export default {
         localStorage.setItem('users', JSON.stringify(newUsers))
       }
     },
+    setLastUser (type) {
+      // console.log('type', type)
+      this.$cookies.set('lastUser', JSON.stringify(type), 604800)
+    },
     logout () {
       // Cookie à faire
       // setCookie('wax-address', '');
-      this.accountType = null
+      // this.accountType = null
+      console.log('login out')
       this.userConnected = false
       this.profile = null
       this.busterTemplates = null
       this.wax = null
+      this.$cookies.remove('lastUser')
       // this.$cookies.remove('buster')
     },
     // async fetchBustersNFTs () {

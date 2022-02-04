@@ -1,20 +1,23 @@
 <script>
-import Minesweeper from '@/components/desktop/games/minesweeper'
-
-// import WaxLogin from '@/mixins/waxLogin.js'
+import Scoreboard from '@/components/desktop/scoreboard'
+import ScoreboardCalc from '@/mixins/scoreboardCalc.js'
 import VueResizable from 'vue-resizable'
 export default {
-  name: 'BlenderWindow',
+  name: 'PopupFighter',
   components: {
     VueResizable,
-    Minesweeper
+    Scoreboard
   },
   data () {
     return {
     }
   },
-  // mixins: [WaxLogin],
+  mixins: [ScoreboardCalc],
   mounted () {
+    window.addEventListener('message', this.receiveMessage)
+  },
+  beforeDestroy () {
+    window.removeEventListener('message', this.receiveMessage)
   },
   computed: {
     activeWindow: {
@@ -24,9 +27,22 @@ export default {
     popupFighterWindow: {
       set (val) { this.$store.commit('Desktop/setPopupFighterWindow', val) },
       get () { return this.$store.state.Desktop.popupFighterWindow }
+    },
+    currentScore: {
+      set (val) { this.$store.commit('Games/setCurrentScore', val) },
+      get () { return this.$store.state.Games.currentScore }
     }
   },
   methods: {
+    receiveMessage (event) {
+      if (event.origin === 'https://v6p9d9t4.ssl.hwcdn.net') {
+        if (event && event.data && event.data.message) {
+          // console.log('Captured score from game', event.data.message.score)
+          this.currentScore = event.data.message.score
+          this.sendScoreboardData('fighter', event.data.message.score)
+        }
+      }
+    },
     closeWindow () {
       this.popupFighterWindow = false
     },
@@ -57,7 +73,9 @@ export default {
         div.collection__wrapper.h-100.w-100
           div.h-100(v-if='checkOwnership("434273")', style='margin:0 auto;')
             //- <iframe frameborder="0" :src='require("@/assets/extras/index.html")', allowfullscreen="" width="550" height="450"></iframe>
-            <iframe id='popupgame' frameborder="0" src="//v6p9d9t4.ssl.hwcdn.net/html/5196457/index.html" allowfullscreen="" :width="$store.state.App.mobileTemplate ? '320px' : '500px'" :height="$store.state.App.mobileTemplate ? '100%' : '100%'"></iframe>
+            //<iframe id='popupgame' frameborder="0" src="//v6p9d9t4.ssl.hwcdn.net/html/5196457/index.html" allowfullscreen="" :width="$store.state.App.mobileTemplate ? '320px' : '500px'" :height="$store.state.App.mobileTemplate ? '100%' : '100%'"></iframe>
+            <iframe id='popupgame' frameborder="0" src="//v6p9d9t4.ssl.hwcdn.net/html/5202322/index.html" allowfullscreen="" :width="$store.state.App.mobileTemplate ? '320px' : '500px'" :height="$store.state.App.mobileTemplate ? '100%' : '100%'"></iframe>
+
           .empty-content__wrapper(v-else)
             .title-placeholder.white--text Oh no!
             .description-placeholder.white--text
@@ -71,9 +89,6 @@ export default {
                 | For more infos, join us on
                 a.mh1(href='https://discord.gg/vKWRKtsDCX', target='_blank') Discord
                 |.
-          //- .empty-content__wrapper
-            .title-placeholder.white--text W4RN1NG!
-            .description-placeholder Program corrupted.
 </template>
 <style lang='sass'>
 .collection__wrapper

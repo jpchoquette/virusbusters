@@ -33,7 +33,7 @@ export default {
       v-btn(v-if='$store.state.User.userConnected', @click='logout') Logout
       div(v-else, style='display: flex; flex-direction: column;')
         div.login-btn__wrapper
-          v-btn.login-btn(@click='login', large, color='black', dark)
+          v-btn.login-btn(@click='WCWlogin', large, color='black', dark)
             img(alt='Wax Logo', src="@/assets/images/wax-logo-white.png", width='50px')
             div.divider
             span Wax Cloud Wallet

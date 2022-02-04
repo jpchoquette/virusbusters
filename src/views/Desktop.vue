@@ -1,4 +1,5 @@
 <script>
+import FeedbackNotification from '../components/shared/feedbackNotification'
 import TextPattern from '../components/shared/textPattern'
 import StatCalculator from '../components/shared/statCalculator'
 import DateWidget from '../components/desktop/dateWidget'
@@ -12,6 +13,7 @@ import BlenderWindow from '../components/desktop/blenderWindow'
 import RiskyClickWindow from '../components/desktop/riskyClickWindow'
 import PopupFighterWindow from '../components/desktop/popupFighterWindow'
 import RigHubWindow from '../components/desktop/rigHubWindow'
+import LeaderboardWindow from '../components/desktop/leaderboardWindow'
 
 import WaxLogin from '@/mixins/waxLogin.js'
 import UpdatePreferences from '@/mixins/updatePreferences.js'
@@ -22,6 +24,7 @@ import CustomThemes from '@/mixins/customThemes.js'
 export default {
   name: 'Desktop',
   components: {
+    FeedbackNotification,
     TextPattern,
     StatCalculator,
     DateWidget,
@@ -34,7 +37,8 @@ export default {
     BlenderWindow,
     RiskyClickWindow,
     PopupFighterWindow,
-    RigHubWindow
+    RigHubWindow,
+    LeaderboardWindow
   },
   mixins: [WaxLogin, UpdatePreferences, AnimatedCursors, CustomThemes],
   data () {
@@ -253,8 +257,11 @@ export default {
               risky-click-window(v-if='$store.state.Desktop.riskyClickWindow')
               popup-fighter-window(v-if='$store.state.Desktop.popupFighterWindow')
               rig-hub-window(v-if='$store.state.Desktop.rigHubWindow')
+              leaderboard-window(v-if='$store.state.Desktop.leaderboardWindow')
 
             .window__wrapper(:style='{backgroundColor: ($store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data.bgColor) ? $store.state.Customizations.activeWallpaper.data.bgColor : "transparent"}')
+              feedback-notification
+
               div.wallpaper-content
                 //- pre {{$store.state.Buster.ownedWallpaperTemplates}}
                 //- pre {{$store.state.Customizations.activeWallpaper}}
@@ -274,7 +281,7 @@ export default {
                 div.init-cursor-images(v-if='$store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && $store.state.Customizations.activeCursor.data.options && $store.state.Customizations.activeCursor.data.options.images && $store.state.Customizations.activeCursor.data.options.images.length')
                   template(v-for='(image, index) in $store.state.Customizations.activeCursor.data.options.images')
                     img.debug-images(:src='image')
-                .version-number v1.15
+                .version-number v1.17
                 template(v-if='userConnected')
                   icon-desktop(image='buster-icon.png', title='Desktop customizer', action='customization')
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
@@ -283,6 +290,8 @@ export default {
                   icon-desktop(image='game_434273.png', title='PopupFighter.exe', action='fighter', :private='false')
                   icon-desktop(image='game_401170.png', title='RiskyClick.exe', action='risky', :private='false')
                   icon-desktop(image='desktop-icon-v1.png', title='My (Infected) Computer', action='computer', :private='false')
+                  icon-desktop(image='desktop-icon-v1.png', title='Leaderboards', action='leaderboard', :private='false')
+
                   //- stat-calculator(type='burns', schemaName='popups', templateId='316428')
             //- pre {{$store.state.Customizations.activeTheme}}
             .bottom-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data && $store.state.Customizations.activeTheme.data.gradients)}')
@@ -309,7 +318,7 @@ export default {
                           span {{Math.floor(Math.random() * (8000 - 1000 + 1)) + 1000}}
                         v-list-item-subtitle Visitor
                       v-list-item-action
-                        v-btn(@click='login', icon)
+                        v-btn(@click='WCWlogin', icon)
                           v-icon mdi-login
                   v-divider
                   v-list

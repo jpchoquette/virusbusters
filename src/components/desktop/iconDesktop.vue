@@ -53,6 +53,10 @@ export default {
     rigHubWindow: {
       set (val) { this.$store.commit('Desktop/setRigHubWindow', val) },
       get () { return this.$store.state.Desktop.rigHubWindow }
+    },
+    leaderboardWindow: {
+      set (val) { this.$store.commit('Desktop/setLeaderboardWindow', val) },
+      get () { return this.$store.state.Desktop.leaderboardWindow }
     }
   },
   methods: {
@@ -98,6 +102,11 @@ export default {
           this.rigHubWindow = false
           setTimeout(() => {
             this.rigHubWindow = true
+          }, 100)
+        } else if (action === 'leaderboard') {
+          this.leaderboardWindow = false
+          setTimeout(() => {
+            this.leaderboardWindow = true
           }, 100)
         }
       }

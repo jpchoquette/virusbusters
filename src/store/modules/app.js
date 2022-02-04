@@ -3,7 +3,16 @@ const state = {
     width: 0,
     height: 0
   },
-  mobileTemplate: false
+  mobileTemplate: false,
+  showSnackbarGlobal: false,
+  snackbarGlobalContent: {
+    title: 'Default notification',
+    description: 'A description',
+    color: '#23a300',
+    icon: '✔️',
+    timeout: 4000,
+    type: 'success'
+  }
 }
 
 const getters = {}
@@ -16,6 +25,12 @@ const mutations = {
   },
   setMobileTemplate (state, payload) {
     state.mobileTemplate = payload
+  },
+  setShowSnackbarGlobal (state, payload) {
+    state.showSnackbarGlobal = payload
+  },
+  setSnackbarGlobalContent (state, payload) {
+    state.snackbarGlobalContent = payload
   }
 }
 

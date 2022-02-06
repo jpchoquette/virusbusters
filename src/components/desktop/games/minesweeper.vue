@@ -1,7 +1,7 @@
 <script>
 // import UpdatePreferences from '@/mixins/updatePreferences.js'
 // import AnimatedCursors from '@/mixins/animatedCursors.js'
-
+import ScoreboardCalcDeep from '@/mixins/scoreboardCalcDeep.js'
 export default {
   name: 'Minesweeper',
   components: {
@@ -13,6 +13,7 @@ export default {
       clock: {
         time: '00:00'
       },
+      rawTime: 0,
       timeBegan: null,
       timeStopped: null,
       stoppedDuration: 0,
@@ -20,11 +21,13 @@ export default {
       running: false,
       restartInProgress: false,
       activeSize: {
+        id: 0,
         title: 'Small',
         value: 'small',
         quantity: 6
       },
       activeDifficulty: {
+        id: 1,
         title: 'Normal',
         value: 'normal',
         quantity: 0.4
@@ -59,21 +62,25 @@ export default {
       // gameWon: false,
       gameSizes: [
         {
+          id: 0,
           title: 'Small',
           value: 'small',
           quantity: 6
         },
         {
+          id: 1,
           title: 'Medium',
           value: 'medium',
           quantity: 10
         },
         {
+          id: 2,
           title: 'Large',
           value: 'large',
           quantity: 14
         },
         {
+          id: 3,
           title: 'X-Large',
           value: 'xlarge',
           quantity: 20
@@ -81,21 +88,25 @@ export default {
       ],
       gameDifficulties: [
         {
+          id: 0,
           title: 'Easy',
           value: 'easy',
           quantity: 0.4
         },
         {
+          id: 1,
           title: 'Normal',
           value: 'normal',
           quantity: 0.6
         },
         {
+          id: 2,
           title: 'Hard',
           value: 'hard',
           quantity: 0.7
         },
         {
+          id: 3,
           title: 'Busted',
           value: 'busted',
           quantity: 1
@@ -103,7 +114,7 @@ export default {
       ]
     }
   },
-  mixins: [],
+  mixins: [ScoreboardCalcDeep],
   computed: {
   },
   methods: {
@@ -280,6 +291,7 @@ export default {
         if (thus.remainingTiles === thus.totalBombsCount) {
           console.log('Game won')
           thus.gameOver('victory')
+          thus.sendScoreboardData(thus.rawTime, thus.activeSize, thus.activeDifficulty)
         }
       }
     },
@@ -415,6 +427,9 @@ export default {
       this.clock.time =
         this.zeroPrefix(min, 2) + ':' +
         this.zeroPrefix(sec, 2)
+      const [minutes, seconds] = this.clock.time.split(':')
+      this.rawTime = (+minutes) * 60 + (+seconds)
+      // console.log('rawtime', this.rawTime)
     },
     zeroPrefix (num, digit) {
       let zero = ''
@@ -428,11 +443,12 @@ export default {
 </script>
 <template lang='pug'>
   .minesweeper-window
+    // pre {{parsedScoreboard}}
     transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
       div.game-setup(v-if='!gameStarted')
         h2 Risky Click!
         div.i.mt2 A.K.A. Minesweeper
-        div.f6.i.mb3 v0.1
+        div.f6.i.mb3 v0.2
         v-item-group(@change='updateValSize', mandatory)
           v-container
             .options-subtitle Grid size
@@ -471,7 +487,6 @@ export default {
 
             div.flex-grow-1
             div.clock__wrapper {{clock.time}}
-
           //- v-btn(@click='startTimer') Start
           //- v-btn(@click='stopTimer') Pause
           //- v-btn(@click='resetTimer') reset

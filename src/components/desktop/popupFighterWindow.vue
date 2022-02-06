@@ -1,6 +1,6 @@
 <script>
 import Scoreboard from '@/components/desktop/scoreboard'
-import ScoreboardCalc from '@/mixins/scoreboardCalc.js'
+import ScoreboardCalcSimple from '@/mixins/scoreboardCalcSimple.js'
 import VueResizable from 'vue-resizable'
 export default {
   name: 'PopupFighter',
@@ -12,7 +12,7 @@ export default {
     return {
     }
   },
-  mixins: [ScoreboardCalc],
+  mixins: [ScoreboardCalcSimple],
   mounted () {
     window.addEventListener('message', this.receiveMessage)
   },

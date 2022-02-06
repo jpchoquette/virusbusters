@@ -17,10 +17,34 @@ export default {
         {
           title: 'Popup Fighter Leaderboard',
           url: 'https://neftyblocks.com/c/virusbusters',
-          dataId: '61fc9df4f77b236211eb03a1',
+          type: 'jsonbin',
+          dataId: '61ff373af77b236211ed7386',
           icon: '🏆',
           image: 'nefty-blocks-logo-small.svg',
-          type: 'game'
+          sortable: false,
+          disabled: false
+        },
+        {
+          title: 'Risky Click Leaderboard',
+          url: 'https://neftyblocks.com/c/virusbusters',
+          type: 'jsonbin',
+          // debug risky bin: 61ff00504ce71361b8cfa8c9
+          // main risky bin: 61feb52369b72261be5137da
+          dataId: '61feb52369b72261be5137da',
+          icon: '🏆',
+          image: 'nefty-blocks-logo-small.svg',
+          sortable: true,
+          disabled: true
+        },
+        {
+          title: 'Burned Pop-Ups Leaderboard',
+          url: 'https://neftyblocks.com/c/virusbusters',
+          type: 'atomicassets',
+          dataId: '',
+          icon: '🔥',
+          image: 'nefty-blocks-logo-small.svg',
+          sortable: false,
+          disabled: false
         }
       ]
     }
@@ -43,7 +67,11 @@ export default {
     toggleBoard (board) {
       if (this.activeBoard !== board) {
         this.activeBoard = board
-        this.fetchLeaderboard(board.dataId)
+        if (board.type === 'jsonbin') {
+          this.fetchCustomLeaderboard(board.dataId)
+        } else if (board.type === 'atomicassets') {
+          this.fetchAtomicLeaderboard(board.dataId)
+        }
       }
       this.leaderboardMenu = false
     },
@@ -69,8 +97,7 @@ export default {
           div.quicklinks__wrapper.h-100.w-100(v-if='leaderboardMenu')
             div.intro-text
               div.b View the different leaderboards over here!
-              div Coming soon: Burned NFTs leaderboards
-              div.i.mt3 This page is a work in progress
+              div.f6 More leaderboards coming soon!
             //- v-btn(@click='testSnack()')
             div.tc.b.mb2.mt4 Available leaderboards
             v-list(color='transparent', light)
@@ -79,15 +106,23 @@ export default {
                   v-list-item-content
                     div.row-wrapper
                       div.first-row
-                        div.mr2(v-if='board.icon') 🏆
+                        div.mr2(v-if='board.icon') {{board.icon}}
                         v-img.mr2(v-else-if='board.image', :src="require('@/assets/images/' + board.image)", width='20px', height='20px', contain, style='max-width: 30px')
                         span.link-content(:class='board.classes ? board.classes : null') {{board.title}}
           div(v-else)
             div.tc.pt3
               v-btn.tc(@click='leaveBoard()',outlined) < All Leaderboards
-            div(v-if='sortedEntries')
-              scoreboard(:board='activeBoard', :data='sortedEntries')
-            div.pa3.w-100.tc(v-else) Loading scoreboard, please wait...
+
+              //- pre {{parsedScoreboard}}
+            div.pa3.w-100.tc(v-if='loading') Loading scoreboard, please wait...
+            div(v-else-if='parsedScoreboard && !loading && activeBoard')
+              template(v-if='activeBoard.type === "jsonbin"')
+                scoreboard(:board='activeBoard', :data='parsedScoreboard', :entries='sortedEntries', :loading='loading')
+                div.i.mt3.f6.tc.mb3 !!! Work in progress - Game scores may be wiped out !!!
+
+              template(v-else-if='activeBoard.type === "atomicassets"')
+                h1.tc {{activeBoard.title}}
+                div.tc.pa4 Coming soon
           //- pre {{sortedEntries}}
 </template>
 <style lang='sass'>
@@ -98,6 +133,7 @@ export default {
     min-width: 300px
     max-width: 500px
     margin: 0 auto
+    padding-bottom: 20px
     .intro-text
       font-size: 20px
       text-align: center
@@ -106,6 +142,8 @@ export default {
       padding: 0
       min-height: 50px
       background-color: white
+      &:not(:last-child)
+        border-bottom: solid 1px var(--v-secondary-base)
       .v-list-item__content
         padding: 8px 0
     .row-wrapper

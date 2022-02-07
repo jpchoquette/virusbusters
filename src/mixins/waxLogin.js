@@ -224,7 +224,7 @@ export default {
       // Cookie à faire
       // setCookie('wax-address', '');
       // this.accountType = null
-      console.log('login out')
+      // console.log('logout')
       this.userConnected = false
       this.profile = null
       this.busterTemplates = null

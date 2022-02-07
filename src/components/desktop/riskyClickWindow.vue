@@ -47,7 +47,7 @@ export default {
 }
 </script>
 <template lang='pug'>
-  vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '10%'", :left="$store.state.App.mobileTemplate ? '5%' : '45%'", :width="$store.state.App.mobileTemplate ? '90vw' : '500px'", :height="$store.state.App.mobileTemplate ? '70vh' : '500px'", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "fighter"}')
+  vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '10%'", :left="$store.state.App.mobileTemplate ? '5%' : '45%'", :width="$store.state.App.mobileTemplate ? '90vw' : '500px'", :height="$store.state.App.mobileTemplate ? '70vh' : '500px'", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "risky"}')
     div.program-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "risky"}', @mousedown='activeWindow = "risky"')
       div.window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
         div.window-title RiskyClick.exe

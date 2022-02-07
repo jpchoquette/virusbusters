@@ -68,19 +68,20 @@ export default {
     div(v-else)
       div.w-100
         h1.board-title {{board.title}}
+        //- pre {{board.scoreType}}
       div.board-subtitle 🏆 Top 50 🏆
-      template(v-if='data')
+      template(v-if='data || entries')
         div.entries__wrapper
           template(v-if='!board.sortable')
             template(v-for='(entry, index) in entries')
-              scoreboard-entry(:entry='entry', :index='index')
+              scoreboard-entry(:entry='entry', :index='index', :scoreType='board.scoreType')
           template(v-else-if='board.sortable && selectedFilters && selectedFilters.length')
             div.filters__wrapper
               div.filter(v-for='(filter,index) in data.filters')
                 div
                   v-select(v-model='selectedFilters[index].value', :label='filter.name', :items='filter.data', item-text='name', item-value='value', hide-details, filled, dense, dark, item-color='secondary')
             template(v-for='(entry, index) in filteredEntries')
-              scoreboard-entry(:entry='entry', :index='index')
+              scoreboard-entry(:entry='entry', :index='index', :scoreType='board.scoreType')
       template(v-else) Data unavailable
 </template>
 

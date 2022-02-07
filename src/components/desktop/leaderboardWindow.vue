@@ -1,12 +1,14 @@
 <script>
 import Scoreboard from '@/components/desktop/scoreboard'
+import VirusSpinner from '@/components/shared/virusSpinner'
 import ScoreboardFetch from '@/mixins/scoreboardFetch.js'
 import VueResizable from 'vue-resizable'
 export default {
   name: 'LeaderboardWindow',
   components: {
     VueResizable,
-    Scoreboard
+    Scoreboard,
+    VirusSpinner
   },
   data () {
     return {
@@ -22,7 +24,9 @@ export default {
           icon: '🏆',
           image: 'nefty-blocks-logo-small.svg',
           sortable: false,
-          disabled: false
+          disabled: false,
+          scoreType: 'points',
+          sortingOrder: 'desc'
         },
         {
           title: 'Risky Click Leaderboard',
@@ -34,17 +38,22 @@ export default {
           icon: '🏆',
           image: 'nefty-blocks-logo-small.svg',
           sortable: true,
-          disabled: true
+          disabled: true,
+          scoreType: 'time',
+          sortingOrder: 'asc'
         },
         {
           title: 'Burned Pop-Ups Leaderboard',
           url: 'https://neftyblocks.com/c/virusbusters',
           type: 'atomicassets',
-          dataId: '',
+          dataId: null,
+          query: 'https://wax.api.atomicassets.io/atomicassets/v1/transfers?recipient=blenderizerx&memo=350919&collection_name=virusbusters&collection_whitelist=virusbusters&limit=100&order=desc&sort=created',
           icon: '🔥',
           image: 'nefty-blocks-logo-small.svg',
           sortable: false,
-          disabled: false
+          disabled: false,
+          scoreType: 'points',
+          sortingOrder: 'desc'
         }
       ]
     }
@@ -70,7 +79,7 @@ export default {
         if (board.type === 'jsonbin') {
           this.fetchCustomLeaderboard(board.dataId)
         } else if (board.type === 'atomicassets') {
-          this.fetchAtomicLeaderboard(board.dataId)
+          this.fetchAtomicLeaderboard(board.query, 1, [])
         }
       }
       this.leaderboardMenu = false
@@ -113,17 +122,15 @@ export default {
             div.tc.pt3
               v-btn.tc(@click='leaveBoard()',outlined) < All Leaderboards
 
-              //- pre {{parsedScoreboard}}
-            div.pa3.w-100.tc(v-if='loading') Loading scoreboard, please wait...
-            div(v-else-if='parsedScoreboard && !loading && activeBoard')
-              template(v-if='activeBoard.type === "jsonbin"')
+            div.pa3.w-100.tc.flex.flex-column.items-center(v-if='loading')
+              div.tc.mb3.f4.i.mt4 Loading leaderboard, please wait...
+              virus-spinner
+            div(v-else-if='!loading && activeBoard')
+              template(v-if='parsedScoreboard && activeBoard.type === "jsonbin"')
                 scoreboard(:board='activeBoard', :data='parsedScoreboard', :entries='sortedEntries', :loading='loading')
                 div.i.mt3.f6.tc.mb3 !!! Work in progress - Game scores may be wiped out !!!
-
-              template(v-else-if='activeBoard.type === "atomicassets"')
-                h1.tc {{activeBoard.title}}
-                div.tc.pa4 Coming soon
-          //- pre {{sortedEntries}}
+              div(v-else-if='activeBoard.type === "atomicassets"')
+                scoreboard(:board='activeBoard', :entries='sortedEntries', :loading='loading')
 </template>
 <style lang='sass'>
 .scoreboard-window.desktop-window

@@ -4,7 +4,8 @@ export default {
   name: 'scoreboard',
   props: {
     entry: { required: true, type: Object },
-    index: { required: true, type: Number }
+    index: { required: true, type: Number },
+    scoreType: { required: true, type: String }
   },
   components: {
   },
@@ -17,6 +18,14 @@ export default {
     // this.fetchScoreboard()
   },
   computed: {
+    parsedScore () {
+      const score = this.entry.score ? this.entry.score : this.entry.value
+      if (this.scoreType === 'time') {
+        return new Date(score * 1000).toISOString().substr(11, 8)
+      } else {
+        return score
+      }
+    }
   },
   methods: {
   }
@@ -31,7 +40,7 @@ export default {
       div(v-else) {{index+1}}.
     div.entry-wallet {{entry.wallet}}
     div.flex-grow-1
-    div.entry-score {{entry.score ? entry.score : entry.value}}
+    div.entry-score {{parsedScore}}
 </template>
 
 <style lang='sass'>
@@ -77,6 +86,7 @@ export default {
       position: relative
       font-size: 20px
       font-weight: bold
+      font-family: monospace
     .dividing-line
       position: relative
       margin: 0 20px

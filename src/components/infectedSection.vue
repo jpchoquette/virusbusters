@@ -58,7 +58,6 @@ export default {
                   loading-bar
             div.warning-window.top-right(data-scroll data-scroll-speed="1")
               .warning__inner-content
-
                 img(alt='skull-virus', src="../assets/images/virus/v_skull_1.gif", height='250px')
             div.warning-window.bottom-right(data-scroll data-scroll-speed="1")
               .warning__inner-content

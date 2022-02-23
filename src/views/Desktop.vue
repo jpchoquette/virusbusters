@@ -14,6 +14,7 @@ import RiskyClickWindow from '../components/desktop/riskyClickWindow'
 import PopupFighterWindow from '../components/desktop/popupFighterWindow'
 import RigHubWindow from '../components/desktop/rigHubWindow'
 import LeaderboardWindow from '../components/desktop/leaderboardWindow'
+import ContactsWindow from '../components/desktop/contactsWindow'
 
 import WaxLogin from '@/mixins/waxLogin.js'
 import UpdatePreferences from '@/mixins/updatePreferences.js'
@@ -38,7 +39,8 @@ export default {
     RiskyClickWindow,
     PopupFighterWindow,
     RigHubWindow,
-    LeaderboardWindow
+    LeaderboardWindow,
+    ContactsWindow
   },
   mixins: [WaxLogin, UpdatePreferences, AnimatedCursors, CustomThemes],
   data () {
@@ -251,6 +253,7 @@ export default {
             .temp-windows__wrapper
               settings-window(v-if='$store.state.Desktop.settingsWindow')
               customization-window(v-if='$store.state.Desktop.customizationWindow', @resetPrefs='resetUserPreferences()')
+              contacts-window(v-if='$store.state.Desktop.contactsWindow')
               quick-links-window(v-if='$store.state.Desktop.quickLinksWindow')
               collection-window(v-if='$store.state.Desktop.collectionWindow')
               blender-window(v-if='$store.state.Desktop.blenderWindow')
@@ -266,14 +269,16 @@ export default {
                 //- pre {{$store.state.Buster.ownedWallpaperTemplates}}
                 //- pre {{$store.state.Customizations.activeWallpaper}}
                 template(v-if='$store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data')
+
                   template(v-if='$store.state.Customizations.activeWallpaper.data.type === "buster"')
                     text-pattern(:data='$store.state.Customizations.activeWallpaper.data.name', color='#7e2753', :opacity='0.15', :angle='-20', :qtyPerLine='2')
                     transition(name='custom-classes-transition', enter-active-class='animate__animated animate__zoomIn', leave-active-class='animate__animated animate__zoomOut', mode='out-in')
                       v-img(:src="require('@/assets/images/buster/buster_' + $store.state.Customizations.activeWallpaper.data.template_id + '.gif')", width='350px', :key="$store.state.Customizations.activeWallpaper.data.template_id")
                   template(v-else)
-                    div.wallpaper-image(:style='{ backgroundImage:"url(" + require("@/assets/images/wallpapers/wallpaper_" + $store.state.Customizations.activeWallpaper.data.template_id + $store.state.Customizations.activeWallpaper.data.extension) + ")" }', :class='$store.state.Customizations.activeWallpaperDisplayStyle')
+                    div.wallpaper-image(:style='{ backgroundImage:"url(" + require("@/assets/images/wallpapers/wallpaper_" + $store.state.Customizations.activeWallpaper.data.template_id + $store.state.Customizations.activeWallpaper.data.extension) + ")", backgroundSize: $store.state.Customizations.activeWallpaper.data.defaultSize }', :class='$store.state.Customizations.activeWallpaperDisplayStyle')
                     //- v-img(:src="require('@/assets/images/wallpapers/wallpaper_' + $store.state.Customizations.activeWallpaper.data.template_id + '.png')", width='350px', :key="$store.state.Customizations.activeWallpaper.data.template_id")
-
+                    template(v-if='$store.state.Customizations.activeWallpaper.data.texture')
+                      div.pattern-image.primary(:style='{ backgroundImage:"url(" + require("@/assets/images/wallpapers/texture_" + $store.state.Customizations.activeWallpaper.data.template_id + $store.state.Customizations.activeWallpaper.data.extension) + ")" }')
                 img(v-else, src="@/assets/images/vb-animated-logo-light.gif", width='400px', max-width='400px', style='opacity:1;')
 
               .window-content
@@ -281,10 +286,11 @@ export default {
                 div.init-cursor-images(v-if='$store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && $store.state.Customizations.activeCursor.data.options && $store.state.Customizations.activeCursor.data.options.images && $store.state.Customizations.activeCursor.data.options.images.length')
                   template(v-for='(image, index) in $store.state.Customizations.activeCursor.data.options.images')
                     img.debug-images(:src='image')
-                .version-number v1.22
+                .version-number v1.23
                 template(v-if='userConnected')
                   icon-desktop(image='buster-icon.png', title='Desktop customizer', action='customization')
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
+                  icon-desktop(image='contacts-icon-v1.png', title="Buster's Friends", action='contacts', :private ='false')
                   icon-desktop(image='blender-icon-v1.png', title='My NFTs', action='collection', :private ='true')
                   icon-desktop(image='blender-icon-v1.png', title='Blender.exe', action='blender')
                   icon-desktop(image='game_434273.png', title='PopupFighter.exe', action='fighter', :private='false')
@@ -465,6 +471,16 @@ export default {
         display: flex
         align-items: center
         justify-content: center
+        .pattern-image
+          width: 100%
+          height: 100%
+          position: absolute
+          top: 0
+          left: 0
+          z-index: 999998
+          background-repeat: repeat
+          background-size: 20%
+          opacity: 0.25
         .wallpaper-image
           width: 100%
           height: 100%
@@ -478,7 +494,7 @@ export default {
             background-repeat: repeat
             background-size: 50%
           &.covering-background
-            background-size: cover
+            background-size: cover !important
             background-position: center
           &.centered-background
             background-size: 70%

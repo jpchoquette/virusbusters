@@ -464,7 +464,7 @@ export default {
                 v-item.ma1(v-slot='{ active, toggle }', :key='index')
                   v-btn(:color="active ? 'secondary' : ''", @click='toggle') {{diff.title}}
 
-        v-btn.mt2(@click='startGame()', x-large, color='accent') Start!
+        v-btn.mt2.secondary--text(@click='startGame()', x-large, color='accent') Start!
       div#box(v-else-if='gameStarted')
         h2 Risky Click!
         div.parameters__wrapper

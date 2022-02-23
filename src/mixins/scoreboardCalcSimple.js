@@ -1,6 +1,6 @@
 import { orderBy } from 'lodash'
 export default {
-  name: 'scoreboardCalc',
+  name: 'scoreboardCalcSimple',
   components: {
   },
   data () {
@@ -45,8 +45,6 @@ export default {
           }
         }
       }
-      // debug bin: 61fd84b369b72261be502685
-      // main bin: 61fc9df4f77b236211eb03a1
       req.open('GET', 'https://api.jsonbin.io/v3/b/' + this.currentBin, true)
       req.setRequestHeader('X-Master-Key', '$2b$10$LPV.o8jEECsT.Gy.0wkRNOYj//DS1t1FICmeZ9ZY54sCNoox8HRNG')
       req.send()

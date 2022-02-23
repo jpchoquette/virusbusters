@@ -40,6 +40,24 @@ export default {
     }
   },
   computed: {
+    cta () {
+      if (this.board && this.board.shorthand) {
+        const temp = {}
+        if (this.board.shorthand === 'popupfight' || this.board.shorthand === 'riskyclick') {
+          temp.title = 'Play the game'
+          temp.icon = '🕹️'
+          return temp
+        } else if (this.board.shorthand === 'burnedpops') {
+          temp.title = 'Get more popups'
+          temp.icon = '🔥'
+          return temp
+        } else {
+          return null
+        }
+      } else {
+        return null
+      }
+    },
     filteredEntries () {
       if (this.selectedFilters) {
         if (this.selectedFilters.length === 2) {
@@ -58,6 +76,19 @@ export default {
     }
   },
   methods: {
+    launchAction () {
+      if (this.board) {
+        if (this.board.shorthand === 'popupfight') {
+          this.$store.commit('Desktop/setPopupFighterWindow', true)
+          this.$store.commit('Desktop/setActiveWindow', 'fighter')
+        } else if (this.board.shorthand === 'riskyclick') {
+          this.$store.commit('Desktop/setRiskyClickWindow', true)
+          this.$store.commit('Desktop/setActiveWindow', 'risky')
+        } else if (this.board.shorthand === 'burnedpops') {
+          window.open('https://wax.atomichub.io/market?collection_name=virusbusters&order=asc&schema_name=popups&sort=price&symbol=WAX', '_blank')
+        }
+      }
+    }
   }
 }
 </script>
@@ -69,6 +100,7 @@ export default {
       div.w-100
         h1.board-title {{board.title}}
         //- pre {{board.scoreType}}
+      v-btn(v-if='cta', @click='launchAction()', large, block, tile, color='secondary darken-2', depressed) {{cta.icon}} {{cta.title}} {{cta.icon}}
       div.board-subtitle 🏆 Top 50 🏆
       template(v-if='data || entries')
         div.entries__wrapper

@@ -12,6 +12,7 @@ const state = {
   popupFighterWindow: false,
   rigHubWindow: false,
   leaderboardWindow: false,
+  contactsWindow: false,
   screenState: false
 }
 
@@ -68,6 +69,9 @@ const mutations = {
   },
   setLeaderboardWindow (state, payload) {
     state.leaderboardWindow = payload
+  },
+  setContactsWindow (state, payload) {
+    state.contactsWindow = payload
   },
   setScreenState (state, payload) {
     state.screenState = payload

@@ -66,13 +66,18 @@ export default {
       span.f7.i Preview image coming soon
   div.list-preview
     v-list.w-100
-      v-list-item(@click='selectTheme(0, null, true)', :class='{"selected-item" : !$store.state.Customizations.activeTheme}')
+      v-list-item(@click='selectTheme(0, null, true)', :class='{"selected-item" : !$store.state.Customizations.activeTheme}', :style='{borderColor : "var(--v-secondary-base)"}')
         v-list-item-content
           v-list-item-title Default theme
       v-divider()
 
       template(v-for='(theme, index) in $store.state.Customizations.themeStyles')
-        v-list-item(@click='(theme.disabled || (!checkOwnership(theme.template_id) && !theme.public)) ? "" : selectTheme(index, theme.template_id, (theme.public || checkOwnership(theme.template_id)))', :class='{"missing-template" : false ,"selected-item" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data && ($store.state.Customizations.activeTheme.data.template_id === theme.template_id))}', :disabled='theme.disabled')
+        v-list-item(
+          @click='(theme.disabled || (!checkOwnership(theme.template_id) && !theme.public)) ? "" : selectTheme(index, theme.template_id, (theme.public || checkOwnership(theme.template_id)))'
+          :class='{"missing-template" : false ,"selected-item" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data && ($store.state.Customizations.activeTheme.data.template_id === theme.template_id))}'
+          :style='{borderColor : "var(--v-secondary-base)"}'
+          :disabled='theme.disabled'
+        )
           v-list-item-content
             v-list-item-title
               div

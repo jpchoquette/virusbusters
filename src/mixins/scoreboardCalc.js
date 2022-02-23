@@ -41,9 +41,9 @@ export default {
           }
         }
       }
-      // debug bin: 61fd84b369b72261be502685
-      // main bin: 61fc9df4f77b236211eb03a1
-      req.open('GET', 'https://api.jsonbin.io/v3/b/61fc9df4f77b236211eb03a1', true)
+      // debug bin: 61ff377af77b236211ed73b5
+      // main bin: 61ff373af77b236211ed7386
+      req.open('GET', 'https://api.jsonbin.io/v3/b/61ff373af77b236211ed7386', true)
       req.setRequestHeader('X-Master-Key', '$2b$10$LPV.o8jEECsT.Gy.0wkRNOYj//DS1t1FICmeZ9ZY54sCNoox8HRNG')
       req.send()
     },
@@ -99,7 +99,7 @@ export default {
             // this.scoreboardData = req.responseText
           }
         }
-        req.open('PUT', 'https://api.jsonbin.io/v3/b/61fc9df4f77b236211eb03a1', true)
+        req.open('PUT', 'https://api.jsonbin.io/v3/b/61ff373af77b236211ed7386', true)
         req.setRequestHeader('Content-Type', 'application/json')
         req.setRequestHeader('X-Master-Key', '$2b$10$LPV.o8jEECsT.Gy.0wkRNOYj//DS1t1FICmeZ9ZY54sCNoox8HRNG')
         req.send(JSON.stringify(tempScoreboard))

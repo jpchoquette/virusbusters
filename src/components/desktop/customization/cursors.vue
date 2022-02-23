@@ -64,7 +64,7 @@ export default {
       div.header-title Cursors!
     div.list-preview
       v-list.w-100
-        v-list-item(@click='selectCursor(0, null, true)', :class='{"selected-item" : !$store.state.Customizations.activeCursor}')
+        v-list-item(@click='selectCursor(0, null, true)', :class='{"selected-item" : !$store.state.Customizations.activeCursor}', :style='{borderColor : "var(--v-secondary-base)"}')
           v-list-item-avatar(size='40', tile)
             v-img(src='/base-cursor.png')
           v-list-item-content
@@ -72,7 +72,12 @@ export default {
         v-divider()
 
         template(v-for='(cursor, index) in $store.state.Customizations.cursorStyles')
-          v-list-item(@click='(cursor.disabled || (!checkOwnership(cursor.template_id) && !cursor.public)) ? "" : selectCursor(index, cursor.template_id, (cursor.public || checkOwnership(cursor.template_id)))', :class='{"missing-template" : false ,"selected-item" : ($store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && ($store.state.Customizations.activeCursor.data.template_id === cursor.template_id))}', :disabled='cursor.disabled')
+          v-list-item(
+            @click='(cursor.disabled || (!checkOwnership(cursor.template_id) && !cursor.public)) ? "" : selectCursor(index, cursor.template_id, (cursor.public || checkOwnership(cursor.template_id)))'
+            :class='{"missing-template" : false ,"selected-item" : ($store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && ($store.state.Customizations.activeCursor.data.template_id === cursor.template_id))}'
+            :style='{borderColor : "var(--v-secondary-base)"}'
+            :disabled='cursor.disabled'
+          )
             v-list-item-avatar(size='40', tile)
               div.disabled-preview(v-if='cursor.disabled') ?
               v-img(v-else, :src='cursor.image')

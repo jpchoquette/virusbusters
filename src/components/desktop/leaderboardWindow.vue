@@ -18,6 +18,7 @@ export default {
       leaderboards: [
         {
           title: 'Popup Fighter Leaderboard',
+          shorthand: 'popupfight',
           url: 'https://neftyblocks.com/c/virusbusters',
           type: 'jsonbin',
           dataId: '61ff373af77b236211ed7386',
@@ -30,6 +31,7 @@ export default {
         },
         {
           title: 'Risky Click Leaderboard',
+          shorthand: 'riskyclick',
           url: 'https://neftyblocks.com/c/virusbusters',
           type: 'jsonbin',
           // debug risky bin: 61ff00504ce71361b8cfa8c9
@@ -44,6 +46,7 @@ export default {
         },
         {
           title: 'Burned Pop-Ups Leaderboard',
+          shorthand: 'burnedpops',
           url: 'https://neftyblocks.com/c/virusbusters',
           type: 'atomicassets',
           dataId: null,
@@ -53,7 +56,8 @@ export default {
           sortable: false,
           disabled: false,
           scoreType: 'points',
-          sortingOrder: 'desc'
+          sortingOrder: 'desc',
+          cta: ''
         }
       ]
     }

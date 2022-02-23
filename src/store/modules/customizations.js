@@ -78,7 +78,7 @@ const state = {
       options: {
         image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAgVJREFUWIW9V71uwjAQ/hzRrqxUYmED9pYlVQdItnbiUboxs/EGvAIsjGkZqrKk7FUfAAlQp6hjB3cAR2fHhnOAflNyvvi++7UjQBA1QwkAyWBBxYiHIV6+FgIXQKAMK+MuHFs3dbn6gc/GvuAQqdCXJJ3sHmY12OSiqst9iLhSKPK8K+MHIKo1Vh3IbCMBIO70NbmNRMDZsCySdKI5ZkuJoIuUYWsqNcX64B7J4lsz0L2tFozOlxlw9VaQu6KRdwHDoZNgpljZvGgKOCS0LlDFAwDtV8vHvw+abL7MnMY4BQgAQuLRGv72dKa9f/a2BQJO7GuAQ8JJANmYZ+wIKImzt6HpYRlUXAvm0JHZRhYn5AZxp88aYhRRM5Sr4fthAj5QkaBEuEV4MoEkneTGXCk5dJTnNdBtbNFtbE/l42UccEUgG0MCWnfEnT6SgX0TGgWOUYoAwNk99xntZxvFrllvg+oAYH8aUmVbS9HwHms5TvXTk7ZAwDRiq2xfEiaR1lTKm+eOmwAHZUgoIpRAoISuyrXJfSafubfpbMVUpgrqQ1MOWO6Hqzs9iuo4rx8mWJgDnB4ucwiZs0KB3Ybn+DOiqVuPUqxHqd8cuMTvWakNo2YozUIUP0925fqHAHbHuW1GlPaI3h+V8ah3XdBTUTOLWMlLE1BRoJ7bCNhAU/nvVzKzjv4A1McWXZcxVBgAAAAASUVORK5CYII=',
         decay: 100,
-        fade: true
+        fade: false
       }
     },
     {
@@ -120,6 +120,73 @@ const state = {
         fontStyle: '20px DayDream',
         distance: 80,
         gravity: 0.01
+      }
+    },
+    {
+      template_id: '444233',
+      disabled: false,
+      public: false,
+      name: 'Banana Cursor',
+      rarity: '',
+      customCursor: true,
+      class: 'cursor-banana',
+      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAXFJREFUWIW1lzFSxDAMRf8y9DkDVeotdg8AVXqfYWf2RMzkDJmhpIIDQEFNxRl8Aih2TBxFkiXH+VU28UZP8retHKDo8eH8Kz17//k4aP+1Sn2JBtAKxgRwPc73nr/agtx7BocxImS/p0uHMEY8nToAM7AHxDwFb5/xdvH6DQz9amyCSLJCFAd5ICiIBcJEuSeEea5ECKA4JRqEy7UsRAKphLjzAOQvoabLNV26NaQgFwCF+NfQz9OB23KlkjY1N4BXpSq0AyBVsGoTgOaDXQFanYTVAFTJ9aV7zQCSo5PBONeHMZog2pmQ2Yw4sM0A1ibFquoKWHa55gA12ZeWqqkjooFX2StHc5K0dFUALuOa4JpWAFqZ8+bUIstOuSiLFFw0HMk+Nak0uLkhoW24uI6VTsgTHFA8EMa4zDA/6UjgmsyT2Aqs2i0mKCdvcEDYBxbmGXpML+ddggNMU2paekzQmuAsgARhUU2fsPnreGtz8gcHgL+Q9D4EqQAAAABJRU5ErkJggg=='
+    },
+    {
+      template_id: '444233333',
+      disabled: true,
+      public: false,
+      name: 'Upgraded Banana Cursor',
+      rarity: '',
+      type: 'dust',
+      customCursor: true,
+      class: 'cursor-banana',
+      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAXFJREFUWIW1lzFSxDAMRf8y9DkDVeotdg8AVXqfYWf2RMzkDJmhpIIDQEFNxRl8Aih2TBxFkiXH+VU28UZP8retHKDo8eH8Kz17//k4aP+1Sn2JBtAKxgRwPc73nr/agtx7BocxImS/p0uHMEY8nToAM7AHxDwFb5/xdvH6DQz9amyCSLJCFAd5ICiIBcJEuSeEea5ECKA4JRqEy7UsRAKphLjzAOQvoabLNV26NaQgFwCF+NfQz9OB23KlkjY1N4BXpSq0AyBVsGoTgOaDXQFanYTVAFTJ9aV7zQCSo5PBONeHMZog2pmQ2Yw4sM0A1ibFquoKWHa55gA12ZeWqqkjooFX2StHc5K0dFUALuOa4JpWAFqZ8+bUIstOuSiLFFw0HMk+Nak0uLkhoW24uI6VTsgTHFA8EMa4zDA/6UjgmsyT2Aqs2i0mKCdvcEDYBxbmGXpML+ddggNMU2paekzQmuAsgARhUU2fsPnreGtz8gcHgL+Q9D4EqQAAAABJRU5ErkJggg==',
+      options: {
+        images: [
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAXFJREFUWIW1lzFSxDAMRf8y9DkDVeotdg8AVXqfYWf2RMzkDJmhpIIDQEFNxRl8Aih2TBxFkiXH+VU28UZP8retHKDo8eH8Kz17//k4aP+1Sn2JBtAKxgRwPc73nr/agtx7BocxImS/p0uHMEY8nToAM7AHxDwFb5/xdvH6DQz9amyCSLJCFAd5ICiIBcJEuSeEea5ECKA4JRqEy7UsRAKphLjzAOQvoabLNV26NaQgFwCF+NfQz9OB23KlkjY1N4BXpSq0AyBVsGoTgOaDXQFanYTVAFTJ9aV7zQCSo5PBONeHMZog2pmQ2Yw4sM0A1ibFquoKWHa55gA12ZeWqqkjooFX2StHc5K0dFUALuOa4JpWAFqZ8+bUIstOuSiLFFw0HMk+Nak0uLkhoW24uI6VTsgTHFA8EMa4zDA/6UjgmsyT2Aqs2i0mKCdvcEDYBxbmGXpML+ddggNMU2paekzQmuAsgARhUU2fsPnreGtz8gcHgL+Q9D4EqQAAAABJRU5ErkJggg==',
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAfhJREFUWIW1lr1uwjAQxy9VOvMKZahY6RDGRiITCxN9hUrdu3Zp1z4BrwBTl05BKiMsrBUDfYXMDHQgNnfnO8chyV9CgGP7fr4vJwKkcX90ggCtDpsoZF6IojqGNTUBiiTj+e7LnblfQ/b0ea0dKw5LAIjh/Rrg/tGBsGMNgDBE7Bg3RrBxDlP+zxdAIDTPAdB55tCrwya6cRagE5IxA4G+K42j/fLFq/g4Fkc5CD69gUDKtwXAMZX3uf2xawyEAR/3RyfrgWw4dTYmBjUgAMiSHvkQGTAe1lIkBCSpeAiwcQlUAbIQyEM4HEF9QIofif+2sIbVPbbFORzlQcz6GOCcjT6I0HIzICrMMb1AlFI7WGh3zN835x+Tgfgcg1gvcA94DbDm5Lp+APD9G8IKWdKDfEfH3D4AyunLxMNutproEM78Y0oOIQLYxby53L35pgdB4JDInVASKju8AUk0JQc0mfvAC5ANp5c/ntMvn/XyM8JewJdRmAcAAP4+xOEs6cFsXm6u5IIPMAxAaKF1ZAGvBkASq6CBRAAcI5sHyAttQqge4BAkIVuUNwT8/U27cn2XUCMACSL0Wagq74K2DGmqXQV1hOtfC1OnAFL9c292CmDkS9LOAfjtx583Ti787vDycBmfzYtK460AcAhJvipqrbw0iKoS/gealfGS05DAWQAAAABJRU5ErkJggg=='
+        ],
+        decay: 100,
+        fade: false,
+        spin: true,
+        particleType: 'image'
+      }
+    },
+    {
+      template_id: '404werwer438',
+      disabled: true,
+      public: false,
+      name: '????',
+      rarity: '',
+      type: 'ghost',
+      customCursor: true,
+      class: 'cursor-paw',
+      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAcNJREFUWIW9lzGSgzAMRWVme1pOwj0yky0pc6ot02bCPXISWk7gLYLNt5Bk4c2sZiiQjf6zZIQJRERxXSJtFvohEBiOofF5rRayQH8jWn/agvwB5g3Q33YPgwj9cHgorsvHINQMcOEkin4O0gIRtkC4B1RRFJR8LRAigJRiaUzLxhmIjgtYFtflIKqURnxzRABpsgXCIZKvFSJnQKupBqH5zkIUJUhBpFV6rAWi0wb+C0IFwGCtEMwnQpgAZy30Q77SfQ3iiwfwrNrqhvEO86Z6zJyBs+lOQrhqFOdzQKfIQvB2QW6SYJjo4Ev+TRyfD0SsFVs9n/s1CBWYQSSADm+01UuptOwxj2qMfL8tWnwLxDPA/X3hLtfsenmJEDx2XJeIrbjIgiaCIGhcUIKQMqme/wpSZ50f80jXy6s6L0z7QvnnOAO1dEEr9Zod9oB1mJCCS6m35qe3QQVAy/th2oN7al0bK15zQ7xsULAPpFpb9X/MI30/9zHsBebZ7dCgnJuRm9QJE4Dra4il4DW0Nh3O5224aMUV8fLjIWSDpx8ha8d21/HZA8Ez4/17cp/fNYiaqCZ8GkCCsMz7c9L0Q/nJX/ZfzYhQcev6ELoAAAAASUVORK5CYII=',
+      options: {
+        image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAADRJREFUWIXtzjEKACAMA8DW//laH6ijgquow90WGkgjeCzX0KP2eWi5188rN0a+fgAAAIAB+zQDBul6nxoAAAAASUVORK5CYII=',
+        decay: 10,
+        fade: true
+      }
+    },
+    {
+      template_id: '004',
+      disabled: true,
+      public: false,
+      name: '????????',
+      rarity: '',
+      type: 'dust',
+      customCursor: true,
+      class: 'cursor-duck',
+      image: 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABSZJREFUWEeVV01vG1UUPW9MyoIAQlB5BiE8XiAlEhJImQ+EUOwkQl3FdBXUsmRJ/wkrJLquEK1QWyD+WECLEjuVEIrtVCCUFqmLsasuQFlAVRZNIfOqe9+b8cx4/NFZjWfee3Pvueecey0w4dqwfSkhsTvoCkAAkKmV40/odfZp8re6z1uROnij7ElIgROcoIACb9rhIJ7lyv/YhBApQRknuGF7cmfYw6mFBTx58gTrZR+QERJ5WKQDy0Nm2rNUZutlX4byBJ1hHzd++BEfnT2Lx8fH2LA97AT7aRRS6AoOcnSlPzmtgKNDBbBu+7Id7KPRasEsFvk8z/NQLbswpMDuoEdfUt+JdtLP5H1OpUYFoZfjXOItBD2EoHqj2+2qYygrIeB7Lqolh7/U5iBmZTg/X2IE1m1P/nz/Nr5tfI+iaaUTlJKRWCt7IILuDjLlyENEZoCPfuY85nCp/u3BPhqNJkzThKAQIsAZCV2OkosOo5C95pGqXpNYGsNJAewGXbSaDZiWCUkZ6LdUCvrpez6qtgMpJTqDfrw3X/35TpGVYpwJGc/OkAJo8gcs01S2QRLV3KHFrg6C7hUfJpJ/KhGEFk6cxZrtyF//vIevrl9mplqmpQ8gP6Q4BKSQHI/ne6iWXNAbhUQ2r3kKlBYTq0AKAZZhs8XwW2aRS0HRUlCMiAbE95Uy2nEA8zI/SYCIafrUyAUb9TqEYbAMLcvUJwu9ilAQcEmaZRf0tB1oFCaUfS4jokXrZU+GCNEJDtBoNrVFC5hWUZdAe44mpUd8IH8QEp0oiBnlyCNsCrtq2ZG3gtsM+Ha9jkJBIWFaFsPPFdDEVEiQPziKDxTEZPLn1mi0QW9cs1129b1Bj12wvr0NUSgw1GYxUY6IvpLkSXbtcHQjZUwBPu0D44FRSw4l2W4XC88V8N32turlEijGnFC2LoTiw9KrNqzF17hG7eBAszUZBOWqFJVV7uh3Yn2VBhIR4lbQ4031RgMGyUFAO6UaL7iTs0l5bFKqK0Y9Y5oy0i0qV7gUBH2gM+zywfVGHYagIYWCUN2SpEt9QilVYvHUC3BffxsSJ3NJlFPKgyayiartSoGQsyVesEdo3xE8tAnUapvo9br44L33cRz+z62bJCoRJsoxDn2yk880s6rtcLvuBH00W00mQG2zxplT+6YyvPzFAEuXt5i8hAaVxEABO4numWbFaJTIL1a8Wt2QQmjh73/dw9+PH2K1tMLTEx1z59xVLH+zhZ9qF/Hmi6fhX/sU//z3CGslVxMz3TciBszVVpPwrJWpJAZOZBhPuXvDA76/sXkRbyyeBllHGAp8/tvXuHTYQsVe4SD2ggOR1UFOABEYs9qpel9hjlBTOsCd81djJOmtUQDuPzzCh83PsGo7KHCvSSBBDORjntG9svWiIAzWfx93P7kWz33kEQSUMCSWrnyMd8238MrzL7E6ok8qBNKTeeL8aQpJh1Hh0oCmJdw9R0GoS801IYQwsHxlCxXbYeJyA4sGHo4hmqzjm1QcyvUyM+3ISpS/cRAS2Bv2cHj+us5NVf3Bv0e49EcTN4e/4B1rGbt6zI85MF8VdOvgxVlTVVBW7BVGYm/QxyGVQ4v9waMjnGleQKXs6BFf/duaQsJ8Zc7QK5+4WnKlweXo42btyxi5M60LqJB0E0OMDiA//4gg4y0kG8b4/krZUUgEfbZrck2VvaH/8Gpxj22dRMjEwtSeKbUjz4hmiIIwuBpR7ZNin/2Pc5yPk+szD5kSa54CLpxORed+rQMAAAAASUVORK5CYII=',
+      options: {
+        colors: ['#ff004d', '#ff004d'],
+        chars: ['S', 'T', 'A', 'B', '!'],
+        randomColors: false,
+        randomChars: false,
+        fontStyle: '30px DayDream',
+        distance: 100,
+        gravity: 0.02
       }
     }
   ],
@@ -206,6 +273,23 @@ const state = {
         toolbars: '#F22929',
         grey: '#c2c3c7'
       }
+    },
+    {
+      template_id: '444228',
+      name: 'cryptomonKeys theme',
+      gradients: false,
+      darkMode: false,
+      disabled: false,
+      public: false,
+      colors: {
+        primary: '#1abe3e',
+        tertiary: '#fcdd11',
+        secondary: '#1abe3e',
+        light: '#ffffcc',
+        accent: '#a85d12',
+        toolbars: '#fcdd11',
+        grey: '#c2c3c7'
+      }
     }
   ],
   // ------------------------------------------------------------ Wallpapers
@@ -253,6 +337,18 @@ const state = {
       bgColor: '#3F8C4B',
       public: false,
       disabled: false
+    },
+    {
+      template_id: '444231',
+      name: 'cryptomonKeys Wallpaper',
+      type: 'wallpaper',
+      extension: '.png',
+      defaultDisplayStyle: 'centered',
+      defaultSize: '40%',
+      bgColor: '#1b6c3b',
+      public: false,
+      disabled: false,
+      texture: true
     }
   ]
 }

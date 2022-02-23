@@ -45,13 +45,14 @@ export default {
 
 <style lang='sass'>
   .entry
-    color: var(--v-secondary-base)
+    // color: var(--v-secondary-base)
     display: flex
     align-items: baseline
     position: relative
     padding: 10px 20px
     border-bottom: solid 1px black
     background-color: white
+    color: black
     &.active-user
       // color: var(--v-accent-base)
       font-weight: bold

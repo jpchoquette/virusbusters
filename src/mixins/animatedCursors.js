@@ -54,7 +54,8 @@ export default {
       position: null,
       x: 0,
       y: 0,
-      particleType: 'emoji'
+      particleType: 'emoji',
+      spin: false
     }
   },
   methods: {
@@ -88,6 +89,12 @@ export default {
     dustCursor (options) {
       this.randomColors = options.randomColors
       this.randomChars = options.randomChars
+      if (options.particleType) {
+        this.particleType = options.particleType
+      }
+      if (options.spin) {
+        this.spin = options.spin
+      }
       if (options.colors) {
         this.dustColors = options.colors
       }
@@ -102,6 +109,9 @@ export default {
       }
       if (options.gravity) {
         this.gravity = options.gravity
+      }
+      if (options.images) {
+        this.images = options.images
       }
       setTimeout(() => {
         this.init(this.type)
@@ -159,69 +169,61 @@ export default {
         this.context.font = this.fontStyle
         this.context.textBaseline = 'middle'
         this.context.textAlign = 'center'
+        // const image = new Image()
+        if (this.particleType === 'image') {
+          this.images.forEach((char, index) => {
+            const image = new Image()
+            const bgCanvas = document.createElement('canvas')
+            const bgContext = bgCanvas.getContext('2d')
+            image.src = this.images[index]
+            bgCanvas.width = image.width
+            bgCanvas.height = image.height
+            bgContext.drawImage(
+              image,
+              0, 0,
+              image.width, image.height,
+              0, 0,
+              bgCanvas.width, bgCanvas.height
+            )
+            // this.imgAsImage = bgCanvas
+            this.canvImages.push(bgCanvas)
+            // console.log('index images', index)
+          })
+        } else {
+          // ---------------------------------------------
+          // on check les chars
+          this.charList.forEach((char) => {
+            if (this.randomColors) {
+              this.counter = Math.floor(Math.random() * this.dustColors.length)
+            } else if (this.counter < (this.dustColors.length - 1)) {
+              this.counter++
+            } else {
+              this.counter = 0
+            }
+            const measurements = this.context.measureText(char)
+            const bgCanvas = document.createElement('canvas')
+            const bgContext = bgCanvas.getContext('2d')
 
-        // ---------------------------------------------
-        // on check les chars
-        this.charList.forEach((char) => {
-          if (this.randomColors) {
-            this.counter = Math.floor(Math.random() * this.dustColors.length)
-          } else if (this.counter < (this.dustColors.length - 1)) {
-            this.counter++
-          } else {
-            this.counter = 0
-          }
-          const measurements = this.context.measureText(char)
-          const bgCanvas = document.createElement('canvas')
-          const bgContext = bgCanvas.getContext('2d')
+            bgCanvas.setAttribute('id', 'bgCanvas')
+            bgCanvas.width = measurements.width
+            bgCanvas.height =
+              measurements.actualBoundingBoxAscent +
+              measurements.actualBoundingBoxDescent
 
-          bgCanvas.setAttribute('id', 'bgCanvas')
-          bgCanvas.width = measurements.width
-          bgCanvas.height =
-            measurements.actualBoundingBoxAscent +
-            measurements.actualBoundingBoxDescent
-
-          bgContext.fillStyle = this.dustColors[this.counter]
-          bgContext.textAlign = 'center'
-          bgContext.font = this.fontStyle
-          bgContext.textBaseline = 'middle'
-          bgContext.fillText(
-            char,
-            bgCanvas.width / 2,
-            measurements.actualBoundingBoxAscent
-          )
-          this.canvImages.push(bgCanvas)
-        })
+            bgContext.fillStyle = this.dustColors[this.counter]
+            bgContext.textAlign = 'center'
+            bgContext.font = this.fontStyle
+            bgContext.textBaseline = 'middle'
+            bgContext.fillText(
+              char,
+              bgCanvas.width / 2,
+              measurements.actualBoundingBoxAscent
+            )
+            this.canvImages.push(bgCanvas)
+          })
+        }
       // SPRING ----------------------------------------
       } else if (this.type === 'spring') {
-        // const bgCanvas = document.createElement('canvas')
-        // const bgContext = bgCanvas.getContext('2d')
-        // const image = new Image()
-        // if (this.particleType === 'image') {
-        //   image.src = this.image
-        //   bgCanvas.width = 30
-        //   bgCanvas.height = 30
-        //   bgContext.drawImage(
-        //     image,
-        //     0, 0,
-        //     image.width, image.height,
-        //     0, 0,
-        //     bgCanvas.width, bgCanvas.height
-        //   )
-        //   this.imgAsImage = bgCanvas
-        // } else {
-        //   const measurements = this.context.measureText(this.emoji)
-        //   bgCanvas.width = measurements.width
-        //   bgCanvas.height = measurements.actualBoundingBoxAscent * 2
-        //   bgContext.textAlign = 'center'
-        //   bgContext.font = '16px serif'
-        //   bgContext.textBaseline = 'middle'
-        //   bgContext.fillText(
-        //     this.emoji,
-        //     bgCanvas.width / 2,
-        //     measurements.actualBoundingBoxAscent
-        //   )
-        //   this.emojiAsImage = bgCanvas
-        // }
         for (let i = 0; i < this.nDots; i++) {
           const bgCanvas = document.createElement('canvas')
           const bgContext = bgCanvas.getContext('2d')
@@ -310,13 +312,24 @@ export default {
           )
 
           if (distBetweenPoints > this.distance) {
-            this.addParticle(
-              this.cursor.x + 30,
-              this.cursor.y + 30,
-              this.canvImages[this.indexCounter(this.charList.length)]
-            )
-            if (this.randomChars && this.counter2 >= (this.charList.length - 1)) {
-              this.shuffleArray(this.canvImages)
+            if (this.particleType && this.particleType === 'image') {
+              this.addParticle(
+                this.cursor.x + 30,
+                this.cursor.y + 30,
+                this.canvImages[this.indexCounter(this.images.length)]
+              )
+              if (this.randomChars && this.counter2 >= (this.images.length - 1)) {
+                this.shuffleArray(this.canvImages)
+              }
+            } else {
+              this.addParticle(
+                this.cursor.x + 30,
+                this.cursor.y + 30,
+                this.canvImages[this.indexCounter(this.charList.length)]
+              )
+              if (this.randomChars && this.counter2 >= (this.charList.length - 1)) {
+                this.shuffleArray(this.canvImages)
+              }
             }
             this.lastPos.x = this.cursor.x
             this.lastPos.y = this.cursor.y
@@ -326,7 +339,7 @@ export default {
         }
       })
     },
-    indexCounter (qty, random) {
+    indexCounter (qty, random, repeat, delay) {
       if (random) {
         this.counter2 = Math.floor(Math.random() * (qty - 1))
       } else if (this.counter2 < (qty - 1)) {
@@ -347,7 +360,7 @@ export default {
     },
     addParticle (x, y, elem) {
       if (this.type === 'dust') {
-        this.particles.push(new this.DustParticle(x, y, elem))
+        this.particles.push(new this.DustParticle(x, y, elem, this.spin))
       } else if (this.type === 'ghost') {
         this.particles.push(new this.GhostParticle(x, y, elem, this.decay))
       } else if (this.type === 'spring') {
@@ -355,6 +368,7 @@ export default {
       }
     },
     updateParticles () {
+      // console.log('on update')
       this.context.clearRect(0, 0, this.width, this.height)
       // Update
       for (let i = 0; i < this.particles.length; i++) {
@@ -368,6 +382,7 @@ export default {
       }
     },
     updateParticlesSpring () {
+      this.context.clearRect(0, 0, this.width, this.height)
       this.canvas.width = this.width
       // follow mouse (+30 to shift position)
       this.particles[0].position.x = this.cursor.x + 30
@@ -460,33 +475,57 @@ export default {
     /**
      * Particles
      */
-
-    DustParticle (x, y, canvasItem) {
-      const lifeSpan = Math.floor(Math.random() * 30 + 60)
+    DustParticle (x, y, canvasItem, spin) {
+      const lifeSpan = Math.floor(Math.random() * 60 + 60)
+      const randomFactor = Math.random(0, 9) / 10
+      const randomDirection = Math.round(Math.random()) * 2 - 1
       this.initialLifeSpan = lifeSpan //
       this.lifeSpan = lifeSpan // ms
+      this.rot = Math.random() * 0.15 * Math.PI
       this.velocity = {
         x: (Math.random() < 0.5 ? -1 : 1) * (Math.random() / 2),
         y: Math.random() * 0.7 + 0.9
       }
       this.position = { x: x, y: y }
       this.canv = canvasItem
-
+      // var ctx = this.canv.getContext('2d')
+      // ctx.rotate(80)
+      // console.log('this.canv', this.canv)
       this.update = function (context) {
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
         this.lifeSpan--
+        if (randomDirection >= 0) {
+          this.rot += randomFactor
+        } else {
+          this.rot -= randomFactor
+        }
 
-        this.velocity.y += 0.02
+        this.velocity.y += 0.1
         const scale = Math.max(this.lifeSpan / this.initialLifeSpan, 0)
+        // context.rotate(10)
+        // console.log('hello', thus.spin)
+        if (spin) {
+          context.save()
+          context.translate(this.position.x, this.position.y) // sets scales and origin
+          context.rotate(this.rot)
+          context.drawImage(
+            this.canv, -this.canv.width / 2, -this.canv.height / 2, this.canv.width, this.canv.height
+          )
+          context.restore()
+          // context.clearRect(0, 0, this.canv.width, this.canv.height)
+        } else {
+          context.drawImage(
+            this.canv,
+            this.position.x - (this.canv.width / 2) * scale,
+            this.position.y - this.canv.height / 2,
+            this.canv.width * scale,
+            this.canv.height * scale
+          )
+        }
 
-        context.drawImage(
-          this.canv,
-          this.position.x - (this.canv.width / 2) * scale,
-          this.position.y - this.canv.height / 2,
-          this.canv.width * scale,
-          this.canv.height * scale
-        )
+        // context.rotate(10)
+        // console.log('context', context)
       }
     },
     GhostParticle (x, y, canvasItem, decay) {
@@ -560,6 +599,8 @@ export default {
       this.gravity = 1
       this.fontStyle = '40px Daydream'
       this.fade = true
+      this.particleType = null
+      this.spin = false
     }
   }
 }

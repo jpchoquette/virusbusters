@@ -57,6 +57,10 @@ export default {
     leaderboardWindow: {
       set (val) { this.$store.commit('Desktop/setLeaderboardWindow', val) },
       get () { return this.$store.state.Desktop.leaderboardWindow }
+    },
+    contactsWindow: {
+      set (val) { this.$store.commit('Desktop/setContactsWindow', val) },
+      get () { return this.$store.state.Desktop.contactsWindow }
     }
   },
   methods: {
@@ -107,6 +111,11 @@ export default {
           this.leaderboardWindow = false
           setTimeout(() => {
             this.leaderboardWindow = true
+          }, 100)
+        } else if (action === 'contacts') {
+          this.contactsWindow = false
+          setTimeout(() => {
+            this.contactsWindow = true
           }, 100)
         }
       }

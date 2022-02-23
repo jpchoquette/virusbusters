@@ -65,6 +65,16 @@ export default {
       }
       // tempStorage.push(this.$store.state.Buster.bustersData)
       return tempStorage
+    },
+    wallpaperBgColor () {
+      // $store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data.bgColor) ? $store.state.Customizations.activeWallpaper.data.bgColor : "transparent"
+      if (this.activePreview && this.activePreview.bgColor) {
+        return this.activePreview.bgColor
+      } else if (this.$store.state.Customizations.activeWallpaper && this.$store.state.Customizations.activeWallpaper.data && this.$store.state.Customizations.activeWallpaper.data.bgColor) {
+        return this.$store.state.Customizations.activeWallpaper.data.bgColor
+      } else {
+        return 'transparent'
+      }
     }
   },
   methods: {
@@ -151,7 +161,7 @@ export default {
       div.preview-image.mb3
         //- v-img(:src="require('@/assets/images/vb-animated-logo-light.gif')", width='200px')
         v-img(:src="require('@/assets/images/themes/vd-theme-preview-placeholder.png')", width='200px')
-        div.contained-image
+        div.contained-image(:style='{backgroundColor: wallpaperBgColor}')
           template(v-if='activePreview')
             v-img.w-100.h-100(v-if='activePreview.type === "buster"', :src="require('@/assets/images/buster/buster_' + activePreview.id + '.gif')", contain)
             v-img.w-100.h-100(v-else-if='activePreview.type === "wallpaper"', :src="require('@/assets/images/wallpapers/wallpaper_' + activePreview.id + activePreview.extension)", contain)
@@ -161,25 +171,25 @@ export default {
             v-img.w-100.h-100(v-else-if='$store.state.Customizations.activeWallpaper.data.type === "wallpaper"', :src="require('@/assets/images/wallpapers/wallpaper_' + $store.state.Customizations.activeWallpaper.data.template_id + $store.state.Customizations.activeWallpaper.data.extension)", contain)
 
       v-select(v-if='$store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data.type === "wallpaper"', :items='wallpaperDisplayStyles', item-text='text', item-value='value', label='Display Mode', color='accent', v-model='activeWallpaperDisplayStyle', dense, hide-details, outlined, item-color='accent')
-      //- pre {{activePreview}}
   div.list-preview
     v-list.w-100
-      v-list-item(@click='selectWallpaper(0, null, true)', :class='{"selected-item" : !$store.state.Customizations.activeWallpaper}')
+      v-list-item(@click='selectWallpaper(0, null, true)', :class='{"selected-item" : !$store.state.Customizations.activeWallpaper}', :style='{borderColor : "var(--v-secondary-base)"}')
         v-list-item-avatar(size='40', tile, color='primary')
           v-img(:src="require('@/assets/images/vb-animated-logo-light.gif')", width='40px', contain)
         v-list-item-content
           v-list-item-title Default wallpaper
       v-divider()
-      //- pre {{filteredWallpapers}}
       template(v-for='(wallpaper, index) in filteredWallpapers')
+        //- pre {{wallpaper}}
         v-list-item(
-            @mouseenter='activePreview = { id: wallpaper.template_id, type: wallpaper.type, extension: wallpaper.extension }'
+            @mouseenter='activePreview = { id: wallpaper.template_id, type: wallpaper.type, extension: wallpaper.extension, bgColor: wallpaper.bgColor }'
             @mouseleave='activePreview = null'
             @click='(wallpaper.disabled || (!checkOwnership(wallpaper.template_id, wallpaper.type) && !wallpaper.public)) ? "" : selectWallpaper(index, wallpaper.template_id, (wallpaper.public || checkOwnership(wallpaper.template_id, wallpaper.type)))'
             :class='{"missing-template" : false ,"selected-item" : ($store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data && ($store.state.Customizations.activeWallpaper.data.template_id === wallpaper.template_id))}'
+            :style='{borderColor : "var(--v-secondary-base)"}'
             :disabled='wallpaper.disabled'
           )
-          v-list-item-avatar(size='40', tile)
+          v-list-item-avatar(size='40', tile, :color='(wallpaper && wallpaper.bgColor) ? wallpaper.bgColor : "transparent"')
             div.disabled-preview(v-if='wallpaper.disabled') ?
             template(v-else)
               v-img(v-if='wallpaper.type === "buster"', :src="require('@/assets/images/buster/buster_' + wallpaper.template_id + '.gif')", width='40px')
@@ -194,6 +204,7 @@ export default {
               div {{wallpaper.name}}
           v-list-item-action(v-if='(!checkOwnership(wallpaper.template_id, wallpaper.type) && !wallpaper.public && !wallpaper.disabled)')
             v-btn(small, color='accent', depressed, @click='goToMarket(wallpaper.template_id, wallpaper.type)') Find on market
+               //- span(:class='$vuetify.theme.dark ? "white--text" : "red--text"') Find on market {{$vuetify.theme.dark}}
         v-divider(v-if='index < filteredWallpapers.length - 1')
 </template>
 <style lang='sass'>

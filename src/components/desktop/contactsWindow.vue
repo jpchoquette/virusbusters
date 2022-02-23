@@ -87,11 +87,11 @@ export default {
         div.collections_wrapper(v-if='!detailedView')
           //- span Allo
           template(v-for='(col, index) in collections')
-            div.collection-icon(@click='toggleCollection(index)')
+            div.collection-icon.pointer(@click='toggleCollection(index)')
               v-img.collection-image(:src="require('@/assets/images/' + col.icon)", width='50px', height='50px', contain, style='max-width: 50px')
               div.collection-title {{col.title}}
           template(v-for='(col, index) in 2')
-            div.collection-icon(@click='')
+            div.collection-icon.pointer(@click='')
               div.fallback-image()
                 span ?
               //- v-img.collection-image(:src="require('@/assets/images/' + col.icon)", width='50px', height='50px', contain, style='max-width: 50px')

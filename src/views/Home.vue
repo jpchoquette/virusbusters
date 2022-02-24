@@ -159,4 +159,7 @@ export default {
           .block-wrapper
             .section-content
               height: 100%
+    @media all and (max-height: 600px)
+      section
+        min-height: 700px
 </style>

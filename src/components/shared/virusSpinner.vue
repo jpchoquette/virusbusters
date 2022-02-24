@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'virus spinner',
+  name: 'VirusSpinner',
   props: {
     virus: { required: false, type: String, default: 'bloater' }
   },

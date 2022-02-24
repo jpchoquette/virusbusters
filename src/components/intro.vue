@@ -47,8 +47,11 @@ export default {
     padding: 0 $responsive-gutter
     .signature-img
       align-self: center
-      width: 700px
+      width: 90%
+      max-width: 700px
+      max-height: 30vh
       margin-top: 10vh
+      object-fit: contain
     .landing-description
       color: var(--v-light-base)
       font-size: 30px
@@ -89,4 +92,7 @@ export default {
       .landing-actions
         flex-direction: column
         align-items: center
+    @media all and (max-height: 600px)
+      height: 100% !important
+
 </style>

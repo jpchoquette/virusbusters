@@ -7,18 +7,6 @@ const state = {
   activeWallpaperDisplayStyle: null,
   wallpaperSize: '60%',
   cursorStyles: [
-    // {
-    //   // cursorImage
-    //   template_id: '12344',
-    //   name: 'Ghost',
-    //   rarity: '',
-    //   type: 'ghost',
-    //   options: {
-    //     image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAASNJREFUWIW9l10OgyAMxwfZYeYd5uM8tD7qHfQ27mWQiqX0izUxMWLpjz8FSnhU7PN6n7W25dhCrU1qt46owD1gLs5Y8Hlf8/s0jO4gVQAYGDMMRgORHSTBKRAphBnAChLLD5rgmB83maPk5x4QNwX+DXEB0MpvgXBXQAoRveafA4ECWAJQOyPXMoBm/ud9NUM8Td4/SxDUuVHbmELKAUqBaRib7ZRRu2K3VcAJLgKgRlmqsxxbSE+r3y4KSJZ2BuBks0QF9mEEZbIuKQ1EwH5slWGe1RIKwDENBAbSLEqhI6WUBARCxFoD9l1TdGKQcCDiDjUqJINqpMGoanlPCNVGVE6FZfmarlWtm1Rp2AlpvmRqKypTDlgh4BS6XbO5EGX+fAFinL3TpLmq4gAAAABJRU5ErkJggg==',
-    //     decay: 20,
-    //     fade: true
-    //   }
-    // },
     {
       template_id: '00000001',
       name: 'Infected cursor',
@@ -133,8 +121,8 @@ const state = {
       image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAXFJREFUWIW1lzFSxDAMRf8y9DkDVeotdg8AVXqfYWf2RMzkDJmhpIIDQEFNxRl8Aih2TBxFkiXH+VU28UZP8retHKDo8eH8Kz17//k4aP+1Sn2JBtAKxgRwPc73nr/agtx7BocxImS/p0uHMEY8nToAM7AHxDwFb5/xdvH6DQz9amyCSLJCFAd5ICiIBcJEuSeEea5ECKA4JRqEy7UsRAKphLjzAOQvoabLNV26NaQgFwCF+NfQz9OB23KlkjY1N4BXpSq0AyBVsGoTgOaDXQFanYTVAFTJ9aV7zQCSo5PBONeHMZog2pmQ2Yw4sM0A1ibFquoKWHa55gA12ZeWqqkjooFX2StHc5K0dFUALuOa4JpWAFqZ8+bUIstOuSiLFFw0HMk+Nak0uLkhoW24uI6VTsgTHFA8EMa4zDA/6UjgmsyT2Aqs2i0mKCdvcEDYBxbmGXpML+ddggNMU2paekzQmuAsgARhUU2fsPnreGtz8gcHgL+Q9D4EqQAAAABJRU5ErkJggg=='
     },
     {
-      template_id: '444233333',
-      disabled: true,
+      template_id: '445032',
+      disabled: false,
       public: false,
       name: 'Upgraded Banana Cursor',
       rarity: '',

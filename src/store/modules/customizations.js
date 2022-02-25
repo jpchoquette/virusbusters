@@ -287,8 +287,8 @@ const state = {
       name: 'Cloudy Day',
       type: 'wallpaper',
       extension: '.png',
-      defaultDisplayStyle: 'centered',
-      defaultSize: '50%',
+      defaultDisplayStyle: 'centered-background',
+      defaultSize: '60%',
       bgColor: '#dfeaff',
       public: true,
       disabled: false
@@ -298,9 +298,9 @@ const state = {
       name: 'At the aquarium',
       type: 'wallpaper',
       extension: '.png',
-      defaultDisplayStyle: 'covered',
-      defaultSize: '50%',
-      bgColor: '#EAAF08',
+      defaultDisplayStyle: 'covered-background',
+      defaultSize: '60%',
+      bgColor: '#6fd7e2',
       public: true,
       disabled: false
     },
@@ -309,9 +309,9 @@ const state = {
       name: 'Glitched Pop-ups',
       type: 'wallpaper',
       extension: '.png',
-      defaultDisplayStyle: 'covered',
-      defaultSize: '50%',
-      bgColor: '#ffffff',
+      defaultDisplayStyle: 'covered-background',
+      defaultSize: '60%',
+      bgColor: '#0000AA',
       public: false,
       disabled: false
     },
@@ -320,8 +320,8 @@ const state = {
       name: 'Warm fire',
       type: 'wallpaper',
       extension: '.png',
-      defaultDisplayStyle: 'covered',
-      defaultSize: '50%',
+      defaultDisplayStyle: 'covered-background',
+      defaultSize: '60%',
       bgColor: '#3F8C4B',
       public: false,
       disabled: false
@@ -331,12 +331,24 @@ const state = {
       name: 'cryptomonKeys Wallpaper',
       type: 'wallpaper',
       extension: '.png',
-      defaultDisplayStyle: 'centered',
+      defaultDisplayStyle: 'centered-background',
       defaultSize: '40%',
       bgColor: '#1b6c3b',
       public: false,
       disabled: false,
       texture: true
+    },
+    {
+      template_id: '445291',
+      name: 'After Hours Gambler Wallpaper',
+      type: 'wallpaper',
+      extension: '.png',
+      defaultDisplayStyle: 'mosaic-background',
+      defaultSize: '80%',
+      bgColor: '#00360c',
+      public: true,
+      disabled: false,
+      texture: false
     }
   ]
 }

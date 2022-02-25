@@ -32,6 +32,17 @@ export default {
   mixins: [UpdatePreferences],
   mounted () {
   },
+  watch: {
+    activeWallpaperDisplayStyle (newVal) {
+      if (newVal) {
+        const prefs = {
+          displayStyle: this.$store.state.Customizations.activeWallpaperDisplayStyle,
+          displaySize: this.$store.state.Customizations.displaySize
+        }
+        this.updatePreferences('wallpaperExtras', prefs)
+      }
+    }
+  },
   computed: {
     busterTemplates: {
       set (val) { this.$store.commit('Buster/setBusterTemplates', val) },

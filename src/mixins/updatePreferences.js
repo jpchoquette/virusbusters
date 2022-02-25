@@ -16,6 +16,14 @@ export default {
       set (val) { this.$store.commit('Customizations/setActiveWallpaper', val) },
       get () { return this.$store.state.Customizations.activeWallpaper }
     },
+    activeWallpaperDisplayStyle: {
+      set (val) { this.$store.commit('Customizations/setActiveWallpaperDisplayStyle', val) },
+      get () { return this.$store.state.Customizations.activeWallpaperDisplayStyle }
+    },
+    wallpaperSize: {
+      set (val) { this.$store.commit('Customizations/setWallpaperSize', val) },
+      get () { return this.$store.state.Customizations.wallpaperSize }
+    },
     activeCursor: {
       set (val) { this.$store.commit('Customizations/setActiveCursor', val) },
       get () { return this.$store.state.Customizations.activeCursor }
@@ -27,13 +35,14 @@ export default {
   },
   mounted () {
   },
-  watch: {
-  },
   methods: {
     validatePreferences () {
       const globalPreferences = JSON.parse(localStorage.getItem('users'))
       const userIndex = globalPreferences.findIndex(user => user.profile === this.$store.state.User.userProfile)
       if (globalPreferences[userIndex] && globalPreferences[userIndex].preferences) {
+        if (globalPreferences[userIndex].preferences.wallpaperExtras && globalPreferences[userIndex].preferences.wallpaperExtras.displayStyle) {
+          this.activeWallpaperDisplayStyle = globalPreferences[userIndex].preferences.wallpaperExtras.displayStyle
+        }
         if (globalPreferences[userIndex].preferences.wallpaper) {
           this.activeWallpaper = globalPreferences[userIndex].preferences.wallpaper
         } else {
@@ -55,7 +64,12 @@ export default {
       const globalPreferences = JSON.parse(localStorage.getItem('users'))
       const userIndex = globalPreferences.findIndex(user => user.profile === this.$store.state.User.userProfile)
       const currentUser = globalPreferences[userIndex]
-      if (preference === 'wallpaper') {
+      if (preference === 'wallpaperExtras') {
+        currentUser.preferences.wallpaperExtras = data
+        globalPreferences.splice(userIndex, 1, currentUser)
+        this.activeWallpaperDisplayStyle = data.displayStyle
+        localStorage.setItem('users', JSON.stringify(globalPreferences))
+      } else if (preference === 'wallpaper') {
         currentUser.preferences.wallpaper = data
         globalPreferences.splice(userIndex, 1, currentUser)
         this.activeWallpaper = data
@@ -64,13 +78,11 @@ export default {
         currentUser.preferences.cursor = data
         globalPreferences.splice(userIndex, 1, currentUser)
         this.activeCursor = data
-        // console.log('activeCursor', this.activeCursor)
         localStorage.setItem('users', JSON.stringify(globalPreferences))
       } else if (preference === 'theme') {
         currentUser.preferences.theme = data
         globalPreferences.splice(userIndex, 1, currentUser)
         this.activeTheme = data
-        // console.log('activeTheme', this.activeTheme)
         localStorage.setItem('users', JSON.stringify(globalPreferences))
       } else {
         console.log('to do - preference does not exist', preference)
@@ -88,6 +100,7 @@ export default {
       currentUser.preferences = resetPreferences
       globalPreferences.splice(userIndex, 1, currentUser)
       localStorage.setItem('users', JSON.stringify(globalPreferences))
+      this.activeWallpaperDisplayStyle = null
       this.activeWallpaper = null
       this.activeCursor = null
       this.activeTheme = null

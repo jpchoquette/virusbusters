@@ -346,7 +346,7 @@ const state = {
       defaultDisplayStyle: 'mosaic-background',
       defaultSize: '80%',
       bgColor: '#00360c',
-      public: true,
+      public: false,
       disabled: false,
       texture: false
     }

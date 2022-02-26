@@ -34,13 +34,11 @@ export default {
                 text-scrambler(
                   :text="hover ? '?? ???? ?? ??? ???????? ?? ???? ??? ??? ??? ?? ??? ???????? ???????? ?? ???? ???????. ???????? ??????? ???????? ???? ???? ????? ??? ??? ?????? ? ?????? ????? ????.' : `It will be our pleasure to help you get rid of any unwanted activity on your devices. Computer stopped working? That free movie was not really a movie? We're here.`"
                 )
-            //- p.f3.w-70.mt3 It will be our pleasure to help you get rid of any unwanted activity on your devices. Computer stopped working? That free movie was not really a movie? We're here.
             div.columns__wrapper
               div.content-column
                 div.column-icon
                   img.mh3(alt='warning', src="../assets/images/icons/thumbs-icon.svg", height='50px')
                 div.column-title Trusted experts
-                //- div.column-description Our team of experts will diagnose and clean your devices, in the respect of your privacy.
                 v-hover(v-slot:default="{hover}", close-delay='1000')
                   text-scrambler(
                     :text="hover ? 'Our team of experts wi##$A@/////agnose and cwesdf your WWWW///devices, in the*&8756ÀÀÀÀ respect of ysdfsdfivacy.' : 'Our team of experts will diagnose and clean your devices, in the respect of your privacy.'"
@@ -49,7 +47,6 @@ export default {
                 div.column-icon
                   img.mh3(alt='warning', src="../assets/images/icons/shield-icon.svg", height='50px')
                 div.column-title Specialized tools
-                //- div.column-description Our top of the line tools will fix even the tougest threats in no time.
                 v-hover(v-slot:default="{hover}", close-delay='1000')
                   text-scrambler(
                     :text="hover ? 'ERROR THIS TEXT COULD NOT BE FOUND ON THE SERVER. ERROR CODE 404' : 'Our top of the line tools will fix even the tougest threats in no time.'"

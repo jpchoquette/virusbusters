@@ -25,7 +25,6 @@ export default {
           templateId = '&template_id=' + this.templateId
         }
         const constructedQuery = baseUrl + this.schemaName + templateId + '&page=1&limit=100&order=desc'
-        // console.log('built', constructedQuery)
         this.fetchSpecificNFTs(constructedQuery)
       }
     },

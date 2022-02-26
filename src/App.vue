@@ -2,7 +2,6 @@
 export default {
   name: 'App',
   data: () => ({
-    //
   }),
   computed: {
     mobileTemplate: {
@@ -49,7 +48,6 @@ v-app(dark)
 <style lang='sass'>
   @import './assets/styles/base/_fonts.sass'
   *
-    // cursor: url(./assets/images/cursors/cursor-gold.png),default
     cursor: url('/base-cursor.png'),default
   a, a *, button, button *, .pointer, .pointer *, .v-list-item.v-list-item--link, .v-list-item.v-list-item--link *
     cursor: url(/pointer-cursor.png),pointer
@@ -63,9 +61,7 @@ v-app(dark)
   html
     background-color: var(--v-secondary-base)
     height: -webkit-fill-available
-    // overflow-y: auto !important
 </style>
 <style>
   @import './assets/styles/vendors/locomotiveScroll.css'
-  /* @import './assets/styles/main.scss'; */
 </style>

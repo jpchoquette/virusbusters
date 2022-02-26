@@ -40,7 +40,6 @@ export default {
 <template lang='pug'>
   .loading-bar.w-100
     p.f3.tc {{loadingPhrases[activePhrase]}}
-
     .bar
       .bar__loader(v-for='(n, index) in 21', :class='{"active-element" : loadingIndex >= index}')
 </template>

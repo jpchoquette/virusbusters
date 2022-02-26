@@ -231,7 +231,10 @@ export default {
       .frame-buttons
         button.black--text(@click='toggleScreen()', :class='{"hint-active" : buttonHint}') I/O
     .crt-wrapper
-      .desktop-page.screen(id='screenContent', :class='[($store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data.customCursor) ? $store.state.Customizations.activeCursor.data.class : null, (!screenState && !mobileView) ? "screen-off" : null]')
+      .desktop-page.screen(
+        id='screenContent'
+        :class='[($store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data.customCursor) ? $store.state.Customizations.activeCursor.data.class : null, (!screenState && !mobileView) ? "screen-off" : null, !$store.state.Customizations.activeWallpaper ? "default-wallpaper" : null]'
+      )
         transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
           .screen-off__overlay(v-if='!screenState && !mobileView')
         transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
@@ -266,8 +269,6 @@ export default {
               feedback-notification(:desktopStyle='!mobileView')
 
               div.wallpaper-content
-                //- pre {{$store.state.Buster.ownedWallpaperTemplates}}
-                //- pre {{$store.state.Customizations.activeWallpaper}}
                 template(v-if='$store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data')
 
                   template(v-if='$store.state.Customizations.activeWallpaper.data.type === "buster"')
@@ -276,7 +277,6 @@ export default {
                       v-img(:src="require('@/assets/images/buster/buster_' + $store.state.Customizations.activeWallpaper.data.template_id + '.gif')", width='350px', :key="$store.state.Customizations.activeWallpaper.data.template_id")
                   template(v-else)
                     div.wallpaper-image(:style='{ backgroundImage:"url(" + require("@/assets/images/wallpapers/wallpaper_" + $store.state.Customizations.activeWallpaper.data.template_id + $store.state.Customizations.activeWallpaper.data.extension) + ")", backgroundSize: $store.state.Customizations.activeWallpaper.data.defaultSize }', :class='$store.state.Customizations.activeWallpaperDisplayStyle')
-                    //- v-img(:src="require('@/assets/images/wallpapers/wallpaper_' + $store.state.Customizations.activeWallpaper.data.template_id + '.png')", width='350px', :key="$store.state.Customizations.activeWallpaper.data.template_id")
                     template(v-if='$store.state.Customizations.activeWallpaper.data.texture')
                       div.pattern-image.primary(:style='{ backgroundImage:"url(" + require("@/assets/images/wallpapers/texture_" + $store.state.Customizations.activeWallpaper.data.template_id + $store.state.Customizations.activeWallpaper.data.extension) + ")" }')
                 img(v-else, src="@/assets/images/vb-animated-logo-light.gif", width='400px', max-width='400px', style='opacity:1;')
@@ -286,7 +286,7 @@ export default {
                 div.init-cursor-images(v-if='$store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && $store.state.Customizations.activeCursor.data.options && $store.state.Customizations.activeCursor.data.options.images && $store.state.Customizations.activeCursor.data.options.images.length')
                   template(v-for='(image, index) in $store.state.Customizations.activeCursor.data.options.images')
                     img.debug-images(:src='image')
-                .version-number v1.25
+                .version-number v1.26
                 template(v-if='userConnected')
                   icon-desktop(image='buster-icon.png', title='Desktop customizer', action='customization')
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
@@ -297,9 +297,8 @@ export default {
                   icon-desktop(image='game_401170.png', title='RiskyClick.exe', action='risky', :private='false')
                   // icon-desktop(image='desktop-icon-v1.png', title='My (Infected) Computer', action='computer', :private='false')
                   icon-desktop(image='leaderboard-icon-v1.png', title='Leader boards', action='leaderboard', :private='false')
-
                   //- stat-calculator(type='burns', schemaName='popups', templateId='316428')
-            //- pre {{$store.state.Customizations.activeTheme}}
+
             .bottom-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data && $store.state.Customizations.activeTheme.data.gradients)}')
               v-menu(v-model='menu', :close-on-content-click='true', top, offset-y, elevation='0', content-class='window-menu')
                 template(v-slot:activator='{ on, attrs }')
@@ -307,8 +306,9 @@ export default {
                     v-img(:src="require('@/assets/images/virus-busters-icon-transparent.svg')", width='30px', height='40px', contain)
 
                 v-card(elevation='0', tile, light)
-                  div.w-100.tc.pa2.light(style='height:80px')
-                    img(src="@/assets/images/virtual-desktop-logo-black.png", height='60px')
+                  div.vd-menu.w-100.tc.pa2.toolbars(style='height:80px', :class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data && $store.state.Customizations.activeTheme.data.gradients)}')
+                    img(v-if='$vuetify.theme.dark', src="@/assets/images/virtual-desktop-logo-white.png", height='60px')
+                    img(v-else, src="@/assets/images/virtual-desktop-logo-black.png", height='60px')
 
                   v-list
                     v-list-item(v-if='userConnected')
@@ -366,10 +366,15 @@ export default {
     background-color: black
     background-image: url('~@/assets/images/office-bg-test.jpg')
     background-size: cover
+  .vd-menu
+    &.active-gradient
+      background: linear-gradient(90deg, var(--v-accent-base) 0%, var(--v-secondary-base) 100%)
   .desktop-page
     overflow: hidden
     background-color: var(--v-primary-base)
     position: relative
+    &.default-wallpaper
+      background-color: #FBCCAC
     &.screen-off
       #cursorCanvas
         display: none

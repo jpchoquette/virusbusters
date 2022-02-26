@@ -1,6 +1,4 @@
 <script>
-// import UpdatePreferences from '@/mixins/updatePreferences.js'
-// import AnimatedCursors from '@/mixins/animatedCursors.js'
 import ScoreboardCalcDeep from '@/mixins/scoreboardCalcDeep.js'
 export default {
   name: 'Minesweeper',
@@ -39,17 +37,11 @@ export default {
       remainingTiles: null,
       virusImages: [],
       components: {
-        // num_of_rows: 8,
-        // num_of_cols: 8,
-        // num_of_bombs: 10,
         bomb: '💣',
         alive: true,
         colors: { 1: 'blue', 2: 'green', 3: 'red', 4: 'purple', 5: 'maroon', 6: 'turquoise', 7: 'black', 8: 'grey' }
       },
       resetComponents: {
-        // num_of_rows: 8,
-        // num_of_cols: 8,
-        // num_of_bombs: 10,
         bomb: '💣',
         virusImages: null,
         alive: true,
@@ -59,7 +51,6 @@ export default {
       gameStarted: false,
       gameFinished: false,
       gameResult: null,
-      // gameWon: false,
       gameSizes: [
         {
           id: 0,
@@ -141,7 +132,6 @@ export default {
       return rows
     },
     placeSingleBomb (bombs) {
-      // const nrow, ncol, row, col
       const nrow = Math.floor(Math.random() * this.rowsCount)
       const ncol = Math.floor(Math.random() * this.colsCount)
       let row = bombs[nrow]
@@ -160,7 +150,6 @@ export default {
       return 'cell-' + i + '-' + j
     },
     createTable () {
-      // var table, row, td, i, j
       const table = document.createElement('table')
       table.id = 'sweeperTable'
       this.remainingTiles = this.rowsCount * this.colsCount
@@ -181,7 +170,6 @@ export default {
     },
     addCellListeners (td, i, j) {
       const thus = this
-      // let clicked = false
       td.addEventListener('mousedown', function (event) {
         thus.holdingMouse = false
         thus.flaggingCell = false
@@ -198,23 +186,19 @@ export default {
         if (this.clicked) {
           return
         }
-        // console.log('event', event)
         thus.holdingMouse = true
         setTimeout(() => {
           if (thus.holdingMouse) {
-            // console.log('on hold tjrs apres 1 s')
             thus.flaggingCell = true
             this.classList.toggle('flagged-cell')
             event.preventDefault()
             event.stopPropagation()
           }
         }, 200)
-        // this.style.backgroundColor = 'lightGrey'
       })
 
       td.addEventListener('mouseup', function (event) {
         if (!thus.flaggingCell) {
-          // console.log('flagged?', thus.flaggingCell)
           thus.holdingMouse = false
           if (!thus.components.alive) {
             return
@@ -273,7 +257,6 @@ export default {
       if (thus.components.bombs[i] && thus.components.bombs[i][j]) {
         cell.style.backgroundColor = thus.$vuetify.theme.themes.light.accent
         cell.style.color = 'white'
-        // cell.textContent = thus.components.bomb
         cell.appendChild(this.virusImages[1])
         thus.gameOver('loss')
         console.log('Game over!')
@@ -337,7 +320,6 @@ export default {
       }
     },
     gameOver (state) {
-      // console.log('on rentre dans game over', state)
       this.stopTimer()
       this.gameResult = state
       this.gameFinished = true
@@ -349,8 +331,6 @@ export default {
       this.gameFinished = false
       this.gameResult = null
       this.components = this.resetComponents
-      // const element = document.getElementById('field')
-      // this.clearAllChildren(element)
       const element2 = document.getElementById('sweeperTable')
       if (element2) {
         element2.remove()
@@ -362,12 +342,10 @@ export default {
       this.gameFinished = false
       this.components = this.resetComponents
       this.gameResult = null
-      // const element = document.getElementById('field')
       const element2 = document.getElementById('sweeperTable')
       if (element2) {
         element2.remove()
       }
-      // this.clearAllChildren(element)
       const thus = this
       setTimeout(() => {
         thus.startGame()
@@ -387,7 +365,6 @@ export default {
     updateValDifficulty (val) {
       this.activeDifficulty = this.gameDifficulties[val]
       this.totalBombsCount = Math.floor(this.activeSize.quantity * 2 * this.gameDifficulties[val].quantity)
-      // this.colsCount = this.gameSizes[val].quantity
     },
     handler: function (e) {
       // do stuff
@@ -421,7 +398,6 @@ export default {
     clockRunning () {
       const currentTime = new Date()
       const timeElapsed = new Date(currentTime - this.timeBegan - this.stoppedDuration)
-      // const hour = timeElapsed.getUTCHours()
       const min = timeElapsed.getUTCMinutes()
       const sec = timeElapsed.getUTCSeconds()
       this.clock.time =
@@ -429,7 +405,6 @@ export default {
         this.zeroPrefix(sec, 2)
       const [minutes, seconds] = this.clock.time.split(':')
       this.rawTime = (+minutes) * 60 + (+seconds)
-      // console.log('rawtime', this.rawTime)
     },
     zeroPrefix (num, digit) {
       let zero = ''
@@ -443,7 +418,6 @@ export default {
 </script>
 <template lang='pug'>
   .minesweeper-window
-    // pre {{parsedScoreboard}}
     transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
       div.game-setup(v-if='!gameStarted')
         h2 Risky Click!
@@ -470,10 +444,6 @@ export default {
         div.parameters__wrapper
           div Grid size: {{activeSize.title}}
           div Difficulty: {{activeDifficulty.title}} ({{totalBombsCount}} virus{{totalBombsCount > 1 ? 'es': ''}})
-          //- div Timer: {{timer.minutes < 10 ? '0' : ''}}{{timer.minutes}}:{{timer.seconds < 10 ? '0' : ''}}{{timer.seconds}}
-          //- v-btn(@click='startTimer') Start
-          //- v-btn(@click='pauseTimer') Pause
-          //- v-btn(@click='resetTimer') reset
           div.flex.items-center.justifty-between.w-100.mt3
             v-btn.mr2(@click='resetGame', fab, depressed, color='secondary')
               v-icon mdi-arrow-left
@@ -487,9 +457,6 @@ export default {
 
             div.flex-grow-1
             div.clock__wrapper {{clock.time}}
-          //- v-btn(@click='startTimer') Start
-          //- v-btn(@click='stopTimer') Pause
-          //- v-btn(@click='resetTimer') reset
         #field(@contextmenu='handler($event)')
           transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
             #gameLoading(v-if='gameLoading')
@@ -497,7 +464,6 @@ export default {
             #gameResult(v-if='gameFinished')
               div(v-if='gameResult === "victory"')
                 h3 Victory !
-                //- hr
                 div.mb3 Final time: {{clock.time}}
               div(v-else)
                 h3 Infected !
@@ -506,13 +472,9 @@ export default {
 </template>
 <style lang='sass'>
   .minesweeper-window
-    // padding: 10px
     height: 100%
     position: relative
     .versioning
-      // position: absolute
-      // bottom: 10px
-      // left: 10px
       padding: 5px 10px
       text-align: center
     .game-setup
@@ -526,16 +488,12 @@ export default {
       h2
         font-family: $display-font
       .options-subtitle
-        // font-family: $display-font
         margin-bottom: 10px
         text-align: center
     #box
-      // padding: 10px
       text-align: center
       display: flex
       flex-direction: column
-      // justify-content: space-evenly safe
-      // align-items: center
       position: relative
       max-width: 100%
       .parameters__wrapper
@@ -551,7 +509,6 @@ export default {
         font-family: $display-font
         margin-bottom: 20px
       .clock__wrapper
-        // margin-top: 5px
         text-align: center
         width: 100px
         padding: 10px
@@ -569,7 +526,6 @@ export default {
           left: 0
           width: 100%
           height: 100%
-          // background-color: rgba(0,0,0,0.5)
           z-index: 10
           display: flex
           flex-direction: column
@@ -592,7 +548,6 @@ export default {
 
           tr
             max-height: 40px !important
-            // border:1 solid 1px black
             td
               background-color: var(--v-light-base)
               width: 40px
@@ -612,7 +567,6 @@ export default {
                   width: 100%
                   height: 100%
                   opacity: 1
-                  // background-color: black
               &::before
                 content: ''
                 position: absolute
@@ -640,10 +594,6 @@ export default {
                 &::before
                   border: none
                   box-shadow: inset 0px 0px 6px rgb(0 0 0 / 70%)
-                  // border-top: 5px solid rgba(0,0,0,0.15)
-                  // border-left: 5px solid rgba(0,0,0,0.25)
-                  // border-bottom: 5px solid rgba(0,0,0,0.45)
-                  // border-right: 5px solid rgba(0,0,0,0.55)
               .virusImage
                 width: 100%
                 height: 100%

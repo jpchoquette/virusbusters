@@ -5,7 +5,6 @@ export default {
     quantity: { required: false, type: Number, default: 300 },
     lines: { required: false, type: Number, default: 5 },
     qtyPerLine: { required: false, type: Number, default: 4 },
-    // quantity: { required: false, type: Number, default: 400 },
     data: { required: false, type: String, default: 'Ceci est un test' },
     angle: { required: false, type: Number, default: 15 },
     size: { required: false, type: Number, default: 60 },
@@ -36,7 +35,7 @@ export default {
         :data-scroll-target='target'
         )
         p
-          div(style='word-break: break-word;', :style='{fontSize: size + "px", color: color}', v-html='patternText')
+          div(style='word-break: break-all;', :style='{fontSize: size + "px", color: color}', v-html='patternText')
 </template>
 <style lang='sass'>
   .text-pattern-widget
@@ -46,23 +45,17 @@ export default {
     width: 100%
     height: 100%
     z-index: 0
-    // overflow: hidden
     .text-wrapper
       user-select: none
-      // opacity: 0.15
       position: absolute
       top: -25%
       left: -25%
       width: 200%
       height: 200%
       transform-origin: center center
-      // position: absolute
       display: block
       flex-wrap: wrap
-      // font-size: 20px
-      // font-family: $display-font
       font-family: 'Daydream', sans-serif
-      // font-weight: $bold
       span
         transform-origin: center center
         margin-right: 20px

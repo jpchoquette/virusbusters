@@ -60,29 +60,21 @@ export default {
       set (val) { this.$store.commit('Customizations/setWallpaperSize', val) },
       get () { return this.$store.state.Customizations.wallpaperSize }
     },
-    // ownedBusterTemplates: {
-    //   set (val) { this.$store.commit('Buster/setOwnedBusterTemplates', val) },
-    //   get () { return this.$store.state.Buster.ownedBusterTemplates }
-    // },
-    // selectedBusterTemplate: {
-    //   set (val) { this.$store.commit('Buster/setSelectedBusterTemplate', val) },
-    //   get () { return this.$store.state.Buster.selectedBusterTemplate }
-    // },
     filteredWallpapers () {
       let tempStorage = null
       if (tempStorage === null) {
         tempStorage = this.$store.state.Buster.bustersData
-        tempStorage.push(...this.$store.state.Customizations.wallpaperStyles)
+        tempStorage = tempStorage.concat(this.$store.state.Customizations.wallpaperStyles)
       }
-      // tempStorage.push(this.$store.state.Buster.bustersData)
       return tempStorage
     },
     wallpaperBgColor () {
-      // $store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data.bgColor) ? $store.state.Customizations.activeWallpaper.data.bgColor : "transparent"
       if (this.activePreview && this.activePreview.bgColor) {
         return this.activePreview.bgColor
       } else if (this.$store.state.Customizations.activeWallpaper && this.$store.state.Customizations.activeWallpaper.data && this.$store.state.Customizations.activeWallpaper.data.bgColor) {
         return this.$store.state.Customizations.activeWallpaper.data.bgColor
+      } else if (this.$store.state.Customizations.activeWallpaper === null) {
+        return '#FBCCAC'
       } else {
         return 'transparent'
       }
@@ -167,10 +159,8 @@ export default {
     div.header__wrapper
       v-btn(@click='$emit("goBack")', outlined, block) < All settings
       div.header-title Wallpapers!
-
     div.preview-image__wrapper
       div.preview-image.mb3
-        //- v-img(:src="require('@/assets/images/vb-animated-logo-light.gif')", width='200px')
         v-img(:src="require('@/assets/images/themes/vd-theme-preview-placeholder.png')", width='200px')
         div.contained-image(:style='{backgroundColor: wallpaperBgColor}')
           template(v-if='activePreview')
@@ -180,12 +170,14 @@ export default {
           template(v-else-if='$store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data')
             v-img.w-100.h-100(v-if='$store.state.Customizations.activeWallpaper.data.type === "buster"', :src="require('@/assets/images/buster/buster_' + $store.state.Customizations.activeWallpaper.data.template_id + '.gif')", contain)
             v-img.w-100.h-100(v-else-if='$store.state.Customizations.activeWallpaper.data.type === "wallpaper"', :src="require('@/assets/images/wallpapers/wallpaper_' + $store.state.Customizations.activeWallpaper.data.template_id + $store.state.Customizations.activeWallpaper.data.extension)", contain)
+          template(v-else)
+            v-img.w-100.h-100(:src="require('@/assets/images/vb-animated-logo-light.gif')", contain)
 
       v-select(v-if='$store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data.type === "wallpaper"', :items='wallpaperDisplayStyles', item-text='text', item-value='value', label='Display Mode', color='accent', v-model='activeWallpaperDisplayStyle', dense, hide-details, outlined, item-color='accent')
   div.list-preview
     v-list.w-100
       v-list-item(@click='selectWallpaper(0, null, true)', :class='{"selected-item" : !$store.state.Customizations.activeWallpaper}', :style='{borderColor : "var(--v-secondary-base)"}')
-        v-list-item-avatar(size='40', tile, color='primary')
+        v-list-item-avatar(size='40', tile, color='#FBCCAC')
           v-img(:src="require('@/assets/images/vb-animated-logo-light.gif')", width='40px', contain)
         v-list-item-content
           v-list-item-title Default wallpaper

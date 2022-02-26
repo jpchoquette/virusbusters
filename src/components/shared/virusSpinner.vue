@@ -3,18 +3,6 @@ export default {
   name: 'VirusSpinner',
   props: {
     virus: { required: false, type: String, default: 'bloater' }
-  },
-  components: {
-  },
-  data () {
-    return {
-    }
-  },
-  mounted () {
-  },
-  computed: {
-  },
-  methods: {
   }
 }
 </script>

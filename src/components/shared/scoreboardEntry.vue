@@ -1,5 +1,4 @@
 <script>
-// import WaxLogin from '@/mixins/waxLogin.js'
 export default {
   name: 'scoreboard',
   props: {
@@ -13,9 +12,7 @@ export default {
     return {
     }
   },
-  // mixins: [WaxLogin],
   mounted () {
-    // this.fetchScoreboard()
   },
   computed: {
     parsedScore () {
@@ -45,7 +42,6 @@ export default {
 
 <style lang='sass'>
   .entry
-    // color: var(--v-secondary-base)
     display: flex
     align-items: baseline
     position: relative
@@ -54,7 +50,6 @@ export default {
     background-color: white
     color: black
     &.active-user
-      // color: var(--v-accent-base)
       font-weight: bold
       &::before
         background-color: var(--v-accent-base)

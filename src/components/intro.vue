@@ -11,21 +11,16 @@ export default {
     div.page-intro
       div.flex-grow-1
       img.signature-img.animate__animated.animate__zoomIn(data-scroll data-scroll-speed="2", alt='Virus Busters', src="../assets/images/vb-animated-logo.gif")
-      //- img.signature-img.animate__animated.animate__zoomIn(data-scroll data-scroll-speed="2", alt='Virus Busters', src="../assets/images/virus-busters-logo.svg")
       div.landing-description.animate__animated.animate__fadeIn.animate__delay-1s.mt3(data-scroll data-scroll-speed="3")
         p A brand new NFT collection is being uploaded on the
         a(href='https://wax.atomichub.io/explorer/collection/virusbusters', target='_blank')
           img(alt='Wax Logo', src="../assets/images/wax-logo-white.png", :height='$store.state.App.mobileTemplate ? "20px" : "36px"')
         p blockchain. Join us on Discord to stay updated.
       div.landing-actions.animate__animated.animate__fadeIn.animate__delay-1s(data-scroll data-scroll-speed="3")
-        //- v-btn.mr2(to='/desktop', large, rounded, color='accent')
-          span.f5 Login
-          //- img.ml2(alt='Virus Busters', src="../assets/images/icons/discord-icon.svg", height='20px')
         div.w-100.flex-grow-1.tc.mb2
           v-btn.ma1(to='/desktop', x-large, rounded, color='accent')
             span.f5.b Virtual Desktop™ Login
             img.ml2(src='~@/assets/images/icons/desktop-icon-v1.png', contain, height='40px')
-            //- img.ml2(alt='Virus Busters Discord', src="../assets/images/icons/discord-icon.svg", height='20px')
         v-btn.ma1(href='https://discord.gg/vKWRKtsDCX', target='_blank', large, rounded, color='black', dark)
           span.f5 Take me to Discord!
           img.ml2(alt='Virus Busters Discord', src="~@/assets/images/icons/discord-icon.svg", height='20px')

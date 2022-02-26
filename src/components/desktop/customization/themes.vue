@@ -1,12 +1,15 @@
 <script>
 import UpdatePreferences from '@/mixins/updatePreferences.js'
+import ThemeSvg from '@/components/shared/themeSvg.vue'
 
 export default {
   name: 'Themes',
   components: {
+    ThemeSvg
   },
   data () {
     return {
+      activePreview: null
     }
   },
   mixins: [UpdatePreferences],
@@ -63,7 +66,9 @@ export default {
     div.preview-image__wrapper
       div.preview-image
         v-img(:src="require('@/assets/images/themes/vd-theme-preview-placeholder.png')", width='200px')
-      span.f7.i Preview image coming soon
+        theme-svg.contained-image(:activePreview='activePreview')
+      //- span.f7.i Preview image coming soon
+      //- theme-svg
   div.list-preview
     v-list.w-100
       v-list-item(@click='selectTheme(0, null, true)', :class='{"selected-item" : !$store.state.Customizations.activeTheme}', :style='{borderColor : "var(--v-secondary-base)"}')
@@ -73,6 +78,8 @@ export default {
 
       template(v-for='(theme, index) in $store.state.Customizations.themeStyles')
         v-list-item(
+          @mouseenter='activePreview = theme'
+          @mouseleave='activePreview = null'
           @click='(theme.disabled || (!checkOwnership(theme.template_id) && !theme.public)) ? "" : selectTheme(index, theme.template_id, (theme.public || checkOwnership(theme.template_id)))'
           :class='{"missing-template" : false ,"selected-item" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data && ($store.state.Customizations.activeTheme.data.template_id === theme.template_id))}'
           :style='{borderColor : "var(--v-secondary-base)"}'

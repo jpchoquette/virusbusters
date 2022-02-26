@@ -5,7 +5,6 @@ import InfectedSection from '../components/infectedSection'
 import DescriptionSection from '../components/descriptionSection'
 import BlueScreenSection from '../components/blueScreenSection'
 import TextPattern from '../components/shared/textPattern'
-// import WaxLogin from '@/mixins/waxLogin.js'
 
 export default {
   name: 'Home',
@@ -16,7 +15,6 @@ export default {
     BlueScreenSection,
     TextPattern
   },
-  // mixins: [WaxLogin],
   data () {
     return {
       scrollIns: null
@@ -58,7 +56,6 @@ export default {
   },
   methods: {
     initLocoScroll () {
-      // console.log('init scroll')
       const _self = this
       _self.scroll = new LocomotiveScroll({
         // eslint-disable-next-line
@@ -92,7 +89,6 @@ export default {
                 img.tc(alt='Discord', src="../assets/images/icons/discord-icon.svg", height='26px', style='fill: red !important;')
               a(href='https://twitter.com/VirusBustersNFT', target='_blank')
                 img.tc(alt='Twitter', src="../assets/images/icons/twitter-icon.svg", height='26px')
-            //- D
             div.tc.white--text.f7.i.mb2.o-50
               div Made with love by two friends in Canada - V0.25
               div Questions? Contact us directly on Discord or by
@@ -125,7 +121,6 @@ export default {
       width: 100%
       position: relative
       &.sticky-section-fullsize
-        // height: 100vh
         .section-container
           height: 200vh
           .block-wrapper
@@ -137,10 +132,7 @@ export default {
         width: 100%
         height: 100vh
         .block-wrapper
-          // min-height: 200vh
-          // height: 200vh
           .section-content
-            // height: 100%
             min-height: 100vh
             overflow: hidden
             position: relative
@@ -155,7 +147,6 @@ export default {
         overflow: hidden
         .section-container
           height: 100%
-
           .block-wrapper
             .section-content
               height: 100%

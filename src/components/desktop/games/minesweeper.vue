@@ -158,6 +158,7 @@ export default {
         for (let j = 0; j < this.colsCount; j++) {
           const td = document.createElement('td')
           td.id = this.cellID(i, j)
+          td.classList.add('pointer')
           row.appendChild(td)
           this.addCellListeners(td, i, j)
         }
@@ -253,6 +254,7 @@ export default {
       if (cell.clicked) {
         cell.classList.remove('flagged-cell')
         cell.classList.add('clicked-cell')
+        cell.classList.remove('pointer')
       }
       if (thus.components.bombs[i] && thus.components.bombs[i][j]) {
         cell.style.backgroundColor = thus.$vuetify.theme.themes.light.accent

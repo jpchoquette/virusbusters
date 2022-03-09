@@ -152,6 +152,8 @@ export default {
           padding: 5px 16px
           &.selected-item
             border: solid 1px red
+          &:last-child
+            // margin-bottom: 100px
     .v-list-item
       padding: 0
       min-height: 36px

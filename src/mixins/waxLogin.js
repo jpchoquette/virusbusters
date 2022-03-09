@@ -233,25 +233,7 @@ export default {
       // this.$cookies.remove('buster')
     },
     // async fetchBustersNFTs () {
-    //   fetch('https://wax.api.atomicassets.io/atomicassets/v1/templates?limit=200&page=1&collection_name=virusbusters&owner=' + this.profile + '&schema_name=buster.heads', {
-    //     headers: {
-    //       accept: '*/*',
-    //       'accept-language': 'en-US,en;q=0.9',
-    //       'cache-control': 'no-cache',
-    //       'content-type': 'application/json',
-    //       pragma: 'no-cache',
-    //       'sec-fetch-dest': 'empty',
-    //       'sec-fetch-mode': 'cors',
-    //       'sec-fetch-site': 'cross-site',
-    //       'sec-gpc': '1'
-    //     },
-    //     referrer: 'https://wax.atomichub.io/',
-    //     referrerPolicy: 'strict-origin-when-cross-origin',
-    //     body: null,
-    //     method: 'GET',
-    //     mode: 'cors',
-    //     credentials: 'omit'
-    //   })
+    //   fetch('https://wax.api.atomicassets.io/atomicassets/v1/templates?limit=200&page=1&collection_name=virusbusters&owner=' + this.profile + '&schema_name=buster.heads', this.$store.state.App.globalHeader)
     //     .then(response => response.json())
     //     .then(data => {
     //       const tempTemplates = data.data
@@ -267,25 +249,7 @@ export default {
     //     })
     // },
     fetchOwnedBustersNFTs () {
-      fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?limit=200&page=1&collection_name=virusbusters&owner=' + this.profile + '&schema_name=buster.heads', {
-        headers: {
-          accept: '*/*',
-          'accept-language': 'en-US,en;q=0.9',
-          'cache-control': 'no-cache',
-          'content-type': 'application/json',
-          pragma: 'no-cache',
-          'sec-fetch-dest': 'empty',
-          'sec-fetch-mode': 'cors',
-          'sec-fetch-site': 'cross-site',
-          'sec-gpc': '1'
-        },
-        referrer: 'https://wax.atomichub.io/',
-        referrerPolicy: 'strict-origin-when-cross-origin',
-        body: null,
-        method: 'GET',
-        mode: 'cors',
-        credentials: 'omit'
-      })
+      fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?limit=200&page=1&collection_name=virusbusters&owner=' + this.profile + '&schema_name=buster.heads', this.$store.state.App.globalHeader)
         .then(response => response.json())
         .then(data => {
           // console.log('owned busters', data)
@@ -294,25 +258,7 @@ export default {
         })
     },
     fetchOwnedCustomizationsNFTs () {
-      fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?limit=200&page=1&collection_name=virusbusters&owner=' + this.profile + '&schema_name=virtual.desk', {
-        headers: {
-          accept: '*/*',
-          'accept-language': 'en-US,en;q=0.9',
-          'cache-control': 'no-cache',
-          'content-type': 'application/json',
-          pragma: 'no-cache',
-          'sec-fetch-dest': 'empty',
-          'sec-fetch-mode': 'cors',
-          'sec-fetch-site': 'cross-site',
-          'sec-gpc': '1'
-        },
-        referrer: 'https://wax.atomichub.io/',
-        referrerPolicy: 'strict-origin-when-cross-origin',
-        body: null,
-        method: 'GET',
-        mode: 'cors',
-        credentials: 'omit'
-      })
+      fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?limit=200&page=1&collection_name=virusbusters&owner=' + this.profile + '&schema_name=virtual.desk', this.$store.state.App.globalHeader)
         .then(response => response.json())
         .then(data => {
           // console.log('owned customizations', data.data)

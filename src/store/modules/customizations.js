@@ -87,7 +87,10 @@ const state = {
         ],
         image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAfJJREFUWIXFl71qAkEUhc9qSBMhYAKpJYWNoKSwsVrzCHmGPFWeJVqlsZAINilk64AsBGIjLJPGO9yZvXdm1h9yYGH/zzdnZu7OZmCa9sYGAc2KRRa6fozsC2PmlwLJJPP34sG56bn3fTGYjJv7xr6agpht3wBAdv+lQlqAmHkKDIdIMQeAK/XKz5t7fPvqHBIwB5n2xoZDxMwBoJVkTueE835ylKhkbrZ9Q1sYwGttDE6D8I0JjMPJAARB2xEQXGQqpaIDSDAnQGhKA+Ag0r6g1MJmAUJzvAbBzOfddtpzGsAplUwyb9oNThckp3Awz8uqkVkU4D/UAtwSqqXA405tfcpAFBOQIPKywrzbrpnT+WMh7LdgViyy2M1kTIZSCncvHQAdAMBouQm9DgBbkEi0sRHNW56X1cHcFUFos83pAv+m2KzIy8qmIJnv1qvg84CXAKlpEpr5zWAIIJyCWoS08eDD+ObUajLnABJEdAUTG5ifT4+OOTfm0lJoVIYlGAIImYcgjvoO+CAf179Rcw3AmQX+cknTrFhk/CWTfX0QpqpWCVMWkhyE9mNFR5uSFkBqeWoaIYjdehWsBxZAW7OlSKty3FjrprN9jglitNxgtNxY88m+g5vB0JmuXMEWm23fNE1FqxsE4M+Es/9uh0AkiD8mBR7HkZyb5gAAAABJRU5ErkJggg==',
         emoji: '🎄',
-        particleType: 'image'
+        particleType: 'image',
+        qty: 6,
+        resistance: 10,
+        hideTrailOnClick: false
       }
     },
     {
@@ -140,43 +143,69 @@ const state = {
         spin: true,
         particleType: 'image'
       }
-    }
+    },
     // {
-    //   template_id: '404werwer438',
+    //   template_id: '0005',
     //   disabled: false,
     //   public: true,
-    //   name: '????',
+    //   name: 'Test String',
     //   rarity: '',
-    //   type: 'ghost',
+    //   type: 'string',
     //   customCursor: true,
     //   class: 'cursor-paw',
     //   image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAX9JREFUWIWtl7uNwzAMhiUjixjIDC5TuMgEqS4DeCYPkFSZ4IoUV2aGABnFVwQSKIov0forw5T8f5JJPWLYqXmcNur98/OKlv5sI+7DrdJAyGCr+fp7y8/L+doEUQWwOfw4ZULFKRAOonhpMYcGUtwKwQJoH4c6/t3z8/v0w0KYAbC5ZABjHoih6o2EDShDrY8kFcBscFnY9nBGcZ4NXMBqkKf7sX7bCCCUImcOqfOI08cfq5gLOJZE5UK0lp7FQJMK0FJ6XiWIBHCgzK2j1bJd6juP0/b8vGJVBday61WOpjL0rAVcW/ybeQCmnFrMNc3jtGWAlBx767pV5AwUEKDme40e/oZqIZJK0QOgLUoHMqrpsnxnx2gmaQih3CKpI1WllB9OQQ8yBziIYoQoSb3LcwbABwXzTBC/QhLeD4oZsEBQI/WOPgTjsbzXJkXuhlzjnhDSXUG8tfSA0C4q6v3NAyElMM4z0wVSO7JpppRxEwAHYZHrcroXxHo1DyGEf3Zn6PH3XVv6AAAAAElFTkSuQmCC',
     //   options: {
-    //     image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAADRJREFUWIXtzjEKACAMA8DW//laH6ijgquow90WGkgjeCzX0KP2eWi5188rN0a+fgAAAIAB+zQDBul6nxoAAAAASUVORK5CYII=',
-    //     decay: 10,
-    //     fade: true
+    //     image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAADRJREFUWIXtzjEKACAMA8DW//laH6ijgquow90WGkgjeCzX0KP2eWi5188rN0a+fgAAAIAB+zQDBul6nxoAAAAASUVORK5CYII='
     //   }
     // },
-    // {
-    //   template_id: '004',
-    //   disabled: true,
-    //   public: false,
-    //   name: '????????',
-    //   rarity: '',
-    //   type: 'dust',
-    //   customCursor: true,
-    //   class: 'cursor-duck',
-    //   image: 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABSZJREFUWEeVV01vG1UUPW9MyoIAQlB5BiE8XiAlEhJImQ+EUOwkQl3FdBXUsmRJ/wkrJLquEK1QWyD+WECLEjuVEIrtVCCUFqmLsasuQFlAVRZNIfOqe9+b8cx4/NFZjWfee3Pvueecey0w4dqwfSkhsTvoCkAAkKmV40/odfZp8re6z1uROnij7ElIgROcoIACb9rhIJ7lyv/YhBApQRknuGF7cmfYw6mFBTx58gTrZR+QERJ5WKQDy0Nm2rNUZutlX4byBJ1hHzd++BEfnT2Lx8fH2LA97AT7aRRS6AoOcnSlPzmtgKNDBbBu+7Id7KPRasEsFvk8z/NQLbswpMDuoEdfUt+JdtLP5H1OpUYFoZfjXOItBD2EoHqj2+2qYygrIeB7Lqolh7/U5iBmZTg/X2IE1m1P/nz/Nr5tfI+iaaUTlJKRWCt7IILuDjLlyENEZoCPfuY85nCp/u3BPhqNJkzThKAQIsAZCV2OkosOo5C95pGqXpNYGsNJAewGXbSaDZiWCUkZ6LdUCvrpez6qtgMpJTqDfrw3X/35TpGVYpwJGc/OkAJo8gcs01S2QRLV3KHFrg6C7hUfJpJ/KhGEFk6cxZrtyF//vIevrl9mplqmpQ8gP6Q4BKSQHI/ne6iWXNAbhUQ2r3kKlBYTq0AKAZZhs8XwW2aRS0HRUlCMiAbE95Uy2nEA8zI/SYCIafrUyAUb9TqEYbAMLcvUJwu9ilAQcEmaZRf0tB1oFCaUfS4jokXrZU+GCNEJDtBoNrVFC5hWUZdAe44mpUd8IH8QEp0oiBnlyCNsCrtq2ZG3gtsM+Ha9jkJBIWFaFsPPFdDEVEiQPziKDxTEZPLn1mi0QW9cs1129b1Bj12wvr0NUSgw1GYxUY6IvpLkSXbtcHQjZUwBPu0D44FRSw4l2W4XC88V8N32turlEijGnFC2LoTiw9KrNqzF17hG7eBAszUZBOWqFJVV7uh3Yn2VBhIR4lbQ4031RgMGyUFAO6UaL7iTs0l5bFKqK0Y9Y5oy0i0qV7gUBH2gM+zywfVGHYagIYWCUN2SpEt9QilVYvHUC3BffxsSJ3NJlFPKgyayiartSoGQsyVesEdo3xE8tAnUapvo9br44L33cRz+z62bJCoRJsoxDn2yk880s6rtcLvuBH00W00mQG2zxplT+6YyvPzFAEuXt5i8hAaVxEABO4numWbFaJTIL1a8Wt2QQmjh73/dw9+PH2K1tMLTEx1z59xVLH+zhZ9qF/Hmi6fhX/sU//z3CGslVxMz3TciBszVVpPwrJWpJAZOZBhPuXvDA76/sXkRbyyeBllHGAp8/tvXuHTYQsVe4SD2ggOR1UFOABEYs9qpel9hjlBTOsCd81djJOmtUQDuPzzCh83PsGo7KHCvSSBBDORjntG9svWiIAzWfx93P7kWz33kEQSUMCSWrnyMd8238MrzL7E6ok8qBNKTeeL8aQpJh1Hh0oCmJdw9R0GoS801IYQwsHxlCxXbYeJyA4sGHo4hmqzjm1QcyvUyM+3ISpS/cRAS2Bv2cHj+us5NVf3Bv0e49EcTN4e/4B1rGbt6zI85MF8VdOvgxVlTVVBW7BVGYm/QxyGVQ4v9waMjnGleQKXs6BFf/duaQsJ8Zc7QK5+4WnKlweXo42btyxi5M60LqJB0E0OMDiA//4gg4y0kG8b4/krZUUgEfbZrck2VvaH/8Gpxj22dRMjEwtSeKbUjz4hmiIIwuBpR7ZNin/2Pc5yPk+szD5kSa54CLpxORed+rQMAAAAASUVORK5CYII=',
-    //   options: {
-    //     colors: ['#ff004d', '#ff004d'],
-    //     chars: ['S', 'T', 'A', 'B', '!'],
-    //     randomColors: false,
-    //     randomChars: false,
-    //     fontStyle: '30px DayDream',
-    //     distance: 100,
-    //     gravity: 0.02
-    //   }
-    // }
+    {
+      template_id: '006',
+      disabled: false,
+      public: false,
+      name: 'Cat Paws Cursor',
+      rarity: '',
+      type: 'spring',
+      customCursor: true,
+      class: 'cursor-paw',
+      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAX9JREFUWIWtl7uNwzAMhiUjixjIDC5TuMgEqS4DeCYPkFSZ4IoUV2aGABnFVwQSKIov0forw5T8f5JJPWLYqXmcNur98/OKlv5sI+7DrdJAyGCr+fp7y8/L+doEUQWwOfw4ZULFKRAOonhpMYcGUtwKwQJoH4c6/t3z8/v0w0KYAbC5ZABjHoih6o2EDShDrY8kFcBscFnY9nBGcZ4NXMBqkKf7sX7bCCCUImcOqfOI08cfq5gLOJZE5UK0lp7FQJMK0FJ6XiWIBHCgzK2j1bJd6juP0/b8vGJVBday61WOpjL0rAVcW/ybeQCmnFrMNc3jtGWAlBx767pV5AwUEKDme40e/oZqIZJK0QOgLUoHMqrpsnxnx2gmaQih3CKpI1WllB9OQQ8yBziIYoQoSb3LcwbABwXzTBC/QhLeD4oZsEBQI/WOPgTjsbzXJkXuhlzjnhDSXUG8tfSA0C4q6v3NAyElMM4z0wVSO7JpppRxEwAHYZHrcroXxHo1DyGEf3Zn6PH3XVv6AAAAAElFTkSuQmCC',
+      options: {
+        images: [
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAWNJREFUWIW1l70RwjAMhR3PQAElS2SAFCzBHS0lK7AGA7AERQZgCcqkyA6hck5x9PRjw6tytmJ9enYcuwmV6o7tzLX3n3djeR8GoYG90kDYTm/yx+u5PF9PZxfEpiNPTgfnknD9HAiCiN7kUrsUg1yNXKMlSernLLeOAQEsL1rjaAznAnTAI8kFTdUAtS5E1OFVqQuRS+4drMaFiD69mnn1aLUGUvISCFrhME5qzAYg76xx4rDfQYik5Lz4FfwbQgWgECXiIPLxTPtALQRSd2znBaB01VtsluTaCblk1rmmoo5G+p/WXEDJJAgNzv0v8EJoDi3V0x3RsuiGcRIXmBRPnWYdyKcCVeYRcmJ1TpOOZN6KkWhx/efdrBzID440GFVQuviSTMdyzQnkTt6eVw8BNAhOEsT9ctu0qwC/gtAuKur9zQuBknLJTQAcBAei7aLoZmQCQBAWFV1Oa0GsV/MQQvgCy3LxyyqU4YYAAAAASUVORK5CYII=',
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAX9JREFUWIWtl7uNwzAMhiUjixjIDC5TuMgEqS4DeCYPkFSZ4IoUV2aGABnFVwQSKIov0forw5T8f5JJPWLYqXmcNur98/OKlv5sI+7DrdJAyGCr+fp7y8/L+doEUQWwOfw4ZULFKRAOonhpMYcGUtwKwQJoH4c6/t3z8/v0w0KYAbC5ZABjHoih6o2EDShDrY8kFcBscFnY9nBGcZ4NXMBqkKf7sX7bCCCUImcOqfOI08cfq5gLOJZE5UK0lp7FQJMK0FJ6XiWIBHCgzK2j1bJd6juP0/b8vGJVBday61WOpjL0rAVcW/ybeQCmnFrMNc3jtGWAlBx767pV5AwUEKDme40e/oZqIZJK0QOgLUoHMqrpsnxnx2gmaQih3CKpI1WllB9OQQ8yBziIYoQoSb3LcwbABwXzTBC/QhLeD4oZsEBQI/WOPgTjsbzXJkXuhlzjnhDSXUG8tfSA0C4q6v3NAyElMM4z0wVSO7JpppRxEwAHYZHrcroXxHo1DyGEf3Zn6PH3XVv6AAAAAElFTkSuQmCC'
+        ],
+        image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAX9JREFUWIWtl7uNwzAMhiUjixjIDC5TuMgEqS4DeCYPkFSZ4IoUV2aGABnFVwQSKIov0forw5T8f5JJPWLYqXmcNur98/OKlv5sI+7DrdJAyGCr+fp7y8/L+doEUQWwOfw4ZULFKRAOonhpMYcGUtwKwQJoH4c6/t3z8/v0w0KYAbC5ZABjHoih6o2EDShDrY8kFcBscFnY9nBGcZ4NXMBqkKf7sX7bCCCUImcOqfOI08cfq5gLOJZE5UK0lp7FQJMK0FJ6XiWIBHCgzK2j1bJd6juP0/b8vGJVBday61WOpjL0rAVcW/ybeQCmnFrMNc3jtGWAlBx767pV5AwUEKDme40e/oZqIZJK0QOgLUoHMqrpsnxnx2gmaQih3CKpI1WllB9OQQ8yBziIYoQoSb3LcwbABwXzTBC/QhLeD4oZsEBQI/WOPgTjsbzXJkXuhlzjnhDSXUG8tfSA0C4q6v3NAyElMM4z0wVSO7JpppRxEwAHYZHrcroXxHo1DyGEf3Zn6PH3XVv6AAAAAElFTkSuQmCC',
+        particleType: 'image',
+        qty: 2,
+        resistance: 50,
+        gravity: 80,
+        hideTrailOnClick: true,
+        customCursorOnClick: true
+      }
+    },
+    {
+      template_id: '007',
+      disabled: false,
+      public: false,
+      name: 'Upgraded Cat Paws Cursor',
+      rarity: '',
+      type: 'spring',
+      customCursor: true,
+      class: 'cursor-paw-upgrade',
+      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAX9JREFUWIWtl7uNwzAMhiUjixjIDC5TuMgEqS4DeCYPkFSZ4IoUV2aGABnFVwQSKIov0forw5T8f5JJPWLYqXmcNur98/OKlv5sI+7DrdJAyGCr+fp7y8/L+doEUQWwOfw4ZULFKRAOonhpMYcGUtwKwQJoH4c6/t3z8/v0w0KYAbC5ZABjHoih6o2EDShDrY8kFcBscFnY9nBGcZ4NXMBqkKf7sX7bCCCUImcOqfOI08cfq5gLOJZE5UK0lp7FQJMK0FJ6XiWIBHCgzK2j1bJd6juP0/b8vGJVBday61WOpjL0rAVcW/ybeQCmnFrMNc3jtGWAlBx767pV5AwUEKDme40e/oZqIZJK0QOgLUoHMqrpsnxnx2gmaQih3CKpI1WllB9OQQ8yBziIYoQoSb3LcwbABwXzTBC/QhLeD4oZsEBQI/WOPgTjsbzXJkXuhlzjnhDSXUG8tfSA0C4q6v3NAyElMM4z0wVSO7JpppRxEwAHYZHrcroXxHo1DyGEf3Zn6PH3XVv6AAAAAElFTkSuQmCC',
+      options: {
+        images: [
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAWNJREFUWIW1l70RwjAMhR3PQAElS2SAFCzBHS0lK7AGA7AERQZgCcqkyA6hck5x9PRjw6tytmJ9enYcuwmV6o7tzLX3n3djeR8GoYG90kDYTm/yx+u5PF9PZxfEpiNPTgfnknD9HAiCiN7kUrsUg1yNXKMlSernLLeOAQEsL1rjaAznAnTAI8kFTdUAtS5E1OFVqQuRS+4drMaFiD69mnn1aLUGUvISCFrhME5qzAYg76xx4rDfQYik5Lz4FfwbQgWgECXiIPLxTPtALQRSd2znBaB01VtsluTaCblk1rmmoo5G+p/WXEDJJAgNzv0v8EJoDi3V0x3RsuiGcRIXmBRPnWYdyKcCVeYRcmJ1TpOOZN6KkWhx/efdrBzID440GFVQuviSTMdyzQnkTt6eVw8BNAhOEsT9ctu0qwC/gtAuKur9zQuBknLJTQAcBAei7aLoZmQCQBAWFV1Oa0GsV/MQQvgCy3LxyyqU4YYAAAAASUVORK5CYII=',
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAX9JREFUWIWtl7uNwzAMhiUjixjIDC5TuMgEqS4DeCYPkFSZ4IoUV2aGABnFVwQSKIov0forw5T8f5JJPWLYqXmcNur98/OKlv5sI+7DrdJAyGCr+fp7y8/L+doEUQWwOfw4ZULFKRAOonhpMYcGUtwKwQJoH4c6/t3z8/v0w0KYAbC5ZABjHoih6o2EDShDrY8kFcBscFnY9nBGcZ4NXMBqkKf7sX7bCCCUImcOqfOI08cfq5gLOJZE5UK0lp7FQJMK0FJ6XiWIBHCgzK2j1bJd6juP0/b8vGJVBday61WOpjL0rAVcW/ybeQCmnFrMNc3jtGWAlBx767pV5AwUEKDme40e/oZqIZJK0QOgLUoHMqrpsnxnx2gmaQih3CKpI1WllB9OQQ8yBziIYoQoSb3LcwbABwXzTBC/QhLeD4oZsEBQI/WOPgTjsbzXJkXuhlzjnhDSXUG8tfSA0C4q6v3NAyElMM4z0wVSO7JpppRxEwAHYZHrcroXxHo1DyGEf3Zn6PH3XVv6AAAAAElFTkSuQmCC'
+        ],
+        image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAX9JREFUWIWtl7uNwzAMhiUjixjIDC5TuMgEqS4DeCYPkFSZ4IoUV2aGABnFVwQSKIov0forw5T8f5JJPWLYqXmcNur98/OKlv5sI+7DrdJAyGCr+fp7y8/L+doEUQWwOfw4ZULFKRAOonhpMYcGUtwKwQJoH4c6/t3z8/v0w0KYAbC5ZABjHoih6o2EDShDrY8kFcBscFnY9nBGcZ4NXMBqkKf7sX7bCCCUImcOqfOI08cfq5gLOJZE5UK0lp7FQJMK0FJ6XiWIBHCgzK2j1bJd6juP0/b8vGJVBday61WOpjL0rAVcW/ybeQCmnFrMNc3jtGWAlBx767pV5AwUEKDme40e/oZqIZJK0QOgLUoHMqrpsnxnx2gmaQih3CKpI1WllB9OQQ8yBziIYoQoSb3LcwbABwXzTBC/QhLeD4oZsEBQI/WOPgTjsbzXJkXuhlzjnhDSXUG8tfSA0C4q6v3NAyElMM4z0wVSO7JpppRxEwAHYZHrcroXxHo1DyGEf3Zn6PH3XVv6AAAAAElFTkSuQmCC',
+        particleType: 'image',
+        qty: 2,
+        resistance: 50,
+        gravity: 80,
+        hideTrailOnClick: true,
+        customCursorOnClick: true
+      }
+    }
   ],
   // ------------------------------------------------------------ Themes
   themeStyles: [
@@ -278,6 +307,23 @@ const state = {
         toolbars: '#fcdd11',
         grey: '#c2c3c7'
       }
+    },
+    {
+      template_id: '0000000000',
+      name: 'Cat Stickers theme',
+      gradients: false,
+      darkMode: false,
+      disabled: false,
+      public: false,
+      colors: {
+        primary: '#BFDBFE',
+        tertiary: '#BFDBFE',
+        secondary: '#fca5a5',
+        light: '#FFF1E8',
+        accent: '#ffd892',
+        toolbars: '#afd2ff',
+        grey: '#c2c3c7'
+      }
     }
   ],
   // ------------------------------------------------------------ Wallpapers
@@ -349,19 +395,20 @@ const state = {
       public: false,
       disabled: false,
       texture: false
+    },
+    {
+      template_id: '003',
+      name: 'Cat Stickers Wallpaper',
+      type: 'wallpaper',
+      extension: '.png',
+      defaultDisplayStyle: 'centered-background',
+      defaultSize: '40%',
+      bgColor: '#BFDBFE',
+      public: false,
+      disabled: false,
+      texture: true,
+      textureSize: '40%'
     }
-    // {
-    //   template_id: '003',
-    //   name: 'Cat Stickers Wallpaper',
-    //   type: 'wallpaper',
-    //   extension: '.png',
-    //   defaultDisplayStyle: 'centered-background',
-    //   defaultSize: '40%',
-    //   bgColor: '#BFDBFE',
-    //   public: true,
-    //   disabled: false,
-    //   texture: true
-    // }
   ]
 }
 

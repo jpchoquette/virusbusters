@@ -18,6 +18,7 @@ export default {
     this.$nextTick(() => {
       this.handleResize()
     })
+    // console.log('key', process.env.MY_AWESOME_KEY)
   },
   destroyed () {
     window.removeEventListener('resize', this.handleResize)
@@ -49,13 +50,13 @@ v-app(dark)
   @import './assets/styles/base/_fonts.sass'
   *
     cursor: url('/base-cursor.png'),default
-  a, a *, button, button *, .pointer, .pointer *, .v-list-item.v-list-item--link, .v-list-item.v-list-item--link *
-    cursor: url(/pointer-cursor.png),pointer
+  a, a *, button, button *, .pointer, .pointer *, .pointer:hover, .v-list-item.v-list-item--link, .v-list-item.v-list-item--link *
+    cursor: url('/base-pointer.png'),pointer
   .infected-section-cursor, .infected-section-cursor *
-    cursor: url(/base-cursor-infected.png),default
+    cursor: url('/base-cursor-infected.png'),default
   .infected-section-cursor
-    a, a *, button, button *, .v-list-item--link, .v-list-item--link *
-      cursor: url(/pointer-cursor-infected.png),pointer
+    a, a *, button, button *, .pointer, .pointer *, .pointer:hover, .v-list-item.v-list-item--link, .v-list-item.v-list-item--link *
+      cursor: url('/base-pointer-infected.png'),pointer
   body
     height: -webkit-fill-available
   html

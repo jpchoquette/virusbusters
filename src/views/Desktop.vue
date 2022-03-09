@@ -233,7 +233,7 @@ export default {
     .crt-wrapper
       .desktop-page.screen(
         id='screenContent'
-        :class='[($store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data.customCursor) ? $store.state.Customizations.activeCursor.data.class : null, (!screenState && !mobileView) ? "screen-off" : null, !$store.state.Customizations.activeWallpaper ? "default-wallpaper" : null]'
+        :class='[($store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data.customCursor) ? $store.state.Customizations.activeCursor.data.class : null, this.cursorClick ? "clicked-cursor" : null, (!screenState && !mobileView) ? "screen-off" : null, !$store.state.Customizations.activeWallpaper ? "default-wallpaper" : null]'
       )
         transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
           .screen-off__overlay(v-if='!screenState && !mobileView')
@@ -269,6 +269,9 @@ export default {
               feedback-notification(:desktopStyle='!mobileView')
 
               div.wallpaper-content
+                //- <svg id="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1314 712">
+                //-   <polyline id="polyline" fill="none" points=" 746,376 754,377 783,381 802,385 824,391 827,393 868,400 939,408 988,415 1133,427 1205,432"></polyline>
+                //- </svg>
                 template(v-if='$store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data')
 
                   template(v-if='$store.state.Customizations.activeWallpaper.data.type === "buster"')
@@ -283,10 +286,11 @@ export default {
 
               .window-content
                 //- Load trail cursor images otherwise they don't show on loadup
+
                 div.init-cursor-images(v-if='$store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && $store.state.Customizations.activeCursor.data.options && $store.state.Customizations.activeCursor.data.options.images && $store.state.Customizations.activeCursor.data.options.images.length')
                   template(v-for='(image, index) in $store.state.Customizations.activeCursor.data.options.images')
                     img.debug-images(:src='image')
-                .version-number v1.26
+                .version-number v1.27
                 template(v-if='userConnected')
                   icon-desktop(image='buster-icon.png', title='Desktop customizer', action='customization')
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
@@ -295,7 +299,7 @@ export default {
                   icon-desktop(image='blender-icon-v1.png', title='Blender.exe', action='blender')
                   icon-desktop(image='game_434273.png', title='PopupFighter.exe', action='fighter', :private='false')
                   icon-desktop(image='game_401170.png', title='RiskyClick.exe', action='risky', :private='false')
-                  // icon-desktop(image='desktop-icon-v1.png', title='My (Infected) Computer', action='computer', :private='false')
+                  icon-desktop(image='desktop-icon-v1.png', title='My (Infected) Computer', action='computer', :private='false')
                   icon-desktop(image='leaderboard-icon-v1.png', title='Leader boards', action='leaderboard', :private='false')
                   //- stat-calculator(type='burns', schemaName='popups', templateId='316428')
 
@@ -350,6 +354,20 @@ export default {
       bottom: 0
       left: 0
       overflow: hidden
+  #svg
+    width: 100vw
+    height: 100vh
+    position: fixed
+    top: 0
+    left: 0
+    z-index: 1000
+    pointer-events: none
+    #polyline
+      z-index: 1000
+      stroke-dasharray: 0
+      stroke-width: 3
+      stroke-linecap: square
+      stroke: red
   .init-cursor-images
     position: absolute
     top: 0
@@ -477,6 +495,8 @@ export default {
         align-items: center
         justify-content: center
         .pattern-image
+          background-color: transparent !important
+          border-color: transparent !important
           width: 100%
           height: 100%
           position: absolute

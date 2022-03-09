@@ -1,31 +1,60 @@
 <script>
-// import WaxLogin from '@/mixins/waxLogin.js'
-import VueResizable from 'vue-resizable'
-import Wallpapers from '@/components/desktop/customization/wallpapers.vue'
-import Cursors from '@/components/desktop/customization/cursors.vue'
-import Themes from '@/components/desktop/customization/themes.vue'
+import WindowsPaths from '@/mixins/windowsPaths.js'
 
+import RoutePath from '@/components/desktop/work/routePath'
+import AirdropStatus from '@/components/desktop/work/airdropStatus'
+import VirusNfts from '@/components/desktop/work/virusNfts'
+// import ShopNfts from '@/components/desktop/work/shopNfts'
+// import TrophyNfts from '@/components/desktop/work/trophyNfts'
+// import ComputerNfts from '@/components/desktop/computerNfts'
+
+import VueResizable from 'vue-resizable'
 export default {
-  name: 'CustomizationWindow',
+  name: 'WorkWindow',
   components: {
     VueResizable,
-    Wallpapers,
-    Cursors,
-    Themes
+    RoutePath,
+    AirdropStatus,
+    VirusNfts
   },
   data () {
     return {
-      pageView: null,
-      settings: [
-        { name: '*&?&?$%)(*)', value: '', icon: '❓' },
-        { name: '#&(*&F)FVD)', value: 'cursors', disabled: false, icon: '❓' },
-        { name: 'ert#dd%$ert3?BV)_', value: 'themes', disabled: false, icon: '❓' },
-        { name: '44433deddddee_', value: 'themes', disabled: false, icon: '❓' },
-        { name: '@?((D*&FVD(D)))', value: 'themes', disabled: false, icon: '❓' }
+      detailedView: false,
+      activeRoute: null,
+      windowId: 'rigHubWindow',
+      routes: [
+        {
+          title: 'Computer Status',
+          routeName: 'computer',
+          icon: 'icons/computer-icon.svg',
+          type: 'Route',
+          level: 1
+        },
+        {
+          title: 'Active Viruses',
+          routeName: 'virus',
+          icon: 'icons/virus-icon.svg',
+          type: 'Route',
+          level: 1
+        },
+        {
+          title: 'The Shop',
+          routeName: 'shop',
+          icon: 'icons/money-icon.svg',
+          type: 'Route',
+          level: 1
+        },
+        {
+          title: 'My Trophies',
+          routeName: 'trophies',
+          icon: 'icons/trophy-icon.svg',
+          type: 'Route',
+          level: 1
+        }
       ]
     }
   },
-  // mixins: [WaxLogin],
+  mixins: [WindowsPaths],
   mounted () {
   },
   computed: {
@@ -36,6 +65,18 @@ export default {
     rigHubWindow: {
       set (val) { this.$store.commit('Desktop/setRigHubWindow', val) },
       get () { return this.$store.state.Desktop.rigHubWindow }
+    },
+    windowsRoutes: {
+      set (val) { this.$store.commit('WindowsRoutes/setWindowsRoutes', val) },
+      get () { return this.$store.state.WindowsRoutes.windowsRoutes }
+    },
+    currentWindow () {
+      return this.windowsRoutes.find(route => route.value === this.windowId)
+    },
+    currentPath () {
+      const currentWindow = this.windowsRoutes.find(route => route.value === this.windowId)
+      const activeRoute = currentWindow.activePath[currentWindow.activePath.length - 1]
+      return activeRoute
     }
   },
   methods: {
@@ -44,170 +85,138 @@ export default {
     },
     resetPrefs () {
       this.$emit('resetPrefs')
+    },
+    checkOwnership (id) {
+      if (this.$store.state.User.userProfile === 'virusbusters') {
+        // virusbuster wallet used to debug nfts preview
+        return true
+      } else {
+        // // console.log('this.$store.state.Buster.ownedGameTemplates', this.$store.state.Buster.ownedGameTemplates)
+        // const ownedTemplate = this.$store.state.Buster.ownedGameTemplates.findIndex((temp) => temp.template.template_id === id)
+        // return ownedTemplate >= 0
+        return false
+      }
     }
+    // launchUpdateRoute (index) {
+    //   this.updateRoute(this.windowId, this.routes[index])
+    // }
   }
 }
 </script>
 <template lang='pug'>
-  vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '10%'", :left="$store.state.App.mobileTemplate ? '10%' : '22%'", :width="$store.state.App.mobileTemplate ? '80vw' : '600px'", :height="$store.state.App.mobileTemplate ? '70vh' : '450px'", :min-height="250", :min-width="300", drag-selector="#window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "computer"}')
-    div.customization-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "computer"}', @mousedown='activeWindow = "computer"')
-      //- LOGIN WAX
-      div.window-top-bar#window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
-        div.window-title My (infected) computer
+  vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '20%'", :left="$store.state.App.mobileTemplate ? '10%' : '20%'", :width="$store.state.App.mobileTemplate ? '80vw' : '500px'", :height="$store.state.App.mobileTemplate ? '70vh' : '500px'", :min-height="250", :min-width="300", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "computer"}')
+    div.work-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "computer"}', @mousedown='activeWindow = "computer"')
+      div.window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
+        div.window-title Working
         div.flex-grow-1
         v-btn.close-button.secondary--text(@click='closeWindow', tile, color='accent', fab, depressed) X
-      template
-        transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
-
-          .window-content(v-if='!pageView')
-            v-list(color='transparent')
-              template(v-for='(setting, index) in settings')
-                v-list-item.pointer(@click='', :disabled='setting.disabled')
-                  v-list-item-avatar {{setting.icon}}
-                  v-list-item-content
-                    v-list-item-title {{setting.name}} {{setting.disabled ? "(Coming soon!)" : ""}}
-                v-divider
-            //- v-btn(@click='pageView = "wallpapers"') Wallpapers
-            //- v-btn(@click='pageView = "cursors"') Cursors
-          wallpapers(v-else-if='pageView === "wallpapers"', @goBack='pageView = null')
-          //- @changeWP='$emit("changeWP")'
-          cursors(v-else-if='pageView === "cursors"', @goBack='pageView = null')
-          themes(v-else-if='pageView === "themes"', @goBack='pageView = null')
-        //- v-btn(@click='resetPrefs()' color='accent', text, outlined) Reset my preferences
-        //- div.avatars__wrapper
-          //- pre {{$store.state.User.userProfile}}
-          //- pre {{$cookies.get('buster')}}
-          //- pre {{selectedBusterTemplate}}
-          div.pointer.avatar-wrapper(@click='selectBuster(0, null, true)', :class='{"selected-avatar" : !selectedBusterTemplate}')
-            div.pointer.avatar-wrapper
-              div.avatar-preview.primary
-                v-img(:src="require('@/assets/images/vb-animated-logo-light.gif')", width='200px')
-              div.avatar-title Default wallpaper
-          div(v-for='(buster, index) in busterTemplates')
-            //- pre {{buster.template.template_id}}
-            //- v-img(:src="require('@/assets/images/buster/buster_' + buster.template.template_id + '.gif')", width='300px')
-            //- v-btn(@click='selectBuster(index, buster.template.template_id)') {{buster.template.immutable_data.name}}
-            div.pointer.avatar-wrapper(@click='selectBuster(index, buster.template_id, checkOwnership(buster.template_id))', :class='{"missing-template" : !checkOwnership(buster.template_id) ,"selected-avatar" : (selectedBusterTemplate && (selectedBusterTemplate.data.template_id === buster.template_id))}')
-              div.avatar-preview
-                v-btn.purchase-button(v-if='!checkOwnership(buster.template_id)', x-small, tile, color='accent') Buy
-                v-img(:src="require('@/assets/images/buster/buster_' + buster.template_id + '.gif')", width='200px')
-              div.avatar-title {{buster.immutable_data.name}}
-          div(v-for='(n, index) in 10')
-            div.pointer.avatar-wrapper()
-              div.avatar-preview
-                v-img(:src="require('@/assets/images/buster/buster_unknown.gif')", width='200px')
-              div.avatar-title Coming soon!
-        //- v-btn(@click='selectBuster(null)') clear avatar
+      route-path(:activeWindow='currentWindow', :windowId='windowId', @stepBack='stepBack')
+      //- pre {{windowsRoutes}}
+      div.window-content
+        template(v-if='checkOwnership("3245345")')
+          //- pre {{currentPath}}
+          //- pre {{currentWindow.activePath[currentWindow.activePath - 1].level === 0}}
+          airdrop-status
+          div.routes_wrapper(v-if='currentPath && currentPath.level === 0')
+            template(v-for='(route, index) in routes')
+              div.route-icon.pointer(@click='updateRoute(windowId, route)')
+                v-img.route-image(:src="require('@/assets/images/' + route.icon)", width='50px', height='50px', contain, style='max-width: 50px')
+                div.route-title {{route.title}}
+          div.route_wrapper(v-else)
+            div.quicklinks__wrapper
+              template(v-if='currentWindow.activePath[1].routeName === "virus"')
+                virus-nfts(:windowId='windowId', :currentPath='currentPath')
+              template(v-else)
+                span component ici {{activeRoute}}
+        .empty-content__wrapper(v-else)
+          .title-placeholder Oh no!
+          .description-placeholder
+            p This program is under construction
+            p
+              | For more infos, join us on
+              a.mh1(href='https://discord.gg/vKWRKtsDCX', target='_blank', style='color: inherit') Discord
+              |.
 </template>
 <style lang='sass'>
-  .customization-window.desktop-window
-    .side-menu
-      display: flex
-      flex-direction: column
-      align-items: center
-      text-align: center
-      position: sticky
-      top: 0px
-      .preview-image__wrapper
-        max-width: 140px
-        display: flex
-        flex-direction: column
-        align-items: center
-        text-align: center
-        // margin-right: 10px
-        .preview-image
-          padding: 2px
-          height: 120px
-          width: 120px
-          max-width: 120px
-          max-height: 120px
-          min-height: 120px
-          min-width: 120px
-          box-sizing: border-box
-          border-radius: 4px
-          overflow: hidden
-          display: flex
-          align-items: center
-          justify-content: center
-          position: relative
-          .contained-image
-            position: absolute
-            top: 26px
-            left: 26px
-            background-color: black
-            width: 70px
-            height: 58px
-    .list-preview
-      margin: 0px 20px 20px 20px
-      display: flex
-      flex-grow: 1
-      // width: 100%
-      // flex-wrap: wrap
-      .disabled-preview
-        font-size: 25px
-        font-family: $display-font
-      .v-list
-        padding: 0
-        width: 100%
-        background-color: transparent
-        .v-list-item
-          padding: 5px 16px
-          &.selected-item
-            border: solid 1px red
-    .v-list-item
-      padding: 0
-      min-height: 36px
-      .v-list-item__content
-        padding: 8px 0
-    .avatars__wrapper
-      margin: 20px
+  .work-window.desktop-window
+    background-color: var(--v-toolbars-base)
+    .routes_wrapper
       display: flex
       flex-wrap: wrap
-      .avatar-wrapper
-        padding: 0 5px 5px 5px
-        &.selected-avatar
-          .avatar-preview
-            // border: solid 1px red !important
-            background-color: var(--v-light-base)
-            background-image: repeating-linear-gradient(0deg, var(--v-secondary-base), var(--v-secondary-base) 8px, transparent 8px, transparent 13px, var(--v-secondary-base) 13px), repeating-linear-gradient(90deg, var(--v-secondary-base), var(--v-secondary-base) 8px, transparent 8px, transparent 13px, var(--v-secondary-base) 13px), repeating-linear-gradient(180deg, var(--v-secondary-base), var(--v-secondary-base) 8px, transparent 8px, transparent 13px, var(--v-secondary-base) 13px), repeating-linear-gradient(270deg, var(--v-secondary-base), var(--v-secondary-base) 8px, transparent 8px, transparent 13px, var(--v-secondary-base) 13px)
-            background-size: 2px calc(100% + 13px), calc(100% + 13px) 2px, 2px calc(100% + 13px) , calc(100% + 13px) 2px
-            background-position: 0 0, 0 0, 100% 0, 0 100%
-            background-repeat: no-repeat
-            animation: borderAnimation 0.6s infinite linear
-        &.missing-template
-          .avatar-preview
-            position: relative
-            .purchase-button
-              position: absolute
-              left: 0
-              bottom: 0
-              z-index: 10
-              width: 100%
-              opacity: 0
-            .v-image
-              filter: grayscale(1)
-              opacity: 0.25
-          &:hover
-            .avatar-preview
-              position: relative
-              .purchase-button
-                opacity: 1
+      .route-icon
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        width: 120px
+        height: 100%
+        text-align: center
+        position: relative
+        padding: 5px
+        .fallback-image
+          display: flex
+          flex-direction: column
+          align-items: center
+          justify-content: center
+          height: 50px
+          width: 50px
+          font-size: 30px
+          font-family: $display-font
+          line-height: 1
+        .route-image
+          height: 50px
+          max-height: 50px !important
+        .route-title
+          margin-top: 5px
+          word-break: break-word
+          line-height: 1.15
+          font-size: 14px
+        &::after
+          content: ''
+          position: absolute
+          top: 0
+          left: 0
+          width: 100%
+          height: 100%
+          opacity: 0
+          border: solid 1px black
+          background-color: rgba(0,0,0,0.15)
+        &:hover
+          &::after
+            opacity: 1
 
-        .avatar-preview
-          padding: 2px
-          height: 120px
-          width: 120px
-          max-width: 120px
-          max-height: 120px
-          min-height: 120px
-          min-width: 120px
-          box-sizing: border-box
-          border-radius: 4px
-          overflow: hidden
+    .route-header
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+      // ---
+    .route_wrapper
+      .quicklinks__wrapper
+        display: flex
+        flex-direction: column
+        min-width: 300px
+        .v-list-item
+          padding: 0
+          min-height: 36px
+          .v-list-item__content
+            padding: 8px 0
+        .row-wrapper
           display: flex
           align-items: center
-        .avatar-title
           font-size: 14px
-          text-align: center
-          margin-top: 10px
+          &.headers
+            font-size: 12px
+            padding-bottom: 10px
+            border-bottom: solid 1px black
+            font-weight: bold
+          .first-row
+            min-width: 300px
+            flex-grow: 1
+            display: flex
+          .second-row
+            min-width: 100px
+          .third-row
+            min-width: 80px
+
 </style>

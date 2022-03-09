@@ -12,6 +12,25 @@ const state = {
     icon: '✔️',
     timeout: 4000,
     type: 'success'
+  },
+  globalHeader: {
+    headers: {
+      accept: '*/*',
+      'accept-language': 'en-US,en;q=0.9',
+      'cache-control': 'no-cache',
+      'content-type': 'application/json',
+      pragma: 'no-cache',
+      'sec-fetch-dest': 'empty',
+      'sec-fetch-mode': 'cors',
+      'sec-fetch-site': 'cross-site',
+      'sec-gpc': '1'
+    },
+    referrer: 'https://wax.atomichub.io/',
+    referrerPolicy: 'strict-origin-when-cross-origin',
+    body: null,
+    method: 'GET',
+    mode: 'cors',
+    credentials: 'omit'
   }
 }
 

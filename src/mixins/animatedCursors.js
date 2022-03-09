@@ -2,6 +2,7 @@ export default {
   data () {
     return {
       cursorElement: null,
+      cursorClick: false,
       canvas: null,
       context: null,
       type: null,
@@ -42,12 +43,12 @@ export default {
       SEGLEN: 10,
       SPRINGK: 10,
       MASS: 1,
-      GRAVITY: 50,
+      GRAVITY: 1,
       RESISTANCE: 10,
       STOPVEL: 0.1,
-      STOPACC: 0.1,
+      STOPACC: 0.5,
       DOTSIZE: 11,
-      BOUNCE: 0.7,
+      BOUNCE: 0.1,
       emojiAsImage: null,
       imgAsImage: null,
       draw: null,
@@ -55,7 +56,15 @@ export default {
       x: 0,
       y: 0,
       particleType: 'emoji',
-      spin: false
+      spin: false,
+      points: [],
+      MIN_DIST: 1,
+      MAX_POINTS: 10,
+      dist: (x1, y1, x2, y2) => Math.sqrt(Math.abs(x1 - x2) + Math.abs(y1 - y2)),
+      shiftValue: 30,
+      drawEffects: true,
+      hideTrailOnClick: false,
+      customCursorOnClick: false
     }
   },
   methods: {
@@ -73,6 +82,9 @@ export default {
         this.height = window.innerHeight
         this.cursor = { x: this.width / 2, y: this.width / 2 }
         this.lastPos = { x: this.width / 2, y: this.width / 2 }
+        if (options && options.customCursorOnClick) {
+          this.customCursorOnClick = options.customCursorOnClick
+        }
         if (!document.getElementById('cursorCanvas')) {
           if (this.type === 'dust') {
             this.dustCursor(options)
@@ -80,8 +92,8 @@ export default {
             this.ghostCursor(options)
           } else if (this.type === 'spring') {
             this.springCursor(options)
-          } else {
-            // todo
+          } else if (this.type === 'string') {
+            this.stringCursor(options)
           }
         }
       }
@@ -129,6 +141,35 @@ export default {
       }, 1000)
     },
     springCursor (options) {
+      if (options.particleType) {
+        this.particleType = options.particleType
+      }
+      if (options.emoji) {
+        this.emoji = options.emoji
+      }
+      if (options.image) {
+        this.image = options.image
+      }
+      if (options.images) {
+        this.images = options.images
+      }
+      if (options.qty) {
+        this.nDots = options.qty + 1
+      }
+      if (options.resistance) {
+        this.RESISTANCE = options.resistance
+      }
+      if (options.gravity) {
+        this.GRAVITY = options.gravity
+      }
+      if (options.hideTrailOnClick) {
+        this.hideTrailOnClick = options.hideTrailOnClick
+      }
+      setTimeout(() => {
+        this.init(this.type)
+      }, 1000)
+    },
+    stringCursor (options) {
       if (options.particleType) {
         this.particleType = options.particleType
       }
@@ -260,6 +301,8 @@ export default {
       // GHOST ----------------------------------------
       } else if (this.type === 'ghost') {
         // todo
+      } else if (this.type === 'string') {
+        // todo
       }
       this.$nextTick(() => {
         this.bindEvents()
@@ -269,6 +312,8 @@ export default {
     // Bind events that are needed
     bindEvents () {
       this.cursorElement.addEventListener('mousemove', this.onMouseMove)
+      this.cursorElement.addEventListener('mousedown', this.onMouseDown)
+      this.cursorElement.addEventListener('mouseup', this.onMouseUp)
       this.cursorElement.addEventListener('touchmove', this.onTouchMove)
       this.cursorElement.addEventListener('touchstart', this.onTouchMove)
       window.addEventListener('resize', this.onWindowResize)
@@ -336,6 +381,55 @@ export default {
           }
         } else if (this.type === 'ghost') {
           this.addParticle(this.cursor.x, this.cursor.y, this.baseImage)
+        } else if (this.type === 'string') {
+          const polyline = document.getElementById('cursorCanvas')
+          if (!this.cursor.x || !this.cursor.y) return
+          if (!this.points.length) return this.points.push([this.cursor.x, this.cursor.y])
+          const [px, py] = this.points[this.points.length - 1]
+          const d = this.dist(this.cursor.x, this.cursor.y, px, py)
+          if (d < this.MIN_DIST) return
+          this.points.push([this.lastPos.x, this.lastPos.y])
+          const pathString = this.points.reduce((acc, [x, y]) => {
+            return acc + ` ${this.cursor.x},${this.cursor.y}`
+          }, '')
+          polyline.setAttribute('points', pathString)
+          if (this.points.length > this.MAX_POINTS) this.points.shift()
+        }
+      })
+    },
+    onMouseDown (e) {
+      window.requestAnimationFrame(() => {
+        if (this.customCursorOnClick) {
+          this.cursorClick = true
+        }
+        if (this.type === 'spring') {
+          if (this.hideTrailOnClick) {
+            this.shiftValue = 0
+            this.GRAVITY = 0
+            this.drawEffects = false
+          }
+        } else if (this.type === 'ghost') {
+          //
+        } else if (this.type === 'string') {
+          //
+        }
+      })
+    },
+    onMouseUp (e) {
+      window.requestAnimationFrame(() => {
+        if (this.customCursorOnClick) {
+          this.cursorClick = false
+        }
+        if (this.type === 'spring') {
+          if (this.hideTrailOnClick) {
+            this.drawEffects = true
+            this.shiftValue = 50
+            this.GRAVITY = 1
+          }
+        } else if (this.type === 'ghost') {
+          //
+        } else if (this.type === 'string') {
+          //
         }
       })
     },
@@ -384,69 +478,72 @@ export default {
     updateParticlesSpring () {
       this.context.clearRect(0, 0, this.width, this.height)
       this.canvas.width = this.width
-      // follow mouse (+30 to shift position)
-      this.particles[0].position.x = this.cursor.x + 30
-      this.particles[0].position.y = this.cursor.y + 30
+      // follow mouse (this.shiftValue to shift position)
+      if (this.particles && this.particles.length) {
+        this.particles[0].position.x = this.cursor.x + this.shiftValue
+        this.particles[0].position.y = this.cursor.y + this.shiftValue
+        // Start from 2nd dot
+        for (let i = 1; i < this.nDots; i++) {
+          const spring = { x: 0, y: 0 }
 
-      // Start from 2nd dot
-      for (let i = 1; i < this.nDots; i++) {
-        const spring = { x: 0, y: 0 }
-
-        if (i > 0) {
-          this.springForce(i - 1, i, spring)
-        }
-
-        if (i < this.nDots - 1) {
-          this.springForce(i + 1, i, spring)
-        }
-        const resist = {
-          x: -this.particles[i].velocity.x * this.RESISTANCE,
-          y: -this.particles[i].velocity.y * this.RESISTANCE
-        }
-        const accel = {
-          x: (spring.x + resist.x) / this.MASS,
-          y: (spring.y + resist.y) / this.MASS + this.GRAVITY
-        }
-        this.particles[i].velocity.x += this.DELTAT * accel.x
-        this.particles[i].velocity.y += this.DELTAT * accel.y
-
-        if (
-          Math.abs(this.particles[i].velocity.x) < this.STOPVEL &&
-          Math.abs(this.particles[i].velocity.y) < this.STOPVEL &&
-          Math.abs(accel.x) < this.STOPACC &&
-          Math.abs(accel.y) < this.STOPACC
-        ) {
-          this.particles[i].velocity.x = 0
-          this.particles[i].velocity.y = 0
-        }
-
-        this.particles[i].position.x += this.particles[i].velocity.x
-        this.particles[i].position.y += this.particles[i].velocity.y
-
-        const height = this.canvas.clientHeight
-        const width = this.canvas.clientWidth
-
-        if (this.particles[i].position.y >= height - this.DOTSIZE - 1) {
-          if (this.particles[i].velocity.y > 0) {
-            this.particles[i].velocity.y = this.BOUNCE * -this.particles[i].velocity.y
+          if (i > 0) {
+            this.springForce(i - 1, i, spring)
           }
-          this.particles[i].position.y = height - this.DOTSIZE - 1
-        }
 
-        if (this.particles[i].position.x >= width - this.DOTSIZE) {
-          if (this.particles[i].velocity.x > 0) {
-            this.particles[i].velocity.x = this.BOUNCE * -this.particles[i].velocity.x
+          if (i < this.nDots - 1) {
+            this.springForce(i + 1, i, spring)
           }
-          this.particles[i].position.x = width - this.DOTSIZE - 1
-        }
+          const resist = {
+            x: -this.particles[i].velocity.x * this.RESISTANCE,
+            y: -this.particles[i].velocity.y * this.RESISTANCE
+          }
+          const accel = {
+            x: (spring.x + resist.x) / this.MASS,
+            y: (spring.y + resist.y) / this.MASS + this.GRAVITY
+          }
+          this.particles[i].velocity.x += this.DELTAT * accel.x
+          this.particles[i].velocity.y += this.DELTAT * accel.y
 
-        if (this.particles[i].position.x < 0) {
-          if (this.particles[i].velocity.x < 0) {
-            this.particles[i].velocity.x = this.BOUNCE * -this.particles[i].velocity.x
+          if (
+            Math.abs(this.particles[i].velocity.x) < this.STOPVEL &&
+            Math.abs(this.particles[i].velocity.y) < this.STOPVEL &&
+            Math.abs(accel.x) < this.STOPACC &&
+            Math.abs(accel.y) < this.STOPACC
+          ) {
+            this.particles[i].velocity.x = 0
+            this.particles[i].velocity.y = 0
           }
-          this.particles[i].position.x = 0
+
+          this.particles[i].position.x += this.particles[i].velocity.x
+          this.particles[i].position.y += this.particles[i].velocity.y
+
+          const height = this.canvas.clientHeight
+          const width = this.canvas.clientWidth
+
+          if (this.particles[i].position.y >= height - this.DOTSIZE - 1) {
+            if (this.particles[i].velocity.y > 0) {
+              this.particles[i].velocity.y = this.BOUNCE * -this.particles[i].velocity.y
+            }
+            this.particles[i].position.y = height - this.DOTSIZE - 1
+          }
+
+          if (this.particles[i].position.x >= width - this.DOTSIZE) {
+            if (this.particles[i].velocity.x > 0) {
+              this.particles[i].velocity.x = this.BOUNCE * -this.particles[i].velocity.x
+            }
+            this.particles[i].position.x = width - this.DOTSIZE - 1
+          }
+
+          if (this.particles[i].position.x < 0) {
+            if (this.particles[i].velocity.x < 0) {
+              this.particles[i].velocity.x = this.BOUNCE * -this.particles[i].velocity.x
+            }
+            this.particles[i].position.x = 0
+          }
+          if (this.drawEffects) {
+            this.particles[i].draw(this.context)
+          }
         }
-        this.particles[i].draw(this.context)
       }
     },
     loop () {
@@ -571,6 +668,8 @@ export default {
     },
     clearCursor () {
       this.cursorElement.removeEventListener('mousemove', this.onMouseMove)
+      this.cursorElement.removeEventListener('mousemove', this.onMouseDown)
+      this.cursorElement.removeEventListener('mousemove', this.onMouseUp)
       this.cursorElement.removeEventListener('touchmove', this.onTouchMove)
       this.cursorElement.removeEventListener('touchstart', this.onTouchMove)
       window.removeEventListener('resize', this.onWindowResize)
@@ -601,6 +700,10 @@ export default {
       this.fade = true
       this.particleType = null
       this.spin = false
+      this.nDots = 7
+      this.RESISTANCE = 1
+      this.GRAVITY = 10
+      this.hideTrailOnClick = false
     }
   }
 }

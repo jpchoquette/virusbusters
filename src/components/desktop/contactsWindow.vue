@@ -39,6 +39,35 @@ export default {
               image: this.$vuetify.theme.dark ? 'icons/discord-icon.svg' : 'icons/discord-icon-black.svg'
             }
           ]
+        },
+        {
+          title: 'Cat Stickers',
+          signature: 'collabs/catstickers-signature.svg',
+          icon: 'collabs/catstickers-icon.png',
+          date: '2021-03-08',
+          type: 'Collection',
+          links: [
+            {
+              title: 'Cat Stickers Website',
+              url: 'https://www.catstickersnft.com/',
+              image: 'collabs/catstickers-icon.png'
+            },
+            {
+              title: 'Atomic Hub Collection Page',
+              url: 'https://wax.atomichub.io/explorer/collection/catstickerss',
+              image: 'atomic-hub-icon.png'
+            },
+            {
+              title: 'Twitter',
+              url: 'https://twitter.com/catstickersnft',
+              image: 'twitter-logo.svg'
+            },
+            {
+              title: 'Discord',
+              url: 'https://discord.com/invite/uUaQEhxPt4',
+              image: this.$vuetify.theme.dark ? 'icons/discord-icon.svg' : 'icons/discord-icon-black.svg'
+            }
+          ]
         }
       ]
     }
@@ -90,7 +119,7 @@ export default {
             div.collection-icon.pointer(@click='toggleCollection(index)')
               v-img.collection-image(:src="require('@/assets/images/' + col.icon)", width='50px', height='50px', contain, style='max-width: 50px')
               div.collection-title {{col.title}}
-          template(v-for='(col, index) in 2')
+          template(v-for='(col, index) in 1')
             div.collection-icon.pointer(@click='')
               div.fallback-image()
                 span ?

@@ -37,7 +37,7 @@ export default {
           height: 150vh
           background-color: var(--v-bluescreen-base)
           color: white
-          font-family: 'Lucida Console', sans-serif
+          font-family: $code-font
           padding: 80px $responsive-gutter-small
           display: flex
           flex-direction: column
@@ -48,7 +48,7 @@ export default {
             background-color: grey
             color: var(--v-bluescreen-base)
           .bs-content
-            font-family: 'Lucida Console', sans-serif
+            font-family: $code-font
             color: white
             padding: 40px 0
             max-width: 800px

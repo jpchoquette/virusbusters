@@ -159,7 +159,7 @@ const state = {
     //   }
     // },
     {
-      template_id: '006',
+      template_id: '453601',
       disabled: false,
       public: false,
       name: 'Cat Paws Cursor',
@@ -183,7 +183,7 @@ const state = {
       }
     },
     {
-      template_id: '007',
+      template_id: '453602',
       disabled: false,
       public: false,
       name: 'Upgraded Cat Paws Cursor',
@@ -236,7 +236,7 @@ const state = {
         tertiary: '#7e2753',
         secondary: '#7e2753',
         light: '#7e2753',
-        accent: '#29adff',
+        accent: '#ff004d',
         toolbars: '#29adff',
         grey: '#c2c3c7'
       }
@@ -309,7 +309,7 @@ const state = {
       }
     },
     {
-      template_id: '0000000000',
+      template_id: '453575',
       name: 'Cat Stickers theme',
       gradients: false,
       darkMode: false,
@@ -397,7 +397,7 @@ const state = {
       texture: false
     },
     {
-      template_id: '003',
+      template_id: '453588',
       name: 'Cat Stickers Wallpaper',
       type: 'wallpaper',
       extension: '.png',

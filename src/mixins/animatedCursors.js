@@ -583,6 +583,7 @@ export default {
         x: (Math.random() < 0.5 ? -1 : 1) * (Math.random() / 2),
         y: Math.random() * 0.7 + 0.9
       }
+      // console.log('velocity', this.velocity)
       this.position = { x: x, y: y }
       this.canv = canvasItem
       // var ctx = this.canv.getContext('2d')

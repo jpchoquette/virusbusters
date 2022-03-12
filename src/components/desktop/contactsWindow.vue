@@ -29,6 +29,11 @@ export default {
               image: 'atomic-hub-icon.png'
             },
             {
+              title: 'Youtube Channel',
+              url: 'https://www.youtube.com/c/cryptomonKeys',
+              image: this.$vuetify.theme.dark ? 'icons/youtube-icon.svg' : 'icons/youtube-icon-black.svg'
+            },
+            {
               title: 'Twitter',
               url: 'https://twitter.com/Crypt0monKeys',
               image: 'twitter-logo.svg'

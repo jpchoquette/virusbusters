@@ -256,13 +256,13 @@ export default {
             .temp-windows__wrapper
               settings-window(v-if='$store.state.Desktop.settingsWindow')
               customization-window(v-if='$store.state.Desktop.customizationWindow', @resetPrefs='resetUserPreferences()')
+              rig-hub-window(v-if='$store.state.Desktop.rigHubWindow')
               contacts-window(v-if='$store.state.Desktop.contactsWindow')
               quick-links-window(v-if='$store.state.Desktop.quickLinksWindow')
               //- collection-window(v-if='$store.state.Desktop.collectionWindow')
-              blender-window(v-if='$store.state.Desktop.blenderWindow')
+              //- blender-window(v-if='$store.state.Desktop.blenderWindow')
               risky-click-window(v-if='$store.state.Desktop.riskyClickWindow')
               popup-fighter-window(v-if='$store.state.Desktop.popupFighterWindow')
-              rig-hub-window(v-if='$store.state.Desktop.rigHubWindow')
               leaderboard-window(v-if='$store.state.Desktop.leaderboardWindow')
 
             .window__wrapper(:style='{backgroundColor: ($store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data.bgColor) ? $store.state.Customizations.activeWallpaper.data.bgColor : "transparent"}')
@@ -273,12 +273,13 @@ export default {
                 //-   <polyline id="polyline" fill="none" points=" 746,376 754,377 783,381 802,385 824,391 827,393 868,400 939,408 988,415 1133,427 1205,432"></polyline>
                 //- </svg>
                 template(v-if='$store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data')
-
                   template(v-if='$store.state.Customizations.activeWallpaper.data.type === "buster"')
-                    text-pattern(:data='$store.state.Customizations.activeWallpaper.data.name', color='#7e2753', :opacity='0.15', :angle='-20', :qtyPerLine='2')
+                    text-pattern(:data='$store.state.Customizations.activeWallpaper.data.name', :color='$store.state.Customizations.activeWallpaper.data.dark ? "white" : "black"', :opacity='0.10', :angle='-20', :qtyPerLine='2')
                     transition(name='custom-classes-transition', enter-active-class='animate__animated animate__zoomIn', leave-active-class='animate__animated animate__zoomOut', mode='out-in')
                       v-img(:src="require('@/assets/images/buster/buster_' + $store.state.Customizations.activeWallpaper.data.template_id + '.gif')", width='350px', :key="$store.state.Customizations.activeWallpaper.data.template_id")
                   template(v-else)
+                    //- div.top-wallpaper-gradient(v-if='$store.state.Customizations.activeWallpaper.data.bgGradient', :class='$store.state.Customizations.activeWallpaper.data.animatedGradient ? "animated-gradient" : ""')
+                    div.wallpaper-gradient(v-if='$store.state.Customizations.activeWallpaper.data.bgGradient', :class='$store.state.Customizations.activeWallpaper.data.animatedGradient ? "animated-gradient" : ""', :style='{background: $store.state.Customizations.activeWallpaper.data.customGradient}')
                     div.wallpaper-image(:style='{ backgroundImage:"url(" + require("@/assets/images/wallpapers/wallpaper_" + $store.state.Customizations.activeWallpaper.data.template_id + $store.state.Customizations.activeWallpaper.data.extension) + ")", backgroundSize: $store.state.Customizations.activeWallpaper.data.defaultSize }', :class='$store.state.Customizations.activeWallpaperDisplayStyle')
                     template(v-if='$store.state.Customizations.activeWallpaper.data.texture')
                       div.pattern-image.primary(:style='{ backgroundImage:"url(" + require("@/assets/images/wallpapers/texture_" + $store.state.Customizations.activeWallpaper.data.template_id + $store.state.Customizations.activeWallpaper.data.extension) + ")" }')
@@ -286,20 +287,19 @@ export default {
 
               .window-content
                 //- Load trail cursor images otherwise they don't show on loadup
-
                 div.init-cursor-images(v-if='$store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && $store.state.Customizations.activeCursor.data.options && $store.state.Customizations.activeCursor.data.options.images && $store.state.Customizations.activeCursor.data.options.images.length')
                   template(v-for='(image, index) in $store.state.Customizations.activeCursor.data.options.images')
                     img.debug-images(:src='image')
-                .version-number v1.27
+                .version-number v1.28
                 template(v-if='userConnected')
                   icon-desktop(image='buster-icon.png', title='Desktop customizer', action='customization')
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
+                  icon-desktop(image='desktop-icon-v1.png', title='My (Infected) Computer', action='computer', :private='false')
                   icon-desktop(image='contacts-icon-v1.png', title="Buster's Friends", action='contacts', :private ='false')
                   //- icon-desktop(image='blender-icon-v1.png', title='My NFTs', action='collection', :private ='true')
-                  icon-desktop(image='blender-icon-v1.png', title='Blender.exe', action='blender')
+                  //- icon-desktop(image='blender-icon-v1.png', title='Blender.exe', action='blender')
                   icon-desktop(image='game_434273.png', title='PopupFighter.exe', action='fighter', :private='false')
                   icon-desktop(image='game_401170.png', title='RiskyClick.exe', action='risky', :private='false')
-                  icon-desktop(image='desktop-icon-v1.png', title='My (Infected) Computer', action='computer', :private='false')
                   icon-desktop(image='leaderboard-icon-v1.png', title='Leader boards', action='leaderboard', :private='false')
                   //- stat-calculator(type='burns', schemaName='popups', templateId='316428')
 
@@ -494,6 +494,36 @@ export default {
         display: flex
         align-items: center
         justify-content: center
+        // .top-wallpaper-gradient
+        //   opacity: 0.5
+        //   background: linear-gradient(70deg, rgba(188,102,53,0) 10%, rgba(241,163,49,0) 28%, rgba(255,254,181,1) 33%, rgba(255,255,255,1) 34%, rgba(255,254,181,1) 35%, rgba(241,163,49,0) 40%, rgba(255,205,92,0) 48%, rgba(234,155,50,0) 57%, rgba(197,112,53,0) 67%, rgba(241,163,49,0) 85%, rgba(188,102,53,0) 100%)
+        //   background-size: 200% 200% !important
+        //   position: absolute
+        //   top: 0
+        //   left: 0
+        //   width: 100%
+        //   height: 100%
+        //   z-index: 9999999 !important
+        //   &.animated-gradient
+        //     // background-size: 400% 400%
+        //     -webkit-animation: gradientMovement 20s ease infinite
+        //     -moz-animation: gradientMovement 20s ease infinite
+        //     animation: gradientMovement 5s ease infinite
+        //     height: 100vh
+        .wallpaper-gradient
+          background-size: 200% 200% !important
+          position: absolute
+          top: 0
+          left: 0
+          width: 100%
+          height: 100%
+          background: linear-gradient(-45deg, var(--v-accent-base) 0%, var(--v-secondary-base) 100%)
+          &.animated-gradient
+            // background-size: 400% 400%
+            -webkit-animation: gradientMovement 40s ease infinite
+            -moz-animation: gradientMovement 40s ease infinite
+            animation: gradientMovement 40s ease infinite
+            height: 100vh
         .pattern-image
           background-color: transparent !important
           border-color: transparent !important
@@ -527,4 +557,11 @@ export default {
 
         .v-image
           max-width: 350px
+  @keyframes gradientMovement
+    0%
+      background-position:50% 0%
+    50%
+      background-position:0% 50%
+    100%
+      background-position:50% 0%
 </style>

@@ -3,10 +3,11 @@ import WindowsPaths from '@/mixins/windowsPaths.js'
 
 import RoutePath from '@/components/desktop/work/routePath'
 import AirdropStatus from '@/components/desktop/work/airdropStatus'
+import ContentHints from '@/components/desktop/work/contentHints'
 import VirusNfts from '@/components/desktop/work/virusNfts'
-// import ShopNfts from '@/components/desktop/work/shopNfts'
+import ShopNfts from '@/components/desktop/work/shopNfts'
 // import TrophyNfts from '@/components/desktop/work/trophyNfts'
-// import ComputerNfts from '@/components/desktop/computerNfts'
+import ComputerNfts from '@/components/desktop/work/computerNfts'
 
 import VueResizable from 'vue-resizable'
 export default {
@@ -15,7 +16,10 @@ export default {
     VueResizable,
     RoutePath,
     AirdropStatus,
-    VirusNfts
+    ContentHints,
+    VirusNfts,
+    ShopNfts,
+    ComputerNfts
   },
   data () {
     return {
@@ -116,7 +120,8 @@ export default {
         template(v-if='checkOwnership("3245345")')
           //- pre {{currentPath}}
           //- pre {{currentWindow.activePath[currentWindow.activePath - 1].level === 0}}
-          airdrop-status
+          airdrop-status(v-if='currentPath && currentPath.level === 0')
+          content-hints(v-else)
           div.routes_wrapper(v-if='currentPath && currentPath.level === 0')
             template(v-for='(route, index) in routes')
               div.route-icon.pointer(@click='updateRoute(windowId, route)')
@@ -126,7 +131,11 @@ export default {
             div.quicklinks__wrapper
               template(v-if='currentWindow.activePath[1].routeName === "virus"')
                 virus-nfts(:windowId='windowId', :currentPath='currentPath')
-              template(v-else)
+              template(v-if='currentWindow.activePath[1].routeName === "shop"')
+                shop-nfts(:windowId='windowId', :currentPath='currentPath')
+              template(v-if='currentWindow.activePath[1].routeName === "computer"')
+                computer-nfts(:windowId='windowId', :currentPath='currentPath')
+              //- template(v-else)
                 span component ici {{activeRoute}}
         .empty-content__wrapper(v-else)
           .title-placeholder Oh no!
@@ -139,7 +148,7 @@ export default {
 </template>
 <style lang='sass'>
   .work-window.desktop-window
-    background-color: var(--v-toolbars-base)
+    background-color: var(--v-light-base)
     .routes_wrapper
       display: flex
       flex-wrap: wrap

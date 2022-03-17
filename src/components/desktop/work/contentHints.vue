@@ -2,20 +2,19 @@
 // import WindowsPaths from '@/mixins/windowsPaths.js'
 
 export default {
-  name: 'AirdropStatus',
+  name: 'ContentHints',
   components: {
   },
   props: {
-    // activeWindow: { required: true, type: Object },
-    // windowId: { required: true, type: String }
+    // activeWindow: { required: true, type: Object }
   },
   data () {
     return {
       currentStatus: {
-        type: 'error',
-        color: 'red',
-        icon: 'mdi-alert',
-        description: 'You are missing components to receive weekly airdrops. Go check in Computer Status for more infos'
+        type: 'info',
+        color: 'light darken-3',
+        icon: 'mdi-help',
+        description: 'This block will explain to you what you can do here. To learn more, refer to our guide over here.'
       }
     }
   },

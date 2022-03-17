@@ -14,6 +14,7 @@ const state = {
     {
       template_id: '338184',
       bgColor: '#000000',
+      dark: true,
       type: 'buster',
       name: 'Mesh Buster',
       disabled: false,
@@ -22,6 +23,7 @@ const state = {
     {
       template_id: '339377',
       bgColor: '#ab5236',
+      dark: false,
       type: 'buster',
       name: 'Pumpkin Buster',
       disabled: false,
@@ -30,6 +32,7 @@ const state = {
     {
       template_id: '363872',
       bgColor: '#1D2B53',
+      dark: false,
       type: 'buster',
       name: 'Gambler Buster',
       disabled: false,
@@ -38,6 +41,7 @@ const state = {
     {
       template_id: '363854',
       bgColor: '#FE76A6',
+      dark: false,
       type: 'buster',
       name: 'Pop-up Buster',
       disabled: false,
@@ -46,6 +50,7 @@ const state = {
     {
       template_id: '391715',
       bgColor: '#29adff',
+      dark: false,
       type: 'buster',
       name: 'Snowman Buster',
       disabled: false,
@@ -54,6 +59,7 @@ const state = {
     {
       template_id: '404447',
       bgColor: '#ff004d',
+      dark: false,
       type: 'buster',
       name: 'Nutcracker Buster',
       disabled: false,
@@ -62,6 +68,7 @@ const state = {
     {
       template_id: '405745',
       bgColor: '#29adff',
+      dark: false,
       type: 'buster',
       name: 'Booster Buster',
       disabled: false,

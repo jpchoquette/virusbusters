@@ -408,6 +408,22 @@ const state = {
       disabled: false,
       texture: true,
       textureSize: '40%'
+    },
+    {
+      template_id: '457146',
+      name: 'Golden Wallpaper',
+      type: 'wallpaper',
+      extension: '.svg',
+      defaultDisplayStyle: 'centered-background',
+      defaultSize: '40%',
+      bgGradient: true,
+      customGradient: 'linear-gradient(70deg, rgba(188,102,53,1) 10%, rgba(241,163,49,1) 28%, rgba(255,254,181,1) 33%, rgba(255,255,255,1) 34%, rgba(255,254,181,1) 35%, rgba(241,163,49,1) 40%, rgba(255,205,92,1) 48%, rgba(234,155,50,1) 57%, rgba(197,112,53,1) 67%, rgba(241,163,49,1) 85%, rgba(188,102,53,1) 100%)',
+      animatedGradient: true,
+      bgColor: '#ffa300',
+      public: false,
+      disabled: false,
+      texture: false,
+      textureSize: '40%'
     }
   ]
 }

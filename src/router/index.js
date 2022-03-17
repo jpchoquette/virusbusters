@@ -2,7 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Desktop from '../views/Desktop.vue'
-// import Admin from '../views/Admin.vue'
+import NotFound from '../views/NotFound.vue'
+import Admin from '../views/Admin.vue'
 
 Vue.use(VueRouter)
 
@@ -20,12 +21,20 @@ const routes = [
     path: '/desktop',
     name: 'Desktop',
     component: Desktop
+  },
+  {
+    path: '/404',
+    component: NotFound
+  },
+  {
+    path: '*',
+    redirect: '/404'
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin
   }
-  // {
-  //   path: '/admin',
-  //   name: 'Admin',
-  //   component: Admin
-  // }
   // {
   //   path: '/about',
   //   name: 'About',

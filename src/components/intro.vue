@@ -24,9 +24,12 @@ export default {
         v-btn.ma1(href='https://discord.gg/vKWRKtsDCX', target='_blank', large, rounded, color='black', dark)
           span.f5 Take me to Discord!
           img.ml2(alt='Virus Busters Discord', src="~@/assets/images/icons/discord-icon.svg", height='20px')
-        v-btn.ma1(href='https://wax.atomichub.io/market?collection_name=virusbusters', target='_blank', large, rounded, color='#14192E')
+        v-btn.ma1(href='https://wax.atomichub.io/market?collection_name=virusbusters', target='_blank', large, rounded, color='#1A203C')
           span.f5.white--text Buy on AtomicHub
           img.ml2(alt='Atomic Hub Market', src="~@/assets/images/atomic-hub-icon.png", height='20px')
+        v-btn.ma1(href='https://neftyblocks.com/c/virusbusters', target='_blank', large, rounded, color='#141416')
+          span.f5.white--text Buy on Neftyblocks
+          img.ml2(alt='Atomic Hub Market', src="~@/assets/images/nefty-blocks-logo-small.svg", height='20px')
       div.flex-grow-1
       div.flex-column.justify-center.items-center.animate__animated.animate__fadeIn.animate__delay-1s(style='display:flex; width:120px; height: 60px; margin-top: 40px')
         img.animate__animated.animate__bounce.animate__delay-2s(alt='scroll-arrow', src="../assets/images/icons/arrow-icon.svg", width='60px')

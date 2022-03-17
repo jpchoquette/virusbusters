@@ -1,11 +1,13 @@
 <script>
 import WindowsPaths from '@/mixins/windowsPaths.js'
-import VirusDetails from '@/components/desktop/work/virusDetails'
+import ShopItemsDetails from '@/components/desktop/work/shopItemsDetails'
+import StatCalculator from '@/components/shared/statCalculator'
 
 export default {
-  name: 'VirusNfts',
+  name: 'ShopItems',
   components: {
-    VirusDetails
+    ShopItemsDetails,
+    StatCalculator
   },
   props: {
     // activeWindow: { required: true, type: Object },
@@ -15,53 +17,25 @@ export default {
   },
   data () {
     return {
-      viruses: [
+      items: [
         {
-          title: 'Spyware',
-          rarity: 'Low Danger',
+          title: 'Easy task',
+          rarity: 'Common',
+          price: '3',
           detailsPath: {
-            title: 'Spyware',
-            routeName: 'spyware',
+            title: 'Easy Task',
+            routeName: 'task-easy',
             type: 'Route',
             level: 2
           }
         },
         {
-          title: 'Snail Loader',
-          rarity: 'Low Danger',
+          title: 'Buster Model A',
+          rarity: 'Rare',
+          price: '20',
           detailsPath: {
-            title: 'Snail Loader',
-            routeName: 'snail-loader',
-            type: 'Route',
-            level: 2
-          }
-        },
-        {
-          title: 'Bloater',
-          rarity: 'Moderate Danger',
-          detailsPath: {
-            title: 'Bloater',
-            routeName: 'bloater',
-            type: 'Route',
-            level: 2
-          }
-        },
-        {
-          title: 'Folder Worm',
-          rarity: 'High Danger',
-          detailsPath: {
-            title: 'Folder Worm',
-            routeName: 'folder-worm',
-            type: 'Route',
-            level: 2
-          }
-        },
-        {
-          title: 'Cursor Tracker',
-          rarity: 'Critical Danger',
-          detailsPath: {
-            title: 'Cursor Tracker',
-            routeName: 'cursor-tracker',
+            title: 'Buster Model A',
+            routeName: 'buster-model-a',
             type: 'Route',
             level: 2
           }
@@ -79,21 +53,26 @@ export default {
 }
 </script>
 <template lang='pug'>
-  .window-content
+  .sub-window__content
+    div.coins-count__wrapper
+      v-alert(color='green', dark='', icon='mdi-help', border='left', dense)
+        div My Virtual Coins total:
+          stat-calculator(type='coins', schemaName='popups', templateId='316428', :user='true')
+
     template(v-if='currentPath.level === 1')
       .nfts__wrapper
-        .nft-card(v-for='(virus,index) in viruses', @click='updateRoute(windowId, virus.detailsPath)')
+        .nft-card(v-for='(item,index) in items', @click='updateRoute(windowId, item.detailsPath)')
           div.nft-preview()
-            div.owned-qty
+            //- div.owned-qty
              span x210
-            v-img(:src="require('@/assets/images/placeholders/common-virus-static.png')", contain)
+            v-img(:src="require('@/assets/images/placeholders/task-static.png')", contain)
           .nft-content
-            div.status-chip DETECTED!
-            span.nft-title {{virus.title}}
-            div.nft-rarity {{virus.rarity}}
+            div.price-chip {{item.price}} Coins NFTs
+            span.nft-title {{item.title}}
+            div.nft-rarity {{item.rarity}}
     template(v-else-if='currentPath.level === 2')
       //- pre {{currentPath}}
-      virus-details(:id='currentPath.routeName')
+      shop-items-details(:id='currentPath.routeName')
       //- pre {{currentWindow}}
     //- div.header__wrapper
       //- v-btn(@click='$emit("goBack")', outlined) <
@@ -103,11 +82,23 @@ export default {
   .nfts__wrapper
     display: flex
     flex-wrap: wrap
-    justify-content: center
     .nft-card
       padding: 10px
       display: flex
       flex-direction: column
+      position: relative
+      &::before
+        content: ''
+        background-color: rgba(0,0,0,0.15)
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+        opacity: 0
+      &:hover
+        &::before
+          opacity: 1
       .nft-preview
         width: 140px
         height: 170px
@@ -131,19 +122,19 @@ export default {
           justify-content: center
           transform: rotate(-15deg)
       .nft-content
-        // font-family: $code-font
+        position: relative
         text-align: center
         padding: 5px
-        .status-chip
+        .price-chip
           padding: 2px
-          border: solid 1px red
-          color: red
+          border: solid 1px var(--v-success-lighten2)
+          background-color: var(--v-success-base)
+          color: white
           font-weight: bold
           border-radius: 15px
           font-size: 12px
           margin-bottom: 5px
         .nft-title
-          font-family: $code-font
           font-size: 16px
           font-weight: bold
         .nft-rarity

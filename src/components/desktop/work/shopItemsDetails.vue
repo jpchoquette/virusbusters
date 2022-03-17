@@ -31,28 +31,28 @@ export default {
 <template lang='pug'>
   .virus-detail
     div.image__wrapper
-      v-img(:src="require('@/assets/images/placeholders/common-virus-static.png')", contain)
+      v-img(:src="require('@/assets/images/placeholders/task-static.png')", contain)
     div.content__wrapper
       //- pre {{id}}
       div.element-rarity
-        | Minor Threat
+        | Rare
       div.element-title
-        | Spyware
+        | Complex Work Task
       div.element-description
-        | Minor threat detected: This file is possibly collecting private data
+        | This task will give you access to more rewarding blends. One time use!
+      div.element-requirements
+        | Requirements: x5 Virtual Coins
       div.element-actions__wrapper
-        v-btn(@click='goToMarket()', block, outlined, rounded) View on the market
+        v-btn.mb2(@click='blendNft()', block, rounded, depressed, color='secondary', large) Blend NFT
+        v-btn(@click='goToMarket()', block, outlined, rounded, small) View on the market
         //- v-btn(@click='blendNft()') Blend Virus
       div.element-stats
         div.stat-info__wrapper
-          div.stat-title Total burns
+          div.stat-title Tasks finished
           div.stat-value 128
         div.stat-info__wrapper
-          div.stat-title My burns
-          div.stat-value 15
-        div.stat-info__wrapper
-          div.stat-title Computers Infected
-          div.stat-value 48
+          div.stat-title My Tasks finished
+          div.stat-value N/A
 </template>
 <style lang='sass' scoped>
 .virus-detail
@@ -80,6 +80,8 @@ export default {
       margin-bottom: 10px
     .element-description
       font-style: italic
+    .element-requirements
+      margin: 10px 0
     .element-actions__wrapper
       margin-top: 14px
     .element-stats

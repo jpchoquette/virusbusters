@@ -1,5 +1,6 @@
 <script>
 import Minesweeper from '@/components/desktop/games/minesweeper'
+import WindowBar from '@/components/shared/windowBar.vue'
 
 // import WaxLogin from '@/mixins/waxLogin.js'
 import VueResizable from 'vue-resizable'
@@ -7,7 +8,8 @@ export default {
   name: 'riskyClickGame',
   components: {
     VueResizable,
-    Minesweeper
+    Minesweeper,
+    WindowBar
   },
   data () {
     return {
@@ -49,10 +51,7 @@ export default {
 <template lang='pug'>
   vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '10%'", :left="$store.state.App.mobileTemplate ? '5%' : '45%'", :width="$store.state.App.mobileTemplate ? '90vw' : '500px'", :height="$store.state.App.mobileTemplate ? '70vh' : '500px'", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "risky"}')
     div.program-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "risky"}', @mousedown='activeWindow = "risky"')
-      div.window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
-        div.window-title RiskyClick.exe
-        div.flex-grow-1
-        v-btn.close-button.secondary--text(@click='closeWindow', tile, color='accent', fab, depressed) X
+      window-bar(title='RiskyClick.exe', @closeWindow='closeWindow')
       div.window-content
         div.collection__wrapper.h-100.w-100
           minesweeper(v-if='checkOwnership("401170")')

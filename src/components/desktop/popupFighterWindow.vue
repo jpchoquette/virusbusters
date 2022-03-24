@@ -2,11 +2,14 @@
 import Scoreboard from '@/components/desktop/scoreboard'
 import ScoreboardCalcSimple from '@/mixins/scoreboardCalcSimple.js'
 import VueResizable from 'vue-resizable'
+import WindowBar from '@/components/shared/windowBar.vue'
+
 export default {
   name: 'PopupFighter',
   components: {
     VueResizable,
-    Scoreboard
+    Scoreboard,
+    WindowBar
   },
   data () {
     return {
@@ -65,10 +68,7 @@ export default {
 <template lang='pug'>
   vue-resizable(:top="$store.state.App.mobileTemplate ? '2.5%' : '10%'", :left="$store.state.App.mobileTemplate ? '2.5%' : '20%'", :width="$store.state.App.mobileTemplate ? '95vw' : '650px'", :height="$store.state.App.mobileTemplate ? '90vh' : '562px'" ,drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "fighter"}')
     div.program-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "fighter"}', @mousedown='activeWindow = "fighter"')
-      div.window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
-        div.window-title PopupFighter.exe
-        div.flex-grow-1
-        v-btn.close-button.secondary--text(@click='closeWindow', tile, color='accent', fab, depressed) X
+      window-bar(title='PopupFighter.exe', @closeWindow='closeWindow')
       div.window-content(style='margin:0;padding:0;background-color:#222;')
         div.collection__wrapper.h-100.w-100
           div.h-100(v-if='checkOwnership("434273")', style='margin:0 auto;')

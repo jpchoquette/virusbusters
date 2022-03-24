@@ -3,12 +3,15 @@ import Scoreboard from '@/components/desktop/scoreboard'
 import VirusSpinner from '@/components/shared/virusSpinner'
 import ScoreboardFetch from '@/mixins/scoreboardFetch.js'
 import VueResizable from 'vue-resizable'
+import WindowBar from '@/components/shared/windowBar.vue'
+
 export default {
   name: 'LeaderboardWindow',
   components: {
     VueResizable,
     Scoreboard,
-    VirusSpinner
+    VirusSpinner,
+    WindowBar
   },
   data () {
     return {
@@ -101,10 +104,7 @@ export default {
 <template lang='pug'>
   vue-resizable(:top="$store.state.App.mobileTemplate ? '5%' : '10%'", :left="$store.state.App.mobileTemplate ? '2.5%' : '20%'", :width="$store.state.App.mobileTemplate ? '80vw' : '650px'", :height="$store.state.App.mobileTemplate ? '70vh' : '400px'" ,drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "leaderboard"}')
     div.scoreboard-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "leaderboard"}', @mousedown='activeWindow = "leaderboard"')
-      div.window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
-        div.window-title Leaderboards
-        div.flex-grow-1
-        v-btn.close-button.secondary--text(@click='closeWindow', tile, color='accent', fab, depressed) X
+      window-bar(title='Leaderboards', @closeWindow='closeWindow')
       div.window-content(style='margin:0;padding:0;')
         div
           div.quicklinks__wrapper.h-100.w-100(v-if='leaderboardMenu')

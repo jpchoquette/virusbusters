@@ -1,10 +1,13 @@
 <script>
 // import WaxLogin from '@/mixins/waxLogin.js'
 import VueResizable from 'vue-resizable'
+import WindowBar from '@/components/shared/windowBar.vue'
+
 export default {
   name: 'CustomizationWindow',
   components: {
-    VueResizable
+    VueResizable,
+    WindowBar
   },
   data () {
     return {
@@ -82,11 +85,7 @@ export default {
 <template lang='pug'>
   vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '20%'", :left="$store.state.App.mobileTemplate ? '10%' : '40%'", :width="$store.state.App.mobileTemplate ? '80vw' : '500px'", :height="$store.state.App.mobileTemplate ? '70vh' : '350px'", :min-height="250", :min-width="300", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "quicklinks"}')
     div.customization-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "quicklinks"}', @mousedown='activeWindow = "quicklinks"')
-      //- LOGIN WAX
-      div.window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
-        div.window-title Quick Links
-        div.flex-grow-1
-        v-btn.close-button.secondary--text(@click='closeWindow', tile, color='accent', fab, depressed) X
+      window-bar(title='Quick Links', @closeWindow='closeWindow')
       div.window-content
         div.quicklinks__wrapper
           v-list(color='transparent')

@@ -1,5 +1,6 @@
 <script>
 import WindowsPaths from '@/mixins/windowsPaths.js'
+import WindowBar from '@/components/shared/windowBar.vue'
 
 import RoutePath from '@/components/desktop/work/routePath'
 import AirdropStatus from '@/components/desktop/work/airdropStatus'
@@ -14,6 +15,7 @@ export default {
   name: 'WorkWindow',
   components: {
     VueResizable,
+    WindowBar,
     RoutePath,
     AirdropStatus,
     ContentHints,
@@ -110,10 +112,7 @@ export default {
 <template lang='pug'>
   vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '20%'", :left="$store.state.App.mobileTemplate ? '10%' : '20%'", :width="$store.state.App.mobileTemplate ? '80vw' : '500px'", :height="$store.state.App.mobileTemplate ? '70vh' : '500px'", :min-height="250", :min-width="300", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "computer"}')
     div.work-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "computer"}', @mousedown='activeWindow = "computer"')
-      div.window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
-        div.window-title Working
-        div.flex-grow-1
-        v-btn.close-button.secondary--text(@click='closeWindow', tile, color='accent', fab, depressed) X
+      window-bar(title='Work Station', @closeWindow='closeWindow')
       route-path(:activeWindow='currentWindow', :windowId='windowId', @stepBack='stepBack')
       //- pre {{windowsRoutes}}
       div.window-content

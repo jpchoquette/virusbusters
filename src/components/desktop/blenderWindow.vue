@@ -1,10 +1,13 @@
 <script>
 // import Blender from '@/mixins/blender.js'
 import VueResizable from 'vue-resizable'
+import WindowBar from '@/components/shared/windowBar.vue'
+
 export default {
   name: 'BlenderWindow',
   components: {
-    VueResizable
+    VueResizable,
+    WindowBar
   },
   data () {
     return {
@@ -41,10 +44,7 @@ export default {
 <template lang='pug'>
   vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '30%'", :left="$store.state.App.mobileTemplate ? '10%' : '30%'", :width="$store.state.App.mobileTemplate ? '80vw' : '600px'", :height="$store.state.App.mobileTemplate ? '70vh' : '500px'", :min-height="250", :min-width="250", drag-selector=".window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "blender"}')
     div.program-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "blender"}', @mousedown='activeWindow = "blender"')
-      div.window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
-        div.window-title Blender.exe
-        div.flex-grow-1
-        v-btn.close-button.secondary--text(@click='closeWindow', tile, color='accent', fab, depressed) X
+      window-bar(title='Blender.exe', @closeWindow='closeWindow')
       div.window-content.blender
         .empty-content__wrapper
           .title-placeholder.white--text WARNING!

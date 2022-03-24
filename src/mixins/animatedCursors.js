@@ -414,7 +414,7 @@ export default {
               )
               if (this.fullWords) {
                 // let currentWordIndex = this.wordIndex
-                console.log('wordInfex', this.canvWords[0][1].canv)
+                // console.log('wordInfex', this.canvWords[0][1].canv)
                 this.addParticle(
                   this.cursor.x + 30,
                   this.cursor.y + 30,

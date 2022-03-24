@@ -1,6 +1,7 @@
 <script>
 // import WaxLogin from '@/mixins/waxLogin.js'
 import VueResizable from 'vue-resizable'
+import WindowBar from '@/components/shared/windowBar.vue'
 import Wallpapers from '@/components/desktop/customization/wallpapers.vue'
 import Cursors from '@/components/desktop/customization/cursors.vue'
 import Themes from '@/components/desktop/customization/themes.vue'
@@ -9,6 +10,7 @@ export default {
   name: 'CustomizationWindow',
   components: {
     VueResizable,
+    WindowBar,
     Wallpapers,
     Cursors,
     Themes
@@ -49,14 +51,9 @@ export default {
 <template lang='pug'>
   vue-resizable(:top="$store.state.App.mobileTemplate ? '10%' : '10%'", :left="$store.state.App.mobileTemplate ? '10%' : '22%'", :width="$store.state.App.mobileTemplate ? '80vw' : '600px'", :height="$store.state.App.mobileTemplate ? '70vh' : '450px'", :min-height="250", :min-width="300", drag-selector="#window-top-bar", :class='{"active-window" : $store.state.Desktop.activeWindow === "customization"}')
     div.customization-window.desktop-window(:class='{"active-window" : $store.state.Desktop.activeWindow === "customization"}', @mousedown='activeWindow = "customization"')
-      //- LOGIN WAX
-      div.window-top-bar#window-top-bar(:class='{"active-gradient" : ($store.state.Customizations.activeTheme && $store.state.Customizations.activeTheme.data.gradients)}')
-        div.window-title Desktop Customizer
-        div.flex-grow-1
-        v-btn.close-button.secondary--text(@click='closeWindow', tile, color='accent', fab, depressed) X
+      window-bar(title='Desktop Customizer', @closeWindow='closeWindow')
       template
         transition(name='custom-classes-transition', enter-active-class='animate__animated animate__fadeIn animate__faster', leave-active-class='animate__animated animate__fadeOut animate__faster', mode='out-in')
-
           .window-content(v-if='!pageView')
             v-list(color='transparent')
               template(v-for='(setting, index) in settings')

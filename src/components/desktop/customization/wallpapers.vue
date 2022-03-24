@@ -206,8 +206,7 @@ export default {
                 span.red--text.i.f6(v-if='(!checkOwnership(wallpaper.template_id, wallpaper.type) && !wallpaper.public && !wallpaper.disabled)') Not owned
               div {{wallpaper.name}}
           v-list-item-action(v-if='(!checkOwnership(wallpaper.template_id, wallpaper.type) && !wallpaper.public && !wallpaper.disabled)')
-            v-btn(small, color='accent', depressed, @click='goToMarket(wallpaper.template_id, wallpaper.type)') Find on market
-               //- span(:class='$vuetify.theme.dark ? "white--text" : "red--text"') Find on market {{$vuetify.theme.dark}}
+            v-btn.secondary--text(small, color='accent', depressed, @click='goToMarket(wallpaper.template_id, wallpaper.type)') Find on market
         v-divider(v-if='index < filteredWallpapers.length - 1')
 </template>
 <style lang='sass'>

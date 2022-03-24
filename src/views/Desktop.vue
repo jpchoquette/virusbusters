@@ -202,6 +202,20 @@ export default {
       }
       this.buttonHint = false
     },
+    getBackgroundSize () {
+      if (this.$store.state.Customizations.activeWallpaperDisplayStyle === 'mosaic-background') {
+        if (this.$store.state.Customizations.activeWallpaper.data.mosaicSize) {
+          return this.$store.state.Customizations.activeWallpaper.data.mosaicSize
+        } else {
+          return null
+        }
+      } else if (this.$store.state.Customizations.activeWallpaper.data.defaultSize) {
+        return this.$store.state.Customizations.activeWallpaper.data.defaultSize
+      } else {
+        return null
+      }
+      // $store.state.Customizations.activeWallpaper.data.defaultSize
+    },
     toggleScreen () {
       this.screenState = !this.screenState
       this.menu = false
@@ -280,7 +294,7 @@ export default {
                   template(v-else)
                     //- div.top-wallpaper-gradient(v-if='$store.state.Customizations.activeWallpaper.data.bgGradient', :class='$store.state.Customizations.activeWallpaper.data.animatedGradient ? "animated-gradient" : ""')
                     div.wallpaper-gradient(v-if='$store.state.Customizations.activeWallpaper.data.bgGradient', :class='$store.state.Customizations.activeWallpaper.data.animatedGradient ? "animated-gradient" : ""', :style='{background: $store.state.Customizations.activeWallpaper.data.customGradient}')
-                    div.wallpaper-image(:style='{ backgroundImage:"url(" + require("@/assets/images/wallpapers/wallpaper_" + $store.state.Customizations.activeWallpaper.data.template_id + $store.state.Customizations.activeWallpaper.data.extension) + ")", backgroundSize: $store.state.Customizations.activeWallpaper.data.defaultSize }', :class='$store.state.Customizations.activeWallpaperDisplayStyle')
+                    div.wallpaper-image(:style='{ backgroundImage:"url(" + require("@/assets/images/wallpapers/wallpaper_" + $store.state.Customizations.activeWallpaper.data.template_id + $store.state.Customizations.activeWallpaper.data.extension) + ")", backgroundSize: getBackgroundSize() }', :class='$store.state.Customizations.activeWallpaperDisplayStyle')
                     template(v-if='$store.state.Customizations.activeWallpaper.data.texture')
                       div.pattern-image.primary(:style='{ backgroundImage:"url(" + require("@/assets/images/wallpapers/texture_" + $store.state.Customizations.activeWallpaper.data.template_id + $store.state.Customizations.activeWallpaper.data.extension) + ")" }')
                 img(v-else, src="@/assets/images/vb-animated-logo-light.gif", width='400px', max-width='400px', style='opacity:1;')
@@ -290,11 +304,11 @@ export default {
                 div.init-cursor-images(v-if='$store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && $store.state.Customizations.activeCursor.data.options && $store.state.Customizations.activeCursor.data.options.images && $store.state.Customizations.activeCursor.data.options.images.length')
                   template(v-for='(image, index) in $store.state.Customizations.activeCursor.data.options.images')
                     img.debug-images(:src='image')
-                .version-number v1.28
+                .version-number v1.29
                 template(v-if='userConnected')
                   icon-desktop(image='buster-icon.png', title='Desktop customizer', action='customization')
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')
-                  icon-desktop(image='desktop-icon-v1.png', title='My (Infected) Computer', action='computer', :private='false')
+                  icon-desktop(image='desktop-icon-v2.png', title='My (Infected) Computer', action='computer', :private='false')
                   icon-desktop(image='contacts-icon-v1.png', title="Buster's Friends", action='contacts', :private ='false')
                   //- icon-desktop(image='blender-icon-v1.png', title='My NFTs', action='collection', :private ='true')
                   //- icon-desktop(image='blender-icon-v1.png', title='Blender.exe', action='blender')
@@ -547,7 +561,7 @@ export default {
           background-size: cover
           &.mosaic-background
             background-repeat: repeat
-            background-size: 40% !important
+            background-size: 40%
           &.covering-background
             background-size: cover !important
             background-position: center

@@ -1,18 +1,26 @@
 <script>
-// import WaxLogin from '@/mixins/waxLogin.js'
+import WindowsPaths from '@/mixins/windowsPaths.js'
+import RoutePath from '@/components/desktop/work/routePath'
+
 import VueResizable from 'vue-resizable'
 export default {
   name: 'ContactsWindow',
   components: {
-    VueResizable
+    VueResizable,
+    RoutePath
   },
   data () {
     return {
+      activeRoute: null,
+      windowId: 'contactsWindow',
       detailedView: false,
       activeCollection: null,
       collections: [
         {
           title: 'cryptomonKeys',
+          routeName: 'computer',
+          level: 1,
+          bannerColor: '#1abe3e',
           signature: 'collabs/cryptomonkeys-signature.png',
           icon: 'collabs/cryptomonkeys-icon.png',
           date: '2021-02-17',
@@ -47,6 +55,9 @@ export default {
         },
         {
           title: 'Cat Stickers',
+          routeName: 'computer',
+          level: 1,
+          bannerColor: '#fca5a5',
           signature: 'collabs/catstickers-signature.svg',
           icon: 'collabs/catstickers-icon.png',
           date: '2021-03-08',
@@ -73,11 +84,43 @@ export default {
               image: this.$vuetify.theme.dark ? 'icons/discord-icon.svg' : 'icons/discord-icon-black.svg'
             }
           ]
+        },
+        {
+          title: 'Digital Ducks',
+          routeName: 'computer',
+          level: 1,
+          bannerColor: '#4056FF',
+          signature: 'collabs/digitalducks-signature.svg',
+          icon: 'collabs/digitalducks-icon.png',
+          date: '2021-03-08',
+          type: 'Collection',
+          links: [
+            {
+              title: 'Digital Ducks Website',
+              url: 'https://digital-duck.com/',
+              image: 'collabs/digitalducks-icon.png'
+            },
+            {
+              title: 'Atomic Hub Collection Page',
+              url: 'https://wax.atomichub.io/explorer/collection/digitalducks',
+              image: 'atomic-hub-icon.png'
+            },
+            {
+              title: 'Twitter',
+              url: 'https://twitter.com/StabbyQuack',
+              image: 'twitter-logo.svg'
+            },
+            {
+              title: 'Discord',
+              url: 'https://discord.com/invite/uUaQEhxPt4',
+              image: this.$vuetify.theme.dark ? 'icons/discord-icon.svg' : 'icons/discord-icon-black.svg'
+            }
+          ]
         }
       ]
     }
   },
-  // mixins: [WaxLogin],
+  mixins: [WindowsPaths],
   mounted () {
   },
   computed: {
@@ -88,6 +131,18 @@ export default {
     contactsWindow: {
       set (val) { this.$store.commit('Desktop/setContactsWindow', val) },
       get () { return this.$store.state.Desktop.contactsWindow }
+    },
+    windowsRoutes: {
+      set (val) { this.$store.commit('WindowsRoutes/setWindowsRoutes', val) },
+      get () { return this.$store.state.WindowsRoutes.windowsRoutes }
+    },
+    currentWindow () {
+      return this.windowsRoutes.find(route => route.value === this.windowId)
+    },
+    currentPath () {
+      const currentWindow = this.windowsRoutes.find(route => route.value === this.windowId)
+      const activeRoute = currentWindow.activePath[currentWindow.activePath.length - 1]
+      return activeRoute
     }
   },
   methods: {
@@ -96,15 +151,6 @@ export default {
     },
     openLink (link) {
       window.open(link, '_blank')
-    },
-    toggleCollection (index) {
-      if (index >= 0) {
-        this.activeCollection = this.collections[index]
-        this.detailedView = true
-      } else {
-        this.activeCollection = null
-        this.detailedView = false
-      }
     }
   }
 }
@@ -117,31 +163,24 @@ export default {
         div.window-title Buster's Friends
         div.flex-grow-1
         v-btn.close-button.secondary--text(@click='closeWindow', tile, color='accent', fab, depressed) X
+      route-path(:activeWindow='currentWindow', :windowId='windowId', @stepBack='stepBack')
       div.window-content
-        div.collections_wrapper(v-if='!detailedView')
-          //- span Allo
+        div.collections_wrapper(v-if='currentPath && currentPath.level === 0')
           template(v-for='(col, index) in collections')
-            div.collection-icon.pointer(@click='toggleCollection(index)')
+            div.collection-icon.pointer(@click='updateRoute(windowId, col)')
               v-img.collection-image(:src="require('@/assets/images/' + col.icon)", width='50px', height='50px', contain, style='max-width: 50px')
               div.collection-title {{col.title}}
           template(v-for='(col, index) in 1')
             div.collection-icon.pointer(@click='')
               div.fallback-image()
                 span ?
-              //- v-img.collection-image(:src="require('@/assets/images/' + col.icon)", width='50px', height='50px', contain, style='max-width: 50px')
               div.collection-title Coming soon!
-        div.collection_wrapper(v-else-if='detailedView && activeCollection')
-          div.header__wrapper
-            v-btn(@click='toggleCollection()', outlined) < All contacts
-            //- div.header-title Cursors!
-          //- v-btn(@click='toggleCollection()') All contacts
+        div.collection_wrapper(v-else-if='currentPath && currentPath.level === 1')
           div.quicklinks__wrapper
-            div.collection-header
-              v-img(:src="require('@/assets/images/' + activeCollection.signature)", width='100%', height='100px', contain, style='max-width: 300px', alt='activeCollection.title')
-
-              //- div {{activeCollection.title}}
+            div.collection-header(:style='{backgroundColor: currentPath.bannerColor}')
+              v-img(:src="require('@/assets/images/' + currentPath.signature)", width='100%', height='80px', contain, style='max-width: 300px', alt='activeCollection.title')
             v-list(color='transparent')
-              template(v-for='(link, index) in activeCollection.links')
+              template(v-for='(link, index) in currentPath.links')
                 v-list-item.pointer(@click='openLink(link.url)')
                   v-list-item-content
                     div.row-wrapper
@@ -175,9 +214,12 @@ export default {
           justify-content: center
           height: 50px
           width: 50px
-          font-size: 30px
+          font-size: 24px
           font-family: $display-font
           line-height: 1
+          background-color: black
+          border-radius: 25px
+          color: white
         .collection-image
           height: 50px
           max-height: 50px !important
@@ -205,7 +247,9 @@ export default {
       flex-direction: column
       justify-content: center
       align-items: center
-      // ---
+      padding: 10px
+      border-radius: $border-radius-root
+      margin-bottom: 10px
     .collection_wrapper
       .quicklinks__wrapper
         display: flex

@@ -10,6 +10,17 @@ const state = {
           level: 0
         }
       ]
+    },
+    {
+      name: 'Buster Friends',
+      value: 'contactsWindow',
+      activePath: [
+        {
+          title: "Buster's Friends",
+          routeName: 'default',
+          level: 0
+        }
+      ]
     }
 
   ]

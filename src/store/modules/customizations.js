@@ -144,20 +144,6 @@ const state = {
         particleType: 'image'
       }
     },
-    // {
-    //   template_id: '0005',
-    //   disabled: false,
-    //   public: true,
-    //   name: 'Test String',
-    //   rarity: '',
-    //   type: 'string',
-    //   customCursor: true,
-    //   class: 'cursor-paw',
-    //   image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAX9JREFUWIWtl7uNwzAMhiUjixjIDC5TuMgEqS4DeCYPkFSZ4IoUV2aGABnFVwQSKIov0forw5T8f5JJPWLYqXmcNur98/OKlv5sI+7DrdJAyGCr+fp7y8/L+doEUQWwOfw4ZULFKRAOonhpMYcGUtwKwQJoH4c6/t3z8/v0w0KYAbC5ZABjHoih6o2EDShDrY8kFcBscFnY9nBGcZ4NXMBqkKf7sX7bCCCUImcOqfOI08cfq5gLOJZE5UK0lp7FQJMK0FJ6XiWIBHCgzK2j1bJd6juP0/b8vGJVBday61WOpjL0rAVcW/ybeQCmnFrMNc3jtGWAlBx767pV5AwUEKDme40e/oZqIZJK0QOgLUoHMqrpsnxnx2gmaQih3CKpI1WllB9OQQ8yBziIYoQoSb3LcwbABwXzTBC/QhLeD4oZsEBQI/WOPgTjsbzXJkXuhlzjnhDSXUG8tfSA0C4q6v3NAyElMM4z0wVSO7JpppRxEwAHYZHrcroXxHo1DyGEf3Zn6PH3XVv6AAAAAElFTkSuQmCC',
-    //   options: {
-    //     image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAADRJREFUWIXtzjEKACAMA8DW//laH6ijgquow90WGkgjeCzX0KP2eWi5188rN0a+fgAAAIAB+zQDBul6nxoAAAAASUVORK5CYII='
-    //   }
-    // },
     {
       template_id: '453601',
       disabled: false,
@@ -204,6 +190,35 @@ const state = {
         gravity: 80,
         hideTrailOnClick: true,
         customCursorOnClick: true
+      }
+    },
+    {
+      template_id: '473469',
+      disabled: false,
+      public: false,
+      name: 'Butter Knife Cursor',
+      customCursor: true,
+      class: 'cursor-knife',
+      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABSZJREFUWEeVV01vG1UUPW9MyoIAQlB5BiE8XiAlEhJImQ+EUOwkQl3FdBXUsmRJ/wkrJLquEK1QWyD+WECLEjuVEIrtVCCUFqmLsasuQFlAVRZNIfOqe9+b8cx4/NFZjWfee3Pvueecey0w4dqwfSkhsTvoCkAAkKmV40/odfZp8re6z1uROnij7ElIgROcoIACb9rhIJ7lyv/YhBApQRknuGF7cmfYw6mFBTx58gTrZR+QERJ5WKQDy0Nm2rNUZutlX4byBJ1hHzd++BEfnT2Lx8fH2LA97AT7aRRS6AoOcnSlPzmtgKNDBbBu+7Id7KPRasEsFvk8z/NQLbswpMDuoEdfUt+JdtLP5H1OpUYFoZfjXOItBD2EoHqj2+2qYygrIeB7Lqolh7/U5iBmZTg/X2IE1m1P/nz/Nr5tfI+iaaUTlJKRWCt7IILuDjLlyENEZoCPfuY85nCp/u3BPhqNJkzThKAQIsAZCV2OkosOo5C95pGqXpNYGsNJAewGXbSaDZiWCUkZ6LdUCvrpez6qtgMpJTqDfrw3X/35TpGVYpwJGc/OkAJo8gcs01S2QRLV3KHFrg6C7hUfJpJ/KhGEFk6cxZrtyF//vIevrl9mplqmpQ8gP6Q4BKSQHI/ne6iWXNAbhUQ2r3kKlBYTq0AKAZZhs8XwW2aRS0HRUlCMiAbE95Uy2nEA8zI/SYCIafrUyAUb9TqEYbAMLcvUJwu9ilAQcEmaZRf0tB1oFCaUfS4jokXrZU+GCNEJDtBoNrVFC5hWUZdAe44mpUd8IH8QEp0oiBnlyCNsCrtq2ZG3gtsM+Ha9jkJBIWFaFsPPFdDEVEiQPziKDxTEZPLn1mi0QW9cs1129b1Bj12wvr0NUSgw1GYxUY6IvpLkSXbtcHQjZUwBPu0D44FRSw4l2W4XC88V8N32turlEijGnFC2LoTiw9KrNqzF17hG7eBAszUZBOWqFJVV7uh3Yn2VBhIR4lbQ4031RgMGyUFAO6UaL7iTs0l5bFKqK0Y9Y5oy0i0qV7gUBH2gM+zywfVGHYagIYWCUN2SpEt9QilVYvHUC3BffxsSJ3NJlFPKgyayiartSoGQsyVesEdo3xE8tAnUapvo9br44L33cRz+z62bJCoRJsoxDn2yk880s6rtcLvuBH00W00mQG2zxplT+6YyvPzFAEuXt5i8hAaVxEABO4numWbFaJTIL1a8Wt2QQmjh73/dw9+PH2K1tMLTEx1z59xVLH+zhZ9qF/Hmi6fhX/sU//z3CGslVxMz3TciBszVVpPwrJWpJAZOZBhPuXvDA76/sXkRbyyeBllHGAp8/tvXuHTYQsVe4SD2ggOR1UFOABEYs9qpel9hjlBTOsCd81djJOmtUQDuPzzCh83PsGo7KHCvSSBBDORjntG9svWiIAzWfx93P7kWz33kEQSUMCSWrnyMd8238MrzL7E6ok8qBNKTeeL8aQpJh1Hh0oCmJdw9R0GoS801IYQwsHxlCxXbYeJyA4sGHo4hmqzjm1QcyvUyM+3ISpS/cRAS2Bv2cHj+us5NVf3Bv0e49EcTN4e/4B1rGbt6zI85MF8VdOvgxVlTVVBW7BVGYm/QxyGVQ4v9waMjnGleQKXs6BFf/duaQsJ8Zc7QK5+4WnKlweXo42btyxi5M60LqJB0E0OMDiA//4gg4y0kG8b4/krZUUgEfbZrck2VvaH/8Gpxj22dRMjEwtSeKbUjz4hmiIIwuBpR7ZNin/2Pc5yPk+szD5kSa54CLpxORed+rQMAAAAASUVORK5CYII='
+    },
+    {
+      template_id: '0000003334',
+      disabled: true,
+      public: false,
+      name: 'Upgraded Butter Knife Cursor',
+      type: 'dust',
+      customCursor: true,
+      class: 'cursor-knife',
+      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABSZJREFUWEeVV01vG1UUPW9MyoIAQlB5BiE8XiAlEhJImQ+EUOwkQl3FdBXUsmRJ/wkrJLquEK1QWyD+WECLEjuVEIrtVCCUFqmLsasuQFlAVRZNIfOqe9+b8cx4/NFZjWfee3Pvueecey0w4dqwfSkhsTvoCkAAkKmV40/odfZp8re6z1uROnij7ElIgROcoIACb9rhIJ7lyv/YhBApQRknuGF7cmfYw6mFBTx58gTrZR+QERJ5WKQDy0Nm2rNUZutlX4byBJ1hHzd++BEfnT2Lx8fH2LA97AT7aRRS6AoOcnSlPzmtgKNDBbBu+7Id7KPRasEsFvk8z/NQLbswpMDuoEdfUt+JdtLP5H1OpUYFoZfjXOItBD2EoHqj2+2qYygrIeB7Lqolh7/U5iBmZTg/X2IE1m1P/nz/Nr5tfI+iaaUTlJKRWCt7IILuDjLlyENEZoCPfuY85nCp/u3BPhqNJkzThKAQIsAZCV2OkosOo5C95pGqXpNYGsNJAewGXbSaDZiWCUkZ6LdUCvrpez6qtgMpJTqDfrw3X/35TpGVYpwJGc/OkAJo8gcs01S2QRLV3KHFrg6C7hUfJpJ/KhGEFk6cxZrtyF//vIevrl9mplqmpQ8gP6Q4BKSQHI/ne6iWXNAbhUQ2r3kKlBYTq0AKAZZhs8XwW2aRS0HRUlCMiAbE95Uy2nEA8zI/SYCIafrUyAUb9TqEYbAMLcvUJwu9ilAQcEmaZRf0tB1oFCaUfS4jokXrZU+GCNEJDtBoNrVFC5hWUZdAe44mpUd8IH8QEp0oiBnlyCNsCrtq2ZG3gtsM+Ha9jkJBIWFaFsPPFdDEVEiQPziKDxTEZPLn1mi0QW9cs1129b1Bj12wvr0NUSgw1GYxUY6IvpLkSXbtcHQjZUwBPu0D44FRSw4l2W4XC88V8N32turlEijGnFC2LoTiw9KrNqzF17hG7eBAszUZBOWqFJVV7uh3Yn2VBhIR4lbQ4031RgMGyUFAO6UaL7iTs0l5bFKqK0Y9Y5oy0i0qV7gUBH2gM+zywfVGHYagIYWCUN2SpEt9QilVYvHUC3BffxsSJ3NJlFPKgyayiartSoGQsyVesEdo3xE8tAnUapvo9br44L33cRz+z62bJCoRJsoxDn2yk880s6rtcLvuBH00W00mQG2zxplT+6YyvPzFAEuXt5i8hAaVxEABO4numWbFaJTIL1a8Wt2QQmjh73/dw9+PH2K1tMLTEx1z59xVLH+zhZ9qF/Hmi6fhX/sU//z3CGslVxMz3TciBszVVpPwrJWpJAZOZBhPuXvDA76/sXkRbyyeBllHGAp8/tvXuHTYQsVe4SD2ggOR1UFOABEYs9qpel9hjlBTOsCd81djJOmtUQDuPzzCh83PsGo7KHCvSSBBDORjntG9svWiIAzWfx93P7kWz33kEQSUMCSWrnyMd8238MrzL7E6ok8qBNKTeeL8aQpJh1Hh0oCmJdw9R0GoS801IYQwsHxlCxXbYeJyA4sGHo4hmqzjm1QcyvUyM+3ISpS/cRAS2Bv2cHj+us5NVf3Bv0e49EcTN4e/4B1rGbt6zI85MF8VdOvgxVlTVVBW7BVGYm/QxyGVQ4v9waMjnGleQKXs6BFf/duaQsJ8Zc7QK5+4WnKlweXo42btyxi5M60LqJB0E0OMDiA//4gg4y0kG8b4/krZUUgEfbZrck2VvaH/8Gpxj22dRMjEwtSeKbUjz4hmiIIwuBpR7ZNin/2Pc5yPk+szD5kSa54CLpxORed+rQMAAAAASUVORK5CYII=',
+      options: {
+        fullWords: true,
+        colors: ['#422136'],
+        chars: ['!asd', '@asd', '#wwww', '$wewewe', '%wewe'],
+        randomColors: false,
+        randomChars: false,
+        fontStyle: '30px DayDream',
+        distance: 100,
+        gravity: 0.02
       }
     }
   ],
@@ -324,6 +339,23 @@ const state = {
         toolbars: '#afd2ff',
         grey: '#c2c3c7'
       }
+    },
+    {
+      template_id: '473471',
+      name: 'Digital Ducks theme',
+      gradients: false,
+      darkMode: false,
+      disabled: false,
+      public: false,
+      colors: {
+        primary: '#FFE040',
+        tertiary: '#000',
+        secondary: '#4056FF',
+        light: '#fff',
+        accent: '#FFE040',
+        toolbars: '#4056FF',
+        grey: '#c2c3c7'
+      }
     }
   ],
   // ------------------------------------------------------------ Wallpapers
@@ -416,6 +448,7 @@ const state = {
       extension: '.svg',
       defaultDisplayStyle: 'centered-background',
       defaultSize: '40%',
+      mosaicSize: '50%',
       bgGradient: true,
       customGradient: 'linear-gradient(70deg, rgba(188,102,53,1) 10%, rgba(241,163,49,1) 28%, rgba(255,254,181,1) 33%, rgba(255,255,255,1) 34%, rgba(255,254,181,1) 35%, rgba(241,163,49,1) 40%, rgba(255,205,92,1) 48%, rgba(234,155,50,1) 57%, rgba(197,112,53,1) 67%, rgba(241,163,49,1) 85%, rgba(188,102,53,1) 100%)',
       animatedGradient: true,
@@ -424,6 +457,19 @@ const state = {
       disabled: false,
       texture: false,
       textureSize: '40%'
+    },
+    {
+      template_id: '473470',
+      name: 'Digital Ducks Wallpaper',
+      type: 'wallpaper',
+      extension: '.png',
+      defaultDisplayStyle: 'centered',
+      defaultSize: '50%',
+      mosaicSize: '15%',
+      bgColor: '#FFE040',
+      public: false,
+      disabled: false,
+      texture: false
     }
   ]
 }

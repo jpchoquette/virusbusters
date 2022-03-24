@@ -93,7 +93,7 @@ export default {
                 span.red--text.i.f6(v-if='(!checkOwnership(theme.template_id) && !theme.public && !theme.disabled)') Not owned
               div {{theme.name}}
           v-list-item-action(v-if='(!checkOwnership(theme.template_id) && !theme.public && !theme.disabled)')
-            v-btn(small, color='accent', depressed, @click='goToMarket(theme.template_id)') Find on market
+            v-btn.secondary--text(small, color='accent', depressed, @click='goToMarket(theme.template_id)') Find on market
         v-divider(v-if='index < $store.state.Customizations.themeStyles.length - 1')
 </template>
 <style lang='sass'>

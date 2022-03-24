@@ -17,6 +17,7 @@ export default {
       particles: [],
       baseImage: new Image(),
       canvImages: [],
+      canvWords: [],
       dustColors: [
         '#D61C59',
         '#E7D84B',
@@ -25,6 +26,7 @@ export default {
       charList: [
         '!', '%', '$', '&', '?', '*'
       ],
+      fullWords: false,
       char: '!',
       distance: 100,
       decay: 10,
@@ -32,6 +34,7 @@ export default {
       randomChars: false,
       counter: 0,
       counter2: 0,
+      wordCounter: 0,
       gravity: 1,
       fontStyle: '40px Daydream',
       fade: true,
@@ -124,6 +127,9 @@ export default {
       }
       if (options.images) {
         this.images = options.images
+      }
+      if (options.fullWords) {
+        this.fullWords = options.fullWords
       }
       setTimeout(() => {
         this.init(this.type)
@@ -233,7 +239,7 @@ export default {
         } else {
           // ---------------------------------------------
           // on check les chars
-          this.charList.forEach((char) => {
+          this.charList.forEach((char, index) => {
             if (this.randomColors) {
               this.counter = Math.floor(Math.random() * this.dustColors.length)
             } else if (this.counter < (this.dustColors.length - 1)) {
@@ -241,26 +247,60 @@ export default {
             } else {
               this.counter = 0
             }
-            const measurements = this.context.measureText(char)
-            const bgCanvas = document.createElement('canvas')
-            const bgContext = bgCanvas.getContext('2d')
+            if (this.fullWords) {
+              const canvWord = []
+              for (let i = 0; i < char.length; i++) {
+                const tempWord = {
+                  name: 'test-' + i
+                }
+                const measurements = this.context.measureText(char)
+                const bgCanvas = document.createElement('canvas')
+                const bgContext = bgCanvas.getContext('2d')
 
-            bgCanvas.setAttribute('id', 'bgCanvas')
-            bgCanvas.width = measurements.width
-            bgCanvas.height =
-              measurements.actualBoundingBoxAscent +
-              measurements.actualBoundingBoxDescent
+                bgCanvas.setAttribute('id', 'bgCanvas')
+                bgCanvas.width = measurements.width
+                bgCanvas.height =
+                  measurements.actualBoundingBoxAscent +
+                  measurements.actualBoundingBoxDescent
 
-            bgContext.fillStyle = this.dustColors[this.counter]
-            bgContext.textAlign = 'center'
-            bgContext.font = this.fontStyle
-            bgContext.textBaseline = 'middle'
-            bgContext.fillText(
-              char,
-              bgCanvas.width / 2,
-              measurements.actualBoundingBoxAscent
-            )
-            this.canvImages.push(bgCanvas)
+                bgContext.fillStyle = this.dustColors[this.counter]
+                bgContext.textAlign = 'center'
+                bgContext.font = this.fontStyle
+                bgContext.textBaseline = 'middle'
+                bgContext.fillText(
+                  char,
+                  bgCanvas.width / 2,
+                  measurements.actualBoundingBoxAscent
+                )
+                tempWord.canv = bgCanvas
+                canvWord.push(tempWord)
+                console.log('canvWord', canvWord)
+              }
+              this.canvWords.push(canvWord)
+              console.log('this.canv', this.canvImages[0])
+              // console.log('char', char, this.canvImages)
+            } else {
+              const measurements = this.context.measureText(char)
+              const bgCanvas = document.createElement('canvas')
+              const bgContext = bgCanvas.getContext('2d')
+
+              bgCanvas.setAttribute('id', 'bgCanvas')
+              bgCanvas.width = measurements.width
+              bgCanvas.height =
+                measurements.actualBoundingBoxAscent +
+                measurements.actualBoundingBoxDescent
+
+              bgContext.fillStyle = this.dustColors[this.counter]
+              bgContext.textAlign = 'center'
+              bgContext.font = this.fontStyle
+              bgContext.textBaseline = 'middle'
+              bgContext.fillText(
+                char,
+                bgCanvas.width / 2,
+                measurements.actualBoundingBoxAscent
+              )
+              this.canvImages.push(bgCanvas)
+            }
           })
         }
       // SPRING ----------------------------------------
@@ -372,7 +412,15 @@ export default {
                 this.cursor.y + 30,
                 this.canvImages[this.indexCounter(this.charList.length)]
               )
-              if (this.randomChars && this.counter2 >= (this.charList.length - 1)) {
+              if (this.fullWords) {
+                // let currentWordIndex = this.wordIndex
+                console.log('wordInfex', this.canvWords[0][1].canv)
+                this.addParticle(
+                  this.cursor.x + 30,
+                  this.cursor.y + 30,
+                  this.canvWords[0][1].canv
+                )
+              } else if (this.randomChars && this.counter2 >= (this.charList.length - 1)) {
                 this.shuffleArray(this.canvImages)
               }
             }
@@ -433,7 +481,7 @@ export default {
         }
       })
     },
-    indexCounter (qty, random, repeat, delay) {
+    indexCounter (qty, random, delay) {
       if (random) {
         this.counter2 = Math.floor(Math.random() * (qty - 1))
       } else if (this.counter2 < (qty - 1)) {
@@ -442,6 +490,16 @@ export default {
         this.counter2 = 0
       }
       return this.counter2
+    },
+    indexCounterWord (qty, random, delay) {
+      if (random) {
+        this.wordCounter = Math.floor(Math.random() * (qty - 1))
+      } else if (this.wordCounter < (qty - 1)) {
+        this.wordCounter++
+      } else {
+        this.wordCounter = 0
+      }
+      return this.wordCounter
     },
     shuffleArray (arr) {
       for (let i = arr.length - 1; i > 0; i--) {

@@ -92,7 +92,7 @@ export default {
                   span.red--text.i.f6(v-if='(!checkOwnership(cursor.template_id) && !cursor.public && !cursor.disabled)') Not owned
                 div {{cursor.name}}
             v-list-item-action(v-if='(!checkOwnership(cursor.template_id) && !cursor.public && !cursor.disabled)')
-              v-btn(small, color='accent', depressed, @click='goToMarket(cursor.template_id)') Find on market
+              v-btn.secondary--text(small, color='accent', depressed, @click='goToMarket(cursor.template_id)') Find on market
 
           v-divider(v-if='index < $store.state.Customizations.cursorStyles.length - 1')
 </template>

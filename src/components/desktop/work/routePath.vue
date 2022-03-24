@@ -21,7 +21,7 @@ export default {
     //   return this.windowsRoutes.find(route => route.value === this.windowId)
     // },
     currentLevel () {
-      if (this.activeWindow && this.activeWindow.activePath.length) {
+      if (this.activeWindow && this.activeWindow.activePath && this.activeWindow.activePath.length) {
         return this.activeWindow.activePath.length - 1
       } else {
         return 0
@@ -49,6 +49,7 @@ export default {
   .routes-path__wrapper
     button.step-back__button(@click='updateStepBack()', :disabled='currentLevel <= 0') <
     div.route
+      //- pre {{activeWindow}}
       template(v-for='(route,index) in activeWindow.activePath')
         .pointer.route-elem(@click='updateStepBack(route.level)') {{route.title}}
         div(v-if='index < activeWindow.activePath.length - 1') >

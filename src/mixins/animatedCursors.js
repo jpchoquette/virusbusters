@@ -67,7 +67,9 @@ export default {
       shiftValue: 30,
       drawEffects: true,
       hideTrailOnClick: false,
-      customCursorOnClick: false
+      customCursorOnClick: false,
+      activateOnClick: false,
+      interval: null
     }
   },
   methods: {
@@ -85,9 +87,7 @@ export default {
         this.height = window.innerHeight
         this.cursor = { x: this.width / 2, y: this.width / 2 }
         this.lastPos = { x: this.width / 2, y: this.width / 2 }
-        if (options && options.customCursorOnClick) {
-          this.customCursorOnClick = options.customCursorOnClick
-        }
+
         if (!document.getElementById('cursorCanvas')) {
           if (this.type === 'dust') {
             this.dustCursor(options)
@@ -99,6 +99,13 @@ export default {
             this.stringCursor(options)
           }
         }
+      }
+      if (type === 'base' && options && options.customCursorOnClick) {
+        setTimeout(() => {
+          this.customCursorOnClick = options.customCursorOnClick
+          // console.log('cursorClick', options.customCursorOnClick)
+          this.bindBaseEvents()
+        }, 1000)
       }
     },
     dustCursor (options) {
@@ -130,6 +137,9 @@ export default {
       }
       if (options.fullWords) {
         this.fullWords = options.fullWords
+      }
+      if (options.activateOnClick) {
+        this.activateOnClick = options.activateOnClick
       }
       setTimeout(() => {
         this.init(this.type)
@@ -358,6 +368,11 @@ export default {
       this.cursorElement.addEventListener('touchstart', this.onTouchMove)
       window.addEventListener('resize', this.onWindowResize)
     },
+    // Base events for click effect on base cursors
+    bindBaseEvents () {
+      window.addEventListener('mousedown', this.onMouseDown)
+      window.addEventListener('mouseup', this.onMouseUp)
+    },
     onWindowResize (e) {
       this.width = window.innerWidth
       this.height = window.innerHeight
@@ -381,6 +396,61 @@ export default {
       }
     },
     onMouseMove (e) {
+      if (!this.activateOnClick) {
+        this.launchEffect(e)
+      }
+    },
+    onMouseDown (e) {
+      window.requestAnimationFrame(() => {
+        // this.cursorClick = true
+        if (this.customCursorOnClick) {
+          this.cursorClick = true
+        }
+        if (this.type === 'spring') {
+          if (this.hideTrailOnClick) {
+            this.shiftValue = 0
+            this.GRAVITY = 0
+            this.drawEffects = false
+          }
+        } else if (this.type === 'ghost') {
+          //
+        } else if (this.type === 'string') {
+          //
+        }
+        if (this.activateOnClick) {
+          if (this.interval) {
+            clearInterval(this.interval)
+          }
+          this.interval = setInterval(() => {
+            this.launchEffect(e)
+          }, 500)
+        }
+      })
+    },
+    onMouseUp (e) {
+      // if (this.activateOnClick) {
+      // }
+      clearInterval(this.interval)
+      window.requestAnimationFrame(() => {
+        // this.cursorClick = false
+        if (this.customCursorOnClick) {
+          this.cursorClick = false
+        }
+        if (this.type === 'spring') {
+          if (this.hideTrailOnClick) {
+            this.drawEffects = true
+            this.shiftValue = 50
+            this.GRAVITY = 1
+          }
+        } else if (this.type === 'ghost') {
+          //
+        } else if (this.type === 'string') {
+          //
+        }
+      })
+    },
+    launchEffect (e) {
+      // this.launchEffect(e)
       window.requestAnimationFrame(() => {
         if (this.hasWrapperEl) {
           const boundingRect = this.cursorElement.getBoundingClientRect()
@@ -396,7 +466,7 @@ export default {
             (this.cursor.y - this.lastPos.y)
           )
 
-          if (distBetweenPoints > this.distance) {
+          if ((distBetweenPoints > this.distance) || this.activateOnClick) {
             if (this.particleType && this.particleType === 'image') {
               this.addParticle(
                 this.cursor.x + 30,
@@ -442,42 +512,6 @@ export default {
           }, '')
           polyline.setAttribute('points', pathString)
           if (this.points.length > this.MAX_POINTS) this.points.shift()
-        }
-      })
-    },
-    onMouseDown (e) {
-      window.requestAnimationFrame(() => {
-        if (this.customCursorOnClick) {
-          this.cursorClick = true
-        }
-        if (this.type === 'spring') {
-          if (this.hideTrailOnClick) {
-            this.shiftValue = 0
-            this.GRAVITY = 0
-            this.drawEffects = false
-          }
-        } else if (this.type === 'ghost') {
-          //
-        } else if (this.type === 'string') {
-          //
-        }
-      })
-    },
-    onMouseUp (e) {
-      window.requestAnimationFrame(() => {
-        if (this.customCursorOnClick) {
-          this.cursorClick = false
-        }
-        if (this.type === 'spring') {
-          if (this.hideTrailOnClick) {
-            this.drawEffects = true
-            this.shiftValue = 50
-            this.GRAVITY = 1
-          }
-        } else if (this.type === 'ghost') {
-          //
-        } else if (this.type === 'string') {
-          //
         }
       })
     },
@@ -763,6 +797,8 @@ export default {
       this.RESISTANCE = 1
       this.GRAVITY = 10
       this.hideTrailOnClick = false
+      this.fullWords = false
+      this.activateOnClick = false
     }
   }
 }

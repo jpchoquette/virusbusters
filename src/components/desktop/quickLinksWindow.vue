@@ -55,6 +55,13 @@ export default {
           image: 'icons/discord-icon-black.svg',
           date: '2021-11-01',
           type: 'Link'
+        },
+        {
+          title: 'Eneftix - Vote for us!',
+          url: 'https://eneftix.io/p/virus-busters/',
+          image: 'icons/links-icon-v1.png',
+          date: '2021-11-01',
+          type: 'Link'
         }
       ]
     }

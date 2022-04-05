@@ -296,7 +296,7 @@ export default {
                     div.wallpaper-gradient(v-if='$store.state.Customizations.activeWallpaper.data.bgGradient', :class='$store.state.Customizations.activeWallpaper.data.animatedGradient ? "animated-gradient" : ""', :style='{background: $store.state.Customizations.activeWallpaper.data.customGradient}')
                     div.wallpaper-image(:style='{ backgroundImage:"url(" + require("@/assets/images/wallpapers/wallpaper_" + $store.state.Customizations.activeWallpaper.data.template_id + $store.state.Customizations.activeWallpaper.data.extension) + ")", backgroundSize: getBackgroundSize() }', :class='$store.state.Customizations.activeWallpaperDisplayStyle')
                     template(v-if='$store.state.Customizations.activeWallpaper.data.texture')
-                      div.pattern-image.primary(:style='{ backgroundImage:"url(" + require("@/assets/images/wallpapers/texture_" + $store.state.Customizations.activeWallpaper.data.template_id + $store.state.Customizations.activeWallpaper.data.extension) + ")" }')
+                      div.pattern-image.primary(:style='{ opacity: $store.state.Customizations.activeWallpaper.data.textureOpacity,  backgroundImage:"url(" + require("@/assets/images/wallpapers/texture_" + $store.state.Customizations.activeWallpaper.data.template_id + ($store.state.Customizations.activeWallpaper.data.textureExtension ? $store.state.Customizations.activeWallpaper.data.textureExtension : ".png")) + ")" }')
                 img(v-else, src="@/assets/images/vb-animated-logo-light.gif", width='400px', max-width='400px', style='opacity:1;')
 
               .window-content
@@ -304,7 +304,7 @@ export default {
                 div.init-cursor-images(v-if='$store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && $store.state.Customizations.activeCursor.data.options && $store.state.Customizations.activeCursor.data.options.images && $store.state.Customizations.activeCursor.data.options.images.length')
                   template(v-for='(image, index) in $store.state.Customizations.activeCursor.data.options.images')
                     img.debug-images(:src='image')
-                .version-number v1.30
+                .version-number v1.31
                 template(v-if='userConnected')
                   icon-desktop(image='buster-icon.png', title='Desktop customizer', action='customization')
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')

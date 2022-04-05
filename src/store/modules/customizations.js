@@ -197,6 +197,7 @@ const state = {
       disabled: false,
       public: false,
       name: 'Butter Knife Cursor',
+      type: 'base',
       customCursor: true,
       class: 'cursor-knife',
       image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABSZJREFUWEeVV01vG1UUPW9MyoIAQlB5BiE8XiAlEhJImQ+EUOwkQl3FdBXUsmRJ/wkrJLquEK1QWyD+WECLEjuVEIrtVCCUFqmLsasuQFlAVRZNIfOqe9+b8cx4/NFZjWfee3Pvueecey0w4dqwfSkhsTvoCkAAkKmV40/odfZp8re6z1uROnij7ElIgROcoIACb9rhIJ7lyv/YhBApQRknuGF7cmfYw6mFBTx58gTrZR+QERJ5WKQDy0Nm2rNUZutlX4byBJ1hHzd++BEfnT2Lx8fH2LA97AT7aRRS6AoOcnSlPzmtgKNDBbBu+7Id7KPRasEsFvk8z/NQLbswpMDuoEdfUt+JdtLP5H1OpUYFoZfjXOItBD2EoHqj2+2qYygrIeB7Lqolh7/U5iBmZTg/X2IE1m1P/nz/Nr5tfI+iaaUTlJKRWCt7IILuDjLlyENEZoCPfuY85nCp/u3BPhqNJkzThKAQIsAZCV2OkosOo5C95pGqXpNYGsNJAewGXbSaDZiWCUkZ6LdUCvrpez6qtgMpJTqDfrw3X/35TpGVYpwJGc/OkAJo8gcs01S2QRLV3KHFrg6C7hUfJpJ/KhGEFk6cxZrtyF//vIevrl9mplqmpQ8gP6Q4BKSQHI/ne6iWXNAbhUQ2r3kKlBYTq0AKAZZhs8XwW2aRS0HRUlCMiAbE95Uy2nEA8zI/SYCIafrUyAUb9TqEYbAMLcvUJwu9ilAQcEmaZRf0tB1oFCaUfS4jokXrZU+GCNEJDtBoNrVFC5hWUZdAe44mpUd8IH8QEp0oiBnlyCNsCrtq2ZG3gtsM+Ha9jkJBIWFaFsPPFdDEVEiQPziKDxTEZPLn1mi0QW9cs1129b1Bj12wvr0NUSgw1GYxUY6IvpLkSXbtcHQjZUwBPu0D44FRSw4l2W4XC88V8N32turlEijGnFC2LoTiw9KrNqzF17hG7eBAszUZBOWqFJVV7uh3Yn2VBhIR4lbQ4031RgMGyUFAO6UaL7iTs0l5bFKqK0Y9Y5oy0i0qV7gUBH2gM+zywfVGHYagIYWCUN2SpEt9QilVYvHUC3BffxsSJ3NJlFPKgyayiartSoGQsyVesEdo3xE8tAnUapvo9br44L33cRz+z62bJCoRJsoxDn2yk880s6rtcLvuBH00W00mQG2zxplT+6YyvPzFAEuXt5i8hAaVxEABO4numWbFaJTIL1a8Wt2QQmjh73/dw9+PH2K1tMLTEx1z59xVLH+zhZ9qF/Hmi6fhX/sU//z3CGslVxMz3TciBszVVpPwrJWpJAZOZBhPuXvDA76/sXkRbyyeBllHGAp8/tvXuHTYQsVe4SD2ggOR1UFOABEYs9qpel9hjlBTOsCd81djJOmtUQDuPzzCh83PsGo7KHCvSSBBDORjntG9svWiIAzWfx93P7kWz33kEQSUMCSWrnyMd8238MrzL7E6ok8qBNKTeeL8aQpJh1Hh0oCmJdw9R0GoS801IYQwsHxlCxXbYeJyA4sGHo4hmqzjm1QcyvUyM+3ISpS/cRAS2Bv2cHj+us5NVf3Bv0e49EcTN4e/4B1rGbt6zI85MF8VdOvgxVlTVVBW7BVGYm/QxyGVQ4v9waMjnGleQKXs6BFf/duaQsJ8Zc7QK5+4WnKlweXo42btyxi5M60LqJB0E0OMDiA//4gg4y0kG8b4/krZUUgEfbZrck2VvaH/8Gpxj22dRMjEwtSeKbUjz4hmiIIwuBpR7ZNin/2Pc5yPk+szD5kSa54CLpxORed+rQMAAAAASUVORK5CYII=',
@@ -220,6 +221,40 @@ const state = {
         randomColors: false,
         randomChars: false,
         fontStyle: '30px DayDream',
+        distance: 100,
+        gravity: 0.02
+      }
+    },
+    {
+      template_id: '479635',
+      disabled: false,
+      public: false,
+      name: 'PXSS Newton Cursor',
+      type: 'base',
+      customCursor: true,
+      class: 'cursor-pixverse',
+      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAA1RJREFUWIW9l71rU1EYxn8RHWv/gC5eRIpL1QuJZEjTpJObqbg4dnMpKOIQvCJJyOSii4ilSIcutT3FxSlfzRB6g8fqoIhI0qHgGjt2iEN6Dud+JamavkvCzb33+b3Pec57c2OcVNZK9NX3aseNcUYV84uH1SSBzpniz9ZfhJ40CvCfANSXaselUa/xbP0FlYJLZvk2lYI7cYiYb+0pFssApBcypLpJABafJjwX/c8l0Q6Y3QI06jWal1qUuuXAb1kr0Q9zRB0/jVsa4J1IkMvlcJw8AI6Tp1GvkV7IaMBhIH7RcSE0wN7PI+7FDtlcSuA4eYrFsoZQTigQf1hNsdPmRgPI31Ps/TwC0E6oPMynkqQXMpS6ZZqXWqTmrEFY9997YCoFl1K3zPT1GX18FERgDtgXj7h5eQqAu9uDborFMlK2se24vvDJyjLNLx1Sc9bgs5uk1B2c9+DhYxr1GrW1HX1+VHD1QQVR7bg8unaVm5en2OjPYNtxj7jKhJmP1JxF6eWaR1zKNttLQu+gKABzDig3eP75m85ElPjx+kca9RoAzS+dUHGVG7/LoQBmmRD+UqKFH1s6pADbb18FxKVsU+24gXuYFbDFP5hyuRwAth3HcfI8vXKHwo8tAB1SIHQ5hBBkrTGXwBCNnHLFYjkgruaGuRxPVpZ58PBxZNdDAczKWgmEEABI2fYIS9n2bFU/RGrOYrfZMu81fgZMF5SFQggPhBCC3WZLOxAFEfWEVTX0oWJuzc2lBBv9GQC9Kxwnz26zxXwq6VkSNTdU9fYPA42pilwC0zIlLoTQcwEGTsynktpqU1xKiZRyaPcA50edcP8GWlzdXOXCtuMaQgEp8YODA/q9X3CcZjE+HXn/oSEEePWJgPjm0iAXYcH0iPsqLIhjZSCzfNsjrhyBwYNLZWJ19XVQ/DgNH75HjuSRDgDU1nbo7R96xLNWQm9TM3CBzi804NZsoKmxHAi7IKzMibn95qtXHAIunFwTGwsgCqTacWPD4CoFd9C5D4JbszqU1Y4b++c/l0Mh2j3vgRMXKu0ei/Hp/wMwCqrS7unOTQhVY4Xwb0t1qgUNEPXfcWKvXH4XFuPT+tOsib6ERuXDzMBEl8A/dFQoTRfO7DU8bBsD/AEwajH+rqbZQwAAAABJRU5ErkJggg==',
+      options: {
+        customCursorOnClick: true
+      }
+    },
+    {
+      template_id: '4796353333',
+      disabled: true,
+      public: false,
+      name: 'Upgraded PXSS Newton Cursor',
+      type: 'dust',
+      customCursor: true,
+      class: 'cursor-pixverse',
+      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAA1RJREFUWIW9l71rU1EYxn8RHWv/gC5eRIpL1QuJZEjTpJObqbg4dnMpKOIQvCJJyOSii4ilSIcutT3FxSlfzRB6g8fqoIhI0qHgGjt2iEN6Dud+JamavkvCzb33+b3Pec57c2OcVNZK9NX3aseNcUYV84uH1SSBzpniz9ZfhJ40CvCfANSXaselUa/xbP0FlYJLZvk2lYI7cYiYb+0pFssApBcypLpJABafJjwX/c8l0Q6Y3QI06jWal1qUuuXAb1kr0Q9zRB0/jVsa4J1IkMvlcJw8AI6Tp1GvkV7IaMBhIH7RcSE0wN7PI+7FDtlcSuA4eYrFsoZQTigQf1hNsdPmRgPI31Ps/TwC0E6oPMynkqQXMpS6ZZqXWqTmrEFY9997YCoFl1K3zPT1GX18FERgDtgXj7h5eQqAu9uDborFMlK2se24vvDJyjLNLx1Sc9bgs5uk1B2c9+DhYxr1GrW1HX1+VHD1QQVR7bg8unaVm5en2OjPYNtxj7jKhJmP1JxF6eWaR1zKNttLQu+gKABzDig3eP75m85ElPjx+kca9RoAzS+dUHGVG7/LoQBmmRD+UqKFH1s6pADbb18FxKVsU+24gXuYFbDFP5hyuRwAth3HcfI8vXKHwo8tAB1SIHQ5hBBkrTGXwBCNnHLFYjkgruaGuRxPVpZ58PBxZNdDAczKWgmEEABI2fYIS9n2bFU/RGrOYrfZMu81fgZMF5SFQggPhBCC3WZLOxAFEfWEVTX0oWJuzc2lBBv9GQC9Kxwnz26zxXwq6VkSNTdU9fYPA42pilwC0zIlLoTQcwEGTsynktpqU1xKiZRyaPcA50edcP8GWlzdXOXCtuMaQgEp8YODA/q9X3CcZjE+HXn/oSEEePWJgPjm0iAXYcH0iPsqLIhjZSCzfNsjrhyBwYNLZWJ19XVQ/DgNH75HjuSRDgDU1nbo7R96xLNWQm9TM3CBzi804NZsoKmxHAi7IKzMibn95qtXHAIunFwTGwsgCqTacWPD4CoFd9C5D4JbszqU1Y4b++c/l0Mh2j3vgRMXKu0ei/Hp/wMwCqrS7unOTQhVY4Xwb0t1qgUNEPXfcWKvXH4XFuPT+tOsib6ERuXDzMBEl8A/dFQoTRfO7DU8bBsD/AEwajH+rqbZQwAAAABJRU5ErkJggg==',
+      options: {
+        customCursorOnClick: true,
+        activateOnClick: true,
+        colors: ['#fff'],
+        chars: ['*'],
+        randomColors: false,
+        randomChars: false,
+        fontStyle: '5px DayDream',
         distance: 100,
         gravity: 0.02
       }
@@ -360,6 +395,24 @@ const state = {
         toolbars: '#4056FF',
         grey: '#c2c3c7'
       }
+    },
+    {
+      template_id: '479621',
+      name: 'Pixverse theme',
+      gradients: false,
+      darkMode: true,
+      darkBar: true,
+      disabled: false,
+      public: false,
+      colors: {
+        primary: '#000',
+        tertiary: '#000',
+        secondary: '#1d2b53',
+        light: '#0b1323',
+        accent: '#59e8ff',
+        toolbars: '#1d2b53',
+        grey: '#c2c3c7'
+      }
     }
   ],
   // ------------------------------------------------------------ Wallpapers
@@ -418,7 +471,8 @@ const state = {
       bgColor: '#1b6c3b',
       public: false,
       disabled: false,
-      texture: true
+      texture: true,
+      textureExtension: '.png'
     },
     {
       template_id: '445291',
@@ -443,7 +497,8 @@ const state = {
       public: false,
       disabled: false,
       texture: true,
-      textureSize: '40%'
+      textureSize: '40%',
+      textureExtension: '.png'
     },
     {
       template_id: '457146',
@@ -459,8 +514,7 @@ const state = {
       bgColor: '#ffa300',
       public: false,
       disabled: false,
-      texture: false,
-      textureSize: '40%'
+      texture: false
     },
     {
       template_id: '473470',
@@ -474,6 +528,22 @@ const state = {
       public: false,
       disabled: false,
       texture: false
+    },
+    {
+      template_id: '479614',
+      name: 'Pixverse Wallpaper',
+      type: 'wallpaper',
+      extension: '.png',
+      defaultDisplayStyle: 'centered',
+      defaultSize: '50%',
+      mosaicSize: '33%',
+      bgColor: '#000',
+      public: false,
+      disabled: false,
+      texture: true,
+      textureSize: '200%',
+      textureExtension: '.gif',
+      textureOpacity: 1
     }
   ]
 }

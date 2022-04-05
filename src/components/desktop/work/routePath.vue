@@ -63,8 +63,8 @@ export default {
     width: 100%
     min-height: 34px
     height: 34px
-    background-color: white
-    border: solid 1px grey
+    background-color: var(--v-light-base)
+    border: solid 1px var(--v-light-lighten2)
     border-width: 1px 0
     // padding: 3px
     display: flex
@@ -72,7 +72,8 @@ export default {
     .step-back__button
       height: 34px
       width: 34px
-      background-color: lightgrey
+      background-color: var(--v-light-lighten2)
+      border: solid 1px var(--v-light-lighten2)
     .route
       display: flex
       align-items: center

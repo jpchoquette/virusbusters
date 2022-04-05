@@ -94,7 +94,7 @@ export default {
           bannerColor: '#4056FF',
           signature: 'collabs/digitalducks-signature.svg',
           icon: 'collabs/digitalducks-icon.png',
-          date: '2021-03-08',
+          date: '2021-03-17',
           type: 'Collection',
           links: [
             {
@@ -114,7 +114,44 @@ export default {
             },
             {
               title: 'Discord',
-              url: 'https://discord.com/invite/uUaQEhxPt4',
+              url: 'https://discord.gg/TJwP7bSMRv',
+              image: this.$vuetify.theme.dark ? 'icons/discord-icon.svg' : 'icons/discord-icon-black.svg'
+            }
+          ]
+        },
+        {
+          title: 'Pixverse',
+          routeName: 'computer',
+          level: 1,
+          bannerColor: '#000',
+          signature: 'collabs/pixverse-signature.png',
+          icon: 'collabs/pixverse-icone.png',
+          date: '2021-04-05',
+          type: 'Collection',
+          links: [
+            {
+              title: 'Pixverse Website',
+              url: 'https://www.pixverse.io/',
+              image: 'collabs/pixverse-icone.png'
+            },
+            {
+              title: 'Pixverse Game',
+              url: 'https://play.pixverse.io/',
+              image: 'collabs/pixverse-icone.png'
+            },
+            {
+              title: 'Atomic Hub Collection Page',
+              url: 'https://wax.atomichub.io/explorer/collection/pixversegame',
+              image: 'atomic-hub-icon.png'
+            },
+            {
+              title: 'Twitter',
+              url: 'https://twitter.com/Pixverse00',
+              image: 'twitter-logo.svg'
+            },
+            {
+              title: 'Discord',
+              url: 'https://discord.gg/sgMmM9fy4r',
               image: this.$vuetify.theme.dark ? 'icons/discord-icon.svg' : 'icons/discord-icon-black.svg'
             }
           ]

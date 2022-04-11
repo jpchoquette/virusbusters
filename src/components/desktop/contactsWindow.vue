@@ -155,6 +155,38 @@ export default {
               image: this.$vuetify.theme.dark ? 'icons/discord-icon.svg' : 'icons/discord-icon-black.svg'
             }
           ]
+        },
+        {
+          title: 'Wombat Dungeon Master',
+          routeName: 'computer',
+          level: 1,
+          bannerColor: '#000',
+          signature: 'collabs/wombat-signature.svg',
+          icon: 'collabs/wombat-icon.png',
+          date: '2021-04-12',
+          type: 'Collection',
+          links: [
+            {
+              title: 'Wombat Dungeon Master Website',
+              url: 'https://dungeon.wombat.app/',
+              image: 'collabs/wombat-icon.png'
+            },
+            {
+              title: 'Atomic Hub Collection Page',
+              url: 'https://wax.atomichub.io/explorer/collection/dungeonitems',
+              image: 'atomic-hub-icon.png'
+            },
+            {
+              title: 'Twitter',
+              url: 'https://twitter.com/WombatDungeon',
+              image: 'twitter-logo.svg'
+            },
+            {
+              title: 'Discord',
+              url: 'https://discord.gg/2AGXSySfFj',
+              image: this.$vuetify.theme.dark ? 'icons/discord-icon.svg' : 'icons/discord-icon-black.svg'
+            }
+          ]
         }
       ]
     }

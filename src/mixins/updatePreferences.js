@@ -61,6 +61,7 @@ export default {
       }
     },
     updatePreferences (preference, data) {
+      console.log('data', data, preference)
       const globalPreferences = JSON.parse(localStorage.getItem('users'))
       const userIndex = globalPreferences.findIndex(user => user.profile === this.$store.state.User.userProfile)
       const currentUser = globalPreferences[userIndex]

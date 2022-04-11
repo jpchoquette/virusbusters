@@ -25,8 +25,8 @@ const state = {
       class: 'cursor-golden',
       image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAcdJREFUWIXdl7FOw0AMhv9UYmxZWSuGrqgSYQPRTF2QIuVVWHkNXgIJqQtTKzGSAboyoL4DHRnKEDlxLvadkzQM/FLVNOnd/8V2bCUCgMU0PoBps8sj/JEi11zTUFAlwHq7wv31be3i+/d4cKgaAFZnAICn5xhvX3txQQiqLVgd4OcGePksIUgajBXIBxUBRRGut6vijALB5QOyQHGYEgBoRoGkgfSBIggZAOgEYQUimM0uj0aNqyevxfdyVjudpTmyNDcDXJ2Py49kThoRibiLA0EgbUUg3Jw8axFILu4Gg3j8qI75DTdTAFRpOBKEZq4DGGWB4OaSSoBg9xKiEIJw71zyaERArAMDhAsS6gsqQCm3DgIQkvl8ssd8UhwvpvFBmrzdamA58xam++wTBIH0B+AgHggOokE0ikJsyyE5bZtE7dutB96K/QBAbwgC0SD6pYDLU5xZmotz4bgABBHoF+5MEJuPNQ3J5SnU/ykpSR6qsS6PY6PIHGDNi/cOIRKuOdAxBdzcCiGZdwJwzflmGoRmDig1AMh14DPnzUVbYxpGmnzm7m+KRMgcMEaAT8jQ2JYGjm9Nq82sbzx8Xe/XN22M/hv9AlwGE9WQ3nqRAAAAAElFTkSuQmCC',
       options: {
-        colors: ['#ffec27', '#ffa300', '#fff'],
-        chars: ['+', '+', '+'],
+        dustColors: ['#ffec27', '#ffa300', '#fff'],
+        charList: ['+', '+', '+'],
         randomColors: false,
         randomChars: false,
         fontStyle: '20px Red Hat Text',
@@ -44,8 +44,8 @@ const state = {
       class: 'cursor-mad-buster',
       image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAe1JREFUWIXFVz1PAkEQfUvooVQ6GmoSDD8A6oOKYEKBjfEnUBIbE/6CVBQmohVSS6xJTIylDbGS0vsFZ3Husl+zt3uAvuSyCzs7783O7FwO+GcwAGhVm4m+sNqsWaAv7iNoX5FPnt+exJ/teodyrhMYwkOFFOQf7XrHRu4SY2DY7/rw2gX8gknHn3BCzbHxPx9n84Vh4yWAR77arBUDPaKsCHOdwGqzZvwBgAQRxqjtReQrxCiUBNFuGoCLfgGz+QLDflcZbRw+AoLIaedLkodDKUIp+kODDMh2Cw4SfeooErXQQMlqw7QNByM3idJ0jFFj1/hwC+DGZEpGg3Sc3DnJJL9i/opv1kBZ2BThgO7IEDUagE3Oyf22ABooK63aKoBvtAkQ0VOk8TadlC6ddhy2IkwRT5HEW+WxEo7uyTUCDFLqnSkQO0ongsyKm5cQcuVkdQHySygIyimYx892k6V9QTiSO2E8VRddkRI3gvNY6wlZKdAjySjAPKCLUMcRyAHH2/AWn7jCe+7OKPUAo/BkGCmgDPeBy6d3CngvaFWbxujkzhRHoIdTPOIrAfxf03KkcgpcJ0Degh4qeMCZF7GF1BtkCnqoBDvLA69WnBNeHybHFOB1o7IE6FFQfSH0OzJ8o1ZgxvffMfrHn+AHJXOmdOwnim0AAAAASUVORK5CYII=',
       options: {
-        colors: ['#422136', '#000'],
-        chars: ['!', '@', '#', '$', '%', '?', '&', '&'],
+        dustColors: ['#422136', '#000'],
+        charList: ['!', '@', '#', '$', '%', '?', '&', '&'],
         randomColors: false,
         randomChars: false,
         fontStyle: '30px DayDream',
@@ -88,9 +88,11 @@ const state = {
         image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAfJJREFUWIXFl71qAkEUhc9qSBMhYAKpJYWNoKSwsVrzCHmGPFWeJVqlsZAINilk64AsBGIjLJPGO9yZvXdm1h9yYGH/zzdnZu7OZmCa9sYGAc2KRRa6fozsC2PmlwLJJPP34sG56bn3fTGYjJv7xr6agpht3wBAdv+lQlqAmHkKDIdIMQeAK/XKz5t7fPvqHBIwB5n2xoZDxMwBoJVkTueE835ylKhkbrZ9Q1sYwGttDE6D8I0JjMPJAARB2xEQXGQqpaIDSDAnQGhKA+Ag0r6g1MJmAUJzvAbBzOfddtpzGsAplUwyb9oNThckp3Awz8uqkVkU4D/UAtwSqqXA405tfcpAFBOQIPKywrzbrpnT+WMh7LdgViyy2M1kTIZSCncvHQAdAMBouQm9DgBbkEi0sRHNW56X1cHcFUFos83pAv+m2KzIy8qmIJnv1qvg84CXAKlpEpr5zWAIIJyCWoS08eDD+ObUajLnABJEdAUTG5ifT4+OOTfm0lJoVIYlGAIImYcgjvoO+CAf179Rcw3AmQX+cknTrFhk/CWTfX0QpqpWCVMWkhyE9mNFR5uSFkBqeWoaIYjdehWsBxZAW7OlSKty3FjrprN9jglitNxgtNxY88m+g5vB0JmuXMEWm23fNE1FqxsE4M+Es/9uh0AkiD8mBR7HkZyb5gAAAABJRU5ErkJggg==',
         emoji: '🎄',
         particleType: 'image',
-        qty: 6,
+        nDots: 7,
+        hideTrailOnClick: false,
         resistance: 10,
-        hideTrailOnClick: false
+        gravity: 50
+        // mass: 2
       }
     },
     {
@@ -104,8 +106,8 @@ const state = {
       class: 'cursor-mitten',
       image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAXtJREFUWIW1l7FxwzAMRb+4gErX3sCVB4h6b6GpsoV7eQBX3kB1ykyQFDnoQBgACZL5jXnU0f/xE6SoCY4+ztcfrf+xPydvXETqH1nG/wHzNliab/spe76cv4ZCZAO5uTSWkiCtEMegiLkF0gIx9ZiPgEhV5t+f+a8QHxcpYABIrjkZzutfe15NkJbkMgBVZCyhCMRQJAUbQM5emhdSqIWwAciYg5Cxk0J0KfwE5vV9xtRnFCRXTQp+AhyE+mQiiiIpHADaEatGXTl7giilkNyDQ6ZQMXtNHsSQk9BT6ZRM8oG6FIOkJaG+jIBBSbBaWS63o80nnKQ5GXcnIQp1e92PNvfLtiGZd0Mou2S53DIIFUCDCUMY5pYyAGm27adYLTjm2+uugnTfiFrMeRGad8IQSKM5IJag6WLZYQ5Ufhe4SQiAiLkJoEFY4lsrag442/CxP6eWJYmYA04CJWW7RkmhxhwoXUorRaZRc6AjAZJWK5GlG/KZzSGidfMLX+H40lpcAWoAAAAASUVORK5CYII=',
       options: {
-        colors: ['#fff'],
-        chars: ['•', '*'],
+        dustColors: ['#fff'],
+        charList: ['•', '*'],
         randomColors: false,
         randomChars: false,
         fontStyle: '20px DayDream',
@@ -161,7 +163,7 @@ const state = {
         ],
         image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAX9JREFUWIWtl7uNwzAMhiUjixjIDC5TuMgEqS4DeCYPkFSZ4IoUV2aGABnFVwQSKIov0forw5T8f5JJPWLYqXmcNur98/OKlv5sI+7DrdJAyGCr+fp7y8/L+doEUQWwOfw4ZULFKRAOonhpMYcGUtwKwQJoH4c6/t3z8/v0w0KYAbC5ZABjHoih6o2EDShDrY8kFcBscFnY9nBGcZ4NXMBqkKf7sX7bCCCUImcOqfOI08cfq5gLOJZE5UK0lp7FQJMK0FJ6XiWIBHCgzK2j1bJd6juP0/b8vGJVBday61WOpjL0rAVcW/ybeQCmnFrMNc3jtGWAlBx767pV5AwUEKDme40e/oZqIZJK0QOgLUoHMqrpsnxnx2gmaQih3CKpI1WllB9OQQ8yBziIYoQoSb3LcwbABwXzTBC/QhLeD4oZsEBQI/WOPgTjsbzXJkXuhlzjnhDSXUG8tfSA0C4q6v3NAyElMM4z0wVSO7JpppRxEwAHYZHrcroXxHo1DyGEf3Zn6PH3XVv6AAAAAElFTkSuQmCC',
         particleType: 'image',
-        qty: 2,
+        nDots: 3,
         resistance: 50,
         gravity: 80,
         hideTrailOnClick: true,
@@ -185,7 +187,7 @@ const state = {
         ],
         image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAX9JREFUWIWtl7uNwzAMhiUjixjIDC5TuMgEqS4DeCYPkFSZ4IoUV2aGABnFVwQSKIov0forw5T8f5JJPWLYqXmcNur98/OKlv5sI+7DrdJAyGCr+fp7y8/L+doEUQWwOfw4ZULFKRAOonhpMYcGUtwKwQJoH4c6/t3z8/v0w0KYAbC5ZABjHoih6o2EDShDrY8kFcBscFnY9nBGcZ4NXMBqkKf7sX7bCCCUImcOqfOI08cfq5gLOJZE5UK0lp7FQJMK0FJ6XiWIBHCgzK2j1bJd6juP0/b8vGJVBday61WOpjL0rAVcW/ybeQCmnFrMNc3jtGWAlBx767pV5AwUEKDme40e/oZqIZJK0QOgLUoHMqrpsnxnx2gmaQih3CKpI1WllB9OQQ8yBziIYoQoSb3LcwbABwXzTBC/QhLeD4oZsEBQI/WOPgTjsbzXJkXuhlzjnhDSXUG8tfSA0C4q6v3NAyElMM4z0wVSO7JpppRxEwAHYZHrcroXxHo1DyGEf3Zn6PH3XVv6AAAAAElFTkSuQmCC',
         particleType: 'image',
-        qty: 2,
+        nDots: 3,
         resistance: 50,
         gravity: 80,
         hideTrailOnClick: true,
@@ -206,7 +208,7 @@ const state = {
       }
     },
     {
-      template_id: '0000003334',
+      template_id: '474969',
       disabled: true,
       public: false,
       name: 'Upgraded Butter Knife Cursor',
@@ -216,10 +218,9 @@ const state = {
       image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABSZJREFUWEeVV01vG1UUPW9MyoIAQlB5BiE8XiAlEhJImQ+EUOwkQl3FdBXUsmRJ/wkrJLquEK1QWyD+WECLEjuVEIrtVCCUFqmLsasuQFlAVRZNIfOqe9+b8cx4/NFZjWfee3Pvueecey0w4dqwfSkhsTvoCkAAkKmV40/odfZp8re6z1uROnij7ElIgROcoIACb9rhIJ7lyv/YhBApQRknuGF7cmfYw6mFBTx58gTrZR+QERJ5WKQDy0Nm2rNUZutlX4byBJ1hHzd++BEfnT2Lx8fH2LA97AT7aRRS6AoOcnSlPzmtgKNDBbBu+7Id7KPRasEsFvk8z/NQLbswpMDuoEdfUt+JdtLP5H1OpUYFoZfjXOItBD2EoHqj2+2qYygrIeB7Lqolh7/U5iBmZTg/X2IE1m1P/nz/Nr5tfI+iaaUTlJKRWCt7IILuDjLlyENEZoCPfuY85nCp/u3BPhqNJkzThKAQIsAZCV2OkosOo5C95pGqXpNYGsNJAewGXbSaDZiWCUkZ6LdUCvrpez6qtgMpJTqDfrw3X/35TpGVYpwJGc/OkAJo8gcs01S2QRLV3KHFrg6C7hUfJpJ/KhGEFk6cxZrtyF//vIevrl9mplqmpQ8gP6Q4BKSQHI/ne6iWXNAbhUQ2r3kKlBYTq0AKAZZhs8XwW2aRS0HRUlCMiAbE95Uy2nEA8zI/SYCIafrUyAUb9TqEYbAMLcvUJwu9ilAQcEmaZRf0tB1oFCaUfS4jokXrZU+GCNEJDtBoNrVFC5hWUZdAe44mpUd8IH8QEp0oiBnlyCNsCrtq2ZG3gtsM+Ha9jkJBIWFaFsPPFdDEVEiQPziKDxTEZPLn1mi0QW9cs1129b1Bj12wvr0NUSgw1GYxUY6IvpLkSXbtcHQjZUwBPu0D44FRSw4l2W4XC88V8N32turlEijGnFC2LoTiw9KrNqzF17hG7eBAszUZBOWqFJVV7uh3Yn2VBhIR4lbQ4031RgMGyUFAO6UaL7iTs0l5bFKqK0Y9Y5oy0i0qV7gUBH2gM+zywfVGHYagIYWCUN2SpEt9QilVYvHUC3BffxsSJ3NJlFPKgyayiartSoGQsyVesEdo3xE8tAnUapvo9br44L33cRz+z62bJCoRJsoxDn2yk880s6rtcLvuBH00W00mQG2zxplT+6YyvPzFAEuXt5i8hAaVxEABO4numWbFaJTIL1a8Wt2QQmjh73/dw9+PH2K1tMLTEx1z59xVLH+zhZ9qF/Hmi6fhX/sU//z3CGslVxMz3TciBszVVpPwrJWpJAZOZBhPuXvDA76/sXkRbyyeBllHGAp8/tvXuHTYQsVe4SD2ggOR1UFOABEYs9qpel9hjlBTOsCd81djJOmtUQDuPzzCh83PsGo7KHCvSSBBDORjntG9svWiIAzWfx93P7kWz33kEQSUMCSWrnyMd8238MrzL7E6ok8qBNKTeeL8aQpJh1Hh0oCmJdw9R0GoS801IYQwsHxlCxXbYeJyA4sGHo4hmqzjm1QcyvUyM+3ISpS/cRAS2Bv2cHj+us5NVf3Bv0e49EcTN4e/4B1rGbt6zI85MF8VdOvgxVlTVVBW7BVGYm/QxyGVQ4v9waMjnGleQKXs6BFf/duaQsJ8Zc7QK5+4WnKlweXo42btyxi5M60LqJB0E0OMDiA//4gg4y0kG8b4/krZUUgEfbZrck2VvaH/8Gpxj22dRMjEwtSeKbUjz4hmiIIwuBpR7ZNin/2Pc5yPk+szD5kSa54CLpxORed+rQMAAAAASUVORK5CYII=',
       options: {
         fullWords: true,
-        colors: ['#422136'],
-        chars: ['!asd', '@asd', '#wwww', '$wewewe', '%wewe'],
+        dustColors: ['#4056FF', '#ffe040', 'ff0000'],
+        charList: ['Quack!', 'Stab', 'Stabby', 'Duck!', '@#$%?&*'],
         randomColors: false,
-        randomChars: false,
         fontStyle: '30px DayDream',
         distance: 100,
         gravity: 0.02
@@ -239,24 +240,37 @@ const state = {
       }
     },
     {
-      template_id: '4796353333',
+      template_id: '485864',
       disabled: true,
       public: false,
       name: 'Upgraded PXSS Newton Cursor',
-      type: 'dust',
+      type: 'projectile',
       customCursor: true,
-      class: 'cursor-pixverse',
-      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAA1RJREFUWIW9l71rU1EYxn8RHWv/gC5eRIpL1QuJZEjTpJObqbg4dnMpKOIQvCJJyOSii4ilSIcutT3FxSlfzRB6g8fqoIhI0qHgGjt2iEN6Dud+JamavkvCzb33+b3Pec57c2OcVNZK9NX3aseNcUYV84uH1SSBzpniz9ZfhJ40CvCfANSXaselUa/xbP0FlYJLZvk2lYI7cYiYb+0pFssApBcypLpJABafJjwX/c8l0Q6Y3QI06jWal1qUuuXAb1kr0Q9zRB0/jVsa4J1IkMvlcJw8AI6Tp1GvkV7IaMBhIH7RcSE0wN7PI+7FDtlcSuA4eYrFsoZQTigQf1hNsdPmRgPI31Ps/TwC0E6oPMynkqQXMpS6ZZqXWqTmrEFY9997YCoFl1K3zPT1GX18FERgDtgXj7h5eQqAu9uDborFMlK2se24vvDJyjLNLx1Sc9bgs5uk1B2c9+DhYxr1GrW1HX1+VHD1QQVR7bg8unaVm5en2OjPYNtxj7jKhJmP1JxF6eWaR1zKNttLQu+gKABzDig3eP75m85ElPjx+kca9RoAzS+dUHGVG7/LoQBmmRD+UqKFH1s6pADbb18FxKVsU+24gXuYFbDFP5hyuRwAth3HcfI8vXKHwo8tAB1SIHQ5hBBkrTGXwBCNnHLFYjkgruaGuRxPVpZ58PBxZNdDAczKWgmEEABI2fYIS9n2bFU/RGrOYrfZMu81fgZMF5SFQggPhBCC3WZLOxAFEfWEVTX0oWJuzc2lBBv9GQC9Kxwnz26zxXwq6VkSNTdU9fYPA42pilwC0zIlLoTQcwEGTsynktpqU1xKiZRyaPcA50edcP8GWlzdXOXCtuMaQgEp8YODA/q9X3CcZjE+HXn/oSEEePWJgPjm0iAXYcH0iPsqLIhjZSCzfNsjrhyBwYNLZWJ19XVQ/DgNH75HjuSRDgDU1nbo7R96xLNWQm9TM3CBzi804NZsoKmxHAi7IKzMibn95qtXHAIunFwTGwsgCqTacWPD4CoFd9C5D4JbszqU1Y4b++c/l0Mh2j3vgRMXKu0ei/Hp/wMwCqrS7unOTQhVY4Xwb0t1qgUNEPXfcWKvXH4XFuPT+tOsib6ERuXDzMBEl8A/dFQoTRfO7DU8bBsD/AEwajH+rqbZQwAAAABJRU5ErkJggg==',
+      class: 'cursor-pixverse-upgrade',
+      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAA0tJREFUWIW9l79LHEEYhp+L9kIsrggWW9gFCQcKB66e3j+QQ7BJJ1hG0CKBIyviHgc2AZMiRSAEIU1AR9Lv/XADgkeGkJQWi4RALAxYx8QUm5nMzu3emZjL1+yy7Mz7zPe9881ujl8x70xdqvtGdJTjP0XOFk+LQQLdMMU3drZTX+oHeC0AddOIjmi3mmzsbBNEeeaW7hJE+YFD5Kza4/t1AGZLc7hufF92ThOD/mVJhtVNEOUxZ223mhBWabeaBN5hAkJB2yB/Y2RdgubNISqVCp5XBcDzYvHZ0pwGNEuiBJWoXaKrlkwDtEaHuN++pHHzLp5XxffrGiIMq9T8ogaxzWqK/alvNMDbi0+0RocAdCaUH2bcIrOlOWp+kTCs4k44sVnfv0nABFGeml9k5M4t/bwfRFcfmB4eo3T2PR78dR8A368jZYdCYVIPfLSyRPghwp1w4qtbp+YXkbLD6toD2q0mzRf7+v0sT+iHhrFYH1+gdPadp7M5CoXJhLjyhOkPd8Kh9uRFQlzKDnviQps3C8DsAyobbB7vak9kiX/beRfvFCD8EKWKK9/YWU4FMMOEsEOJbh7vapMC7L181iUuZYdGdJQmoaMrLXZjqlQqABQKk3helfXxBTaPdwG0SYHUcgghmHem1Fy9S2CIZjYQ3693iau+YZbj0coSq2sPMlfdE8CMeWcKIQQAUnYSwlJ2ElvVhnAnHA7CQ3Ouq3vAzIJKoRAiASGE4CA81BnIgsg6YVX07Nf21vx4+weA3hWeV+UgPGTGLSZKovqGivP3n7sWpiKzBGbKlLgQQvcFiDMx4xZ1qk1xKSVSyp6rB+M0zIrp4TEtriZXvigUJjWEAlLiJycnXJ5/gZFlyk72/D1NCPEZYYuvjy8A6cZMiFuRZsRMALNetrjKiG3MLPFgcS1zgX1LAOhDxRQ3dwf8NmbXys+fw8gy/CrDvDN1aS6u71fLVc50s2PuiYukOMQAD+9Rfv3YHJO7EkAWSCM6yvWCCxbXYOtVFwRbrxIn5LU/LntCWJ9wKgtBlKfsnP4bgH5QQZTXKzchVPTdhtcJtVItaIConTGwXy47C2XnVF/NGOhPaJY/TA8MtAT24aNMaWbhv/2Gp21jgJ8xICrnbc26yAAAAABJRU5ErkJggg==',
       options: {
         customCursorOnClick: true,
         activateOnClick: true,
-        colors: ['#fff'],
-        chars: ['*'],
+        dustColors: ['#fff'],
+        charList: ['*'],
         randomColors: false,
         randomChars: false,
         fontStyle: '5px DayDream',
         distance: 100,
         gravity: 0.02
+      }
+    },
+    {
+      template_id: '485869',
+      disabled: true,
+      public: false,
+      name: 'Pit Lamp Cursor',
+      type: 'base',
+      customCursor: true,
+      class: 'cursor-wombat',
+      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAnlJREFUWIW1lzFo21AQhn+VbgGPLR46aA0dSge5QwhB7tCpq+sle5dWYEMgQygZAgELRJfuWUyGLJ46NBpChlpDoVC6auhgmqFbZndw7+V07570lNoHD2Pp3vu/d+/uJAUAEIfREh6Wl0Xg49fGAi5+eVxYDv2jaKMgBuDyuFDFOBS/vy6Ih00OXJRDxmG0XAeECkALy9zoH0UWhDavjT3QLtLCeVkENCSEa55vQhsAWlwu7FooTwYI/qQAgEflqRnaBnzMCrUrGUkcAOLs3BIluwkP7vw9jsQ4NEFo4lyMfN68f94KonLT1RMo5Fz8+8XeiM/tjntpngyMjy9EpQrysjB9oRKBpF5cMwnhMqsKZNbzXfmKS+G6pFTLkEAAfec/X/5O+a+0xWQ+ugkPKonqgnACkFEo+a62vzx2RiFPBuiOeymwioSrWrwBNKOdv3g3RWeWpZ1Zlt7uDhFn58ZnMZlbkFoUvAEWk/moO+6ltDsA+PpxiLevfpmhzWk6ikYAWoDKLE8G6D97DQ7SBF4H0eoIKMQc5OzwGnj6YTWYdWaZBajlQ2OrJFqrufzrjByMrvP/LqMq8wbgEJQPEsTHTBR9ATgEfwZQlksQn91zAK8cIGd+BCS8mMxHsgT3T3bMuN0dguC1RGzdB3yaC0/Iraup0z8Oo6U3AH8+8NIkEUq+/ZMd4McK4OzwWhWnKgI8XkolhGwksh98+vwEW1dTANWyo+OTuXKvt1pZmrR7Xh1SXCvbvCyCVhGQdpcP3wCsoiFDXicO3DMCgF2aGhygNyyeT//1YaE93fixSGEpvhEAoKZNK++Ga/3ajcNo2UZ8IwDa9bq34r82wKQYwYBVJAAAAABJRU5ErkJggg==',
+      options: {
+        customCursorOnClick: true
       }
     }
   ],
@@ -413,6 +427,24 @@ const state = {
         toolbars: '#1d2b53',
         grey: '#c2c3c7'
       }
+    },
+    {
+      template_id: '485874',
+      name: 'Wombat Dungeon Master theme',
+      gradients: false,
+      darkMode: true,
+      darkBar: true,
+      disabled: true,
+      public: false,
+      colors: {
+        primary: '#3f126b',
+        tertiary: '#000',
+        secondary: '#8102e9',
+        light: '#3f126b',
+        accent: '#ffbb2d',
+        toolbars: '#5300ab',
+        grey: '#c2c3c7'
+      }
     }
   ],
   // ------------------------------------------------------------ Wallpapers
@@ -521,7 +553,7 @@ const state = {
       name: 'Digital Ducks Wallpaper',
       type: 'wallpaper',
       extension: '.png',
-      defaultDisplayStyle: 'centered',
+      defaultDisplayStyle: 'centered-background',
       defaultSize: '50%',
       mosaicSize: '15%',
       bgColor: '#FFE040',
@@ -534,7 +566,7 @@ const state = {
       name: 'Pixverse Wallpaper',
       type: 'wallpaper',
       extension: '.png',
-      defaultDisplayStyle: 'centered',
+      defaultDisplayStyle: 'centered-background',
       defaultSize: '50%',
       mosaicSize: '33%',
       bgColor: '#000',
@@ -544,6 +576,18 @@ const state = {
       textureSize: '200%',
       textureExtension: '.gif',
       textureOpacity: 1
+    },
+    {
+      template_id: '485872',
+      name: 'Wombat Dungeon Master Wallpaper',
+      type: 'wallpaper',
+      extension: '.jpg',
+      defaultDisplayStyle: 'covered-background',
+      defaultSize: '50%',
+      mosaicSize: '33%',
+      bgColor: '#000',
+      public: false,
+      disabled: true
     }
   ]
 }

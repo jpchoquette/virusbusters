@@ -148,11 +148,10 @@ export default {
             } else {
               const account = ScatterJS.account('eos')
               const userAccount = account.name
-              this.profile = userAccount
-              this.userConnected = true
               // console.log('account', account)
               // this.accountType = 'scatter'
-              this.setAccountType('scatter')
+              this.loggedIn(userAccount)
+              // this.setAccountType('scatter')
               const temp = {
                 type: 'anchor',
                 account: userAccount
@@ -185,6 +184,8 @@ export default {
     },
     loggedIn (userId) {
       this.profile = userId
+      // to debug custom wallet
+      // this.profile = 'wallethere'
       this.userConnected = true
       if (localStorage.getItem('users') !== null) {
         const rawData = localStorage.getItem('users')
@@ -221,16 +222,11 @@ export default {
       this.$cookies.set('lastUser', JSON.stringify(type), 604800)
     },
     logout () {
-      // Cookie à faire
-      // setCookie('wax-address', '');
-      // this.accountType = null
-      // console.log('logout')
       this.userConnected = false
       this.profile = null
       this.busterTemplates = null
       this.wax = null
       this.$cookies.remove('lastUser')
-      // this.$cookies.remove('buster')
     },
     // async fetchBustersNFTs () {
     //   fetch('https://wax.api.atomicassets.io/atomicassets/v1/templates?limit=200&page=1&collection_name=virusbusters&owner=' + this.profile + '&schema_name=buster.heads', this.$store.state.App.globalHeader)
@@ -252,8 +248,6 @@ export default {
       fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?limit=200&page=1&collection_name=virusbusters&owner=' + this.profile + '&schema_name=buster.heads', this.$store.state.App.globalHeader)
         .then(response => response.json())
         .then(data => {
-          // console.log('owned busters', data)
-          // this.ownedBusterTemplates = data.data
           this.ownedWallpaperTemplates.busters = data.data
         })
     },
@@ -261,7 +255,6 @@ export default {
       fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?limit=200&page=1&collection_name=virusbusters&owner=' + this.profile + '&schema_name=virtual.desk', this.$store.state.App.globalHeader)
         .then(response => response.json())
         .then(data => {
-          // console.log('owned customizations', data.data)
           const tempCustomizationTemplates = data.data
           const cursors = []
           const themes = []

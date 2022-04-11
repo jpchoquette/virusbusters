@@ -1,6 +1,9 @@
+import { debounce } from 'lodash'
+
 export default {
   data () {
     return {
+      animation: null,
       cursorElement: null,
       cursorClick: false,
       canvas: null,
@@ -15,7 +18,7 @@ export default {
       },
       lastPos: null,
       particles: [],
-      baseImage: new Image(),
+      // baseImage: ,
       canvImages: [],
       canvWords: [],
       dustColors: [
@@ -35,23 +38,22 @@ export default {
       counter: 0,
       counter2: 0,
       wordCounter: 0,
-      gravity: 1,
       fontStyle: '40px Daydream',
       fade: true,
       nDots: 7,
       image: null,
       images: null,
       emoji: '🤪',
-      DELTAT: 0.01,
-      SEGLEN: 10,
-      SPRINGK: 10,
-      MASS: 1,
-      GRAVITY: 1,
-      RESISTANCE: 10,
-      STOPVEL: 0.1,
-      STOPACC: 0.5,
-      DOTSIZE: 11,
-      BOUNCE: 0.1,
+      deltaT: 0.01,
+      seglen: 10,
+      springK: 10,
+      mass: 1,
+      gravity: 1,
+      resistance: 10,
+      stopVel: 0.1,
+      stopAcc: 0.5,
+      dotSize: 11,
+      bounce: 0.1,
       emojiAsImage: null,
       imgAsImage: null,
       draw: null,
@@ -61,21 +63,23 @@ export default {
       particleType: 'emoji',
       spin: false,
       points: [],
-      MIN_DIST: 1,
-      MAX_POINTS: 10,
+      minDist: 1,
+      maxPoints: 10,
       dist: (x1, y1, x2, y2) => Math.sqrt(Math.abs(x1 - x2) + Math.abs(y1 - y2)),
       shiftValue: 30,
       drawEffects: true,
       hideTrailOnClick: false,
       customCursorOnClick: false,
       activateOnClick: false,
-      interval: null
+      interval: null,
+      endReached: false,
+      stopAnim: false
     }
   },
   methods: {
     setCursor (options, type) {
+      this.stopAnim = true
       if (this.type) {
-        // console.log('on clear le cursor')
         this.clearCursor()
       }
       if (type !== 'base') {
@@ -89,117 +93,21 @@ export default {
         this.lastPos = { x: this.width / 2, y: this.width / 2 }
 
         if (!document.getElementById('cursorCanvas')) {
-          if (this.type === 'dust') {
-            this.dustCursor(options)
-          } else if (this.type === 'ghost') {
-            this.ghostCursor(options)
-          } else if (this.type === 'spring') {
-            this.springCursor(options)
-          } else if (this.type === 'string') {
-            this.stringCursor(options)
-          }
+          this.updateCursor(options)
         }
       }
       if (type === 'base' && options && options.customCursorOnClick) {
         setTimeout(() => {
           this.customCursorOnClick = options.customCursorOnClick
-          // console.log('cursorClick', options.customCursorOnClick)
           this.bindBaseEvents()
         }, 1000)
       }
     },
-    dustCursor (options) {
-      this.randomColors = options.randomColors
-      this.randomChars = options.randomChars
-      if (options.particleType) {
-        this.particleType = options.particleType
-      }
-      if (options.spin) {
-        this.spin = options.spin
-      }
-      if (options.colors) {
-        this.dustColors = options.colors
-      }
-      if (options.chars) {
-        this.charList = options.chars
-      }
-      if (options.fontStyle) {
-        this.fontStyle = options.fontStyle
-      }
-      if (options.distance) {
-        this.distance = options.distance
-      }
-      if (options.gravity) {
-        this.gravity = options.gravity
-      }
-      if (options.images) {
-        this.images = options.images
-      }
-      if (options.fullWords) {
-        this.fullWords = options.fullWords
-      }
-      if (options.activateOnClick) {
-        this.activateOnClick = options.activateOnClick
-      }
+    updateCursor (options) {
+      Object.assign(this, options)
       setTimeout(() => {
         this.init(this.type)
-      }, 1000)
-    },
-    ghostCursor (options) {
-      if (options.decay) {
-        this.decay = options.decay
-      }
-      this.baseImage.src =
-        (options && options.image) ? options.image : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAASNJREFUWIW9l10OgyAMxwfZYeYd5uM8tD7qHfQ27mWQiqX0izUxMWLpjz8FSnhU7PN6n7W25dhCrU1qt46owD1gLs5Y8Hlf8/s0jO4gVQAYGDMMRgORHSTBKRAphBnAChLLD5rgmB83maPk5x4QNwX+DXEB0MpvgXBXQAoRveafA4ECWAJQOyPXMoBm/ud9NUM8Td4/SxDUuVHbmELKAUqBaRib7ZRRu2K3VcAJLgKgRlmqsxxbSE+r3y4KSJZ2BuBks0QF9mEEZbIuKQ1EwH5slWGe1RIKwDENBAbSLEqhI6WUBARCxFoD9l1TdGKQcCDiDjUqJINqpMGoanlPCNVGVE6FZfmarlWtm1Rp2AlpvmRqKypTDlgh4BS6XbO5EGX+fAFinL3TpLmq4gAAAABJRU5ErkJggg=='
-        // "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAATCAYAAACk9eypAAAAAXNSR0IArs4c6QAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAhGVYSWZNTQAqAAAACAAFARIAAwAAAAEAAQAAARoABQAAAAEAAABKARsABQAAAAEAAABSASgAAwAAAAEAAgAAh2kABAAAAAEAAABaAAAAAAAAAEgAAAABAAAASAAAAAEAA6ABAAMAAAABAAEAAKACAAQAAAABAAAADKADAAQAAAABAAAAEwAAAAAChpcNAAAACXBIWXMAAAsTAAALEwEAmpwYAAABWWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgpMwidZAAABqElEQVQoFY3SPUvDQBgH8BREpRHExYiDgmLFl6WC+AYmWeyLg4i7buJX8DMpOujgyxGvUYeCgzhUQUSKKLUS0+ZyptXh8Z5Ti621ekPyJHl+uftfomhaf9Ei5JyxXKfynyEA6EYcLHpwyflT958GAQ7DTABNHd8EbtDbEH2BD5QEQmi2mM8P/Iq+A0SzszEg+3sPjDnDdVEtQKQbMUidHD3xVzf6A9UDEmEm+8h9KTqTVUjT+vB53aHrCbAPiceYq1dQI1Aqv4EhMll0jzv+Y0yiRgCnLRSYyDQHVoqUXe4uKL9l+L7GXC4vkMhE6eW/AOJs9k583ORDUyXMZ8F5SVHVVnllmPNKSFagAJ5DofaqGXw/gHBYg51dIldkmknY3tguv3jOtHR4+MqAzaraJXbEhqHhcQlwGSOi5pytVQHZLN5s0WNe8HPrLYlFsO20RPHkImxsbmHdLJFI76th7Z4SeuF53hTeFLvhRCJRCTKZKxgdnRDbW+iozFJbBMw14/ElwGYc0egMBMFzT21f5Rog33Z7dX02GBm7WV5ZfT5Nn5bE3zuCDe9UxdTpNvK+5AAAAABJRU5ErkJggg=="
-      setTimeout(() => {
-        this.init(this.type)
-      }, 1000)
-    },
-    springCursor (options) {
-      if (options.particleType) {
-        this.particleType = options.particleType
-      }
-      if (options.emoji) {
-        this.emoji = options.emoji
-      }
-      if (options.image) {
-        this.image = options.image
-      }
-      if (options.images) {
-        this.images = options.images
-      }
-      if (options.qty) {
-        this.nDots = options.qty + 1
-      }
-      if (options.resistance) {
-        this.RESISTANCE = options.resistance
-      }
-      if (options.gravity) {
-        this.GRAVITY = options.gravity
-      }
-      if (options.hideTrailOnClick) {
-        this.hideTrailOnClick = options.hideTrailOnClick
-      }
-      setTimeout(() => {
-        this.init(this.type)
-      }, 1000)
-    },
-    stringCursor (options) {
-      if (options.particleType) {
-        this.particleType = options.particleType
-      }
-      if (options.emoji) {
-        this.emoji = options.emoji
-      }
-      if (options.image) {
-        this.image = options.image
-      }
-      if (options.images) {
-        this.images = options.images
-      }
-      setTimeout(() => {
-        this.init(this.type)
+        this.stopAnim = false
       }, 1000)
     },
     init () {
@@ -226,7 +134,6 @@ export default {
         this.context.font = this.fontStyle
         this.context.textBaseline = 'middle'
         this.context.textAlign = 'center'
-        // const image = new Image()
         if (this.particleType === 'image') {
           this.images.forEach((char, index) => {
             const image = new Image()
@@ -242,9 +149,7 @@ export default {
               0, 0,
               bgCanvas.width, bgCanvas.height
             )
-            // this.imgAsImage = bgCanvas
             this.canvImages.push(bgCanvas)
-            // console.log('index images', index)
           })
         } else {
           // ---------------------------------------------
@@ -277,18 +182,17 @@ export default {
                 bgContext.textAlign = 'center'
                 bgContext.font = this.fontStyle
                 bgContext.textBaseline = 'middle'
+                // console.log('char', char[i])
                 bgContext.fillText(
-                  char,
+                  char[i],
                   bgCanvas.width / 2,
                   measurements.actualBoundingBoxAscent
                 )
                 tempWord.canv = bgCanvas
                 canvWord.push(tempWord)
-                console.log('canvWord', canvWord)
               }
               this.canvWords.push(canvWord)
-              console.log('this.canv', this.canvImages[0])
-              // console.log('char', char, this.canvImages)
+              // console.log('this.canv', this.canvWords)
             } else {
               const measurements = this.context.measureText(char)
               const bgCanvas = document.createElement('canvas')
@@ -399,133 +303,137 @@ export default {
       if (!this.activateOnClick) {
         this.launchEffect(e)
       }
+      if (this.fullWords) {
+        this.indexCounterWord(this.charList.length)
+      }
     },
     onMouseDown (e) {
-      window.requestAnimationFrame(() => {
-        // this.cursorClick = true
-        if (this.customCursorOnClick) {
-          this.cursorClick = true
+      // this.cursorClick = true
+      if (this.customCursorOnClick) {
+        this.cursorClick = true
+      }
+      if (this.type === 'spring') {
+        if (this.hideTrailOnClick) {
+          this.shiftValue = 0
+          this.gravity = 0
+          this.drawEffects = false
         }
-        if (this.type === 'spring') {
-          if (this.hideTrailOnClick) {
-            this.shiftValue = 0
-            this.GRAVITY = 0
-            this.drawEffects = false
-          }
-        } else if (this.type === 'ghost') {
-          //
-        } else if (this.type === 'string') {
-          //
+      } else if (this.type === 'ghost') {
+        //
+      } else if (this.type === 'string') {
+        //
+      }
+      if (this.activateOnClick) {
+        if (this.interval) {
+          clearInterval(this.interval)
         }
-        if (this.activateOnClick) {
-          if (this.interval) {
-            clearInterval(this.interval)
-          }
-          this.interval = setInterval(() => {
-            this.launchEffect(e)
-          }, 500)
-        }
-      })
+        this.interval = setInterval(() => {
+          this.launchEffect(e)
+        }, 500)
+      }
     },
     onMouseUp (e) {
-      // if (this.activateOnClick) {
-      // }
+      // this.cursorClick = false
+      if (this.customCursorOnClick) {
+        this.cursorClick = false
+      }
+      if (this.type === 'spring') {
+        if (this.hideTrailOnClick) {
+          this.drawEffects = true
+          this.shiftValue = 50
+          this.gravity = 1
+        }
+      } else if (this.type === 'ghost') {
+        //
+      } else if (this.type === 'string') {
+        //
+      }
       clearInterval(this.interval)
-      window.requestAnimationFrame(() => {
-        // this.cursorClick = false
-        if (this.customCursorOnClick) {
-          this.cursorClick = false
-        }
-        if (this.type === 'spring') {
-          if (this.hideTrailOnClick) {
-            this.drawEffects = true
-            this.shiftValue = 50
-            this.GRAVITY = 1
-          }
-        } else if (this.type === 'ghost') {
-          //
-        } else if (this.type === 'string') {
-          //
-        }
-      })
     },
     launchEffect (e) {
-      // this.launchEffect(e)
-      window.requestAnimationFrame(() => {
-        if (this.hasWrapperEl) {
-          const boundingRect = this.cursorElement.getBoundingClientRect()
-          this.cursor.x = e.clientX - boundingRect.left
-          this.cursor.y = e.clientY - boundingRect.top
-        } else {
-          this.cursor.x = e.clientX
-          this.cursor.y = e.clientY
-        }
-        if (this.type === 'dust') {
-          const distBetweenPoints = Math.hypot(
-            (this.cursor.x - this.lastPos.x),
-            (this.cursor.y - this.lastPos.y)
-          )
+      if (this.hasWrapperEl) {
+        const boundingRect = this.cursorElement.getBoundingClientRect()
+        this.cursor.x = e.clientX - boundingRect.left
+        this.cursor.y = e.clientY - boundingRect.top
+      } else {
+        this.cursor.x = e.clientX
+        this.cursor.y = e.clientY
+      }
+      if (this.type === 'dust') {
+        const distBetweenPoints = Math.hypot(
+          (this.cursor.x - this.lastPos.x),
+          (this.cursor.y - this.lastPos.y)
+        )
 
-          if ((distBetweenPoints > this.distance) || this.activateOnClick) {
-            if (this.particleType && this.particleType === 'image') {
-              this.addParticle(
-                this.cursor.x + 30,
-                this.cursor.y + 30,
-                this.canvImages[this.indexCounter(this.images.length)]
-              )
-              if (this.randomChars && this.counter2 >= (this.images.length - 1)) {
-                this.shuffleArray(this.canvImages)
-              }
-            } else {
+        if ((distBetweenPoints > this.distance) || this.activateOnClick) {
+          if (this.particleType && this.particleType === 'image') {
+            this.addParticle(
+              this.cursor.x + 30,
+              this.cursor.y + 30,
+              this.canvImages[this.indexCounter(this.images.length)]
+            )
+            if (this.randomChars && this.counter2 >= (this.images.length - 1)) {
+              // console.log('randomchars')
+              this.shuffleArray(this.canvImages)
+            }
+          } else {
+            if (!this.fullWords) {
               this.addParticle(
                 this.cursor.x + 30,
                 this.cursor.y + 30,
                 this.canvImages[this.indexCounter(this.charList.length)]
               )
-              if (this.fullWords) {
-                // let currentWordIndex = this.wordIndex
-                // console.log('wordInfex', this.canvWords[0][1].canv)
-                this.addParticle(
-                  this.cursor.x + 30,
-                  this.cursor.y + 30,
-                  this.canvWords[0][1].canv
-                )
-              } else if (this.randomChars && this.counter2 >= (this.charList.length - 1)) {
-                this.shuffleArray(this.canvImages)
-              }
+            } else if (this.fullWords && !this.endReached) {
+              // let currentWordIndex = this.wordIndex
+              // console.log('wordIndex', this.indexCounterWord(this.charList.length))
+              this.addParticle(
+                this.cursor.x + 30,
+                this.cursor.y + 30,
+                this.canvWords[this.wordCounter][(this.indexCounter(this.charList[this.wordCounter].length, false, true))].canv
+              )
+            } else if (this.randomChars && this.counter2 >= (this.charList.length - 1)) {
+              this.shuffleArray(this.canvImages)
             }
-            this.lastPos.x = this.cursor.x
-            this.lastPos.y = this.cursor.y
           }
-        } else if (this.type === 'ghost') {
-          this.addParticle(this.cursor.x, this.cursor.y, this.baseImage)
-        } else if (this.type === 'string') {
-          const polyline = document.getElementById('cursorCanvas')
-          if (!this.cursor.x || !this.cursor.y) return
-          if (!this.points.length) return this.points.push([this.cursor.x, this.cursor.y])
-          const [px, py] = this.points[this.points.length - 1]
-          const d = this.dist(this.cursor.x, this.cursor.y, px, py)
-          if (d < this.MIN_DIST) return
-          this.points.push([this.lastPos.x, this.lastPos.y])
-          const pathString = this.points.reduce((acc, [x, y]) => {
-            return acc + ` ${this.cursor.x},${this.cursor.y}`
-          }, '')
-          polyline.setAttribute('points', pathString)
-          if (this.points.length > this.MAX_POINTS) this.points.shift()
+          this.lastPos.x = this.cursor.x
+          this.lastPos.y = this.cursor.y
         }
-      })
+      } else if (this.type === 'ghost') {
+        var imageObject = new Image()
+        imageObject.src = this.image
+        this.addParticle(this.cursor.x, this.cursor.y, imageObject)
+      } else if (this.type === 'string') {
+        const polyline = document.getElementById('cursorCanvas')
+        if (!this.cursor.x || !this.cursor.y) return
+        if (!this.points.length) return this.points.push([this.cursor.x, this.cursor.y])
+        const [px, py] = this.points[this.points.length - 1]
+        const d = this.dist(this.cursor.x, this.cursor.y, px, py)
+        if (d < this.minDist) return
+        this.points.push([this.lastPos.x, this.lastPos.y])
+        const pathString = this.points.reduce((acc, [x, y]) => {
+          return acc + ` ${this.cursor.x},${this.cursor.y}`
+        }, '')
+        polyline.setAttribute('points', pathString)
+        if (this.points.length > this.maxPoints) this.points.shift()
+      }
     },
-    indexCounter (qty, random, delay) {
+    indexCounter (qty, random, stop) {
+      // console.log('Random?', random, 'stop?', stop)
+      // console.log('counter', this.counter2)
       if (random) {
         this.counter2 = Math.floor(Math.random() * (qty - 1))
       } else if (this.counter2 < (qty - 1)) {
         this.counter2++
+        // console.log('counter', this.counter2)
+      } else if (stop) {
+        this.endReached = true
+        this.counter2 = 0
       } else {
         this.counter2 = 0
       }
       return this.counter2
     },
-    indexCounterWord (qty, random, delay) {
+    indexCounterWord: debounce(function indexCounterWord (qty, random) {
       if (random) {
         this.wordCounter = Math.floor(Math.random() * (qty - 1))
       } else if (this.wordCounter < (qty - 1)) {
@@ -533,8 +441,10 @@ export default {
       } else {
         this.wordCounter = 0
       }
+      this.endReached = false
+      // console.log('wordCounter', this.wordCounter)
       return this.wordCounter
-    },
+    }, 50),
     shuffleArray (arr) {
       for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1))
@@ -586,21 +496,21 @@ export default {
             this.springForce(i + 1, i, spring)
           }
           const resist = {
-            x: -this.particles[i].velocity.x * this.RESISTANCE,
-            y: -this.particles[i].velocity.y * this.RESISTANCE
+            x: -this.particles[i].velocity.x * this.resistance,
+            y: -this.particles[i].velocity.y * this.resistance
           }
           const accel = {
-            x: (spring.x + resist.x) / this.MASS,
-            y: (spring.y + resist.y) / this.MASS + this.GRAVITY
+            x: (spring.x + resist.x) / this.mass,
+            y: (spring.y + resist.y) / this.mass + this.gravity
           }
-          this.particles[i].velocity.x += this.DELTAT * accel.x
-          this.particles[i].velocity.y += this.DELTAT * accel.y
+          this.particles[i].velocity.x += this.deltaT * accel.x
+          this.particles[i].velocity.y += this.deltaT * accel.y
 
           if (
-            Math.abs(this.particles[i].velocity.x) < this.STOPVEL &&
-            Math.abs(this.particles[i].velocity.y) < this.STOPVEL &&
-            Math.abs(accel.x) < this.STOPACC &&
-            Math.abs(accel.y) < this.STOPACC
+            Math.abs(this.particles[i].velocity.x) < this.stopVel &&
+            Math.abs(this.particles[i].velocity.y) < this.stopVel &&
+            Math.abs(accel.x) < this.stopAcc &&
+            Math.abs(accel.y) < this.stopAcc
           ) {
             this.particles[i].velocity.x = 0
             this.particles[i].velocity.y = 0
@@ -612,23 +522,23 @@ export default {
           const height = this.canvas.clientHeight
           const width = this.canvas.clientWidth
 
-          if (this.particles[i].position.y >= height - this.DOTSIZE - 1) {
+          if (this.particles[i].position.y >= height - this.dotSize - 1) {
             if (this.particles[i].velocity.y > 0) {
-              this.particles[i].velocity.y = this.BOUNCE * -this.particles[i].velocity.y
+              this.particles[i].velocity.y = this.bounce * -this.particles[i].velocity.y
             }
-            this.particles[i].position.y = height - this.DOTSIZE - 1
+            this.particles[i].position.y = height - this.dotSize - 1
           }
 
-          if (this.particles[i].position.x >= width - this.DOTSIZE) {
+          if (this.particles[i].position.x >= width - this.dotSize) {
             if (this.particles[i].velocity.x > 0) {
-              this.particles[i].velocity.x = this.BOUNCE * -this.particles[i].velocity.x
+              this.particles[i].velocity.x = this.bounce * -this.particles[i].velocity.x
             }
-            this.particles[i].position.x = width - this.DOTSIZE - 1
+            this.particles[i].position.x = width - this.dotSize - 1
           }
 
           if (this.particles[i].position.x < 0) {
             if (this.particles[i].velocity.x < 0) {
-              this.particles[i].velocity.x = this.BOUNCE * -this.particles[i].velocity.x
+              this.particles[i].velocity.x = this.bounce * -this.particles[i].velocity.x
             }
             this.particles[i].position.x = 0
           }
@@ -639,6 +549,7 @@ export default {
       }
     },
     loop () {
+      if (this.stopAnim) return
       if (this.type === 'spring') {
         this.updateParticlesSpring()
       } else {
@@ -654,8 +565,8 @@ export default {
       const dx = this.particles[i].position.x - this.particles[j].position.x
       const dy = this.particles[i].position.y - this.particles[j].position.y
       const len = Math.sqrt(dx * dx + dy * dy)
-      if (len > this.SEGLEN) {
-        const springF = this.SPRINGK * (len - this.SEGLEN)
+      if (len > this.seglen) {
+        const springF = this.springK * (len - this.seglen)
         spring.x += (dx / len) * springF
         spring.y += (dy / len) * springF
       }
@@ -678,6 +589,7 @@ export default {
       // console.log('velocity', this.velocity)
       this.position = { x: x, y: y }
       this.canv = canvasItem
+      // console.log('this.canv', this.canv)
       // var ctx = this.canv.getContext('2d')
       // ctx.rotate(80)
       // console.log('this.canv', this.canv)
@@ -773,8 +685,10 @@ export default {
       this.type = null
       // this.context = null
       this.particles = []
-      this.baseImage = new Image()
+      // this.baseImage = new Image()
       this.canvImages = []
+      this.image = null
+      this.images = null
       this.dustColors = [
         '#D61C59',
         '#E7D84B',
@@ -794,11 +708,12 @@ export default {
       this.particleType = null
       this.spin = false
       this.nDots = 7
-      this.RESISTANCE = 1
-      this.GRAVITY = 10
+      this.resistance = 1
+      this.gravity = 10
       this.hideTrailOnClick = false
       this.fullWords = false
       this.activateOnClick = false
+      this.endReached = false
     }
   }
 }

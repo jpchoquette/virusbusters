@@ -22,9 +22,9 @@ export default {
       canvImages: [],
       canvWords: [],
       dustColors: [
-        '#D61C59',
-        '#E7D84B',
-        '#1B8798'
+        '#ff004d',
+        '#7e2753',
+        '#fcccac'
       ],
       charList: [
         '!', '%', '$', '&', '?', '*'
@@ -39,7 +39,7 @@ export default {
       counter2: 0,
       wordCounter: 0,
       fontStyle: '40px Daydream',
-      fade: true,
+      fade: false,
       nDots: 7,
       image: null,
       images: null,
@@ -73,7 +73,18 @@ export default {
       activateOnClick: false,
       interval: null,
       endReached: false,
-      stopAnim: false
+      stopAnim: false,
+      projectiles: [],
+      projectileHold: true,
+      projectileDelay: 200,
+      projectileTimeout: null,
+      projectileType: 'text',
+      projectileSpeed: 50,
+      customCursorPosX: 0,
+      customCursorPosY: 0,
+      trail: [],
+      trailSize: 10,
+      trailColor: '#feffd9'
     }
   },
   methods: {
@@ -84,14 +95,11 @@ export default {
       }
       if (type !== 'base') {
         this.type = type
-        // this.hasWrapperEl = options && options.element
-        // this.cursorElement = this.hasWrapperEl || document.body
         this.cursorElement = document.getElementById('screenContent')
         this.width = window.innerWidth
         this.height = window.innerHeight
         this.cursor = { x: this.width / 2, y: this.width / 2 }
         this.lastPos = { x: this.width / 2, y: this.width / 2 }
-
         if (!document.getElementById('cursorCanvas')) {
           this.updateCursor(options)
         }
@@ -104,6 +112,7 @@ export default {
       }
     },
     updateCursor (options) {
+      // console.log('on update cursor', options)
       Object.assign(this, options)
       setTimeout(() => {
         this.init(this.type)
@@ -114,6 +123,7 @@ export default {
       this.canvas = document.createElement('canvas')
       this.canvas.setAttribute('id', 'cursorCanvas')
       this.context = this.canvas.getContext('2d')
+      this.context.font = this.fontStyle
       this.canvas.style.top = '0px'
       this.canvas.style.left = '0px'
       this.canvas.style.pointerEvents = 'none'
@@ -171,7 +181,6 @@ export default {
                 const measurements = this.context.measureText(char)
                 const bgCanvas = document.createElement('canvas')
                 const bgContext = bgCanvas.getContext('2d')
-
                 bgCanvas.setAttribute('id', 'bgCanvas')
                 bgCanvas.width = measurements.width
                 bgCanvas.height =
@@ -182,7 +191,6 @@ export default {
                 bgContext.textAlign = 'center'
                 bgContext.font = this.fontStyle
                 bgContext.textBaseline = 'middle'
-                // console.log('char', char[i])
                 bgContext.fillText(
                   char[i],
                   bgCanvas.width / 2,
@@ -192,18 +200,15 @@ export default {
                 canvWord.push(tempWord)
               }
               this.canvWords.push(canvWord)
-              // console.log('this.canv', this.canvWords)
             } else {
               const measurements = this.context.measureText(char)
               const bgCanvas = document.createElement('canvas')
               const bgContext = bgCanvas.getContext('2d')
-
               bgCanvas.setAttribute('id', 'bgCanvas')
               bgCanvas.width = measurements.width
               bgCanvas.height =
                 measurements.actualBoundingBoxAscent +
                 measurements.actualBoundingBoxDescent
-
               bgContext.fillStyle = this.dustColors[this.counter]
               bgContext.textAlign = 'center'
               bgContext.font = this.fontStyle
@@ -249,10 +254,10 @@ export default {
             )
             this.emojiAsImage = bgCanvas
           }
-          // this.addParticle(this.cursor.x, this.cursor.y, this.emojiAsImage)
           this.particles[i] = new this.SpringParticle(this.cursor.x, this.cursor.y, this.particleType === 'image' ? this.imgAsImage : this.emojiAsImage, i)
         }
-      // GHOST ----------------------------------------
+      } else if (this.type === 'projectile') {
+        // todo
       } else if (this.type === 'ghost') {
         // todo
       } else if (this.type === 'string') {
@@ -300,15 +305,22 @@ export default {
       }
     },
     onMouseMove (e) {
-      if (!this.activateOnClick) {
+      if (!this.activateOnClick && this.type !== 'projectile') {
         this.launchEffect(e)
+      }
+      if (this.type === 'trail') {
+        this.addPoint({
+          x: e.clientX,
+          y: e.clientY
+        })
       }
       if (this.fullWords) {
         this.indexCounterWord(this.charList.length)
       }
+      this.customCursorPosX = e.clientX
+      this.customCursorPosY = e.clientY
     },
     onMouseDown (e) {
-      // this.cursorClick = true
       if (this.customCursorOnClick) {
         this.cursorClick = true
       }
@@ -319,9 +331,9 @@ export default {
           this.drawEffects = false
         }
       } else if (this.type === 'ghost') {
-        //
+        // todo
       } else if (this.type === 'string') {
-        //
+        // todo
       }
       if (this.activateOnClick) {
         if (this.interval) {
@@ -331,9 +343,21 @@ export default {
           this.launchEffect(e)
         }, 500)
       }
+      if (this.type === 'projectile') {
+        if (this.projectileHold) {
+          this.generateProjectiles(e)
+          if (this.projectileInterval) {
+            clearInterval(this.projectileInterval)
+          }
+          this.projectileInterval = setInterval(() => {
+            this.generateProjectiles(e)
+          }, this.projectileDelay)
+        } else {
+          this.generateProjectiles(e)
+        }
+      }
     },
     onMouseUp (e) {
-      // this.cursorClick = false
       if (this.customCursorOnClick) {
         this.cursorClick = false
       }
@@ -347,8 +371,32 @@ export default {
         //
       } else if (this.type === 'string') {
         //
+      } else if (this.type === 'projectile') {
+        if (this.projectileInterval) {
+          clearInterval(this.projectileInterval)
+        }
       }
       clearInterval(this.interval)
+    },
+    loop () {
+      if (this.stopAnim) return
+      if (this.type === 'trail') {
+        this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height)
+        this.trail = this.trail.filter((tp) => Date.now() - tp.createdAt < 500)
+        this.bezierTrail()
+      } else if (this.type === 'projectile') {
+        this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height)
+        // // Move and Draw the projectiles
+        for (const projectile of this.projectiles) {
+          projectile.draw()
+          projectile.move()
+        }
+      } else if (this.type === 'spring') {
+        this.updateParticlesSpring()
+      } else {
+        this.updateParticles()
+      }
+      requestAnimationFrame(this.loop)
     },
     launchEffect (e) {
       if (this.hasWrapperEl) {
@@ -399,8 +447,8 @@ export default {
           this.lastPos.y = this.cursor.y
         }
       } else if (this.type === 'ghost') {
-        var imageObject = new Image()
-        imageObject.src = this.image
+        const imageObject = new Image()
+        imageObject.src = this.images[Math.floor(Math.random() * this.images.length)]
         this.addParticle(this.cursor.x, this.cursor.y, imageObject)
       } else if (this.type === 'string') {
         const polyline = document.getElementById('cursorCanvas')
@@ -418,13 +466,10 @@ export default {
       }
     },
     indexCounter (qty, random, stop) {
-      // console.log('Random?', random, 'stop?', stop)
-      // console.log('counter', this.counter2)
       if (random) {
         this.counter2 = Math.floor(Math.random() * (qty - 1))
       } else if (this.counter2 < (qty - 1)) {
         this.counter2++
-        // console.log('counter', this.counter2)
       } else if (stop) {
         this.endReached = true
         this.counter2 = 0
@@ -442,7 +487,6 @@ export default {
         this.wordCounter = 0
       }
       this.endReached = false
-      // console.log('wordCounter', this.wordCounter)
       return this.wordCounter
     }, 50),
     shuffleArray (arr) {
@@ -458,13 +502,12 @@ export default {
       if (this.type === 'dust') {
         this.particles.push(new this.DustParticle(x, y, elem, this.spin))
       } else if (this.type === 'ghost') {
-        this.particles.push(new this.GhostParticle(x, y, elem, this.decay))
+        this.particles.push(new this.GhostParticle(x, y, elem, this.decay, this.fade))
       } else if (this.type === 'spring') {
-        // this.particles.push(new this.SpringParticle(x, y, elem))
+        this.particles.push(new this.SpringParticle(x, y, elem))
       }
     },
     updateParticles () {
-      // console.log('on update')
       this.context.clearRect(0, 0, this.width, this.height)
       // Update
       for (let i = 0; i < this.particles.length; i++) {
@@ -548,19 +591,6 @@ export default {
         }
       }
     },
-    loop () {
-      if (this.stopAnim) return
-      if (this.type === 'spring') {
-        this.updateParticlesSpring()
-      } else {
-        this.updateParticles()
-      }
-      requestAnimationFrame(this.loop)
-    },
-    vec (x, y) {
-      this.x = x
-      this.y = y
-    },
     springForce (i, j, spring) {
       const dx = this.particles[i].position.x - this.particles[j].position.x
       const dy = this.particles[i].position.y - this.particles[j].position.y
@@ -571,7 +601,42 @@ export default {
         spring.y += (dy / len) * springF
       }
     },
+    bezierTrail () {
+      const points = [null, null, null, null]
+      for (let i = 0; i < this.trail.length; i++) {
+        const trailPoint = this.trail[i]
+        points[0] = points[1]
+        points[1] = points[2]
+        points[2] = trailPoint
 
+        if (points[0] == null) continue
+
+        const lifeLeft = 1 - (Date.now() - trailPoint.createdAt) / 500
+        const radius = this.trailSize * lifeLeft
+        const p0 = points[0]
+        const p1 = points[1]
+        const p2 = points[2]
+        const x0 = (p0.x + p1.x) / 2
+        const y0 = (p0.y + p1.y) / 2
+        const x1 = (p1.x + p2.x) / 2
+        const y1 = (p1.y + p2.y) / 2
+
+        this.context.beginPath()
+        this.context.lineWidth = radius * 2
+        this.context.lineCap = 'round'
+        this.context.strokeStyle = this.trailColor
+        this.context.moveTo(x0, y0)
+        this.context.quadraticCurveTo(p1.x, p1.y, x1, y1)
+        this.context.stroke()
+      }
+    },
+    addPoint (point) {
+      this.trail.push({
+        x: point.x,
+        y: point.y,
+        createdAt: Date.now()
+      })
+    },
     /**
      * Particles
      */
@@ -586,13 +651,8 @@ export default {
         x: (Math.random() < 0.5 ? -1 : 1) * (Math.random() / 2),
         y: Math.random() * 0.7 + 0.9
       }
-      // console.log('velocity', this.velocity)
       this.position = { x: x, y: y }
       this.canv = canvasItem
-      // console.log('this.canv', this.canv)
-      // var ctx = this.canv.getContext('2d')
-      // ctx.rotate(80)
-      // console.log('this.canv', this.canv)
       this.update = function (context) {
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
@@ -605,8 +665,6 @@ export default {
 
         this.velocity.y += 0.1
         const scale = Math.max(this.lifeSpan / this.initialLifeSpan, 0)
-        // context.rotate(10)
-        // console.log('hello', thus.spin)
         if (spin) {
           context.save()
           context.translate(this.position.x, this.position.y) // sets scales and origin
@@ -615,7 +673,6 @@ export default {
             this.canv, -this.canv.width / 2, -this.canv.height / 2, this.canv.width, this.canv.height
           )
           context.restore()
-          // context.clearRect(0, 0, this.canv.width, this.canv.height)
         } else {
           context.drawImage(
             this.canv,
@@ -625,15 +682,12 @@ export default {
             this.canv.height * scale
           )
         }
-
         // context.rotate(10)
-        // console.log('context', context)
       }
     },
-    GhostParticle (x, y, canvasItem, decay) {
-      const lifeSpan = decay
-      this.initialLifeSpan = lifeSpan // ms
-      this.lifeSpan = lifeSpan // ms
+    GhostParticle (x, y, canvasItem, decay, fade) {
+      this.initialLifeSpan = decay // ms
+      this.lifeSpan = decay // ms
       // Random ghost scattering
       // const randomA = Math.floor(Math.random() * 100)
       // const randomB = Math.floor(Math.random() * 100)
@@ -641,7 +695,7 @@ export default {
       this.image = canvasItem
       this.update = function (context) {
         this.lifeSpan--
-        if (this.fade) {
+        if (fade) {
           const opacity = Math.max(this.lifeSpan / this.initialLifeSpan, 0)
           context.globalAlpha = opacity
         } else {
@@ -671,10 +725,70 @@ export default {
         )
       }
     },
+    generateProjectiles (pos) {
+      this.projectiles.push(this.createProjectile(pos))
+    },
+    createProjectile (pos) {
+      const thus = this
+      return {
+        bullet: this.projectileType === 'text' ? this.charList[Math.floor(this.charList.length * Math.random())] : this.images[Math.floor(this.images.length * Math.random())],
+        size: Math.random() * 25 + 5,
+        speed: this.projectileSpeed,
+        direction: Math.floor(Math.random() * 180) + 180,
+        angle: 0,
+        x: this.customCursorPosX,
+        y: this.customCursorPosY,
+        spin: 0,
+        life: 60,
+        maxLife: 60,
+        move: function () {
+          if (this.life > 1) {
+            this.life -= 1
+            const speed = Math.ceil(this.life / this.maxLife * this.speed)
+            this.x -= speed
+            this.y -= speed
+            // this.angle += this.spin
+          }
+        },
+        draw: function () {
+          if (this.life > 1) {
+            thus.drawProjectile({
+              bullet: this.bullet,
+              x: this.x,
+              y: this.y,
+              size: this.size,
+              angle: this.angle,
+              alpha: this.life / this.maxLife
+            })
+          } else {
+            thus.projectiles.shift()
+          }
+        }
+      }
+    },
+    drawProjectile (info) {
+      this.context.font = this.fontStyle
+      // this.context.textAlign = 'center'
+      // this.context.textBaseline = 'middle'
+      this.context.save()
+      this.context.globalAlpha = info.alpha || 1
+      this.context.translate(info.x, info.y)
+      this.context.rotate(info.angle)
+      if (this.projectileType === 'text') {
+        this.context.fillText(info.bullet, 0, 0)
+      } else {
+        const image = new Image()
+        image.src = info.bullet
+        this.context.drawImage(
+          image, 0, 0, image.width, image.height
+        )
+      }
+      this.context.restore()
+    },
     clearCursor () {
       this.cursorElement.removeEventListener('mousemove', this.onMouseMove)
-      this.cursorElement.removeEventListener('mousemove', this.onMouseDown)
-      this.cursorElement.removeEventListener('mousemove', this.onMouseUp)
+      this.cursorElement.removeEventListener('mousedown', this.onMouseDown)
+      this.cursorElement.removeEventListener('mouseup', this.onMouseUp)
       this.cursorElement.removeEventListener('touchmove', this.onTouchMove)
       this.cursorElement.removeEventListener('touchstart', this.onTouchMove)
       window.removeEventListener('resize', this.onWindowResize)
@@ -690,9 +804,9 @@ export default {
       this.image = null
       this.images = null
       this.dustColors = [
-        '#D61C59',
-        '#E7D84B',
-        '#1B8798'
+        '#ff004d',
+        '#7e2753',
+        '#fcccac'
       ]
       this.charList = ['!', '%', '$', '&', '?', '*']
       this.char = '.'
@@ -704,7 +818,7 @@ export default {
       this.counter2 = 0
       this.gravity = 1
       this.fontStyle = '40px Daydream'
-      this.fade = true
+      this.fade = false
       this.particleType = null
       this.spin = false
       this.nDots = 7
@@ -714,6 +828,17 @@ export default {
       this.fullWords = false
       this.activateOnClick = false
       this.endReached = false
+      this.interval = null
+      this.stopAnim = false
+      this.projectiles = []
+      this.projectileHold = true
+      this.projectileDelay = 200
+      this.projectileTimeout = null
+      this.projectileType = 'text'
+      this.projectileSpeed = 50
+      this.trail = []
+      this.trailSize = 10
+      this.trailColor = '#feffd9'
     }
   }
 }

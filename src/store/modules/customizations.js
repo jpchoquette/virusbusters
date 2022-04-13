@@ -64,7 +64,7 @@ const state = {
       class: 'cursor-glitched',
       image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAgVJREFUWIW9V71uwjAQ/hzRrqxUYmED9pYlVQdItnbiUboxs/EGvAIsjGkZqrKk7FUfAAlQp6hjB3cAR2fHhnOAflNyvvi++7UjQBA1QwkAyWBBxYiHIV6+FgIXQKAMK+MuHFs3dbn6gc/GvuAQqdCXJJ3sHmY12OSiqst9iLhSKPK8K+MHIKo1Vh3IbCMBIO70NbmNRMDZsCySdKI5ZkuJoIuUYWsqNcX64B7J4lsz0L2tFozOlxlw9VaQu6KRdwHDoZNgpljZvGgKOCS0LlDFAwDtV8vHvw+abL7MnMY4BQgAQuLRGv72dKa9f/a2BQJO7GuAQ8JJANmYZ+wIKImzt6HpYRlUXAvm0JHZRhYn5AZxp88aYhRRM5Sr4fthAj5QkaBEuEV4MoEkneTGXCk5dJTnNdBtbNFtbE/l42UccEUgG0MCWnfEnT6SgX0TGgWOUYoAwNk99xntZxvFrllvg+oAYH8aUmVbS9HwHms5TvXTk7ZAwDRiq2xfEiaR1lTKm+eOmwAHZUgoIpRAoISuyrXJfSafubfpbMVUpgrqQ1MOWO6Hqzs9iuo4rx8mWJgDnB4ucwiZs0KB3Ybn+DOiqVuPUqxHqd8cuMTvWakNo2YozUIUP0925fqHAHbHuW1GlPaI3h+V8ah3XdBTUTOLWMlLE1BRoJ7bCNhAU/nvVzKzjv4A1McWXZcxVBgAAAAASUVORK5CYII=',
       options: {
-        image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAgVJREFUWIW9V71uwjAQ/hzRrqxUYmED9pYlVQdItnbiUboxs/EGvAIsjGkZqrKk7FUfAAlQp6hjB3cAR2fHhnOAflNyvvi++7UjQBA1QwkAyWBBxYiHIV6+FgIXQKAMK+MuHFs3dbn6gc/GvuAQqdCXJJ3sHmY12OSiqst9iLhSKPK8K+MHIKo1Vh3IbCMBIO70NbmNRMDZsCySdKI5ZkuJoIuUYWsqNcX64B7J4lsz0L2tFozOlxlw9VaQu6KRdwHDoZNgpljZvGgKOCS0LlDFAwDtV8vHvw+abL7MnMY4BQgAQuLRGv72dKa9f/a2BQJO7GuAQ8JJANmYZ+wIKImzt6HpYRlUXAvm0JHZRhYn5AZxp88aYhRRM5Sr4fthAj5QkaBEuEV4MoEkneTGXCk5dJTnNdBtbNFtbE/l42UccEUgG0MCWnfEnT6SgX0TGgWOUYoAwNk99xntZxvFrllvg+oAYH8aUmVbS9HwHms5TvXTk7ZAwDRiq2xfEiaR1lTKm+eOmwAHZUgoIpRAoISuyrXJfSafubfpbMVUpgrqQ1MOWO6Hqzs9iuo4rx8mWJgDnB4ucwiZs0KB3Ybn+DOiqVuPUqxHqd8cuMTvWakNo2YozUIUP0925fqHAHbHuW1GlPaI3h+V8ah3XdBTUTOLWMlLE1BRoJ7bCNhAU/nvVzKzjv4A1McWXZcxVBgAAAAASUVORK5CYII=',
+        images: ['data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAgVJREFUWIW9V71uwjAQ/hzRrqxUYmED9pYlVQdItnbiUboxs/EGvAIsjGkZqrKk7FUfAAlQp6hjB3cAR2fHhnOAflNyvvi++7UjQBA1QwkAyWBBxYiHIV6+FgIXQKAMK+MuHFs3dbn6gc/GvuAQqdCXJJ3sHmY12OSiqst9iLhSKPK8K+MHIKo1Vh3IbCMBIO70NbmNRMDZsCySdKI5ZkuJoIuUYWsqNcX64B7J4lsz0L2tFozOlxlw9VaQu6KRdwHDoZNgpljZvGgKOCS0LlDFAwDtV8vHvw+abL7MnMY4BQgAQuLRGv72dKa9f/a2BQJO7GuAQ8JJANmYZ+wIKImzt6HpYRlUXAvm0JHZRhYn5AZxp88aYhRRM5Sr4fthAj5QkaBEuEV4MoEkneTGXCk5dJTnNdBtbNFtbE/l42UccEUgG0MCWnfEnT6SgX0TGgWOUYoAwNk99xntZxvFrllvg+oAYH8aUmVbS9HwHms5TvXTk7ZAwDRiq2xfEiaR1lTKm+eOmwAHZUgoIpRAoISuyrXJfSafubfpbMVUpgrqQ1MOWO6Hqzs9iuo4rx8mWJgDnB4ucwiZs0KB3Ybn+DOiqVuPUqxHqd8cuMTvWakNo2YozUIUP0925fqHAHbHuW1GlPaI3h+V8ah3XdBTUTOLWMlLE1BRoJ7bCNhAU/nvVzKzjv4A1McWXZcxVBgAAAAASUVORK5CYII='],
         decay: 100,
         fade: false
       }
@@ -207,23 +207,38 @@ const state = {
         customCursorOnClick: true
       }
     },
+    // {
+    //   template_id: '474969',
+    //   disabled: false,
+    //   public: true,
+    //   name: 'Upgraded Butter Knife Cursor',
+    //   type: 'dust',
+    //   customCursor: true,
+    //   class: 'cursor-knife',
+    //   image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABSZJREFUWEeVV01vG1UUPW9MyoIAQlB5BiE8XiAlEhJImQ+EUOwkQl3FdBXUsmRJ/wkrJLquEK1QWyD+WECLEjuVEIrtVCCUFqmLsasuQFlAVRZNIfOqe9+b8cx4/NFZjWfee3Pvueecey0w4dqwfSkhsTvoCkAAkKmV40/odfZp8re6z1uROnij7ElIgROcoIACb9rhIJ7lyv/YhBApQRknuGF7cmfYw6mFBTx58gTrZR+QERJ5WKQDy0Nm2rNUZutlX4byBJ1hHzd++BEfnT2Lx8fH2LA97AT7aRRS6AoOcnSlPzmtgKNDBbBu+7Id7KPRasEsFvk8z/NQLbswpMDuoEdfUt+JdtLP5H1OpUYFoZfjXOItBD2EoHqj2+2qYygrIeB7Lqolh7/U5iBmZTg/X2IE1m1P/nz/Nr5tfI+iaaUTlJKRWCt7IILuDjLlyENEZoCPfuY85nCp/u3BPhqNJkzThKAQIsAZCV2OkosOo5C95pGqXpNYGsNJAewGXbSaDZiWCUkZ6LdUCvrpez6qtgMpJTqDfrw3X/35TpGVYpwJGc/OkAJo8gcs01S2QRLV3KHFrg6C7hUfJpJ/KhGEFk6cxZrtyF//vIevrl9mplqmpQ8gP6Q4BKSQHI/ne6iWXNAbhUQ2r3kKlBYTq0AKAZZhs8XwW2aRS0HRUlCMiAbE95Uy2nEA8zI/SYCIafrUyAUb9TqEYbAMLcvUJwu9ilAQcEmaZRf0tB1oFCaUfS4jokXrZU+GCNEJDtBoNrVFC5hWUZdAe44mpUd8IH8QEp0oiBnlyCNsCrtq2ZG3gtsM+Ha9jkJBIWFaFsPPFdDEVEiQPziKDxTEZPLn1mi0QW9cs1129b1Bj12wvr0NUSgw1GYxUY6IvpLkSXbtcHQjZUwBPu0D44FRSw4l2W4XC88V8N32turlEijGnFC2LoTiw9KrNqzF17hG7eBAszUZBOWqFJVV7uh3Yn2VBhIR4lbQ4031RgMGyUFAO6UaL7iTs0l5bFKqK0Y9Y5oy0i0qV7gUBH2gM+zywfVGHYagIYWCUN2SpEt9QilVYvHUC3BffxsSJ3NJlFPKgyayiartSoGQsyVesEdo3xE8tAnUapvo9br44L33cRz+z62bJCoRJsoxDn2yk880s6rtcLvuBH00W00mQG2zxplT+6YyvPzFAEuXt5i8hAaVxEABO4numWbFaJTIL1a8Wt2QQmjh73/dw9+PH2K1tMLTEx1z59xVLH+zhZ9qF/Hmi6fhX/sU//z3CGslVxMz3TciBszVVpPwrJWpJAZOZBhPuXvDA76/sXkRbyyeBllHGAp8/tvXuHTYQsVe4SD2ggOR1UFOABEYs9qpel9hjlBTOsCd81djJOmtUQDuPzzCh83PsGo7KHCvSSBBDORjntG9svWiIAzWfx93P7kWz33kEQSUMCSWrnyMd8238MrzL7E6ok8qBNKTeeL8aQpJh1Hh0oCmJdw9R0GoS801IYQwsHxlCxXbYeJyA4sGHo4hmqzjm1QcyvUyM+3ISpS/cRAS2Bv2cHj+us5NVf3Bv0e49EcTN4e/4B1rGbt6zI85MF8VdOvgxVlTVVBW7BVGYm/QxyGVQ4v9waMjnGleQKXs6BFf/duaQsJ8Zc7QK5+4WnKlweXo42btyxi5M60LqJB0E0OMDiA//4gg4y0kG8b4/krZUUgEfbZrck2VvaH/8Gpxj22dRMjEwtSeKbUjz4hmiIIwuBpR7ZNin/2Pc5yPk+szD5kSa54CLpxORed+rQMAAAAASUVORK5CYII=',
+    //   options: {
+    //     fullWords: true,
+    //     dustColors: ['#4056FF', '#ffe040', '#ff0000'],
+    //     charList: ['Quack!', 'Stab', 'Stabby', 'Duck!', '@#$%?&*'],
+    //     randomColors: false,
+    //     fontStyle: '30px DayDream',
+    //     distance: 100,
+    //     gravity: 0.02
+    //   }
+    // },
     {
       template_id: '474969',
-      disabled: true,
+      disabled: false,
       public: false,
       name: 'Upgraded Butter Knife Cursor',
-      type: 'dust',
+      type: 'trail',
       customCursor: true,
       class: 'cursor-knife',
       image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABSZJREFUWEeVV01vG1UUPW9MyoIAQlB5BiE8XiAlEhJImQ+EUOwkQl3FdBXUsmRJ/wkrJLquEK1QWyD+WECLEjuVEIrtVCCUFqmLsasuQFlAVRZNIfOqe9+b8cx4/NFZjWfee3Pvueecey0w4dqwfSkhsTvoCkAAkKmV40/odfZp8re6z1uROnij7ElIgROcoIACb9rhIJ7lyv/YhBApQRknuGF7cmfYw6mFBTx58gTrZR+QERJ5WKQDy0Nm2rNUZutlX4byBJ1hHzd++BEfnT2Lx8fH2LA97AT7aRRS6AoOcnSlPzmtgKNDBbBu+7Id7KPRasEsFvk8z/NQLbswpMDuoEdfUt+JdtLP5H1OpUYFoZfjXOItBD2EoHqj2+2qYygrIeB7Lqolh7/U5iBmZTg/X2IE1m1P/nz/Nr5tfI+iaaUTlJKRWCt7IILuDjLlyENEZoCPfuY85nCp/u3BPhqNJkzThKAQIsAZCV2OkosOo5C95pGqXpNYGsNJAewGXbSaDZiWCUkZ6LdUCvrpez6qtgMpJTqDfrw3X/35TpGVYpwJGc/OkAJo8gcs01S2QRLV3KHFrg6C7hUfJpJ/KhGEFk6cxZrtyF//vIevrl9mplqmpQ8gP6Q4BKSQHI/ne6iWXNAbhUQ2r3kKlBYTq0AKAZZhs8XwW2aRS0HRUlCMiAbE95Uy2nEA8zI/SYCIafrUyAUb9TqEYbAMLcvUJwu9ilAQcEmaZRf0tB1oFCaUfS4jokXrZU+GCNEJDtBoNrVFC5hWUZdAe44mpUd8IH8QEp0oiBnlyCNsCrtq2ZG3gtsM+Ha9jkJBIWFaFsPPFdDEVEiQPziKDxTEZPLn1mi0QW9cs1129b1Bj12wvr0NUSgw1GYxUY6IvpLkSXbtcHQjZUwBPu0D44FRSw4l2W4XC88V8N32turlEijGnFC2LoTiw9KrNqzF17hG7eBAszUZBOWqFJVV7uh3Yn2VBhIR4lbQ4031RgMGyUFAO6UaL7iTs0l5bFKqK0Y9Y5oy0i0qV7gUBH2gM+zywfVGHYagIYWCUN2SpEt9QilVYvHUC3BffxsSJ3NJlFPKgyayiartSoGQsyVesEdo3xE8tAnUapvo9br44L33cRz+z62bJCoRJsoxDn2yk880s6rtcLvuBH00W00mQG2zxplT+6YyvPzFAEuXt5i8hAaVxEABO4numWbFaJTIL1a8Wt2QQmjh73/dw9+PH2K1tMLTEx1z59xVLH+zhZ9qF/Hmi6fhX/sU//z3CGslVxMz3TciBszVVpPwrJWpJAZOZBhPuXvDA76/sXkRbyyeBllHGAp8/tvXuHTYQsVe4SD2ggOR1UFOABEYs9qpel9hjlBTOsCd81djJOmtUQDuPzzCh83PsGo7KHCvSSBBDORjntG9svWiIAzWfx93P7kWz33kEQSUMCSWrnyMd8238MrzL7E6ok8qBNKTeeL8aQpJh1Hh0oCmJdw9R0GoS801IYQwsHxlCxXbYeJyA4sGHo4hmqzjm1QcyvUyM+3ISpS/cRAS2Bv2cHj+us5NVf3Bv0e49EcTN4e/4B1rGbt6zI85MF8VdOvgxVlTVVBW7BVGYm/QxyGVQ4v9waMjnGleQKXs6BFf/duaQsJ8Zc7QK5+4WnKlweXo42btyxi5M60LqJB0E0OMDiA//4gg4y0kG8b4/krZUUgEfbZrck2VvaH/8Gpxj22dRMjEwtSeKbUjz4hmiIIwuBpR7ZNin/2Pc5yPk+szD5kSa54CLpxORed+rQMAAAAASUVORK5CYII=',
       options: {
-        fullWords: true,
-        dustColors: ['#4056FF', '#ffe040', 'ff0000'],
-        charList: ['Quack!', 'Stab', 'Stabby', 'Duck!', '@#$%?&*'],
-        randomColors: false,
-        fontStyle: '30px DayDream',
-        distance: 100,
-        gravity: 0.02
+        trailColor: '#ff0000',
+        trailSize: 5,
+        customCursorOnClick: true
       }
     },
     {
@@ -241,7 +256,7 @@ const state = {
     },
     {
       template_id: '485864',
-      disabled: true,
+      disabled: false,
       public: false,
       name: 'Upgraded PXSS Newton Cursor',
       type: 'projectile',
@@ -251,18 +266,18 @@ const state = {
       options: {
         customCursorOnClick: true,
         activateOnClick: true,
-        dustColors: ['#fff'],
-        charList: ['*'],
-        randomColors: false,
-        randomChars: false,
-        fontStyle: '5px DayDream',
-        distance: 100,
-        gravity: 0.02
+        projectileHold: true,
+        projectileDelay: 80,
+        projectileType: 'image',
+        projectileSpeed: 20,
+        images: [
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAWFJREFUWIXtl8FtwzAMRckskGHqAbqAJ+g5MwToAAUyQ88BcvcCHcDdo9dMwB4ERdQ3mUi2lF76AQOSLIjP/CKRMIGExhc9Z5q+cU9LsRd4ubEPCBvBZ9gz9ITYwTwFP74t1h5laY1YHTpD4KDTOY66ZCLPAAbP17pkAi0Ien8Nj4YIIM0hfAs0wMdXGgdLmtmxUwcM2RsdFLPRMBNowaAunQ8RhOW6Sl4jmrMLadkB1bHWCtaTv4DILIADHtthlGit2Fo0W7NXHRqSaKjNggnwTAi7EZFhB1EKhHbkHbTKDhdgC0RNb3AtQBV3TFUZJVYUA/SCqAIwISKIDdEeAEB8iP0hju5CrAZQILIFYjPAVoi7ZVgqpil9yOmcl+j1M47M/tAEoBSix49aU0KjCI0ix4vI9Sc9YR3++HSEuE2SDUT7Q5atZhagmCa+BUoXcQHXLQNewAj3jLgLCAT5FxHRLyL0wg/wMzD7AAAAAElFTkSuQmCC'
+        ]
       }
     },
     {
       template_id: '485869',
-      disabled: true,
+      disabled: false,
       public: false,
       name: 'Pit Lamp Cursor',
       type: 'base',
@@ -434,7 +449,7 @@ const state = {
       gradients: false,
       darkMode: true,
       darkBar: true,
-      disabled: true,
+      disabled: false,
       public: false,
       colors: {
         primary: '#3f126b',
@@ -587,7 +602,7 @@ const state = {
       mosaicSize: '33%',
       bgColor: '#000',
       public: false,
-      disabled: true
+      disabled: false
     }
   ]
 }

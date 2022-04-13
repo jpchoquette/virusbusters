@@ -469,8 +469,8 @@ export default {
                 div.mb3 Final time: {{clock.time}}
               div(v-else)
                 h3 Infected !
-              v-btn(@click='restartGame()', color='accent') {{gameResult === "victory" ? "Play again" : "Try again"}}
-              v-btn.mt2(@click='resetGame()', color='accent') Game menu
+              v-btn.secondary--text(@click='restartGame()', color='accent') {{gameResult === "victory" ? "Play again" : "Try again"}}
+              v-btn.mt2.secondary--text(@click='resetGame()', color='accent') Game menu
 </template>
 <style lang='sass'>
   .minesweeper-window

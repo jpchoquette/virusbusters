@@ -144,7 +144,9 @@ export default {
           if (oldVal && oldVal.data && oldVal.data.type && oldVal.data.type !== 'base') {
             this.clearCursor()
           }
-          this.setCursor(newVal.data.options, newVal.data.type)
+          setTimeout(() => {
+            this.setCursor(newVal.data.options, newVal.data.type)
+          }, 200)
         } else if (!newVal && oldVal) {
           if (oldVal && oldVal.data && oldVal.data.type && oldVal.data.type !== 'base') {
             this.clearCursor()
@@ -304,7 +306,7 @@ export default {
                 div.init-cursor-images(v-if='$store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && $store.state.Customizations.activeCursor.data.options && $store.state.Customizations.activeCursor.data.options.images && $store.state.Customizations.activeCursor.data.options.images.length')
                   template(v-for='(image, index) in $store.state.Customizations.activeCursor.data.options.images')
                     img.debug-images(:src='image')
-                .version-number v1.32
+                .version-number v1.33
                 template(v-if='userConnected')
                   icon-desktop(image='buster-icon.png', title='Desktop customizer', action='customization')
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')

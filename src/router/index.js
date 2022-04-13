@@ -3,7 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Desktop from '../views/Desktop.vue'
 import NotFound from '../views/NotFound.vue'
-import Admin from '../views/Admin.vue'
+import Airdrop from '../views/Airdrop.vue'
+import Whitelist from '../views/Whitelist.vue'
 
 Vue.use(VueRouter)
 
@@ -31,9 +32,14 @@ const routes = [
     redirect: '/404'
   },
   {
-    path: '/admin',
-    name: 'Admin',
-    component: Admin
+    path: '/airdrop',
+    name: 'Airdrop',
+    component: Airdrop
+  },
+  {
+    path: '/whitelist',
+    name: 'Whitelist',
+    component: Whitelist
   }
   // {
   //   path: '/about',

@@ -3,7 +3,7 @@
 import AirdropFinder from '@/mixins/airdropFinder.js'
 
 export default {
-  name: 'Admin',
+  name: 'Airdrop',
   components: {
     // FeedbackNotification,
   },
@@ -40,7 +40,7 @@ export default {
     copyContent (id) {
       console.log('id', id)
       /* Get the text field */
-      const copyText = document.getElementById('pool-wallets-' + id)
+      const copyText = document.getElementById(id)
       console.log('copytext', copyText)
       /* Select the text field */
       copyText.select()
@@ -60,8 +60,7 @@ export default {
 <template lang='pug'>
 .admin__wrapper.light
   v-btn(@click='leavePage()') Go back to website
-  h1 Admin page
-  h2 Rigs wallets finder tool
+  h1.tc Rigs wallets finder tool
   div.b.red--text(v-if='loading') LOADING
   //- v-btn(@click='loadUsers()') Retrieve rig owners
   div.response__wrapper
@@ -95,18 +94,19 @@ export default {
           div.b.red--text.mb3 Priority: {{pool.priority}}
           hr
           div.b Wallets ({{pool.validWallets.length}})
-          textarea.w-100(type='text', :id='"pool-wallets-" + indd', :value='pool.validWallets', readonly)
-          v-btn(@click='copyContent(indd)', block, rounded, :disabled='pool.validWallets.length <= 0', outlined) Copy wallets
-          //- pre {{pool.validWallets}}
+          textarea.w-100(type='text', :id='"textarea-" + indd', :value='pool.validWallets', readonly)
+          v-btn(@click='copyContent("textarea-" + indd)', block, rounded, :disabled='pool.validWallets.length <= 0', outlined) Copy wallets
 </template>
 
-<style lang='sass'>
+<style lang='sass' scoped>
   // @import '@/assets/styles/desktop/_windows.sass'
   .admin__wrapper
     height: 100%
     padding: 20px
+    h2
+      font-family: $pixel-font
     h1
-      margin-top: 0
+      font-family: $display-font
     .response__wrapper
       display: flex
       flex-wrap: wrap

@@ -80,8 +80,7 @@ export default {
       projectileTimeout: null,
       projectileType: 'text',
       projectileSpeed: 50,
-      customCursorPosX: 0,
-      customCursorPosY: 0,
+      projectilePosition: 0,
       trail: [],
       trailSize: 10,
       trailColor: '#feffd9'
@@ -305,20 +304,26 @@ export default {
       }
     },
     onMouseMove (e) {
+      if (this.hasWrapperEl) {
+        const boundingRect = this.cursorElement.getBoundingClientRect()
+        this.cursor.x = e.clientX - boundingRect.left
+        this.cursor.y = e.clientY - boundingRect.top
+      } else {
+        this.cursor.x = e.clientX
+        this.cursor.y = e.clientY
+      }
       if (!this.activateOnClick && this.type !== 'projectile') {
         this.launchEffect(e)
       }
       if (this.type === 'trail') {
         this.addPoint({
-          x: e.clientX,
-          y: e.clientY
+          x: this.cursor.x,
+          y: this.cursor.y
         })
       }
       if (this.fullWords) {
         this.indexCounterWord(this.charList.length)
       }
-      this.customCursorPosX = e.clientX
-      this.customCursorPosY = e.clientY
     },
     onMouseDown (e) {
       if (this.customCursorOnClick) {
@@ -399,14 +404,6 @@ export default {
       requestAnimationFrame(this.loop)
     },
     launchEffect (e) {
-      if (this.hasWrapperEl) {
-        const boundingRect = this.cursorElement.getBoundingClientRect()
-        this.cursor.x = e.clientX - boundingRect.left
-        this.cursor.y = e.clientY - boundingRect.top
-      } else {
-        this.cursor.x = e.clientX
-        this.cursor.y = e.clientY
-      }
       if (this.type === 'dust') {
         const distBetweenPoints = Math.hypot(
           (this.cursor.x - this.lastPos.x),
@@ -730,14 +727,19 @@ export default {
     },
     createProjectile (pos) {
       const thus = this
+      // if (this.hasWrapperEl) {
+      //   const boundingRect = this.cursorElement.getBoundingClientRect()
+      //   this.cursor.x = e.clientX - boundingRect.left
+      //   this.cursor.y = e.clientY - boundingRect.top
+      // }
       return {
         bullet: this.projectileType === 'text' ? this.charList[Math.floor(this.charList.length * Math.random())] : this.images[Math.floor(this.images.length * Math.random())],
         size: Math.random() * 25 + 5,
         speed: this.projectileSpeed,
         direction: Math.floor(Math.random() * 180) + 180,
         angle: 0,
-        x: this.customCursorPosX,
-        y: this.customCursorPosY,
+        x: this.cursor.x + this.projectilePosition,
+        y: this.cursor.y + this.projectilePosition,
         spin: 0,
         life: 60,
         maxLife: 60,

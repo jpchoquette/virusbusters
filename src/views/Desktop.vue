@@ -79,6 +79,15 @@ export default {
     screenState: {
       set (val) { this.$store.commit('Desktop/setScreenState', val) },
       get () { return this.$store.state.Desktop.screenState }
+    },
+    getColor () {
+      if (this.$store.state.Customizations.activeWallpaper.data.textColor) {
+        return this.$store.state.Customizations.activeWallpaper.data.textColor
+      } else if (this.$store.state.Customizations.activeWallpaper.data.dark) {
+        return 'white'
+      } else {
+        return 'black'
+      }
     }
   },
   watch: {
@@ -290,7 +299,7 @@ export default {
                 //- </svg>
                 template(v-if='$store.state.Customizations.activeWallpaper && $store.state.Customizations.activeWallpaper.data')
                   template(v-if='$store.state.Customizations.activeWallpaper.data.type === "buster"')
-                    text-pattern(:data='$store.state.Customizations.activeWallpaper.data.name', :color='$store.state.Customizations.activeWallpaper.data.dark ? "white" : "black"', :opacity='0.10', :angle='-20', :qtyPerLine='2')
+                    text-pattern(:data='$store.state.Customizations.activeWallpaper.data.name', :color='this.getColor', :opacity='$store.state.Customizations.activeWallpaper.data.textColor ? 0.5 : 0.10', :angle='-20', :qtyPerLine='2')
                     transition(name='custom-classes-transition', enter-active-class='animate__animated animate__zoomIn', leave-active-class='animate__animated animate__zoomOut', mode='out-in')
                       v-img(:src="require('@/assets/images/buster/buster_' + $store.state.Customizations.activeWallpaper.data.template_id + '.gif')", width='350px', :key="$store.state.Customizations.activeWallpaper.data.template_id")
                   template(v-else)
@@ -306,7 +315,7 @@ export default {
                 div.init-cursor-images(v-if='$store.state.Customizations.activeCursor && $store.state.Customizations.activeCursor.data && $store.state.Customizations.activeCursor.data.options && $store.state.Customizations.activeCursor.data.options.images && $store.state.Customizations.activeCursor.data.options.images.length')
                   template(v-for='(image, index) in $store.state.Customizations.activeCursor.data.options.images')
                     img.debug-images(:src='image')
-                .version-number v1.34
+                .version-number v1.35
                 template(v-if='userConnected')
                   icon-desktop(image='buster-icon.png', title='Desktop customizer', action='customization')
                   icon-desktop(image='links-icon-v1.png', title='Quick links', action='quicklinks')

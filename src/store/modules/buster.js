@@ -73,6 +73,16 @@ const state = {
       name: 'Booster Buster',
       disabled: false,
       public: false
+    },
+    {
+      template_id: '489638',
+      bgColor: '#ffec27',
+      textColor: '#ffc04e',
+      dark: true,
+      type: 'buster',
+      name: 'Easter Buster',
+      disabled: false,
+      public: false
     }
   ]
 }

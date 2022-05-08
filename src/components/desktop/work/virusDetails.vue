@@ -20,6 +20,18 @@ export default {
       // window.open('https://wax.atomichub.io/market?collection_name=virusbusters&schema_name=virtual.desk&template_id=' + id, '_blank')
       window.open('https://wax.atomichub.io/market?collection_name=virusbusters&schema_name=virtual.desk', '_blank')
     },
+    goToInventory (id, schema) {
+      let tempSchema = ''
+      if (schema) {
+        tempSchema = '&schema_name=' + schema
+      }
+      if (schema) {
+        window.open('https://wax.atomichub.io/profile/' + this.$store.state.User.userProfile + '?collection_name=virusbusters' + tempSchema + '&order=desc&sort=transferred#inventory', '_blank')
+      } else {
+        window.open('https://wax.atomichub.io/profile/' + this.$store.state.User.userProfile + '?collection_name=virusbusters&order=desc&sort=transferred#inventory', '_blank')
+      }
+      // window.open('https://wax.atomichub.io/market?collection_name=virusbusters&schema_name=virtual.desk&template_id=' + id, '_blank')
+    },
     blendNft (id) {
       // window.open('https://neftyblocks.com/c/virusbusters/blends' + id, '_blank')
       console.log('TODO')
@@ -42,6 +54,7 @@ export default {
         | Minor threat detected: This file is possibly collecting private data
       div.element-actions__wrapper
         v-btn(@click='goToMarket()', block, outlined, rounded) View on the market
+        v-btn(@click='goToInventory(null, "buster.head")', block, outlined, rounded) View in my inventory
         //- v-btn(@click='blendNft()') Blend Virus
       div.element-stats
         div.stat-info__wrapper

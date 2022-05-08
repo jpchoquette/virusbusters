@@ -17,8 +17,10 @@ export default {
   },
   data () {
     return {
+      selectedItemType: null,
       items: [
         {
+          type: 'task',
           title: 'Easy task',
           rarity: 'Common',
           price: '3',
@@ -30,6 +32,7 @@ export default {
           }
         },
         {
+          type: 'prize',
           title: 'Buster Model A',
           rarity: 'Rare',
           price: '20',
@@ -61,6 +64,8 @@ export default {
 
     template(v-if='currentPath.level === 1')
       .nfts__wrapper
+        v-select(v-model='selectedType', :label='item.type', :items='filter.data', item-text='name', item-value='value', hide-details, filled, dense, dark, item-color='secondary')
+
         .nft-card(v-for='(item,index) in items', @click='updateRoute(windowId, item.detailsPath)')
           div.nft-preview()
             //- div.owned-qty

@@ -125,19 +125,19 @@ export default {
           level: 1,
           bannerColor: '#000',
           signature: 'collabs/pixverse-signature.png',
-          icon: 'collabs/pixverse-icone.png',
+          icon: 'collabs/pixverse-icon.png',
           date: '2021-04-05',
           type: 'Collection',
           links: [
             {
               title: 'Pixverse Website',
               url: 'https://www.pixverse.io/',
-              image: 'collabs/pixverse-icone.png'
+              image: 'collabs/pixverse-icon.png'
             },
             {
               title: 'Pixverse Game',
               url: 'https://play.pixverse.io/',
-              image: 'collabs/pixverse-icone.png'
+              image: 'collabs/pixverse-icon.png'
             },
             {
               title: 'Atomic Hub Collection Page',
@@ -184,6 +184,43 @@ export default {
             {
               title: 'Discord',
               url: 'https://discord.gg/2AGXSySfFj',
+              image: this.$vuetify.theme.dark ? 'icons/discord-icon.svg' : 'icons/discord-icon-black.svg'
+            }
+          ]
+        },
+        {
+          title: 'CritterCraft',
+          routeName: 'computer',
+          level: 1,
+          bannerColor: '#460074',
+          signature: 'collabs/crittercraft-signature.png',
+          icon: 'collabs/crittercraft-icon.png',
+          date: '2021-04-12',
+          type: 'Collection',
+          links: [
+            {
+              title: 'CritterCraft Website',
+              url: 'https://crittercraft.io/',
+              image: 'collabs/crittercraft-icon.png'
+            },
+            {
+              title: 'Grubfish Royale',
+              url: 'https://crittercraft.io/grubfish/',
+              image: 'collabs/crittercraft-icon.png'
+            },
+            {
+              title: 'Atomic Hub Collection Page',
+              url: 'https://wax.atomichub.io/explorer/collection/crittercraft',
+              image: 'atomic-hub-icon.png'
+            },
+            {
+              title: 'Twitter',
+              url: 'https://twitter.com/CritterCraft',
+              image: 'twitter-logo.svg'
+            },
+            {
+              title: 'Discord',
+              url: 'https://discord.gg/rGF6BaAadJ',
               image: this.$vuetify.theme.dark ? 'icons/discord-icon.svg' : 'icons/discord-icon-black.svg'
             }
           ]

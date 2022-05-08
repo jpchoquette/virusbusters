@@ -5,13 +5,49 @@ export default {
   data () {
     return {
       // wax: null
+      filteringInput: 'comma',
+      filteringInputBlacklist: 'comma',
+      filteringOutput: 'comma',
       blacklist: null,
       whitelist: null,
-      filteredWhitelist: null,
-      neftyWhitelist: null
+      whitelistArray: [],
+      filteredWhitelist: null
+      // neftyWhitelist: null
     }
   },
   mounted () {
+  },
+  computed: {
+    neftyWhitelist () {
+      if (this.filteredWhitelist) {
+        return this.filteredWhitelist.join(',\n')
+      } else {
+        return null
+      }
+    },
+    lineBreakWhitelist () {
+      if (this.filteredWhitelist) {
+        return this.filteredWhitelist.join('\n')
+      } else {
+        return null
+      }
+    },
+    commaWhitelist () {
+      if (this.filteredWhitelist) {
+        return this.filteredWhitelist.toString()
+      } else {
+        return null
+      }
+    },
+    outputWhitelist () {
+      if (this.filteringOutput === 'comma') {
+        return this.commaWhitelist
+      } else if (this.filteringOutput === 'linebreak') {
+        return this.lineBreakWhitelist
+      } else if (this.filteringOutput === 'nefty') {
+        return this.neftyWhitelist
+      }
+    }
   },
   methods: {
     // sortWallets () {
@@ -42,19 +78,42 @@ export default {
     // }
     compareLists () {
       if (this.whitelist) {
-        const parsedWhitelist = this.whitelist.split(',')
-        if (this.blacklist) {
-          const parsedBlacklist = this.blacklist.split(',')
-          this.filteredWhitelist = parsedWhitelist.filter(val => !parsedBlacklist.includes(val))
-        } else {
-          this.filteredWhitelist = parsedWhitelist
+        let parsedWhitelist = null
+        let parsedBlacklist = null
+
+        if (this.filteringInput === 'comma') {
+          const stringWhitelist = this.whitelist.replace(/\s+/g, '').trim()
+          parsedWhitelist = stringWhitelist.split(',')
+        } else if (this.filteringInput === 'linebreak') {
+          parsedWhitelist = this.whitelist.match(/\S+/g)
         }
+        if (this.blacklist) {
+          if (this.filteringInput === 'comma') {
+            const stringBlacklist = this.blacklist.replace(/\s+/g, '').trim()
+            parsedBlacklist = stringBlacklist.split(',')
+          } else if (this.filteringInput === 'linebreak') {
+            parsedBlacklist = this.blacklist.match(/\S+/g)
+          }
+          const baseList = parsedWhitelist.filter(val => !parsedBlacklist.includes(val))
+          this.filteredWhitelist = [...new Set(baseList)]
+        } else {
+          this.filteredWhitelist = [...new Set(parsedWhitelist)]
+        }
+
         // console.log('parsed', parsedBlacklist, parsedWhitelist)
         // this.filteredWhitelist = parsedWhitelist.filter(val => !parsedBlacklist.includes(val))
-        this.neftyWhitelist = this.filteredWhitelist.join(',\n')
+        // this.neftyWhitelist = this.filteredWhitelist.join(',\n')
       } else {
-        window.alert('Please add wallets to filter them out')
+        window.alert('Please add wallets in both fields and make sure they are comma separated.')
       }
+    },
+    removeFromList (id) {
+      const tempArray = this.filteredWhitelist
+      console.log('on va remvoe cet element la', id)
+      tempArray.splice(id, 1)
+      this.filteredWhitelist = tempArray
+      console.log('this.filteredWhitelist', this.filteredWhitelist)
+      // this.filteredWhitelist
     }
   }
 }

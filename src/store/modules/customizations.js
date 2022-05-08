@@ -288,6 +288,26 @@ const state = {
       options: {
         customCursorOnClick: true
       }
+    },
+    {
+      template_id: '510990',
+      disabled: false,
+      public: false,
+      name: 'Grubfish Cursor',
+      type: 'ghost',
+      customCursor: true,
+      class: 'cursor-grubfish',
+      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAS1JREFUWIXdVtsNgzAMTCIWQWIGBkBM1QGYquoAnaESo9CvIGPiV+KoUv0JTu5i+2zHwNgyzgf3H9prf0etL7TiIQtwK4nbAQr8+XkUL1inrYnExVkCh2CYEPxnIZEkcK1BQpa7kgd4C4koOVO558ySjuQNbj03eABytozzwUXhLEJvcO19lwhwMutlSXb5cwIxq8A75LhFh1CWZJcIZHDNo04CJcYe4FJ3TLVznDPu5ZjErRX3lF+ODnx0wh+8UqG1swZ+RYLdiKR0WKqd2pzUOyEEsbRs7IvrgFSAtFBYXl0inwkMhXMXB0xGq5J12lS+6h7gJVW8LalbsZdKMHnTLMAkPORqHka1rZsiWz0HJKliYEoJTYNIu/tTPaSZQA0ZCB5CQwo0RpGCdfQFTou6GE/oVggAAAAASUVORK5CYII=',
+      options: {
+        customCursorOnClick: true,
+        images: [
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAJJJREFUWIXtlkEOABEMRZk4hnO4/9o53MNsSGZRhNbvLPp3QtIXfv06ZzIhVFIdbXlo8Zjv11tCmP4mnCkGZsQAUCZsEA8EYCIDUDehSb0NsWlIQASVwh/J3sBB7MoBHGa+DABj4NgHEJ5u9gAujFbqWTAGAA2S9BPMggPmgZLqMrUEYPhtyIGI2eP+gX6b/Wxbv/uNODEE4HBSAAAAAElFTkSuQmCC',
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAKRJREFUWIXtlsENgCAMRatxDOdg/7NzsAdeiCGx0FJaiKbvaqzPb/UL4DjOYrahs2NI1WPnxZotF2hdvENkFwtwIUTtBQhcQC7A3HIKlSEPtYVryOoKYBJKSf0XPJ4yRuMI38OxRTKUOEymdtyEngBVTjEkTGJ8B7itWJln9z/AlFjTBYX4h8sIQOX1nFNGGFle9xEIErH7zFJpZFnbqhT8H0znBsTBMybbWUI8AAAAAElFTkSuQmCC',
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAJ9JREFUWIXtlrENgDAMBB/EGMzB/jVzsAdUkRDiHTvYTkGuRIK7SA4JMBgM/s7k+rVjO1+frzv1+AUweSXCJ6AmFyK+B2jlJGJJExPsAU7iwtxTbgsIkAPaIfSW3waxHhC08hJhm4EA5ICo1asCEuQ8IEnOAxLpE3DbhvkBj8OI/wci5sB8HHtGNF9ILBHC1Yuhf6HxyuUXIIU0ygcAcAFGrzGjeMxyzAAAAABJRU5ErkJggg=='
+        ],
+        decay: 30,
+        fade: true
+      }
     }
   ],
   // ------------------------------------------------------------ Themes
@@ -453,12 +473,30 @@ const state = {
       disabled: false,
       public: false,
       colors: {
-        primary: '#3f126b',
+        primary: '#371134',
         tertiary: '#000',
         secondary: '#8102e9',
         light: '#3f126b',
         accent: '#ffbb2d',
         toolbars: '#5300ab',
+        grey: '#c2c3c7'
+      }
+    },
+    {
+      template_id: '510992',
+      name: 'CritterCraft theme',
+      gradients: false,
+      darkMode: false,
+      darkBar: true,
+      disabled: false,
+      public: false,
+      colors: {
+        primary: '#ffeefe',
+        tertiary: '#460074',
+        secondary: '#00FF2E',
+        light: '#ffeefe',
+        accent: '#ff00f0',
+        toolbars: '#9b00ff',
         grey: '#c2c3c7'
       }
     }
@@ -594,14 +632,14 @@ const state = {
       textureOpacity: 1
     },
     {
-      template_id: '485872',
-      name: 'Wombat Dungeon Master Wallpaper',
+      template_id: '510994',
+      name: 'CritterCraft Wallpaper',
       type: 'wallpaper',
       extension: '.jpg',
       defaultDisplayStyle: 'covering-background',
-      defaultSize: '50%',
-      mosaicSize: '33%',
-      bgColor: '#000',
+      defaultSize: '90%',
+      mosaicSize: '50%',
+      bgColor: '#371134',
       public: false,
       disabled: false
     }

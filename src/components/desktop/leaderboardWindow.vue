@@ -61,6 +61,21 @@ export default {
           scoreType: 'points',
           sortingOrder: 'desc',
           cta: ''
+        },
+        {
+          title: 'Trophies leaderboard',
+          shorthand: 'trophies',
+          url: 'https://neftyblocks.com/c/virusbusters',
+          type: 'atomicassets',
+          dataId: null,
+          query: 'https://wax.api.atomicassets.io/atomicassets/v1/assets?collection_name=virusbusters&schema_name=work.trophy&burned=false&limit=100&order=desc&sort=name',
+          icon: '🏆',
+          image: 'nefty-blocks-logo-small.svg',
+          sortable: false,
+          disabled: false,
+          scoreType: 'points',
+          sortingOrder: 'desc',
+          cta: ''
         }
       ]
     }
@@ -86,7 +101,13 @@ export default {
         if (board.type === 'jsonbin') {
           this.fetchCustomLeaderboard(board.dataId)
         } else if (board.type === 'atomicassets') {
-          this.fetchAtomicLeaderboard(board.query, 1, [])
+          if (board.shorthand === 'burnedpops') {
+            console.log('On va feth burns')
+            this.fetchAtomicLeaderboard(board.query, 1, [], 'burns')
+          } else if (board.shorthand === 'trophies') {
+            console.log('On va feth trophies')
+            this.fetchAtomicLeaderboard(board.query, 1, [], 'trophies')
+          }
         }
       }
       this.leaderboardMenu = false

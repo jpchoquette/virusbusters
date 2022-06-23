@@ -8,7 +8,10 @@ export default {
       parsedScoreboard: null,
       sortedEntries: null,
       atomicStats: null,
-      loading: false
+      loading: false,
+      currentBoard: null,
+      rarities: ['Common', 'Uncommon', 'Rare', 'Legendary'],
+      tiers: ['Bronze', 'Silver', 'Gold']
     }
   },
   mounted () {
@@ -32,7 +35,8 @@ export default {
       req.setRequestHeader('X-Master-Key', '$2b$10$LPV.o8jEECsT.Gy.0wkRNOYj//DS1t1FICmeZ9ZY54sCNoox8HRNG')
       req.send()
     },
-    fetchAtomicLeaderboard (url, page, previousResponse) {
+    fetchAtomicLeaderboard (url, page, previousResponse, type) {
+      console.log('current page check?:', page, previousResponse, type)
       this.loading = true
       fetch(url + '&page=' + page, {
         headers: {
@@ -58,19 +62,43 @@ export default {
           const response = [...previousResponse, ...newResponse.data] // Combine the two arrays
           if (newResponse.data.length !== 0) {
             page++
-            return this.fetchAtomicLeaderboard(url, page, response)
+            return this.fetchAtomicLeaderboard(url, page, response, type)
           }
           const entries = []
           response.forEach(entry => {
-            const found = entries.findIndex(e => e.wallet === entry.sender_name)
-            if (found >= 0) {
-              entries[found].score = entries[found].score + 5
-            } else {
-              const newEntry = {
-                wallet: entry.sender_name,
-                score: 5
+            const found = entries.findIndex(e => e.owner === entry.owner)
+            if (type === 'burns') {
+              if (found >= 0) {
+                entries[found].score = entries[found].score + 5
+              } else {
+                const newEntry = {
+                  wallet: entry.owner,
+                  score: 5
+                }
+                entries.push(newEntry)
               }
-              entries.push(newEntry)
+            } else if (type === 'trophies') {
+              console.log('On est bien rentré ici', entry)
+              const rarityMultipliers = [1, 2, 3, 4]
+              const tierValue = [1, 5, 10]
+              let activeRarity = null
+              let activeTier = null
+              let score = 0
+              this.getNftData(entry)
+
+
+              if (activeRarity && activeTier) {
+                score = rarityMultipliers[activeRarity] * tierValue[activeTier]
+                if (found >= 0) {
+                  entries[found].score = entries[found].score + score
+                } else {
+                  const newEntry = {
+                    wallet: entry.owner,
+                    score: score
+                  }
+                  entries.push(newEntry)
+                }
+              }
             }
           })
           // get top 50
@@ -78,6 +106,21 @@ export default {
           this.sortedEntries = orderBy(reducedList, ['score'], ['desc'])
           this.loading = false
         })
+    },
+    async getNftData (entry) {
+      for (let i = 0; i < this.rarities.length; i++) {
+        if (entry.data.rarity === this.rarities[i]) {
+          console.log(this.rarities[i], ' trophy found')
+          activeRarity = i
+        }
+      }
+      for (let j = 0; j < this.tiers.length; j++) {
+        if (entry.data.tier === this.tiers[j]) {
+          console.log(this.tiers[j], ' trophy found')
+          activeTier = j
+        }
+      }
+      return
     }
   }
 }

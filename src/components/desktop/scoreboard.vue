@@ -51,6 +51,10 @@ export default {
           temp.title = 'Get more popups'
           temp.icon = '🔥'
           return temp
+        } else if (this.board.shorthand === 'trophies') {
+          temp.title = 'Get more viruses'
+          temp.icon = '🐛'
+          return temp
         } else {
           return null
         }
@@ -86,6 +90,8 @@ export default {
           this.$store.commit('Desktop/setActiveWindow', 'risky')
         } else if (this.board.shorthand === 'burnedpops') {
           window.open('https://wax.atomichub.io/market?collection_name=virusbusters&order=asc&schema_name=popups&sort=price&symbol=WAX', '_blank')
+        } else if (this.board.shorthand === 'trophies') {
+          window.open('https://wax.atomichub.io/market?collection_name=virusbusters&data:text.type=Virus&order=desc&schema_name=work.file&sort=created&symbol=WAX', '_blank')
         }
       }
     }

@@ -36,6 +36,8 @@ export default {
       div(v-else-if='index === 2') 🥉
       div(v-else) {{index+1}}.
     div.entry-wallet {{entry.wallet}}
+      pre(v-if='entry.trophiesList')
+        div {{entry.trophiesList}}
     div.flex-grow-1
     div.entry-score {{parsedScore}}
 </template>

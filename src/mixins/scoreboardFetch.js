@@ -8,7 +8,7 @@ export default {
       parsedScoreboard: null,
       sortedEntries: null,
       atomicStats: null,
-      loading: false,
+      loading: true,
       currentBoard: null,
       rarities: ['Common', 'Uncommon', 'Rare', 'Legendary'],
       tiers: ['Bronze', 'Silver', 'Gold']
@@ -17,6 +17,8 @@ export default {
   mounted () {
   },
   computed: {
+  },
+  watch: {
   },
   methods: {
     fetchCustomLeaderboard (dataId) {
@@ -66,38 +68,56 @@ export default {
           }
           const entries = []
           response.forEach(entry => {
-            const found = entries.findIndex(e => e.owner === entry.owner)
             if (type === 'burns') {
+              const found = entries.findIndex(e => e.wallet === entry.sender_name)
+              // console.log('found?', found, entry.sender_name, entries)
               if (found >= 0) {
                 entries[found].score = entries[found].score + 5
               } else {
                 const newEntry = {
-                  wallet: entry.owner,
+                  wallet: entry.sender_name,
                   score: 5
                 }
                 entries.push(newEntry)
               }
             } else if (type === 'trophies') {
-              console.log('On est bien rentré ici', entry)
+              // console.log('On est bien rentré ici', entry)
+              const found = entries.findIndex(e => e.wallet === entry.owner)
+              // console.log('found?', found, entry.owner, entries)
               const rarityMultipliers = [1, 2, 3, 4]
               const tierValue = [1, 5, 10]
               let activeRarity = null
               let activeTier = null
               let score = 0
-              this.getNftData(entry)
-
-
-              if (activeRarity && activeTier) {
-                score = rarityMultipliers[activeRarity] * tierValue[activeTier]
-                if (found >= 0) {
-                  entries[found].score = entries[found].score + score
-                } else {
-                  const newEntry = {
-                    wallet: entry.owner,
-                    score: score
-                  }
-                  entries.push(newEntry)
+              // this.getNftData(entry)
+              for (let i = 0; i < this.rarities.length; i++) {
+                if (entry.data.rarity === this.rarities[i]) {
+                  // console.log(this.rarities[i], ' trophy found')
+                  activeRarity = i
                 }
+              }
+              for (let j = 0; j < this.tiers.length; j++) {
+                if (entry.data.tier === this.tiers[j]) {
+                  // console.log(this.tiers[j], ' trophy found')
+                  activeTier = j
+                }
+              }
+              score = rarityMultipliers[activeRarity] * tierValue[activeTier]
+              const currentTrophy = {
+                rarity: this.rarities[activeRarity],
+                tier: this.tiers[activeTier]
+              }
+
+              if (found >= 0) {
+                entries[found].score = entries[found].score + score
+                entries[found].trophiesList.push(currentTrophy)
+              } else {
+                const newEntry = {
+                  wallet: entry.owner,
+                  score: score,
+                  trophiesList: [currentTrophy]
+                }
+                entries.push(newEntry)
               }
             }
           })
@@ -106,21 +126,6 @@ export default {
           this.sortedEntries = orderBy(reducedList, ['score'], ['desc'])
           this.loading = false
         })
-    },
-    async getNftData (entry) {
-      for (let i = 0; i < this.rarities.length; i++) {
-        if (entry.data.rarity === this.rarities[i]) {
-          console.log(this.rarities[i], ' trophy found')
-          activeRarity = i
-        }
-      }
-      for (let j = 0; j < this.tiers.length; j++) {
-        if (entry.data.tier === this.tiers[j]) {
-          console.log(this.tiers[j], ' trophy found')
-          activeTier = j
-        }
-      }
-      return
     }
   }
 }

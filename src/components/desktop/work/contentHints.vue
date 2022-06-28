@@ -6,7 +6,7 @@ export default {
   components: {
   },
   props: {
-    // activeWindow: { required: true, type: Object }
+    activeWindow: { required: true, type: String }
   },
   data () {
     return {
@@ -19,12 +19,29 @@ export default {
     }
   },
   // mixins: [WindowsPaths],
+  // Faire un watch sur le activewindow pour aficher le bon contenu d'aide.
   mounted () {
   },
   computed: {
   },
+  watch: {
+    activeWindow: {
+      immediate: true,
+      handler (newVal) {
+        console.log('on watch', newVal)
+        if (newVal === 'computer') {
+          console.log('bababa')
+          this.currentStatus = {
+            type: 'info',
+            color: 'light darken-3',
+            icon: 'mdi-help',
+            description: "Here's an overview of your devices and their status!"
+          }
+        }
+      }
+    }
+  },
   methods: {
-
   }
 }
 </script>

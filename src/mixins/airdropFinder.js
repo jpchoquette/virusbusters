@@ -1,37 +1,63 @@
 // import * as Waxjs from '@waxio/waxjs/dist'
-// import { sortedUniqBy } from 'lodash'
+import { sortBy } from 'lodash'
 
 export default {
   data () {
     return {
-      // wax: null
       wallets: null,
+      walletsSoftware: null,
+      rigOwners: [],
+      softwareOwners: [],
       loading: false,
-      rigTemplateId: '383212',
+      filteredWallets: [],
+      filteredSoftwareWallets: [],
+      rigTemplateIds: ['513144', '513142'],
       templatesPools: [
         {
-          color: 'purple',
-          templateId: '396463',
-          priority: 1,
-          validWallets: []
-        },
-        {
-          color: 'red',
-          templateId: '400688',
-          priority: 2,
+          color: 'green',
+          templateId: '513149',
+          priority: 4,
           validWallets: []
         },
         {
           color: 'yellow',
-          templateId: '391473',
+          templateId: '526129',
           priority: 3,
           validWallets: []
         },
         {
-          color: 'green',
-          templateId: '402478',
-          priority: 4,
+          color: 'red',
+          templateId: '526130',
+          priority: 2,
           validWallets: []
+        },
+        {
+          color: 'purple',
+          templateId: '526131',
+          priority: 1,
+          validWallets: []
+        }
+      ],
+      softwareTemplates: [
+        {
+          color: 'green',
+          templateId: '513149',
+          priority: 4
+        },
+        {
+          color: 'yellow',
+          templateId: '526129',
+          priority: 3
+        },
+        {
+          color: 'red',
+          templateId: '526130',
+          priority: 2
+        },
+        {
+          color: 'purple',
+          templateId: '526131',
+          priority: 1
         }
       ]
     }
@@ -39,88 +65,149 @@ export default {
   mounted () {
   },
   methods: {
-    async fetchWallets () {
-      this.wallets = []
-      console.log('on commence le fetch')
+    async fetchNfts () {
+      this.resetData()
       this.loading = true
       try {
-        const response = await this.fetchRigsOwners()
-        const parsedWallets = await response
-        const filteredWallets = []
-        parsedWallets.forEach((wallet, ind) => {
-          const found = filteredWallets.findIndex(wall => {
-            return wall.wallet === wallet
-          })
-          if (found >= 0) {
-            console.log('existing wallet, changin qty:', wallet)
-            filteredWallets[found].qty++
-          } else {
-            console.log('new wallet, adding:', wallet)
-            const tempWallet = {
-              index: ind,
-              wallet: wallet,
-              qty: 1,
-              assets: []
-            }
-            filteredWallets.push(tempWallet)
+        Promise.all([
+          fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?collection_name=virusbusters&schema_name=work.tool&template_data.type=Rig&burned=false&page=1&limit=100&order=desc&sort=asset_id', this.$store.state.App.globalHeader),
+          fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?collection_name=virusbusters&schema_name=work.tool&template_data.type=Software&burned=false&page=1&order=desc&sort=asset_id', this.$store.state.App.globalHeader)
+          // fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?collection_name=virusbusters&schema_name=work.tool&template_id=513142&burned=false&page=1&limit=100&order=desc&sort=asset_id', this.$store.state.App.globalHeader)
+        ]).then(async ([rig, soft]) => {
+          const a = await rig.json()
+          const b = await soft.json()
+          // return a.data.concat(b.data)
+          const nfts = {
+            rigs: a.data,
+            softwares: b.data
           }
+          return nfts
         })
-        this.wallets = filteredWallets
-        if (this.wallets) {
-          this.wallets.forEach(wallet => {
-            this.fetchUsersSoftwares(wallet)
+          .then((response) => {
+            console.log('response', response)
+            this.softwareOwners = response.softwares
+            response.rigs.forEach(wallet => {
+              this.rigOwners.push(wallet.owner)
+            })
+            this.rigOwners.forEach((wallet, ind) => {
+              const found = this.filteredWallets.findIndex(wall => {
+                return wall.wallet === wallet
+              })
+              if (found >= 0) {
+                this.filteredWallets[found].qty++
+                console.log('existing wallet, changin qty:', wallet, this.filteredWallets[found].qty)
+              } else {
+                console.log('new wallet, adding:', wallet)
+                const tempWallet = {
+                  index: ind,
+                  wallet: wallet,
+                  qty: 1,
+                  softwares: this.getUserSoftwares(wallet),
+                  assets: []
+                }
+                this.filteredWallets.push(tempWallet)
+              }
+            })
+            this.wallets = sortBy(this.filteredWallets, [function (o) { return o.wallet }])
+            this.loading = false
+          }).catch((err) => {
+            console.log(err)
           })
-        }
-        this.loading = false
       } catch (e) {
         console.log('error', e)
       }
     },
-    fetchRigsOwners () {
-      return fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?collection_name=virusbusters&schema_name=packs&template_id=' + this.rigTemplateId + '&burned=false&page=1&limit=100&order=desc&sort=asset_id', this.$store.state.App.globalHeader)
-        .then(response => response.json())
-        .then(data => {
-          const parsedWallets = []
-          console.log('on parse')
-          data.data.forEach(wallet => {
-            parsedWallets.push(wallet.owner)
-          })
-          return parsedWallets
-        })
-    },
-    fetchUsersSoftwares (wallet) {
-      this.loading = true
-      fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?collection_name=virusbusters&schema_name=packs&burned=false&owner=' + wallet.wallet + '&page=1&limit=100&order=desc&sort=asset_id', this.$store.state.App.globalHeader)
-        .then(response => response.json())
-        .then(data => {
-          wallet.assets = data.data
-        })
-    },
-    sortWallets () {
-      const tempWallets = this.wallets
-      this.loading = true
-      tempWallets.forEach((wall, index) => {
-        for (let z = 0; z < wall.qty; z++) {
-          console.log('check rig no:', z, ' for:', wall.wallet)
-          for (let i = 0; i < this.templatesPools.length; i++) {
-            const found = wall.assets.findIndex(asset => {
-              // console.log('ids comparés:', asset.template.template_id, this.templatesPools[i].templateId, asset.template.template_id === this.templatesPools[i].templateId, wall.wallet)
-              return asset.template.template_id === this.templatesPools[i].templateId
-            })
+    analyzeAirdrop () {
+      if (this.wallets && !this.loading) {
+        this.wallets.forEach(wall => {
+          const tempSoftwareList = wall.softwares
+          for (let z = wall.qty; z > 0; z--) {
+            let found = tempSoftwareList.findIndex(soft => soft.template.immutable_data.rarity === 'Legendary')
             if (found >= 0) {
-              // console.log('found!', this.templatesPools[i].templateId, 'priority:', this.templatesPools[i].priority, 'wallet:', wall.wallet)
-              // console.log('walletbeforesplice:', wallet)
-              wall.assets.splice(found, 1)
-              // console.log('newWalletvalues:', wallet)
-              this.templatesPools[i].validWallets.push(wall.wallet)
-              break
-            } else {
+              console.log('FOUND!', found)
+              this.templatesPools[3].validWallets.push(wall.wallet)
+              tempSoftwareList.splice(found, 1)
+              console.log('tempsoftwareList', tempSoftwareList)
               continue
+            } else {
+              console.log('No Legendary found, on continue')
+              found = tempSoftwareList.findIndex(soft => soft.template.immutable_data.rarity === 'Rare')
+              if (found >= 0) {
+                this.templatesPools[2].validWallets.push(wall.wallet)
+                tempSoftwareList.splice(found, 1)
+              } else {
+                console.log('No Rare found, on continue')
+                found = tempSoftwareList.findIndex(soft => soft.template.immutable_data.rarity === 'Uncommon')
+                if (found >= 0) {
+                  this.templatesPools[1].validWallets.push(wall.wallet)
+                  tempSoftwareList.splice(found, 1)
+                } else {
+                  console.log('No Uncommon found, on continue')
+                  found = tempSoftwareList.findIndex(soft => soft.template.immutable_data.rarity === 'Common')
+                  if (found >= 0) {
+                    this.templatesPools[0].validWallets.push(wall.wallet)
+                    tempSoftwareList.splice(found, 1)
+                  } else {
+                    console.log('No Common found')
+                    break
+                  }
+                }
+              }
             }
           }
-        }
+        })
+      }
+    },
+    getSoftwareType (id) {
+      const found = this.softwareTemplates.findIndex(soft => {
+        return soft.templateId === id
       })
-      this.loading = false
+      return this.softwareTemplates[found]
+    },
+    getUserSoftwares (wallet) {
+      if (this.softwareOwners && this.softwareOwners.length) {
+        // console.log('this.softwaresOwners', this.softwareOwners)
+        return this.softwareOwners.filter(software => {
+          return software.owner === wallet
+        })
+      } else {
+        console.log('No software owners?')
+        return null
+      }
+    },
+    resetData () {
+      this.wallets = null
+      this.walletsSoftware = null
+      this.rigOwners = []
+      this.softwareOwners = []
+      this.filteredWallets = []
+      this.filteredSoftwareWallets = []
+      this.templatesPools = [
+        {
+          color: 'green',
+          templateId: '513149',
+          priority: 4,
+          validWallets: []
+        },
+        {
+          color: 'yellow',
+          templateId: '526129',
+          priority: 3,
+          validWallets: []
+        },
+        {
+          color: 'red',
+          templateId: '526130',
+          priority: 2,
+          validWallets: []
+        },
+        {
+          color: 'purple',
+          templateId: '526131',
+          priority: 1,
+          validWallets: []
+        }
+      ]
     }
   }
 }

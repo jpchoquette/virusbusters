@@ -26,6 +26,15 @@ export default {
         })
       }
       return count
+    },
+    totalSoftwareNfts () {
+      let count = 0
+      if (this.walletsSoftware && this.walletsSoftware.length) {
+        this.walletsSoftware.forEach(wall => {
+          count = count + wall.qty
+        })
+      }
+      return count
     }
   },
   watch: {
@@ -65,7 +74,8 @@ export default {
   //- v-btn(@click='loadUsers()') Retrieve rig owners
   div.response__wrapper
     div.wallets__wrapper
-      v-btn.mb3(@click='fetchWallets()', large, block, rounded, :disabled='loading') Retrieve rig owners wallets
+      v-btn.mb3(@click='fetchNfts()', large, block, rounded, :disabled='loading') Fetch NFTs (Rigs/Softwares)
+      //- v-btn.mb3(@click='fetchWallets()', large, block, rounded, :disabled='loading') Retrieve rig owners wallets
       div.pa2.secondary.white--text
         h2 WALLETS OWNING RIGS
       div(v-if='wallets')
@@ -76,11 +86,31 @@ export default {
           li.mb1.code(v-for='(wallet, index) in wallets')
             a.secondary--text.no-underline(:href='getUrl(wallet.wallet)', target='_blank') {{wallet.wallet}}
               span.b (x{{wallet.qty}})
+            div(v-for='(software, index) in wallet.softwares')
+              pre {{software.template.immutable_data.rarity}}
             //- ol
               li(v-for='(asset, ind) in wallet.assets')
                 div {{asset.template.template_id}}
+    //- div.wallets__wrapper
+      v-btn.mb3(@click='analyzeAirdrop()', large, block, rounded, :disabled='loading') NEW NFT ANALYZER
+      v-btn.mb3(@click='fetchSoftwares()', large, block, rounded, :disabled='loading') Retrieve software owners wallets
+      div.pa2.secondary.white--text
+        h2 WALLETS OWNING Software
+      div(v-if='walletsSoftware')
+        //- pre {{walletsSoftware}}
+        div.pa2.secondary.darken-2.mb3.white--text
+          div.b.i Unique wallets: {{walletsSoftware.length}}
+          div.b.i Total softwares: {{totalSoftwareNfts}}
+        ul
+          li.mb1.code(v-for='(wallet, index) in walletsSoftware')
+            a.secondary--text.no-underline(:href='getUrl(wallet.wallet)', target='_blank') {{wallet.wallet}}
+              span.b (x{{wallet.qty}})
+            div {{wallet.type.color}}
     div.pools__wrapper
-      v-btn.mb3(@click='sortWallets()', :disabled='!wallets || loading', large, block, rounded, color='accent') Create software pools (WAIT FOR WALLETS TO LOAD!)
+      //- v-btn.mb3(@click='fetchSoftwares()', :disabled='!wallets || loading', large, block, rounded, color='accent') Fetch software pools (WAIT FOR WALLETS TO LOAD!)
+      v-btn.mb3(@click='analyzeAirdrop()', :disabled='!wallets || loading', large, block, rounded, color='accent') Dispatch NFTs
+
+      //- v-btn.mb3(@click='launchDispatcher()', :disabled='!wallets || loading', large, block, rounded, color='accent') Create software pools (WAIT FOR WALLETS TO LOAD!)
       div.pa2.secondary.white--text
         h2 FOLDERS DISTRIBUTION
       div.pa2.secondary.darken-2.mb3.white--text

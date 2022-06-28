@@ -15,6 +15,7 @@ export default {
   },
   data () {
     return {
+      baseUrl: 'https://ipfs.io/ipfs/',
       panels: [0]
       // viruses: [
       //   {
@@ -44,9 +45,9 @@ export default {
     template(v-if='currentPath.level === 1')
       //- div computer status
       v-expansion-panels
-        v-expansion-panel(v-for='(item,i) in 3', :key='i', v-model='panels')
+        v-expansion-panel(v-for='(item,i) in $store.state.Work.userTools.rigs', :key='i', v-model='panels')
           v-expansion-panel-header
-            div.b Infected Desktop Computer #13
+            div {{item.template.immutable_data.name}} no.{{item.template_mint}}
             div.flex-grow-1
             div.flex.items-end.justify-end
               v-chip(color='success', pill)
@@ -59,7 +60,9 @@ export default {
               .computer-setup()
                 div.computer__wrapper
                   //- div Infected Computer
-                  v-img(:src="require('@/assets/images/placeholders/task-static.png')", contain, max-width='200')
+                  v-img(:src="baseUrl + item.template.immutable_data.img", :lazy-src="require('@/assets/images/placeholders/task-static.png')", contain, max-width='200')
+                  //- v-img(:src="require('@/assets/images/placeholders/task-static.png')", contain, max-width='200')
+
                 //- div.link__wrapper
                   v-icon mdi-link-variant
                 div.computer-status__wrapper

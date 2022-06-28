@@ -1,5 +1,7 @@
 <script>
 import WindowsPaths from '@/mixins/windowsPaths.js'
+import EmployeeData from '@/mixins/employeeData.js'
+
 import WindowBar from '@/components/shared/windowBar.vue'
 
 import RoutePath from '@/components/desktop/work/routePath'
@@ -60,8 +62,9 @@ export default {
       ]
     }
   },
-  mixins: [WindowsPaths],
+  mixins: [WindowsPaths, EmployeeData],
   mounted () {
+    this.fetchUserTools()
   },
   computed: {
     activeWindow: {
@@ -116,11 +119,11 @@ export default {
       route-path(:activeWindow='currentWindow', :windowId='windowId', @stepBack='stepBack')
       //- pre {{windowsRoutes}}
       div.window-content
-        template(v-if='checkOwnership("3245345")')
-          //- pre {{currentPath}}
+        template()
+          pre {{currentPath}}
           //- pre {{currentWindow.activePath[currentWindow.activePath - 1].level === 0}}
           airdrop-status(v-if='currentPath && currentPath.level === 0')
-          content-hints(v-else)
+          content-hints(v-else, :activeWindow='currentPath.routeName')
           div.routes_wrapper(v-if='currentPath && currentPath.level === 0')
             template(v-for='(route, index) in routes')
               div.route-icon.pointer(@click='updateRoute(windowId, route)')
@@ -136,7 +139,7 @@ export default {
                 computer-nfts(:windowId='windowId', :currentPath='currentPath')
               //- template(v-else)
                 span component ici {{activeRoute}}
-        .empty-content__wrapper(v-else)
+        //- .empty-content__wrapper(v-else)
           .title-placeholder Oh no!
           .description-placeholder
             p This program is under construction

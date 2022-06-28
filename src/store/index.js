@@ -6,6 +6,7 @@ import Buster from './modules/buster'
 import Desktop from './modules/desktop'
 import Games from './modules/games'
 import Customizations from './modules/customizations'
+import Work from './modules/work'
 import WindowsRoutes from './modules/windowsRoutes'
 
 Vue.use(Vuex)
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     Buster,
     Desktop,
     Customizations,
+    Work,
     Games,
     WindowsRoutes
   }

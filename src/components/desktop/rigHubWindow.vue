@@ -120,7 +120,7 @@ export default {
       //- pre {{windowsRoutes}}
       div.window-content
         template()
-          pre {{currentPath}}
+          //- pre {{currentPath}}
           //- pre {{currentWindow.activePath[currentWindow.activePath - 1].level === 0}}
           airdrop-status(v-if='currentPath && currentPath.level === 0')
           content-hints(v-else, :activeWindow='currentPath.routeName')
@@ -132,9 +132,14 @@ export default {
           div.route_wrapper(v-else)
             div.quicklinks__wrapper
               template(v-if='currentWindow.activePath[1].routeName === "virus"')
-                virus-nfts(:windowId='windowId', :currentPath='currentPath')
+                //- virus-nfts(:windowId='windowId', :currentPath='currentPath')
+                div.tc.mt4 Coming soon - Work in progress
               template(v-if='currentWindow.activePath[1].routeName === "shop"')
-                shop-nfts(:windowId='windowId', :currentPath='currentPath')
+                //- shop-nfts(:windowId='windowId', :currentPath='currentPath')
+                div.tc.mt4 Coming soon - Work in progress
+              template(v-if='currentWindow.activePath[1].routeName === "trophies"')
+                //- shop-nfts(:windowId='windowId', :currentPath='currentPath')
+                div.tc.mt4 Coming soon - Work in progress
               template(v-if='currentWindow.activePath[1].routeName === "computer"')
                 computer-nfts(:windowId='windowId', :currentPath='currentPath')
               //- template(v-else)
